@@ -1,0 +1,24 @@
+%!PS
+
+%	This example appears in section "A Basic Error Handler"
+%	in Chapter 14 - "PostScript Nine to Five".
+%
+
+errordict begin					%  error dictionary on stack
+	/handleerror {				%  define error handler
+	systemdict begin			%  systemdict on stack
+		initgraphics			%  restore original gfx state
+        					%  font for printout
+		/Courier findfont 12 scalefont setfont
+		72 720 moveto			%  set current point
+		(Postscript problem: ) show	%  show error
+		$error /errorname get
+		=string cvs show
+		72 700 moveto			%  set current point
+		(Command: ) show		%  show command causing error
+		$error /command get
+		=string cvs show
+		systemdict /showpage get exec	%  display page
+	end					%  remove systemdict
+	} def					%  end of error handler
+end						%  remove errordict

@@ -1,0 +1,27 @@
+%!PS
+
+%	This example appears in the introductory section
+%	of Chapter 8 - "Clipping".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+/outer_rad 4.125 inch def
+/inner_rad 1.375 inch def
+/pentagram {
+	newpath
+	outer_rad  18 cos mul outer_rad  18 sin mul moveto
+	inner_rad  54 cos mul inner_rad  54 sin mul lineto
+	outer_rad  90 cos mul outer_rad  90 sin mul lineto
+	inner_rad 126 cos mul inner_rad 126 sin mul lineto
+	outer_rad 162 cos mul outer_rad 162 sin mul lineto
+	inner_rad 198 cos mul inner_rad 198 sin mul lineto
+	outer_rad 234 cos mul outer_rad 234 sin mul lineto
+	inner_rad 270 cos mul inner_rad 270 sin mul lineto
+	outer_rad 306 cos mul outer_rad 306 sin mul lineto
+	inner_rad 342 cos mul inner_rad 342 sin mul lineto
+	closepath
+} def
+
+4.25 inch 5.5 inch translate
+pentagram 0.50 setgray fill
+showpage				%  display page

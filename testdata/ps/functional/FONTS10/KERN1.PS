@@ -1,0 +1,22 @@
+%!PS
+
+%	This example appears in section "Kerning Data"
+%	in Chapter 10 - "Fonts".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+/DesignSize 1000 def			%  character design space
+/PointSize 3.5 inch def			%  size for character
+/ScaleFactor PointSize DesignSize div def
+/Palatino-Bold findfont			%  find required font
+PointSize scalefont			%  scale to required size
+setfont					%  make current font
+0.25 inch 2 inch moveto			%  set current point
+(VAT) show				%  image unkerned string
+0.25 inch 7 inch moveto			%  set current point
+(V) show				%  image kerned string
+-129 ScaleFactor mul 0 rmoveto		%  adjust current point
+(A) show				%  image "A"
+-92 ScaleFactor mul 0 rmoveto		%  adjust current point
+(T) show				%  image "T"
+showpage				%  display page

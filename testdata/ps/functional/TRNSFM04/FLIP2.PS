@@ -1,0 +1,41 @@
+%!PS
+
+%	This example appears in section "Using Scaling to Flip and Flop
+%	the Coordinate System" in Chapter 4 - "Transformations".
+%
+%	Caveats:	Requires PostScript Level 2.
+
+/inch { 72 mul } def				%  define inch procedure
+/Arial findfont				%  find Sonata font
+5.5 inch scalefont				%  make large size
+setfont						%  make current font
+/ScaleFactor 0.5 def				%  scale for all four instances
+gsave						%  remember graphics state
+	1.5 inch 6.75 inch translate		%  upper left clef
+	ScaleFactor ScaleFactor scale		%  +x and +y
+	0.25 setgray				%  dark gray
+	0 0 moveto				%  set current point
+	/A glyphshow			%  image character by name
+grestore					%  restore graphics state
+gsave						%  remember graphics state
+	7 inch 6.75 inch translate		%  upper right instance
+	ScaleFactor neg ScaleFactor scale	%  -x and +y
+	0.50 setgray				%  medium gray
+	0 0 moveto				%  set current point
+	/A glyphshow			%  image character by name
+grestore					%  restore graphics state
+gsave						%  remember graphics state
+	1.5 inch 4 inch translate		%  lower left instance
+	ScaleFactor ScaleFactor neg scale	%  +x and -y
+	0.50 setgray				%  medium gray
+	0 0 moveto				%  set current point
+	/A glyphshow			%  image character by name
+grestore					%  restore graphics state
+gsave						%  remember graphics state
+	7 inch 4 inch translate			%  lower right instance
+	ScaleFactor neg ScaleFactor neg scale	%  -x and -y
+	0.25 setgray				%  dark gray
+	0 0 moveto				%  set current point
+	/A glyphshow			%  image character by name
+grestore					%  restore graphics state
+showpage					%  display page

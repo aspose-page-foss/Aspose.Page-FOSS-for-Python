@@ -1,0 +1,18 @@
+%!PS
+
+%	This example appears in section "Combined Transformations"
+%	in Chapter 4 - "Transformations".
+%
+
+/inch { 72 mul } def		%  define inch procedure
+1.25 inch 2.5 inch translate	%  translate to initial point
+newpath				%  start a new path
+0 0 moveto			%  set current point
+6 inch 0 rlineto		%  add line segment
+6 inch 0 translate		%  translate to that point
+120 rotate			%  rotate coordinate system
+6 inch 0 rlineto		%  add another line segment
+closepath			%  close the shape
+1.0 inch setlinewidth		%  set fat line width
+1.0 inch setlinewidth stroke	%  paint the path
+showpage			%  display page

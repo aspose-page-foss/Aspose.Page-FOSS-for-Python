@@ -1,0 +1,17 @@
+%!PS
+
+%	This example appears in section "Accurate Positioning"
+%	in Chapter 4 - "Transformations".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+1 1 20 {
+	8.5 inch 20 div mul 		%  x coordinate
+	dup 				%  save for drawing line
+	1 inch 				%  y coordinate
+	moveto 				%  set current point
+	9 inch lineto			%  add line segment
+	0.24 setlinewidth		%  one pixel line at 300 dpi
+} for
+stroke					%  paint the path
+showpage				%  display page

@@ -1,0 +1,20 @@
+%!PS
+
+%	This example appears in section "Rotating the Coordinate System"
+%	in Chapter 4 - "Transformations".
+%
+
+/inch { 72 mul } def		%  define inch procedure
+2 inch 2 inch translate		%  move origin
+4.25 inch 5.5 inch		%  center of circle
+0.125 inch 0 360 arc		%  draw circle
+closepath			%  finish the shape
+0.50 setgray			%  medium gray
+fill				%  fill the outline
+20 rotate			%  rotate coordinate system
+4.25 inch 5.5 inch		%  center of circle
+0.125 inch 0 360 arc		%  draw circle again
+closepath			%  finish the shape
+0.00 setgray			%  back to black
+fill				%  fill the outline
+showpage			%  display page

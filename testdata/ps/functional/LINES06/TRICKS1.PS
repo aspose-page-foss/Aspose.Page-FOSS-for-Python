@@ -1,0 +1,17 @@
+%!PS
+
+%	This example appears in section "Tricks of the Trade"
+%	in Chapter 6 - "Line Weights and Line Styles".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+/gap 0.5 inch def			%  define the grid size
+1 setlinecap				%  rounded line caps
+4 setlinewidth				%  4 point radius circles
+[ 0 gap ] 0 setdash			%  0 length mark; gap length space
+gap gap 8.0 inch {			%  start for loop
+	0.0 moveto			%  march across page
+	0.0 11.0 inch rlineto		%  draw path up page
+	stroke				%  stroke path
+} for					%  end for loop
+showpage				%  display page

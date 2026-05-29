@@ -1,0 +1,70 @@
+%!PS
+
+%	This example appears in the introductory section
+%	of Chapter 4 - "Transformations".
+%
+
+/inch { 72 mul } def				%  define inch procedure
+/angle 25 def					%  angle of perspective
+/side 4.5 inch def				%  length of side
+/square {					%  stack = side
+	newpath
+	0 0 moveto
+	dup 0 rlineto
+	dup 0 exch rlineto
+	neg 0 rlineto closepath
+} def
+
+4.25 inch 0.25 inch translate			%  move coordinate system		
+gsave						%  draw 3 sides of cube
+	[ angle cos angle sin 0 1 0 0 ] concat
+	side square 0.70 setgray fill
+grestore
+gsave
+	[ angle cos neg angle sin 0 1 0 0 ] concat
+	side square 0.80 setgray fill
+grestore
+gsave
+	0 side translate
+	[ angle cos angle sin angle cos neg angle sin 0 0 ] concat
+	side square 0.90 setgray fill
+grestore
+
+/Palatino-Roman findfont
+5 inch scalefont setfont			%  establish current font
+gsave						%  draw "P" on side of cube
+	[angle cos neg angle sin 0 1 0 0] concat
+	side square clip
+	newpath
+	0.75 inch 0.75 inch translate
+	-1 1 scale
+	90 rotate
+	0 0 moveto (P) 0.00 setgray show
+grestore
+gsave						%  draw "P" on top of cube
+	0 side translate
+	[angle cos angle sin angle cos neg angle sin 0 0] concat
+	side square clip
+	newpath 0.75 inch 3.75 inch translate 
+	-90 rotate
+	0 0 moveto (P) 0.40 setgray show
+grestore
+gsave						%  draw "S" on top of cube
+	0 side translate
+	[angle cos angle sin angle cos neg angle sin 0 0] concat
+	side square clip
+	newpath
+	1.125 inch 0.75 inch 4 sub translate 
+	0 0 moveto
+	(S) 0.00 setgray show
+grestore
+gsave						%  draw "S" on side of cube
+	[ angle cos angle sin 0 1 0 0 ] concat
+	side square clip
+	newpath
+	0.75 inch 3.50 inch translate
+	-90 rotate
+	0 0 moveto
+	(S) 0.40 setgray show
+grestore
+showpage					%  display page

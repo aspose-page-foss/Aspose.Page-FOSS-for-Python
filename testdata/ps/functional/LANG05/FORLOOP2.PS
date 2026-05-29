@@ -1,0 +1,37 @@
+%!PS
+
+%	This example appears in section "For Loop" in
+%	Chapter 5 - "PostScript Language".
+%
+
+/DrawCard {				%  grayscale   width   height
+	2 dict begin			%  temporary dictionary
+	/height exch def		%  remember height
+	/width exch def			%  remember width
+	newpath				%  clear current path
+	width 2 div 0 moveto		%  set current point
+	width 0 width height 0.25 inch arcto
+	width height 0 height 0.25 inch arcto
+	0 height 0 0 0.25 inch arcto
+	0 0 width 0 0.25 inch arcto
+	closepath			%  finish the shape
+	16 { pop } repeat		%  clear debris from stack
+	gsave				%  remember graphics state
+		setgray			%  gray value off stack
+		fill			%  fill with gray value
+	grestore			%  recall graphics state
+	4 setlinewidth stroke		%  paint the path
+	end				%  pop temporary dictionary
+} def
+
+
+/inch { 72 mul } def			%  define inch procedure
+4.25 inch 5.5 inch translate		%  origin to middle of page
+150 rotate				%  initial rotation
+1 1 10 {				%  loop 10 times
+	0.1 mul				%  multiply to get gray scale value
+	-33 rotate			%  rotate each new card 33 degrees
+	2.25 inch 3.25 inch		%  width and height
+	DrawCard			%  draw shape--see following
+} for
+showpage				%  display page

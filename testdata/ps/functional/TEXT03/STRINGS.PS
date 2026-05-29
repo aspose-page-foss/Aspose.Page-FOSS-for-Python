@@ -1,0 +1,30 @@
+%!PS
+
+%	This example appears in section "Showing Text from Strings" in
+%	Chapter 3 - "Text".
+%
+
+/inch { 72 mul } def		%  define inch procedure
+/Palatino-Roman findfont 1 inch scalefont setfont
+/CharCodes {			%  character code conversion
+	dup			%  make copy of code
+	16 (    ) cvrs		%  convert in radix 16 (hexadecimal)
+	1 index			%  get copy of character code
+	8 (    ) cvrs		%  convert in radix 8 (octal)
+	2 index			%  get copy of character code
+	(    ) cvs		%  convert in decimal
+	( ) 			%  one-character string on stack
+	dup			%  make copy of string
+	6 -1 roll		%  character code to op of stack
+	0 exch put		%  put code into string
+} def				%  end of procedure definition
+81 CharCodes			%  decimal value for Q
+2.5 inch 8.5 inch moveto	%  set current point
+show				%  show character
+2.5 inch 6.5 inch moveto	%  set current point
+(10#) show show			%  show decimal value
+2.5 inch 4.5 inch moveto	%  set current point
+(8#) show show			%  show octal value
+2.5 inch 2.5 inch moveto	%  set current point
+(16#) show show			%  show hexadecimal value
+showpage			%  display page

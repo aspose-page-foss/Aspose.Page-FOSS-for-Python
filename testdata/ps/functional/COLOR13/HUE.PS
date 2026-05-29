@@ -1,0 +1,80 @@
+%!PS
+
+%	This example appears in section "HSB Color Model"
+%	in Chapter 13 - "Color and Halftones".
+%
+
+/inch { 72 mul } def				%  define inch procedure
+
+/point_right 0 def				%  set of definitions and
+/point_left  1 def				%  procedures to draw arrows
+/point_up    2 def
+/point_down  3 def
+
+/arrow {					%  x  y  length  direction
+    4 2 roll					%  length  direction  x  y
+    /m matrix currentmatrix def
+    translate					%  length  direction
+    0 0 moveto					%  length  direction
+    dup						%  length  direction  direction
+    [ 
+        {  0 24 -42 -12 }			%  right
+        {  0 24  42 -12 }			%  left
+        { 24  0 -12 -42 }			%  up
+        { 24  0 -12  42 }			%  down
+    ] exch get exec rlineto rlineto closepath
+    fill					%  length  direction
+    0 0 moveto
+    [
+        { neg 0      }
+        {     0      }
+        { neg 0 exch }
+        {     0 exch }
+    ] exch get exec rlineto stroke
+    m setmatrix
+} def
+
+/right_arrow {					%  x y length
+    point_right arrow
+} def
+ 
+/left_arrow {					%  x y length
+    point_left arrow
+} def
+ 
+/down_arrow {					%  x y length
+    point_down arrow
+} def
+
+/up_arrow {					%  x y length
+    point_up arrow
+} def
+
+/Palatino-Italic findfont			%  establish current font
+48 scalefont setfont
+4.25 inch 5.5 inch translate			%  move origin
+newpath						%  ensure empty path
+gsave						%  save graphics state
+0 0 4 inch 0 360 arc clip			%  clip to 4" circle
+
+newpath						%  ensure empty path
+/width .012 360 mul def				%  width of each color square
+1 1 360 {					%  loop to draw circle
+    360 div 1 1 sethsbcolor
+    0 0 width 4.25 inch rectfill		%  fill thin rectangle
+    1 rotate					%  rotate
+} for
+grestore					%  restore graphics state
+
+0 setgray					%  establish black color
+3 setlinewidth					%  thicker line width
+
+newpath						%  ensure empty path
+
+-.75 inch -4.5 inch .5 inch left_arrow		%  draw arrow to left	
+0 inch 0 inch 4.5 inch 265 360 arc stroke	%  draw arc
+4.5 inch 0.5 inch .5 inch up_arrow		%  draw arrow pointing up
+
+3.5 inch -3.5 inch moveto (Hue) show		%  show label
+
+showpage					%  display page

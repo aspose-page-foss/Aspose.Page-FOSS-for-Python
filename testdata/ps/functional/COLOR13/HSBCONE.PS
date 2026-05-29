@@ -1,0 +1,52 @@
+%!PS
+
+%	This example appears in section "HSB Color Model"
+%	in Chapter 13 - "Color and Halftones".
+%
+
+/inch { 72 mul } def				%  define inch procedure
+
+gsave						%  save graphics state
+/YPOS 8.0 inch def				%  define starting Y position
+/top 8.0 inch def				%  define top of cone
+/XPOS -1.5 inch def				%  define starting X position
+
+/w 0.05 def					%  width increment amount
+/h 0.05 def					%  height increment amount
+
+120 -1 1 {					%  loop to do lower cone  
+    /i exch def
+    /hue 0.2 def
+    i neg 2 div 1 i 2 div {
+        /angle exch def
+        /hue hue 0.5 i div add def
+        hue 1.0 i 120 div sethsbcolor
+        angle i add w mul inch XPOS add		%x
+        YPOS w inch h inch rectfill
+        /YPOS angle sin YPOS add def
+    } for
+    /XPOS XPOS w inch add def
+    /top top h inch sub def
+    /YPOS top def
+} for
+grestore					%  restore graphics state
+
+4.5 inch 8.1 inch translate			%  move origin
+0.72 0.125 scale				%  scale to squish in Y dir
+90 rotate					%  rotate 90 degrees to get
+						%  colors in right spot
+/width 4.25 inch 20 div def			%  width of circles
+20 -1 1 {					%  loop to do top of cone
+    /i exch 20 div def
+    /radius i 4.25 inch mul def
+    0 1 360 {
+        360 div	% hue
+        i		% saturation
+        1 sethsbcolor
+        radius width sub 0 % x y
+        width radius 1 sin mul rectfill
+        1 rotate
+    } for
+} for
+
+showpage					%  display page

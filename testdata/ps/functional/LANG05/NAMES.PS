@@ -1,0 +1,28 @@
+%!PS
+
+%	This example appears in section "Immediately Evaluated Names"
+%	in Chapter 5 - "PostScript Language".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+/boxwidth   6 inch  def			%  define width of box
+/boxheight  8 inch  def			%  define height of box
+/DrawBox {				%  define box drawing procedure
+  0 0 moveto				%  set current point
+  //boxwidth 0 lineto			%  bottom of box
+  //boxwidth //boxheight lineto		%  right side of box
+  0 //boxheight lineto			%  top of box
+  closepath				%  close the shape
+} bind def				%  define the procedure
+
+1 inch 1 inch translate			%  set origin
+DrawBox					%  establish the path
+gsave					%  push graphics state
+	0.50 setgray fill		%  fill with medium gray
+grestore				%  pop graphics state
+0.25 inch setlinewidth			%  wide line width
+1 setlinecap				%  round line cap
+1 setlinejoin				%  round line join
+[ 0.5 inch 0.75 inch ] 0 setdash	%  dashed line pattern
+stroke					%  paint the path with dashes
+showpage				%  display page

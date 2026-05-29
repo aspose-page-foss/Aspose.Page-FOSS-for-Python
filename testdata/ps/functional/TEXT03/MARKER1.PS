@@ -1,0 +1,17 @@
+%!PS
+
+%	This example appears in section "Precise Widths and Heights of
+%	Strings" in Chapter 3 - "Text".
+%
+
+/inch { 72 mul } def		%  define inch procedure
+2 inch 4 inch translate		%  set origin
+-1 inch 0 moveto		%  draw horizontal cross hair
+2 inch 0 rlineto
+0 -1 inch moveto		%  draw horizontal cross hair
+0 2 inch rlineto stroke		%  stroke the path
+/ZapfDingbats findfont		%  obtain font
+2 inch scalefont		%  scale font to required size
+setfont				%  set into graphics state
+0 0 moveto (\140) show		%  image the rosette
+showpage			%  display page

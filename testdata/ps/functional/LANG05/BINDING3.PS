@@ -1,0 +1,18 @@
+%!PS
+
+%	This example appears in section "Binding"
+%	in Chapter 5 - "PostScript Language".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+/inner 3 inch def			%  inner radius
+/outer 4 inch def			%  outer radius
+4.25 inch 5.5 inch translate		%  origin to center of page
+0.25 inch setlinewidth			%  fat line width
+0 15 345 {				%  start for loop
+	/angle exch def			%  save angle
+	angle cos inner mul angle sin inner mul moveto
+	angle cos outer mul angle sin outer mul lineto
+} bind for				%  end for loop
+stroke					%  paint outline
+showpage				%  display page

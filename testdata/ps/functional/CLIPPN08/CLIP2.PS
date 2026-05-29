@@ -1,0 +1,28 @@
+%!PS
+
+%	This example appears in the introductory section
+%	of Chapter 8 - "Clipping".
+%
+
+/inch { 72 mul } def		%  define inch procedure
+
+/square {			%  stack = side
+	0 0 moveto		%  set current point
+	dup 0 rlineto		%  bottom of square
+	dup 0 exch rlineto	%  right side of square
+	neg 0 rlineto		%  top of square
+	closepath		%  finish the shape
+} def				%  define procedure
+
+1.25 inch 2.5 inch translate	%  translate to correct position
+6 inch square			%  draw square path
+clip				%  use as clipping area
+newpath				%  initialize the path
+0 1 6 -3 sub 2 mul {		%  start for loop
+	0.5 inch mul 3 inch sub	%  y coordinate
+	0 exch			%  x coordinate
+	moveto			%  set current point
+	6 inch 3 inch rlineto	%  add line segment to path
+} for
+stroke				%  stroke all the diagonal lines
+showpage			%  display page

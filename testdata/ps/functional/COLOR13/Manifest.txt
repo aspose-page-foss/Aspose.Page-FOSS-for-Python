@@ -1,0 +1,44 @@
+
+EXAMPLES FOR CHAPTER 13 - "Color and Halftones".
+
+The examples for this chapter require 53 KB.
+			
+Files contained in this folder:				
+	Manifest
+	arrays.ps (*)
+	bright.ps
+	cie.ps (*)
+	cmyk1.ps (*)
+	cmyk2.ps (*)
+	gray1.ps
+	gray2.ps (*)
+	hilights.ps (*)
+	hsbcone.ps
+	hsb.ps
+	hue.ps
+	hueval.ps
+	midtones.ps (*)
+	ovrprnt1.ps (*)
+	ovrprnt2.ps (*)
+	rgbcube.ps (*)
+	rgb1.ps
+	rgb2.ps (*)
+	rosettes.ps
+	saturatn.ps
+	separate.ps (*) (1)
+	shadows.ps (*)
+	spot.ps (*)
+	trap1.ps (*)
+	trap2.ps (*)
+	ucr1.ps
+	ucr2.ps (*)
+
+(*)	Requires PostScript Level 2.
+
+(1)	The line reading
+		2.15 inch 0.15 inch moveto	%  position currentpoint
+	in the book should read
+		2.15 inch 1.15 inch moveto	%  position currentpoint
+	The example on this disk has been fixed.
+	
+

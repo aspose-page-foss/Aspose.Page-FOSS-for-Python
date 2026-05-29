@@ -1,0 +1,22 @@
+%!PS
+
+%	This example appears in section "PAC-MAN"
+%	in Chapter 7 - "Arcs and Curves".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+3 inch 8 inch 2.5 inch 0 360 arc closepath
+gsave					%  remember graphics state
+	0.50 setgray			%  medium gray shade
+	fill				%  fill shapes
+grestore				%  restore graphics state
+8 setlinewidth				%  fat line width
+stroke					%  paint outline
+5.5 inch 3 inch 2.5 inch 0 360 arc closepath
+gsave					%  remember graphics state
+	0.50 setgray			%  medium gray shade
+	fill				%  fill shapes
+grestore				%  restore graphics state
+8 setlinewidth				%  fat line width
+stroke					%  paint outline
+showpage				%  display page

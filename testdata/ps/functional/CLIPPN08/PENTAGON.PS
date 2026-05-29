@@ -1,0 +1,21 @@
+%!PS
+
+%	This example appears in the introductory section
+%	of Chapter 8 - "Clipping".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+/middle_rad 2.75 inch def
+/pentagon {
+    newpath
+    middle_rad  18 cos mul middle_rad  18 sin mul moveto
+    middle_rad  90 cos mul middle_rad  90 sin mul lineto
+    middle_rad 162 cos mul middle_rad 162 sin mul lineto
+    middle_rad 234 cos mul middle_rad 234 sin mul lineto
+    middle_rad 306 cos mul middle_rad 306 sin mul lineto
+    closepath
+} def
+
+4.25 inch 5.5 inch translate
+pentagon 0.50 setgray fill
+showpage				%  display page

@@ -1,0 +1,16 @@
+%!PS
+
+%	This example appears in section "Non-uniform Scaling of Thick Lines"
+%	in Chapter 6 - "Line Weights and Line Styles".
+%
+
+/inch { 72 mul } def		%  define inch procedure
+newpath				%  start new path
+4.25 inch 5.5 inch translate	%  translate to middle of page
+1 2 scale			%  scale for ellipse
+0 0 2 inch 0 360 arc		%  draw in scaled coordinate system
+closepath			%  finish the shape
+1 0.5 scale			%  reset scaling
+0.5 inch setlinewidth		%  set fat line width
+stroke				%  stroke the path
+showpage			%  display page

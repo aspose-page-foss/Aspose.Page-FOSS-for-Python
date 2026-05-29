@@ -1,0 +1,24 @@
+%!PS
+
+%	This example appears in section "Clipping with Character
+%	Paths" in Chapter 3 - "Text".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+/Palatino-Bold findfont			%  set required font
+12 inch scalefont setfont
+1 inch 1 inch moveto (S) show		%  display the character
+4.25 inch 0 moveto			%  set current point
+0 11 inch rlineto			%  add line segment
+8 inch setlinewidth			%  set fat line width
+[ 0.5 inch 0.5 inch ] 0 setdash		%  set dashed line
+0.50 setgray stroke			%  stroke with medium gray
+1 inch 1 inch moveto			%  set current point
+(S) false charpath clip			%  make clipping path
+newpath					%  start new path--important!
+4.25 inch 0 moveto			%  set current point
+0 11 inch rlineto			%  add line segment
+8 inch setlinewidth			%  set fat line width
+[ 0.5 inch 0.5 inch ] 0 setdash		%  set dashed line
+0.75 setgray stroke			%  stroke with light gray
+showpage				%  display page

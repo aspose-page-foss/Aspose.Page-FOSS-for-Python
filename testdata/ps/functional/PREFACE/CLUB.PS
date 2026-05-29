@@ -1,0 +1,64 @@
+%!PS
+
+%	This example appears in section "Collection 1 -- the Basics"
+%	in the Preface.
+%
+
+/inch { 72 mul } def			%  define inch procedure
+
+/Club {					%  procedure to draw club shape
+	630 20 moveto
+	540 40 480 50 440 120 curveto
+	400 170 390 230 390 290 curveto
+	410 270 430 240 450 220 curveto
+	480 180 530 160 580 160 curveto
+	670 160 740 230 740 320 curveto
+	740 400 690 470 600 470 curveto
+	560 470 540 460 500 440 curveto
+	530 480 550 510 550 550 curveto
+	550 640 470 700 390 700 curveto
+	300 700 230 640 230 550 curveto
+	230 500 240 480 270 450 curveto
+	240 460 200 470 170 470 curveto
+	90 470 30 390 30 320 curveto
+	30 230 100 160 200 160 curveto
+	280 160 350 220 380 290 curveto
+	380 200 360 130 300 80 curveto
+	260 40 210 30 150 20 curveto
+	310 40 470 40 630 20 curveto
+} bind def
+
+/Spade {				%  procedure to draw spade shape
+	540 10 moveto  540 20 lineto
+	410 30 320 120 320 250 curveto
+	350 210 400 160 470 160 curveto
+	540 160 590 210 590 280 curveto
+	590 370 520 420 310 700 curveto
+	90 410 30 360 30 280 curveto
+	30 210 90 160 160 160 curveto
+	230 160 280 210 310 250 curveto
+	310 120 210 20 90 20 curveto
+	90 10 lineto
+	240 30 390 30 540 10 curveto
+} bind def
+
+0.125 inch 0.25 inch translate		%  translate coordinate system
+0.75 dup scale				%  scale coordinate system
+Club					%  etch club shape
+clip					%  clip to it
+newpath					%  establish new path
+0 1 20 {				%  begin for loop
+    /row exch def			%  define row variable
+    0 1 20 {				%  begin another for loop
+	/col exch def			%  define club variable
+	gsave				%  save graphics state
+		col 8.5 inch mul 17 div	%  x position
+		row 8.5 inch mul 15 div	%  y position
+		translate		%  translate coordinate system
+		0.05 dup scale		%  scale coordinate system
+		Spade fill		%  draw a tiny spade
+	grestore
+    } for
+} for
+
+showpage				%  display page

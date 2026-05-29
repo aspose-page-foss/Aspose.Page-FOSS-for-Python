@@ -1,0 +1,18 @@
+%!PS
+
+%	This example appears in section "Gray Device Space"
+%	in Chapter 13 - "Color and Halftones".
+%
+%	Caveats:	Requires PostScript Level 2.
+
+/inch { 72 mul } def				%  define inch procedure
+4.0 inch 10.0 inch moveto 1.0 inch 2.0 inch lineto
+5.5 inch 1.5 inch lineto closepath
+/DeviceGray setcolorspace			%  set color space
+gsave 0.333 setcolor fill			%  current gray = 33 % white
+grestore 0.0 setcolor stroke			%  current gray = black
+4.0 inch 10.0 inch moveto 7.5 inch 3.0 inch lineto
+5.5 inch 1.5 inch lineto closepath
+gsave 0.667 setcolor fill			%  current gray = 66 % white
+grestore 0.0 setcolor stroke			%  current gray = black
+showpage					%  display page

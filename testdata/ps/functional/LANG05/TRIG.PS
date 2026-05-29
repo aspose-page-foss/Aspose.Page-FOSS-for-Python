@@ -1,0 +1,24 @@
+%!PS
+
+%	This example appears in section "Trigonometric Operators"
+%	in Chapter 5 - "PostScript Language".
+%
+
+
+/inch { 72 mul } def			%  define inch procedure
+/smallrad  50 def			%  inner radius
+/largerad 270 def			%  outer radius
+/points    17 def			%  number of points on circle
+/angle 360 points div def		%  angle between lines
+4.25 inch 5.5 inch translate		%  place origin in center of page
+0 1 points {				%  start for loop
+	angle mul			%  compute angle for this point
+	dup				%  make a copy
+	sin exch cos			%  compute sine and cosine
+	2 copy				%  make copies of sine and cosine
+	smallrad mul exch smallrad mul moveto
+	largerad mul exch largerad mul lineto
+} for					%  end for loop
+8 setlinewidth				%  set fat line width
+stroke					%  paint all the lines
+showpage				%  display page

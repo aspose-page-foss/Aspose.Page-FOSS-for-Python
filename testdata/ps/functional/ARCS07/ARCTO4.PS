@@ -1,0 +1,16 @@
+%!PS
+
+%	This example appears in section "Connect Arc to Path Segment"
+%	in Chapter 7 - "Arcs and Curves".
+%
+
+/inch { 72 mul } def		%  define inch procedure
+7.5 inch 1 inch moveto		%  set initial point
+4.25 inch 10 inch		%  first direction point
+1 inch 1 inch			%  second direction point
+1 inch				%  radius
+arcto				%  add arc segment to path
+4 { pop } repeat		%  clear jetsam from stack
+0.25 inch setlinewidth		%  set fat line width
+stroke				%  stroke the path
+showpage			%  display page

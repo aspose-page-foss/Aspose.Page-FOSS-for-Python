@@ -1,0 +1,110 @@
+
+EXAMPLES FOR CHAPTER 3 - "Text".
+
+The examples for this chapter require 44 KB.
+			
+Files contained in this folder:				
+	Manifest
+	P1.ps
+	P2.ps
+	P3.ps (*)
+	Q1.ps
+	Q2.ps
+	S1.ps
+	S2.ps
+	S3.ps
+	S4.ps
+	Z1.ps
+	Z2.ps
+	Z3.ps
+	beethovn.ps (*)
+	bizcard.ps
+	centtext.ps
+	chezpier.ps (1)
+	eggs.ps
+	fadein1.ps
+	fadein2.ps
+	fadeout.ps
+	fontres.ps (*)
+	gtnberg1.ps (2)
+	gtnberg2.ps (2)
+	gtnberg3.ps (2) (3)
+	intro.ps
+	joplin.ps (*)
+	lakewd1.ps
+	lakewd2.ps
+	lakewd3.ps
+	lakewd4.ps
+	lefttext.ps
+	marker1.ps
+	marker2.ps
+	marker3.ps
+	pith.ps
+	planet.ps  (4)
+	pscript1.ps
+	pscript2.ps
+	pscript3.ps (*)
+	pscript4.ps
+	rttext.ps
+	serpent.ps (5)
+	strings.ps
+	supersub.ps
+	treble.ps (*)
+
+(*)	Requires PostScript Level 2.
+
+(1)	The example chezpier.ps in the book should have used the
+	Palatino-Roman font not the Times-Roman font listed in the book.
+	Also there were two other lines misprinted. These examples
+	changed the line reading
+		2.1 inch 4.5 inch moveto		%  set current point
+	in the book to
+		0.25 inch 0.75 inch moveto		%  set current point
+	and also changed the line reading
+		2.125 inch 4.2 inch moveto		%  reset current point
+	in the book to
+		0.25 inch 0.25 inch moveto		%  reset current point
+
+(2)	In each of the gtnberg examples on this disk, the line reading
+		0.75 inch 6.0 inch			%  set current point
+	in the book was changed to
+		0.75 inch 6.0 inch moveto		%  set current point
+	(The moveto command was omitted in the book.)
+	
+	Also, in the stringheight procedure a line was omitted in the book.
+	These examples fixed the problem by adding this line:
+		ury lly sub				%  return height
+	as the last line in the stringheight procedure. Note: this does
+	not apply to the file pscript4.ps which has a different version
+	of the stringheight procedure.
+	
+(3)	There were three errors in gtnberg3.ps in the book.
+	The example changed the line reading
+		/str (GUTENBERG) def			%  define string
+	in the book to
+		/str (Gutenberg) def			%  define string
+		
+	The example also changed the line reading
+		6.0 inch descender add			%  adjust y
+	in the book to
+		6.0 inch str descender add		%  adjust y
+
+(4)	The example listing in the book contained the following errors.
+	First, the example in the book omitted the call to the procedure
+	BusinessCardOutline. Second, the line reading
+		16 scalefont setfont
+	should have read
+		10 scalefont setfont
+
+(5)	There were two lines in error as listed in the book. This example
+	changed the line reading
+		10 inch scalefont		%  scale font to required size
+	in the book to
+		8 inch scalefont		%  scale font to required size
+	and the line reading
+		2 inch 0.25 inch moveto		%  set current point
+	in the book to
+		2.25 inch 1.5 inch moveto	%  set current point
+
+		
+

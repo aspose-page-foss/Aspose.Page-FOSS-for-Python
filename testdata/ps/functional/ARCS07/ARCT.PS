@@ -1,0 +1,34 @@
+%!PS
+
+%	This example appears in section "Connect Arc to Path Segment"
+%	in Chapter 7 - "Arcs and Curves".
+%
+%	Caveats:	Requires PostScript Level 2.
+
+/inch { 72 mul } def			%  define inch procedure
+/Outer 5 inch def			%  outer ring of points
+/Inner 2 inch def			%  inner ring of points
+/P1 { Outer  18 cos mul  Outer  18 sin mul } def
+/P2 { Outer  90 cos mul  Outer  90 sin mul } def
+/P3 { Outer 162 cos mul  Outer 162 sin mul } def
+/P4 { Outer 234 cos mul  Outer 234 sin mul } def
+/P5 { Outer 306 cos mul  Outer 306 sin mul } def
+/I1 { Inner  54 cos mul  Inner  54 sin mul } def
+/I2 { Inner 126 cos mul  Inner 126 sin mul } def
+/I3 { Inner 198 cos mul  Inner 198 sin mul } def
+/I4 { Inner 270 cos mul  Inner 270 sin mul } def
+/I5 { Inner 342 cos mul  Inner 342 sin mul } def
+4.25 inch 5.5 inch translate		%  origin in middle of page
+3 inch 31.5 cos mul 3 inch 31.5 sin mul moveto
+					%  draw series of lines and arcs
+I1 P2 0.5 inch arct    P2 I2 0.5 inch arct
+I2 P3 0.5 inch arct    P3 I3 0.5 inch arct
+I3 P4 0.5 inch arct    P4 I4 0.5 inch arct
+I4 P5 0.5 inch arct    P5 I5 0.5 inch arct
+I5 P1 0.5 inch arct    P1 I1 0.5 inch arct
+closepath				%  finish the shape
+gsave					%  push graphics state
+	0.50 setgray fill		%  fill with medium gray
+grestore				%  pop graphics state
+0.25 inch setlinewidth stroke		%  stroke with fat line width
+showpage				%  display page

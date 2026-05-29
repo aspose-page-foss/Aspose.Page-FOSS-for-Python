@@ -1,0 +1,21 @@
+%!PS
+
+%	This example appears in section "Current Transformation Matrix"
+%	in Chapter 4 - "Transformations".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+/Courier-Bold findfont 36 scalefont setfont
+/x_pos [ 1 inch 5 inch 1 inch 5 inch 1 inch 5 inch ] def
+/y_pos [ 7 inch 7 inch 5 inch 5 inch 3 inch 3 inch ] def
+0 1 5 {	%  start for loop
+	/counter exch def		%  save loop variable
+	matrix currentmatrix		%  get CTM
+	counter get			%  get required element
+	100 string cvs			%  convert to string
+	x_pos counter get		%  get x coordinate
+	y_pos counter get		%  get y coordinate
+	moveto				%  set current point
+	show				%  image converted string
+} for					%  end for loop
+showpage				%  display page

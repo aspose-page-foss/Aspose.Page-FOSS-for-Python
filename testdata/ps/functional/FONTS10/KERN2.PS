@@ -1,0 +1,26 @@
+%!PS
+
+%	This example appears in section "Kerning Data"
+%	in Chapter 10 - "Fonts".
+%
+%	Caveats:	Requires PostScript Level 2.
+
+/inch { 72 mul } def			%  define inch procedure
+/DesignSize 1000 def			%  character design space
+/PointSize 3.5 inch def			%  size for character
+/ScaleFactor PointSize DesignSize div def
+/Palatino-Bold findfont			%  find required font
+PointSize scalefont			%  scale to required size
+setfont					%  make current font
+					%  image unkerned string
+0 2 inch moveto				%  set current point
+(VAT) show				%  image string
+					%  image kerned string
+0 7 inch moveto				%  set current point
+(VAT)					%  string to image
+[
+	778 129 sub ScaleFactor mul	%  tweaks for first character
+	778  92 sub ScaleFactor mul	%  tweaks for second character
+	667 ScaleFactor mul		%  width for last character
+] xshow
+showpage				%  display page

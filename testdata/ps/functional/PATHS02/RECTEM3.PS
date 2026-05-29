@@ -1,0 +1,44 @@
+%!PS
+
+%	This example appears in section "Emulating Level 2 Rectangle
+%	Operators" in Chapter 2 - "Paths and Painting".
+%
+
+/DrawRect {					%  stack = x y width height
+	4 2 roll moveto				%  move to x, y 
+	1 index 0 rlineto			%  bottom edge
+	0 exch rlineto				%  right edge
+	neg 0 rlineto				%  top edge
+	closepath				%  close rectangle
+} def
+
+/DoNumArray {					%  stack = numarray procedure
+	/proc exch def				%  remember procedure
+	/numarray exch def			%  remember numarray
+	0					%  start with first element
+	4					%  increment by four elements
+	numarray length 1 sub			%  until no more elements
+	{
+		numarray exch 4 getinterval	%  get x, y, width, height
+		aload pop
+		{ proc } exec			%  execute the procedure
+	} for					%  loop through numarray
+} def
+
+/rectfill {
+	gsave					%  save graphics state
+	newpath					%  clear current path
+	dup type /arraytype eq {		%  multiple rectangles
+		{ gsave DrawRect fill grestore } DoNumArray
+	} {
+		DrawRect fill			%  draw single rectangle
+	} ifelse
+	grestore				%  restore graphics state
+} def
+
+/inch { 72 mul } def				%  define inch procedure
+[
+    1 inch 8 inch 4 inch -7 inch		%  first rectangle
+    3.5 inch 3 inch 4 inch 7 inch		%  second rectangle
+] rectfill					%  fill rectangles
+showpage					%  display page

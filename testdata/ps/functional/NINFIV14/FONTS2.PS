@@ -1,0 +1,72 @@
+%!PS
+
+%	This example appears in section "Getting the List in Alphabetical
+%	Order" in Chapter 14 - "PostScript Nine to Five".
+%
+
+/inch { 72 mul } def				%  define inch procedure
+/PrintSize 12 def				%  point size for list
+/Leading 14 def					%  baseline leading
+/TopMargin 10.5 inch def			%  initial top margin
+/BottomTopMargin 0.5 inch def			%  final bottom margin
+/LeftMargin 0.5 inch def			%  initial left margin
+/Courier-Bold findfont				%  find required font
+PrintSize scalefont				%  scale to required size
+setfont						%  make it current font
+/whichSide 0 def				%  left or middle
+/BaseLine TopMargin def				%  set initial baseline position
+
+/bubble {					%  stack = unsorted array
+    /Array exch def				%  remember array
+    0 1 Array length 2 sub {			%  loop through array
+	-1 0 {					%  and again
+	    /i exch def	%  define loop variable
+	    Array i 2 getinterval		%  get array with two strings
+	    aload pop				%  get two strings
+	    2 copy				%  copy them
+	    gt {				%  is one greater
+		exch 2 array astore		%  put strings in small array
+		Array exch i exch		%  swap them
+		putinterval
+		} { pop pop } ifelse		%  otherwise clean up stack
+	} for
+    } for
+    Array					%  return sorted array
+} def
+
+/ShowFontName {					%  stack = name of font
+	256 string cvs				%  convert font name to string
+						%  set current point
+	LeftMargin whichSide 4.25 inch mul add BaseLine moveto
+	show					%  image name of font
+	/whichSide 1 whichSide sub def		%  switch side or middle
+	whichSide 0 eq {			%  if starting a new line
+		/BaseLine BaseLine Leading sub def
+		BaseLine BottomTopMargin lt {	%  if baseline below bottom
+			showpage		%  display page
+			/BaseLine TopMargin def	%  reset baseline
+		} if
+	} if
+} def
+
+FontDirectory					%  font directory onto stack
+dup						%  make a copy
+length						%  take its length
+array /FontList exch def			%  make an array that long
+0						%  set initial array index
+exch						%  font directory to top
+{						%  start forall loop
+	pop					%  discard font dictionary
+	256 string cvs				%  convert name to string
+	FontList exch				%  index FontList name
+	2 index exch				%  index FontList name index
+	put					%  place font name into array
+	1 add					%  increment for next item
+} forall					%  traverse font directory
+pop						%  discard array index
+FontList					%  get array of font names
+bubble						%  sort in alphabetical order
+{						%  start forall loop
+	ShowFontName				%  display name of font
+} forall					%  traverse font directory
+showpage					%  display page

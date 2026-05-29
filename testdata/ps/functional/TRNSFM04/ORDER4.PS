@@ -1,0 +1,22 @@
+%!PS
+
+%	This example appears in section "Order of Transformations"
+%	in Chapter 4 - "Transformations".
+%
+
+/inch { 72 mul } def		%  define inch procedure
+
+/square {			%  stack = side
+	0 0 moveto		%  set current point
+	dup 0 rlineto		%  bottom of square
+	dup 0 exch rlineto	%  right side of square
+	neg 0 rlineto		%  top of square
+	closepath		%  finish the shape
+} def				%  define procedure
+
+2.25 inch 3.5 inch translate	%  move origin
+1 0.5 scale			%  scale
+4 inch square			%  four-inch square
+0.0 0.0 1.0 setrgbcolor		%  set blue color
+fill				%  fill shape
+showpage			%  display page

@@ -1,0 +1,18 @@
+%!PS
+
+%	This example appears in section "User Paths" in
+%	Chapter 2 - "Paths and Painting".
+%
+%	Caveats:	Requires PostScript Level 2.
+
+/inch { 72 mul } def			%  define inch procedure
+4.25 inch 5.5 inch translate		%  origin to middle of page
+1 2 scale				%  scale for ellipse
+0.5 inch setlinewidth			%  fat line width
+{
+	-144 -288 144 288 setbbox	%  bounding box
+	0 0 144 0 360 arc		%  draw ellipse
+	closepath			%  close the shape
+}
+ustroke					%  paint path
+showpage				%  display page

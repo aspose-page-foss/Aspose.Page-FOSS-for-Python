@@ -1,0 +1,22 @@
+%!PS
+
+%	This example appears in section "Dashed Line Styles"
+%	in Chapter 6 - "Line Weights and Line Styles".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+4.25 inch 2 inch moveto			%  set current point
+					%  draw four arc/line combinations
+6.5 inch 2 inch 6.5 inch 5.5 inch 1 inch arcto
+6.5 inch 9 inch 4.25 inch 9 inch 1 inch arcto
+2 inch 9 inch 2 inch 5.5 inch 1 inch arcto
+2 inch 2 inch 4.25 inch 2 inch 1 inch arcto
+closepath				%  finish the shape
+16 { pop } repeat			%  remove dross from stack
+gsave					%  push graphics state
+	0.50 setgray fill		%  fill with medium gray
+grestore				%  pop graphics state
+[ 0.5 inch  0.25 inch ] 0 setdash	%  set dash pattern
+0.25 inch setlinewidth			%  fat line width
+stroke					%  paint the path
+showpage				%  display page

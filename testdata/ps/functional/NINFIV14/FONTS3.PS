@@ -1,0 +1,53 @@
+%!PS
+
+%	This example appears in section "Listing Fonts Samples"
+%	in Chapter 14 - "PostScript Nine to Five".
+%
+
+/inch { 72 mul } def				%  define inch procedure
+/PrintSize 12 def				%  point size for list
+/Leading 14 def					%  baseline leading
+/TopMargin 10.5 inch def			%  initial top margin
+/BottomTopMargin 0.5 inch def			%  final bottom margin
+/LeftMargin 0.5 inch def			%  initial left margin
+/Courier-Bold findfont				%  find required font
+PrintSize scalefont				%  scale to required size
+setfont						%  make it current font
+/whichSide 0 def				%  left or middle
+/BaseLine TopMargin def				%  set initial baseline position
+
+/ShowFontName {					%  stack = name of font
+	/SaveWorld save def			%  snapshot of VM
+	dup dup					%  need two copies of name
+	findfont /Encoding get			%  get font encoding vector
+	(A) 0 get get				%  get name stored at "A"
+	LeftMargin whichSide 4.25 inch mul add BaseLine moveto
+	/A eq {					%  if name is "A"
+		findfont PrintSize scalefont setfont
+		256 string cvs			%  convert name to string
+		show				%  image name of font
+	} {
+		/Courier-Bold findfont PrintSize scalefont setfont
+		256 string cvs			%  convert name to string
+		show (  ) show			%  image name of font
+		dup findfont PrintSize scalefont setfont
+		256 string cvs			%  convert name to string
+		show				%  image name of font
+	} ifelse
+	SaveWorld restore			%  restore VM to prior
+	/whichSide 1 whichSide sub def		%  switch side or middle
+	whichSide 0 eq {			%  if starting a new line
+		/BaseLine BaseLine Leading sub def
+		BaseLine BottomTopMargin lt {	%  if baseline below bottom
+			showpage		%  display page
+			/BaseLine TopMargin def	%  reset baseline
+		} if
+	} if
+} def
+
+FontDirectory					%  font directory onto stack
+{						%  start forall loop
+	pop					%  discard font dictionary
+	ShowFontName				%  display name of font
+} forall					%  traverse font directory
+showpage					%  display page

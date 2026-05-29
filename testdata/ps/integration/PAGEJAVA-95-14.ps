@@ -1,0 +1,1069 @@
+%!PS-
+%%DocumentFonts: atend
+%%Creator: SAPscript, SAP R/3 rel.4.6C
+%%EndComments
+/SAPdict 12 dict def
+/SAPencode
+{ SAPdict begin
+  /basefontname exch def
+  /SAPfontname exch def
+  /basefontdict basefontname findfont def
+  /SAPfont      basefontdict maxlength dict def
+  basefontdict
+  { exch dup /FID ne
+    { dup /Encoding eq
+      { exch dup length array copy SAPfont 3 1 roll put }
+      { exch SAPfont 3 1 roll put }
+      ifelse }
+    { pop pop }
+    ifelse }
+  forall
+  SAPfont /FontName SAPfontname put
+  SAPcodes aload pop
+  SAPcodes length 2 idiv
+    { SAPfont /Encoding get 3 1 roll put } repeat
+    SAPfontname SAPfont definefont pop
+end } def
+/SAPcodes mark
+16#20 /space
+16#21 /exclam
+16#22 /quotedbl
+16#23 /numbersign
+16#24 /dollar
+16#25 /percent
+16#26 /ampersand
+16#27 /quoteright
+16#28 /parenleft
+16#29 /parenright
+16#2A /asterisk
+16#2B /plus
+16#2C /comma
+16#2D /hyphen
+16#2E /period
+16#2F /slash
+16#30 /zero
+16#31 /one
+16#32 /two
+16#33 /three
+16#34 /four
+16#35 /five
+16#36 /six
+16#37 /seven
+16#38 /eight
+16#39 /nine
+16#3A /colon
+16#3B /semicolon
+16#3C /less
+16#3D /equal
+16#3E /greater
+16#3F /question
+16#40 /at
+16#41 /A  16#42 /B  16#43 /C  16#44 /D  16#45 /E  16#46 /F  16#47 /G
+16#48 /H  16#49 /I  16#4A /J  16#4B /K  16#4C /L  16#4D /M  16#4E /N
+16#4F /O  16#50 /P  16#51 /Q  16#52 /R  16#53 /S  16#54 /T  16#55 /U
+16#56 /V  16#57 /W  16#58 /X  16#59 /Y  16#5A /Z
+16#5B /bracketleft
+16#5C /backslash
+16#5D /bracketright
+16#5E /asciicircum
+16#5F /underscore
+16#60 /quoteleft
+16#61 /a  16#62 /b  16#63 /c  16#64 /d  16#65 /e  16#66 /f  16#67 /g
+16#68 /h  16#69 /i  16#6A /j  16#6B /k  16#6C /l  16#6D /m  16#6E /n
+16#6F /o  16#70 /p  16#71 /q  16#72 /r  16#73 /s  16#74 /t  16#75 /u
+16#76 /v  16#77 /w  16#78 /x  16#79 /y  16#7A /z
+16#7B /braceleft
+16#7C /bar
+16#7D /braceright
+16#7E /asciitilde
+16#80 /grave  16#81 /acute    16#82 /circumflex     16#83 /tilde
+16#84 /ogonek 16#85 /breve    16#86 /dotaccent      16#87 /dieresis
+16#88 /ring   16#89 /cedilla  16#8A /hungarumlaut   16#8B /caron
+16#A1 /exclamdown
+16#A2 /cent
+16#A3 /sterling
+16#A4 /currency
+16#A5 /yen
+16#A6 /brokenbar
+16#A7 /section
+16#A8 /dieresis
+16#A9 /copyright
+16#AA /ordfeminine
+16#AB /guillemotleft
+16#AC /logicalnot
+16#AD /minus
+16#AE /registered
+16#AF /macron
+16#B0 /degree
+16#B1 /plusminus
+16#B2 /twosuperior
+16#B3 /threesuperior
+16#B4 /quotesingle
+16#B5 /mu
+16#B6 /paragraph
+16#B7 /periodcentered
+16#B8 /cedilla
+16#B9 /onesuperior
+16#BA /ordmasculine
+16#BB /guillemotright
+16#BC /onequarter
+16#BD /onehalf
+16#BE /threequarters
+16#BF /questiondown
+16#C0 /Agrave
+16#C1 /Aacute
+16#C2 /Acircumflex
+16#C3 /Atilde
+16#C4 /Adieresis
+16#C5 /Aring
+16#C6 /AE
+16#C7 /Ccedilla
+16#C8 /Egrave
+16#C9 /Eacute
+16#CA /Ecircumflex
+16#CB /Edieresis
+16#CC /Igrave
+16#CD /Iacute
+16#CE /Icircumflex
+16#CF /Idieresis
+16#D0 /Eth
+16#D1 /Ntilde
+16#D2 /Ograve
+16#D3 /Oacute
+16#D4 /Ocircumflex
+16#D5 /Otilde
+16#D6 /Odieresis
+16#D7 /multiply
+16#D8 /Oslash
+16#D9 /Ugrave
+16#DA /Uacute
+16#DB /Ucircumflex
+16#DC /Udieresis
+16#DD /Yacute
+16#DE /Thorn
+16#DF /germandbls
+16#E0 /agrave
+16#E1 /aacute
+16#E2 /acircumflex
+16#E3 /atilde
+16#E4 /adieresis
+16#E5 /aring
+16#E6 /ae
+16#E7 /ccedilla
+16#E8 /egrave
+16#E9 /eacute
+16#EA /ecircumflex
+16#EB /edieresis
+16#EC /igrave
+16#ED /iacute
+16#EE /icircumflex
+16#EF /idieresis
+16#F0 /eth
+16#F1 /ntilde
+16#F2 /ograve
+16#F3 /oacute
+16#F4 /ocircumflex
+16#F5 /otilde
+16#F6 /odieresis
+16#F7 /divide
+16#F8 /oslash
+16#F9 /ugrave
+16#FA /uacute
+16#FB /ucircumflex
+16#FC /udieresis
+16#FD /yacute
+16#FE /thorn
+16#FF /ydieresis
+counttomark array astore exch pop def
+/sp {showpage} def
+/ff {findfont} def
+/sc {scalefont} def
+/sf {setfont} def
+/tw {20 div} def
+/su {tw /SU exch def} def
+/s1 {0 SU rmoveto} def
+/s2 {0 SU neg rmoveto} def
+/w1 {SW 0 8#040} def
+/w2 {widthshow} def
+/sw {/SW exch tw ( ) stringwidth pop sub def} def
+/s {show} def
+/op {tw /h exch def} def
+/ol {90 rotate /h 0 def} def
+/mt {tw exch tw neg h add moveto} def
+0 setlinecap
+0 setgray
+/up {tw /ULp exch def} def
+/ut {tw /ULt exch def} def
+/ug {100 div /ULg exch def} def
+/u1 {tw /ULw exch def
+    currentpoint /ULy1 exch def /ULx1 exch def
+    newpath ULx1 ULy1 moveto 0 ULp rmoveto
+    ULw 0 rlineto closepath ULt setlinewidth
+    ULg setgray stroke 0 setgray ULx1 ULy1 moveto} def
+/u1c {tw /ULw exch def
+    currentpoint /ULy1 exch def /ULx1 exch def
+    newpath ULx1 ULy1 moveto 0 ULp rmoveto
+    ULw 0 rlineto closepath ULt setlinewidth
+    stroke ULx1 ULy1 moveto} def
+/u2 {currentpoint /ULy1 exch ULp add def /ULx1 exch def} def
+/u3 {currentpoint /ULy2 exch def /ULx2 exch def
+    newpath ULx2 ULy2 moveto 0 ULp rmoveto
+    ULx1 ULy1 lineto closepath ULt setlinewidth
+    ULg setgray stroke 0 setgray ULx2 ULy2 moveto} def
+/StartGR { /GRsave save def 0 setgray 0 setlinecap 1 setlinewidth
+    0 setlinejoin 10 setmiterlimit [] 0 setdash
+    newpath /showpage {} def /copypage {} def /erasepage {} def
+    /initgraphics {} def /initclip {} def /initmatrix {} def
+    mark } bind def
+/EndGR { GRsave restore cleartomark } bind def
+/SetInputTray { /Intraynum exch def
+mark statusdict begin {Intraynum setpapertray}
+stopped end cleartomark } def
+/SetPrintMode { /Printmode exch def
+mark { statusdict begin
+  Printmode 0 eq {false setduplexmode} if
+  Printmode 1 eq {true setduplexmode false settumble} if
+  Printmode 2 eq {true setduplexmode true settumble} if end}
+stopped cleartomark } def
+/PrintModeSimplex { <</Duplex false >> setpagedevice} def
+/PrintModeDuplex { <</Duplex true /Tumble false >> setpagedevice} def
+/PrintModeTumble { <</Duplex true /Tumble true >> setpagedevice} def
+%%EndProlog
+%%BeginSetup
+mark {
+%%BeginFeature: *PageSize Letter
+<< /DeferredMediaSelection true /PageSize [612 792] /ImagingBBox null>>setpagedevice
+%%EndFeature
+} stopped cleartomark
+%%EndSetup
+%%Page: 1 1
+
+/SAPF1 /Times-Roman SAPencode /sapf1 /SAPF1 ff 10.0 sc def
+/SAPF2 /Times-Roman SAPencode /sapf2 /SAPF2 ff 08.0 sc def
+/SAPF3 /Times-Roman SAPencode /sapf3 /SAPF3 ff 06.0 sc def
+/SAPF4 /Times-Bold SAPencode /sapf4 /SAPF4 ff 10.0 sc def
+/SAPF5 /Times-Bold SAPencode /sapf5 /SAPF5 ff 06.0 sc def
+/SAPF6 /Times-Bold SAPencode /sapf6 /SAPF6 ff 12.0 sc def
+save
+
+15817 op
+gsave
+0 setgray
+newpath 2603 562 mt
+10555 tw 0 rlineto
+0 10 tw neg rlineto
+10555 tw neg 0 rlineto closepath fill
+grestore
+gsave
+0 setgray
+newpath 15132 562 mt
+10555 tw 0 rlineto
+0 10 tw neg rlineto
+10555 tw neg 0 rlineto closepath fill
+grestore
+gsave
+0 setgray
+newpath 2613 562 mt
+10 tw 0 rlineto
+0 12519 tw neg rlineto
+10 tw neg 0 rlineto closepath fill
+grestore
+gsave
+0 setgray
+newpath 2613 11107 mt
+10 tw 0 rlineto
+0 12519 tw neg rlineto
+10 tw neg 0 rlineto closepath fill
+grestore
+5118 567 mt
+sapf1 sf
+50 sw
+w1 ( CONSIGNEE:) w2
+5118 5783 mt
+(TOTAL WEIGHT CONSIGNEE:          965) s
+5118 9639 mt
+(LB) s
+5324 850 mt
+($MEAD EMBALLAGE S.A.) s
+5530 850 mt
+(BLVD # D) s
+5736 850 mt
+(ZONE INDUSTRIELLE Bp205 36004) s
+5942 850 mt
+(CHATEAUROUX, 21 ) s
+6148 850 mt
+(FR) s
+6385 567 mt
+(_______________________________________________________________) s
+(_________________________________________) s
+6591 567 mt
+sapf1 sf
+50 sw
+w1 ( PRODUCT\(S\) SHIPPED:) w2
+6591 4139 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf1 sf
+50 sw
+w1 (PO#) w2
+6591 6860 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf1 sf
+50 sw
+w1 (CUSTOMER PRODUCT CODE) w2
+6622 567 mt
+sapf1 sf
+50 sw
+w1 (_______________________________________________________________) w2
+(_________________________________________) s
+6828 567 mt
+sapf2 sf
+40 sw
+w1 ( HANDMADE PAPER AND PAPERBOARD, UNCOATED ) w2
+6828 5103 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf2 sf
+40 sw
+w1 (export test-1                 ) w2
+6828 6860 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf2 sf
+40 sw
+w1 (                                    ) w2
+6859 567 mt
+sapf1 sf
+50 sw
+w1 (_______________________________________________________________) w2
+(_________________________________________) s
+7096 567 mt
+(_______________________________________________________________) s
+(_________________________________________) s
+7302 680 mt
+sapf3 sf
+30 sw
+w1 (No.  ) w2
+7302 1021 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 ( HM) w2
+7302 1417 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 ( Type of) w2
+7302 2268 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 ( Description of Articles, Special Marks, and Exceptions) w2
+7302 5499 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 ( Hzd) w2
+7302 6010 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 ( I.D.) w2
+7302 6747 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 ( Packing) w2
+7302 7313 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 ( Comm.) w2
+7302 8221 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 ( Weight) w2
+7302 9071 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 ( Rate*) w2
+7302 9638 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 ( Labels Reg.) w2
+7508 680 mt
+( Pkgs.) s
+7508 1021 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 (   ) w2
+7508 1417 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 ( Package) w2
+7508 2268 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 ( \(If Haz-Mat, Proper Shipping Name\)) w2
+7508 5499 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 ( Class) w2
+7508 6010 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 ( No.) w2
+7508 6747 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 ( Group) w2
+7508 7313 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 ( Code ) w2
+7508 8221 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 ( \(lbs.\)) w2
+7508 9071 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+7508 9638 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 ( \(or exemption\)) w2
+7539 567 mt
+sapf1 sf
+50 sw
+w1 (_______________________________________________________________) w2
+(_________________________________________) s
+7745 640 mt
+sapf3 sf
+30 sw
+w1 (     2) w2
+7745 1021 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 ( ) w2
+7745 1417 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 ( ROLLS) w2
+7745 2268 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 ( HANDMADE PAPER AND PAPERBOARD, UNCOATED) w2
+7745 5499 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 ( ) w2
+7745 6010 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+7745 6747 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 ( ) w2
+7745 7313 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 ( 4802.10) w2
+7745 8221 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+7745 8664 mt
+sapf3 sf
+30 sw
+w1 (965) w2
+7745 9071 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+7745 9638 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 ( ) w2
+7776 567 mt
+sapf1 sf
+50 sw
+w1 (_______________________________________________________________) w2
+(_________________________________________) s
+7982 567 mt
+sapf2 sf
+40 sw
+w1 ( TOTAL QUANTITY) w2
+7982 2268 mt
+(     2) s
+7982 2835 mt
+(ROLLS) s
+7982 8050 mt
+(TOTAL WEIGHT           965 LB) s
+8013 567 mt
+sapf1 sf
+50 sw
+w1 (_______________________________________________________________) w2
+(_________________________________________) s
+8219 567 mt
+sapf2 sf
+40 sw
+w1 ( HTS Comm. Code:) w2
+8425 1134 mt
+sapf3 sf
+30 sw
+w1 (    4802.10      HANDMADE PAPER AND PAPERBOARD, UNCOATED) w2
+8662 567 mt
+sapf1 sf
+50 sw
+w1 (_______________________________________________________________) w2
+(_________________________________________) s
+8868 567 mt
+sapf4 sf
+50 sw
+w1 ( SPECIAL INSTRUCTIONS FOR ENTIRE SHIPMENT:) w2
+9074 567 mt
+sapf1 sf
+50 sw
+w1 (NONE) w2
+9280 567 mt
+(_______________________________________________________________) s
+(_________________________________________) s
+9486 567 mt
+sapf4 sf
+50 sw
+w1 ( DELIVERY NOTES:) w2
+9692 567 mt
+sapf1 sf
+50 sw
+w1 (_______________________________________________________________) w2
+(_________________________________________) s
+9898 567 mt
+sapf4 sf
+50 sw
+w1 ( PLEASE INCLUDE BOL # 20000020 ON FREIGHT BILL) w2
+9929 567 mt
+sapf1 sf
+50 sw
+w1 (_______________________________________________________________) w2
+(_________________________________________) s
+10135 567 mt
+sapf3 sf
+30 sw
+w1 ( * Rates are individually determined and NOT subject to filed ) w2
+(tariffs, unless otherwise stated in the Appendix\(ices\) to the ) s
+(CONTRACT  between the Shipper and the Carrier.) s
+10166 567 mt
+sapf1 sf
+50 sw
+w1 (_______________________________________________________________) w2
+(_________________________________________) s
+10372 567 mt
+sapf3 sf
+30 sw
+w1 ( Subject to the CONTRACT between Shipper and Carrier, the ) w2
+(shipment is to) s
+10372 4819 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 ( Carrier's liability for lost or damaged freight is for actual ) w2
+(loss,unless otherwise agreed to in writing by) s
+10578 567 mt
+( be delivered to the consignee without recourse on the ) s
+(consignor. the Carrier ) s
+10578 4819 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 ( Shipper and Carrier. Shipper shall provide a declared value ) w2
+(only where the rate is acknowledged by both parties) s
+10784 567 mt
+( shall not make the delivery of this shipment without payment ) s
+(of freight  and) s
+10784 4819 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 ( as dependent on value. The agreed or declared value  ofthe ) w2
+(property is hereby specifically stated by the Shipper) s
+10990 567 mt
+( all other lawful charges) s
+10990 4819 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 ( to be not exceeding _______________ per _______________ or $ ) w2
+(_______________, whichever is greater) s
+11196 567 mt
+sapf2 sf
+40 sw
+w1 ( MEADWESTVACO CORP.) w2
+11196 4819 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf2 sf
+40 sw
+w1 ( MEADWESTVACO CORPORATION) w2
+sapf3 sf
+30 sw
+w1 (  BY ___________________________________) w2
+11227 567 mt
+sapf1 sf
+50 sw
+w1 (_______________________________________________________________) w2
+(_________________________________________) s
+11433 567 mt
+sapf3 sf
+30 sw
+w1 ( I hereby declare that the contents of this consignment are ) w2
+(fully and accurately) s
+11433 4819 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 ( The property described herein is accepted by the Carrier in ) w2
+(good order and condition, except as otherwise noted) s
+11639 567 mt
+( described above by the proper shipping name, and are ) s
+(classified, packaged, ) s
+11639 4819 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 ( below:) w2
+11845 567 mt
+( marked, and labeled/placarded, and are in all respects in ) s
+(condition for transport) s
+11845 4819 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 (                     NO EXCEPTIONS IF LEFT BLANK) w2
+12051 567 mt
+( according to applicable international and national ) s
+(governmental regulations.) s
+12051 4819 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+12257 4819 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 ( _______________________________________________ By: ) w2
+(_______________________________________________) s
+12463 4819 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 (                       \(Carrier Name\)) w2
+(                                   \(Driver Name\)) s
+12669 567 mt
+sapf5 sf
+30 sw
+w1 ( Signature:) w2
+sapf3 sf
+30 sw
+w1 ( __________________________________________________) w2
+12669 4819 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 ( Carrier Time & Date:) w2
+(_______________________________________________) s
+12700 567 mt
+sapf1 sf
+50 sw
+w1 (_______________________________________________________________) w2
+(_________________________________________) s
+12906 567 mt
+sapf3 sf
+30 sw
+w1 (Emergency Response) w2
+12906 4819 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+13112 567 mt
+sapf3 sf
+30 sw
+w1 (Phone Number: ) w2
+13112 4819 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 ( Placards    ____ Yes    Placards    ____ Yes) w2
+13318 4819 mt
+sapf1 sf
+50 sw
+w1 (|) w2
+sapf3 sf
+30 sw
+w1 ( Required    ____ No    Supplied    ____ No) w2
+13555 567 mt
+sapf1 sf
+50 sw
+w1 (_______________________________________________________________) w2
+(_________________________________________) s
+13761 567 mt
+sapf3 sf
+30 sw
+w1 ( The actual gross cargo weight of container/trailer no.) w2
+sapf5 sf
+30 sw
+w1 (CONTAINER1) w2
+sapf3 sf
+30 sw
+w1 ( is ) w2
+sapf5 sf
+30 sw
+w1 (          965) w2
+sapf3 sf
+30 sw
+w1 ( lbs., as certified by the Shipper on the date designated ) w2
+(herein.) s
+13967 567 mt
+(A description of the cargo comprising this shipment is set ) s
+(forth above.) s
+13998 567 mt
+sapf1 sf
+50 sw
+w1 (_______________________________________________________________) w2
+(_________________________________________) s
+3558 6803 mt
+sapf1 sf
+50 sw
+w1 (REMIT FREIGHT BILL TO:) w2
+3041 6803 mt
+sapf2 sf
+40 sw
+w1 (FREIGHT CHARGES  _X_ Prepaid     ___ Collect) w2
+2842 567 mt
+sapf1 sf
+50 sw
+w1 ( CONSIGNOR:  MeadWestvaco Corporation, Georgia Ports Authority) w2
+3048 1984 mt
+( 7 CFS #2 - Garden City Terminal - W) s
+3254 1984 mt
+( SAVANNAH GA 31401) s
+3672 567 mt
+sapf1 sf
+50 sw
+w1 ( DELIVERY DATE/WINDOW: 12/13/2004 07:00-16:00) w2
+3878 567 mt
+( CARRIER: YELLOW FREIGHT SYSTEMS INC) s
+4084 567 mt
+( VEHICLE/CAR NO: CONTAINER1) s
+4290 567 mt
+( SEALS: ) s
+4496 567 mt
+( ROUTE:) s
+4702 567 mt
+( ROUTE CODE: ) s
+773 10005 mt
+sapf1 sf
+50 sw
+w1 (Pg. 1 /) w2
+(   1) s
+979 8832 mt
+sapf6 sf
+60 sw
+w1 (BOL No. 20000020) w2
+1185 9860 mt
+sapf1 sf
+50 sw
+w1 (11/25/2004) w2
+567 567 mt
+save
+currentpoint /ycur exch def /xcur exch def
+xcur ycur translate
+0 -29 translate
+123 29 scale
+0 255 div 0 255 div 0 255 div setrgbcolor
+<< /ImageType 1
+   /Width 515 /Height 121
+   /ImageMatrix [515 0 0 -121 0 121]
+   /BitsPerComponent 1
+   /Decode [1 0]
+   /DataSource currentfile /ASCIIHexDecode filter /RunLengthDecode filter
+>> imagemask
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+e90001ffc0da00
+e90001ffc0da00
+e90001ffc0da00
+e90001ffc0da00
+fd000203fff0ff00011ffff40009ffc3fe0001ff80007fc0e200
+fd000203fff0ff00013ffff40009ffc3fe0001ffc0007fc0e200
+fd000207fff0ff00013ffff40009ffc3fe0001ffc000ffc0e200
+fd000207fff8ff00017ffff40009ffc3ff0003ffc000ff80e200
+fd000207fff8ff00017ffff40009ffc3ff0003ffc000ff80f900000ceb00
+fd000207fff8ff00fffff40009ffc3ff0003ffc000ff80f900001ceb00
+fd000207fff8ff00fffff40009ffc3ff0007ffc001ff80f900003ceb00
+fd00040ffff80001fffff40008ffc3ff000fffc001fff800007ceb00
+fd00040ffff80001fffff40008ffc3ff000fffe001fff80000fceb00
+fd00040ffffc0001fffff40008ff83ff000fffe001fef9000101fceb00
+fd00040ffffc0003fffff40008ff83ff001fffe003fef9000103fceb00
+fd00060ffffc0003fdffff0001ffe0ff00021fff80ff00001fffff0a83ff001fffe003fe001ffeff00040fff8007fcfb000207fff0ff00011fffff00013ffcfc00
+fd000c0ffbfe0007fdff000ffffc0007ffff02f00001feff0883ff001fffe003fe00ffff05c0007ffff00ffeffff00017ff0ffff02fc0001ffff01e001ffff0080fd00
+fd00081ff3fe0007f9fe003fffff01000fffff02fc0007feff0881ff003fdff003fc03ffff01f001ffff01f01ffeffff00017fe3feff010007ffff01e007ffff00e0fd00
+fd00081ff3fe000ff9fe007fffff01800fffff02fe001ffeff0881ff003fdff007fc07ffff01f803ffff01f03ffeff0380007fe3feff01800fffff01e01fffff00f8fd00
+fd00071ff3fe000ff1fe00feff01c01fffff02fe003ffeff0881ff003fdff007fc0fffff01fc03ffff01f07ffeff038000ffc7feff01801fffff01e03fffff00fcfd00
+fd00071ff1fe001ff3fe01feff01e01ffeff01007ffeff0881ff007f9ff007f81fffff01fe07ffff00f0fdff038000ffc7feff01c03fffff01e07fffff00fefd00
+fd00101ff1fe001fe3fe03ffc0ffe01fc007ff00fdff0c81ff007f8ff00ff83ffc0ffe07ffff00fbfdff088001ffc7f001ffe07fffff00e0feff00fefd00
+fd00243ff1ff003fe3fe07ff003ff01c0003ff80fffc01ff81ff00ff8ff00ff87ff003ff07ff003bfdff03c001ff87ff0001ffe0ffff0507e0fff80ffffd00
+fd000b3fe0ff003fc3fe07fe001ff8ff001403ff81ffe001ff81ff00ff0ff80ff87fe001ff07feff00070ff800ffc001ff80ff000a7fe0fff80021ffc007ff80fe00
+fd000b3fe0ff007fc3fe0ffc001ff8ff001401ff83ffc001ff81ff00ff0ff80ff0ffc001ff87feff00060ff8007fe003fffe000a7fe1ffe00001ff8001ffc0fe00
+fd000b3fe0ff007f83fe0ff8000ff8ff001403ff87ff8001ff81ff01ff0ff81ff0ff8000ff87feff00061ff8007fe003fffe000a7fe1ffc00003ff8001ffc0fe00
+fd000b3fe0ff00ff83fe0ff8000ff8ff001403ff87ff0001ff81ff01fe07f81ff1ff8000ff87ffff00061ff8007fe003fefe0006ffe1ffc00003ffff0001ffc0fe00
+fd000b7fe0ff80ff03fe1ff8000ffcff001d07ff87fe0001ff01ff01fe07f81fe1ff8000ff87ff80001ff8003ff007feff000701ffe3ff800007ffff0001ffc0fe00
+fd000b7fc07f81ff03fe1ff8000ffcff001d3fff8ffe0001ff01ff83fe07f81fe1ff8000ff83ffc0001ff8003ff007fcff00070fffe3ff800007feff0001ffe0fe00
+fd00077fc07f81ff03fe1ffeff02fc0003ffff0c0ffc0001ff01ff87fc07f83fe1fdff0a83ffe0001ff8003ff00ffcff00ffff01e3ffff000107feff00017fe0fe00
+fd00077fc07f83fe03fe1ffeff02fc003fffff0c0ffc0001ff01ff87fc07f83fe3fdff0c81fff0001ff8001ff80ff8000fffff01e3ffff00010ffeff00017fe0fe00
+fd0007ffc07f83fe03fe3ffeff01fc03feff0c0ffc0001ff01ff87f807fc7fc3fdff0c80fffc001ff8001ff80ff8007fffff01e3ffff00010ffcff00017fe0fe00
+fd0007ffc07f83fc03fe3ffeff01fc07feff0c0ffc0001ff01ff8ff807fc7fc3fdff0b807ffc001ff8000ff81ff001feff01e3ffff00010ffcff00017fe0fe00
+fd0007ffc03fc7fc03fc3ffeff11f81ffffdff0ffc0001ff01ff8ff803fc7fc3fdff0b803fff001ff8000ff81ff007ffff027fe3ffff00010ffcff00017fe0fe00
+fd0008ff803fcff807fc3ff0fe00117ffff3ff1ffc0001ff01ff8ff003fc7f83fffd000f1fff801ff8000ffc1ff01ffffc7fc3ffff00010ffcff00017fe0fe00
+fd0008ff803fcff807fc3ff0fe00ffff0f03ff1ffc0003ff01ff9ff003fcff83fffd000f07ffc01ff00007fc3fe03fffc07fc3ffff00010ffcff00017fe0fe00
+fe000901ff803fdff807fc3ff0ff001201fff803ff1ffc0003ff01ff9fe003fcff83fffd000f03ffe01ff00007fc3fe03ffe007fc3ffff00010ffcff0001ffe0fe00
+fe000901ff803ffff007fc1ff0ff001201ffe003ff1ffc0003ff00ffbfe003fcff03fffd000f01ffe01ff00007fe7fc07ff8007fc3ffff00010ffeff0001ffc0fe00
+fe000901ff801fffe007fc1ff8ff000e03ff8003ff0ffc0003ff00ffbfe003ffff0203ff80fd0012fff01ff00003fe7fc07fe0007fc3ff800007feff0001ffc0fe00
+fe000901ff001fffe007fc1ff8ff000e03ff0003ff0ffc0007ff00ffbfe003ffff0201ff80fd00167ff01ff00003feffc07fe0007fc3ff800007fe0001ffc0fe00
+fe000901ff001fffe007fc1ff8ff000a03ff0003ff0ffe0007ff00ffff06c001fffe01ffc0fd00163ff01ff00003feff80ffc000ffc3ff800007ff0001ffc0fe00
+fe000901ff001fffc007fc1ffcff000a03fe0003ff0ffe000fff00ffff06c001fffe01ffc0fd00053ff01ff80001ffff0e80ffc000ffc1ffc00003ff0003ff80fe00
+fe000903fe001fffc007fc0ffeff000a03ff0003ff07ff001fff00ffff06c001fffe00ffe0fd00053ff01ff80001ffff0e00ffc000ffc1ffe00003ff8007ff80fe00
+fe001603fe001fff8007fc0fff8000c3ff0003ff07ffc07fff00ffff208001fffe00fff8001c18007ff01ffc0c01fffe007fc000ffc0fff801c1ffe00ffffd00
+fe001103fe000fff8007fc07fff01fc3ff8003ff03fdff0000ffff188001fffc007fff01fc1f81fff01ffffc00fffe007fe000ffc0feff00c0feff00fefd00
+fe000803fe000fff0007fc07feff05c1ffc063ff03fdff0000ffff058001fffc003fffff01fc1fffff0df01ffffc00fffe007ff018ffc07fffff00c0feff00fefd00
+fe000803fe000fff0007fc03feff00c1ffff02e3ff01ffff02fdff00ffff050001fffc003fffff01fc1fffff0de01ffffc00fffc007ffff8ffc03fffff01c07fffff00fcfd00
+fe000803fe000ffe0007fc01feff00c0ffff02e3ff00ffff02f9ff00ffff050001fff8001fffff01fc1fffff0de01ffffc007ffc003ffff8ffc01fffff01c03fffff00f8fd00
+fe000907fc000ffe0007fc007fffff0ac07fffe3ff007ffff1ff00ffffff0003fff80007ffff01fc1fffff0dc00ffffc007ffc001ffff8ffc00fffff01c01fffff00e0fd00
+fe000907fc0007fc0007fc001fffff0cc03fffe3ff003fffc1ff007ffeff0003fff80001ffff01fc3fffff0d0007fffc007ff8000ffff8ffc003ffff01c007ffff0080fd00
+fe000907fc0007fc0007fc0007ffff0c000fffe7ff000fff01ff007ffeff0001fff8ff00137ffff007fff80001fff8003ff80003fff8ff8000ffffff0001fffefc00
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c000
+c00080
+>
+% end of image data
+restore
+1340 567 mt
+sapf4 sf
+50 sw
+w1 (SHIPPER'S BILL OF LADING - NOT NEGOTIABLE) w2
+1546 567 mt
+sapf2 sf
+40 sw
+w1 (RECEIVED, subject to this BILL OF LADING and any CONTRACT\(S\) ) w2
+(between the Shipper and Carrier in effect on the date of ) s
+(shipment, from the) s
+1752 567 mt
+sapf4 sf
+50 sw
+w1 (Shipper) w2
+sapf2 sf
+40 sw
+w1 (,) w2
+sapf4 sf
+50 sw
+w1 ( MeadWestvaco Corporation, SAVANNAH GA,) w2
+sapf2 sf
+40 sw
+w1 ( by the ) w2
+sapf4 sf
+50 sw
+w1 (Carrier) w2
+sapf2 sf
+40 sw
+w1 (, ) w2
+sapf4 sf
+50 sw
+w1 (YELLOW FREIGHT SYSTEMS INC,) w2
+sapf2 sf
+40 sw
+w1 ( the property) w2
+1958 567 mt
+(described below, in apparent good order, except as noted ) s
+(\(contents and condition of contents of packages unknown\), ) s
+(marked, consigned and destined as shown) s
+2164 567 mt
+(below. This Bill of Lading is not subject to tariffs or ) s
+(classifications, whether or not individually determined or ) s
+(filed with any federal or state regulatory agency,) s
+2370 567 mt
+(except as specifically agreed to in writing by the Shipper and ) s
+(the Carrier.) s
+sp
+restore
+
+%%Trailer
+%%DocumentFonts:
+%%+Times-Roman
+%%+Times-Bold
+%%Pages: 1
+

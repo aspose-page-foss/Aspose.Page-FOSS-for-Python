@@ -1,0 +1,19 @@
+%!PS
+
+%	This example appears in section "Relative Bezier Curves"
+%	in Chapter 7 - "Arcs and Curves".
+%
+
+/RelativeHeart {			%  stack = size
+	/size exch def			%  define size temporarily
+	/offset size 4 div def		%  define offset temporarily
+	0 0 moveto			%  first end point
+	size size  offset size offset add  0 size  rcurveto
+	offset neg offset  size neg 0  0 size neg  rcurveto
+} def
+
+/inch { 72 mul } def			%  define inch procedure
+4.25 inch 1 inch translate		%  set origin
+8 inch RelativeHeart			%  draw the shape
+1.0 0.0 0.5 setrgbcolor fill		%  fill with nice pink
+showpage				%  display page

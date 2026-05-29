@@ -1,0 +1,25 @@
+%!PS
+
+%	This example appears in section "Building a Form Prototype"
+%	in Chapter 12 - "Forms".
+%
+
+/ellipse {					%  stack = rotation angle
+	gsave
+		rotate				%  rotate user space
+		1.0 0.4 scale			%  scale y axis
+		0 0 4.0 inch 0 360 arc stroke	%  draw ellipse
+	grestore
+} def
+
+/inch { 72 mul } def				%  define inch procedure
+gsave						%  save graphics state
+	20 setlinewidth				%  fat line width
+	4.25 inch 3.25 inch translate		%  translate to center
+	20 ellipse 160 ellipse			%  two ellipses
+grestore					%  undo translate
+/Palatino-Roman findfont			%  choose font
+64 scalefont setfont
+0.5 inch 0.3 inch moveto			%  set current point
+(Loughran Labs, Inc.) show			%  show name
+showpage					%  display page

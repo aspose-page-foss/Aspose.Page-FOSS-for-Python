@@ -1,0 +1,32 @@
+%!PS
+
+%	This example appears in section "Fonts" in
+%	Chapter 1 - "Introducing PostScript".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+gsave					%  remember graphics state
+	/Palatino-Roman findfont 64 scalefont setfont
+	0.5 inch 7 inch translate	%  set origin
+	34 rotate			%  rotate coordinate system
+	0 0 moveto (Palatino-Roman) show
+grestore				%  restore graphics state
+gsave					%  remember graphics state
+	/Palatino-Italic findfont 72 scalefont setfont
+	0.5 inch 6 inch translate	%  set origin
+	11 rotate			%  rotate coordinate system
+	0 0 moveto (Palatino-Italic) show
+grestore				%  restore graphics state
+gsave					%  remember graphics state
+	/Palatino-Bold findfont 80 scalefont setfont
+	0.5 inch 5 inch translate	%  set origin
+	-13 rotate			%  rotate coordinate system
+	0 0 moveto (Palatino-Bold) show
+grestore				%  restore graphics state
+gsave					%  remember graphics state
+	/Palatino-BoldItalic findfont 68 scalefont setfont
+	0.5 inch 4 inch translate	%  set origin
+	-28 rotate			%  rotate coordinate system
+	0 0 moveto (Palatino-BoldItalic) show
+grestore				%  restore graphics state
+showpage				%  display page

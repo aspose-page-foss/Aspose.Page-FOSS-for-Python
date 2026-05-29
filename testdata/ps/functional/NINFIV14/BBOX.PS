@@ -1,0 +1,14 @@
+%!PS
+
+%	This example appears in section "Encapsulated PostScript"
+%	in Chapter 14 - "PostScript Nine to Five".
+%
+
+/inch { 72 mul } def		%  define inch procedure
+1 inch 1 inch moveto		%  set current point
+4.25 inch 9 inch lineto		%  add line segment
+7.5 inch 1 inch lineto		%  add another line segment
+closepath			%  finish the shape
+1 inch setlinewidth		%  fat line width
+stroke				%  paint outline of shape
+showpage			%  display page

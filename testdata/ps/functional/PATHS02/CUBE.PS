@@ -1,0 +1,81 @@
+%!PS
+
+%	This example appears in the introductory section of
+%	Chapter 2 - "Paths and Painting".
+%
+
+/inch { 72 mul } def				%  define inch procedure
+/c { 30 cos } def				%  perspective angle
+/s { 30 sin } def				%  perspective angle
+
+/square {					%  stack = side
+	/side exch def
+	0 0 moveto
+	side 0 rlineto
+	0 side rlineto
+	side neg 0 rlineto
+	closepath fill
+} def
+/cube_back {					%  stack = side
+	/side exch def
+	side c mul 2 div side s mul moveto
+	side 0 rlineto 0 side rlineto
+	side neg 0 rlineto closepath  stroke
+	side c mul 2 div side s mul moveto
+	0 0 lineto stroke
+} def
+/cube_front {					%  stack = side
+    /side exch def
+    side c mul 2 div side add side s mul moveto
+    side 0 lineto
+    side c mul 2 div side s mul side add moveto
+    0 side lineto
+    side c mul 2 div side add side s mul side add moveto
+    side side lineto stroke
+    0 0 moveto
+    side 0 rlineto 0 side rlineto side neg 0 rlineto
+    closepath  stroke
+} def
+
+1 setlinecap 1 setlinejoin			%  set up line styles
+0.5 inch setlinewidth
+0.75 inch 2 inch translate			%  move coordinate system
+0.5 setgray 5 inch cube_back			%  draw back of cube
+0.5 inch 0.5 inch translate			%  move coordinate system
+
+						%  draw inner box
+0.90 setgray					%  set current gray
+gsave						%  save graphics state
+	1 inch 1 inch translate			%  move coordinate system
+	3 inch square				%  draw square
+grestore					%  restore graphics state
+0.00 setgray					%  set current gray
+gsave						%  save graphics state
+	2.5 inch 2.5 inch translate		%  move coordinate system
+	0 0 1 inch 0 360 arc fill		%  draw circle
+grestore					%  restore graphics state
+0.80 setgray					%  set current gray
+gsave						%  save graphics state
+	[ 0.5 30 sin 0 1 4 inch 1 inch ] concat	%  perspective
+	3 inch square				%  draw square
+grestore					%  restore graphics state
+0.10 setgray					%  set current gray
+gsave						%  save graphics state
+	[ 0.5 30 sin 0 1 4 inch 1 inch ] concat	%  perspective
+	1.5 inch 1.5 inch 1 inch 0 360 arc fill	%  draw circle
+grestore					%  restore graphics state
+0.70 setgray					%  set current gray
+gsave						%  save graphics state
+	[ 1 0 30 sin 0.5 1 inch 4 inch ] concat	%  perspective
+	3 inch square				%  draw square
+grestore					%  restore graphics state
+0.20 setgray					%  set current gray
+gsave						%  save graphics state
+	[ 1 0 30 sin 0.5 1 inch 4 inch ] concat	%  perspective
+	1.5 inch 1.5 inch 1 inch 0 360 arc fill	%  draw circle
+grestore					%  restore graphics state
+
+0.5 inch setlinewidth				%  set line style
+-0.5 inch -0.5 inch translate			%  move coordinate system
+0.5 setgray 5 inch cube_front			%  draw front of cube
+showpage					%  display page

@@ -1,0 +1,4911 @@
+%!PS-Adobe-3.0
+%%BoundingBox: 0 0 595 842
+%%Creator: Aspose.Page for Java
+%%Producer: Aspose Ltd Pty.
+%%For: 
+%%Title: 
+%%CreationDate: 05/18/2023 18:14:13
+%%LanguageLevel: 3
+%%EndComments
+%%BeginProlog
+100 dict dup begin
+
+% Redefinitions which save some space in the output file.  These are also
+% the same as the PDF operators.
+/q {gsave} def
+/Q {grestore} def
+
+/n {newpath} def
+/m {moveto} def
+/l {lineto} def
+/c {curveto} def
+/h {closepath} def
+
+/re {4 -2 roll moveto
+     dup 0 exch rlineto exch 0 rlineto
+     neg 0 exch rlineto closepath} def
+
+/f {fill} def
+/f* {eofill} def
+/F {gsave vg&FC fill grestore} def
+/F* {gsave vg&FC eofill grestore} def
+
+/s {closepath stroke} def
+/S {stroke} def
+
+/b {closepath gsave vg&FC fill grestore
+    gsave stroke grestore newpath} def
+/B {gsave vg&FC fill grestore gsave stroke grestore newpath} def
+/b* {closepath gsave vg&FC eofill grestore
+    gsave stroke grestore newpath} def
+/B* {gsave vg&FC eofill grestore gsave stroke grestore newpath} def
+
+/g {1 array astore /vg&fcolor exch def} def
+/G {setgray} def
+/k {4 array astore /vg&fcolor exch def} def
+/K {setcmykcolor} def
+/rg {3 array astore /vg&fcolor exch def} def
+/RG {setrgbcolor} def
+
+% Initialize the fill color.
+0 0 0 rg
+
+/vg&FC {mark vg&fcolor aload pop
+        counttomark 1 eq {G} if
+        counttomark 3 eq {RG} if
+        counttomark 4 eq {K} if
+        cleartomark } def
+
+/vg&DFC {/vg&fcolor exch def} def
+
+/vg&C {mark exch aload pop
+       counttomark 1 eq {G} if
+       counttomark 3 eq {RG} if
+       counttomark 4 eq {K} if
+       cleartomark } def
+
+/w {setlinewidth} def
+/j {setlinejoin} def
+/J {setlinecap} def
+/M {setmiterlimit} def
+/d {setdash} def
+/i {setflat} def
+
+/W {clip} def
+/W* {eoclip} def
+
+% Setup the default graphics state.
+% (black; 1 pt. linewidth; miter join; butt-ends; solid)
+/defaultGraphicsState {0 g 1 w 0 j 0 J [] 0 d} def
+
+% Emulation of the rectangle operators for PostScript implementations
+% which do not implement all Level 2 features.  This is an INCOMPLETE
+% emulation; only the "x y width height rect..." form is emulated.
+/*rf {gsave newpath re fill grestore} def
+/*rs {gsave newpath re stroke grestore} def
+/*rc {newpath re clip} def
+/rf  /rectfill where {pop /rectfill}{/*rf} ifelse load def
+/rs  /rectstroke where {pop /rectstroke}{/*rs} ifelse load def
+/rc  /rectclip where {pop /rectclip}{/*rc} ifelse load def
+
+% Emulation of the selectfont operator.  This includes a 20% increase in
+% the fontsize which is necessary to get sizes similar to the Java fonts.
+/*sf {exch findfont exch
+      dup type /arraytype eq {makefont}{scalefont} ifelse setfont} bind def
+/sf /selectfont where {pop {1.2 mul selectfont}}{{1.2 mul *sf}} ifelse def
+
+% Special version of stroke which allows the dash pattern to continue
+% across path segments.  (This may be needed for PostScript although
+% modern printers seem to do this correctly.)
+/vg&stroke {
+  currentdash pop length 0 eq
+  {stroke}
+  {
+    currentdash /vg&doffset exch def pop
+    flattenpath
+    {m vg&resetdash}
+    {2 copy
+     currentpoint
+     3 -1 roll sub dup mul
+     3 1 roll sub dup mul
+     add sqrt
+     3 1 roll l
+     currentdash 3 -1 roll add setdash}
+     {}
+     {h vg&resetdash}
+     pathforall
+     stroke
+     vg&resetdash
+  } ifelse
+} def
+/vg&resetdash {currentdash pop vg&doffset setdash} def
+
+% Initialize variables for safety.
+/delta 0 def
+/xv 0 def  /yv 0 def  /width 0 def  /height 0 def
+
+% Initialize to portrait INTERNATIONAL (Letter-height, A4-width) page.
+/pw 595 def  /ph 791  def  /po true def /ftp false def
+
+% Initialize margins to 20 points.
+/ml 20 def  /mr 20 def  /mt 20 def  /mb 20 def
+
+% Temporary matrices.
+/smatrix 0 def  /nmatrix 0 def
+
+% set page size (usage: <page width><page height> setpagesize)
+/setpagesize {/ph exch def /pw exch def} def
+
+% set page orientation (usage: portrait or landscape)
+/portrait {/po true def} def
+/landscape {/po false def} def
+
+% force natural size for image (usage: naturalsize)
+/naturalsize {/ftp false def} def
+
+% resize image to fill page (usage: fittopage)
+/fittopage {/ftp true def} def
+
+% set margins of the page (usage: <left><bottom><top><right> setmargins)
+/setmargins {/mr exch def /mt exch def /mb exch def /ml exch def} def
+
+% set the graphic's size (usage: <width><height> setsize)
+/setsize {/gh exch def /gw exch def} def
+
+% set the graphic's origin (usage: <x0><y0> setorigin)
+/setorigin {/gy exch def /gx exch def} def
+
+% calculate image center
+/imagecenter {pw ml sub mr sub 2 div ml add
+              ph mt sub mb sub 2 div mb add} def
+
+% calculate the necessary scaling
+/imagescale {po {gw}{gh} ifelse pw ml sub mr sub div
+             po {gh}{gw} ifelse ph mt sub mb sub div
+             2 copy lt {exch} if pop
+             ftp not {1 2 copy lt {exch} if pop} if
+             1 exch div /sfactor exch def
+             /gw gw sfactor mul def /gh gh sfactor mul def} def
+
+% calculate image origin
+/imageorigin {pw ml sub mr sub 2 div ml add
+              po {gw}{gh} ifelse 2 div sub
+              ph mt sub mb sub 2 div mb add
+              po {gh}{gw} ifelse 2 div po {add}{sub} ifelse} def
+
+% calculate the clipping origin
+/cliporigin  {pw ml sub mr sub 2 div ml add
+              po {gw}{gh} ifelse 2 div sub floor
+              ph mt sub mb sub 2 div mb add
+              po {gh}{gw} ifelse 2 div sub floor} def
+
+% Set the clipping region to the bounding box.
+/cliptobounds {cliporigin po {gw}{gh} ifelse 1 add
+                          po {gh}{gw} ifelse 1 add rc} def
+
+% set the base transformation matrix (usage: setbasematrix)
+/setbasematrix {imageorigin translate
+                po {0}{90} ifelse rotate
+                sfactor sfactor neg scale
+                /defaultmatrix matrix currentmatrix def} def
+
+% The lower-right bias in drawing 1 pt. wide lines.
+/bias  {q 0.5 0.5 translate} def
+/unbias {Q} def
+
+% Draw a line. (x0 y0 x1 y1 line)
+/L {bias n m l S unbias} def
+
+% Polyline primitive.
+/polyline  {n m 1 exch 1 exch
+           {pop currentfile token pop currentfile token pop l} for
+           } def
+
+% Draw a polyline (n x0 y0 OPL x1 y1 x2 y2 ... ... xn yn)
+/OPL {bias polyline S unbias} def
+
+% Draw a closed polyline (n x0 y0 CPL x1 y1 x2 y2 ... ... xn yn)
+/CPL {bias polyline s unbias} def
+
+% Draw a filled polyline (n x0 y0 FPL x1 y1 x2 y2 ... ... xn yn)
+/FPL {polyline h f*} def
+
+% Draw an oval. (x y w h OVL)
+/OVL {matrix currentmatrix /smatrix exch def
+      /height exch def /width exch def
+      /yv exch def /xv exch def
+      width 2 div xv add height 2 div yv add translate
+      width currentlinewidth sub 2 div
+      height currentlinewidth sub 2 div neg
+      scale n 0 0 1 5 -2 roll arc
+      smatrix setmatrix S} def
+
+% Draw a filled oval. (x y w h FOVL)
+/FOVL {matrix currentmatrix /smatrix exch def
+      /height exch def /width exch def
+      /yv exch def /xv exch def
+      width 2 div xv add height 2 div yv add translate
+      width 2 div
+      height 2 div neg
+      scale n 0 0 m 0 0 1 5 -2 roll arc
+      h smatrix setmatrix f} def
+
+% Draw a rounded rectangle. (x y w h arcwidth archeight RREC)
+/RREC {matrix currentmatrix /smatrix exch def
+      2 div /ah exch def
+      2 div /aw exch def
+      /height exch def /width exch def
+      /yv exch def /xv exch def
+      aw ah scale matrix
+      currentmatrix /nmatrix exch def
+      smatrix setmatrix
+      n xv width add aw sub yv m
+      nmatrix setmatrix
+      currentpoint exch 1 add exch
+      currentpoint 1 add exch 1 add exch
+      1 arct smatrix setmatrix
+      xv width add yv height add ah sub l
+      nmatrix setmatrix
+      currentpoint 1 add
+      currentpoint exch 1 sub exch 1 add
+      1 arct smatrix setmatrix
+      xv aw add yv height add l
+      nmatrix setmatrix
+      currentpoint exch 1 sub exch
+      currentpoint exch 1 sub exch 1 sub
+      1 arct smatrix setmatrix
+      xv yv ah add l
+      nmatrix setmatrix
+      currentpoint 1 sub
+      currentpoint exch 1 add exch 1 sub
+      1 arct smatrix setmatrix
+      s} def
+
+% Draw a filled rounded rectangle. (x y w h arcwidth archeight FRREC)
+/FRREC{matrix currentmatrix /smatrix exch def
+      2 div /ah exch def
+      2 div /aw exch def
+      /height exch def /width exch def
+      /yv exch def /xv exch def
+      aw ah scale matrix
+      currentmatrix /nmatrix exch def
+      smatrix setmatrix
+      n xv width add aw sub yv m
+      nmatrix setmatrix
+      currentpoint exch 1 add exch
+      currentpoint 1 add exch 1 add exch
+      1 arct smatrix setmatrix
+      xv width add yv height add ah sub l
+      nmatrix setmatrix
+      currentpoint 1 add
+      currentpoint exch 1 sub exch 1 add
+      1 arct smatrix setmatrix
+      xv aw add yv height add l
+      nmatrix setmatrix
+      currentpoint exch 1 sub exch
+      currentpoint exch 1 sub exch 1 sub
+      1 arct smatrix setmatrix
+      xv yv ah add l
+      nmatrix setmatrix
+      currentpoint 1 sub
+      currentpoint exch 1 add exch 1 sub
+      1 arct smatrix setmatrix
+      h f} def
+
+% Draw a string.  (string x y STR)
+/STR {q m 1 -1 scale recshow Q} def
+
+% Define basic plot symbols.
+/xys   {/siz exch def /yv exch def /xv exch def} def
+/hline {xys n xv siz 2. div sub yv m siz 0 rlineto S} def
+/vline {xys n xv yv siz 2. div sub m 0 siz rlineto S} def
+/plus  {xys n xv yv siz 2. div sub m 0 siz rlineto
+                    xv siz 2. div sub yv m siz 0 rlineto S} def
+/dot   {n 2. div 0 360 arc s} def
+/fdot  {n 2. div 0 360 arc h f} def
+/box   {xys n xv siz 2 sqrt div 2 div sub yv siz 2 sqrt div 2 div sub
+                    siz 2 sqrt div dup rs} def
+/fbox  {xys n xv siz 2 sqrt div 2 div sub yv siz 2 sqrt div 2 div sub
+                       siz 2 sqrt div dup rf} def
+/tridn{xys n xv yv siz 3 sqrt div add m
+                       siz 2. div neg 3 sqrt 2. div siz mul neg rlineto
+                       siz 0 rlineto s} def
+/ftridn{xys n xv yv siz 3 sqrt div add m
+                       siz 2. div neg 3 sqrt 2. div siz mul neg rlineto
+                       siz 0 rlineto h f} def
+
+% Symbols defined in terms of the others.
+/star     {3 copy cross plus} def
+/cross    {xys q xv yv translate 45 rotate 0 0 siz plus Q} def
+/diamond  {xys q xv yv translate 45 rotate 0 0 siz box Q} def
+/fdiamond {xys q xv yv translate 45 rotate 0 0 siz fbox Q} def
+/triup    {xys q xv yv translate 180 rotate 0 0 siz tridn Q} def
+/ftriup   {xys q xv yv translate 180 rotate 0 0 siz ftridn Q} def
+
+% Define the composite fonts used to print Unicode strings.
+% Undefine particular values in an encoding array.
+/vg&undef { {exch dup 3 -1 roll /.notdef put} forall } def
+/vg&redef { {3 -1 roll dup 4 2 roll put} forall } def
+
+% usage: key encoding basefontname vg&newbasefont font
+/vg&newbasefont {
+findfont dup length dict copy
+  begin
+    currentdict /FID undef
+    /Encoding exch def
+    dup /FontName exch def
+    currentdict
+  end
+definefont
+} def
+
+% usage: key encoding basefontname vg&newskewedbasefont font
+/vg&newskewedbasefont {
+findfont dup length dict copy
+  begin
+    currentdict /FID undef
+    /Encoding exch def
+    dup /FontName exch def
+    exch FontMatrix exch matrix concatmatrix /FontMatrix exch def
+    currentdict
+  end
+definefont
+} def
+
+% usage: basekey suffix vg&nconcat name
+/vg&nconcat {
+  2 {dup length string cvs exch} repeat
+  dup length 3 -1 roll dup length 3 -1 roll add string
+  dup 0 4 -1 roll dup length 5 1 roll putinterval
+  dup 4 -2 roll exch putinterval cvn
+} def
+
+%usage: fontname vg&skewmatrix matrix
+/vg&skewmatrix {
+findfont dup /FontInfo known
+  {
+    /FontInfo get dup /ItalicAngle known
+    {
+      [ 1 0 4 -1 roll /ItalicAngle get neg dup sin exch cos div 1 0 0 ]
+    }
+    {pop matrix} ifelse
+  }
+  {pop matrix} ifelse
+} def
+
+% usage: newfontname basefontname vg&newcompositefont --
+/vg&newcompositefont {
+/vg&fstyle exch def
+/vg&bfont exch def
+/vg&fname exch def
+<<
+/FontStyleBits vg&fstyle
+/FontType 0
+/FontMatrix matrix
+/FontName vg&fname
+/FMapType 2
+/Encoding [ 0 1 255 {pop 6} for ]
+          dup 16#00 0 put % Latin
+          dup 16#03 1 put % Greek
+          dup 16#20 2 put % Punctuation
+          dup 16#21 3 put % Arrows
+          dup 16#22 4 put % MathOps
+          dup 16#27 5 put % Dingbats
+
+/FDepVector [
+vg&bfont /-UC-Latin vg&nconcat UCLatinEncoding
+vg&bfont vg&newbasefont
+
+vg&bfont vg&skewmatrix
+vg&bfont /-UC-Greek vg&nconcat UCGreekEncoding
+/Symbol vg&newskewedbasefont
+
+vg&bfont /-UC-Punctuation vg&nconcat UCPunctuationEncoding
+vg&bfont vg&newbasefont
+
+/Arrows-UC findfont
+/MathOps-UC findfont
+/Dingbats-UC findfont
+/Undefined-UC findfont ]
+>>
+vg&fname exch definefont pop
+} def
+
+% Null encoding vector (all elements set to .notdef)
+/NullEncoding [ 256 {/.notdef} repeat ] def
+
+% Unicode Latin encoding (unicode codes \u0000-\u00ff)
+/UCLatinEncoding
+  ISOLatin1Encoding dup length array copy
+  dup 16#60 /grave put
+  [ 16#90 16#91 16#92 16#93 16#94 16#95 16#96
+    16#97 16#98 16#9a 16#9b 16#9d 16#9e 16#9f
+  ] vg&undef
+  def
+
+% Unicode Greek encoding (unicode codes \u0370-\u03ff)
+/UCGreekEncoding
+  NullEncoding dup length array copy
+  << 16#91 /Alpha    16#92 /Beta      16#93 /Gamma    16#94 /Delta
+     16#95 /Epsilon  16#96 /Zeta      16#97 /Eta      16#98 /Theta
+     16#99 /Iota     16#9a /Kappa     16#9b /Lambda   16#9c /Mu
+     16#9d /Nu       16#9e /Xi        16#9f /Omicron  16#a0 /Pi
+     16#a1 /Rho      16#a3 /Sigma     16#a4 /Tau      16#a5 /Upsilon
+     16#a6 /Phi      16#a7 /Chi       16#a8 /Psi      16#a9 /Omega
+     16#b1 /alpha    16#b2 /beta      16#b3 /gamma    16#b4 /delta
+     16#b5 /epsilon  16#b6 /zeta      16#b7 /eta      16#b8 /theta
+     16#b9 /iota     16#ba /kappa     16#bb /lambda   16#bc /mu
+     16#bd /nu       16#be /xi        16#bf /omicron  16#c0 /pi
+     16#c1 /rho      16#c2 /sigma1    16#c3 /sigma    16#c4 /tau
+     16#c5 /upsilon  16#c6 /phi1      16#c7 /chi      16#c8 /psi
+     16#c9 /omega    16#7e /semicolon 16#87 /dotmath  16#d1 /theta1
+     16#d2 /Upsilon1 16#d5 /phi       16#d6 /omega1
+  >> vg&redef
+  def
+
+% Unicode punctuation encoding (unicode codes \u2000-\u206f)
+/UCPunctuationEncoding
+  NullEncoding dup length array copy
+  << 16#10 /hyphen          16#11 /hyphen              16#12 /endash
+     16#13 /emdash          16#18 /quoteleft           16#19 /quoteright
+     16#1a /quotesinglbase  16#1b /quotesingle         16#1c /quotedblleft
+     16#1d /quotedblright   16#1e /quotedblbase        16#1f /quotedbl
+     16#20 /dagger          16#21 /daggerdbl           16#22 /bullet
+     16#24 /period          16#26 /ellipsis            16#27 /periodcentered
+     16#30 /perthousand     16#44 /fraction
+     16#70 /zerosuperior    16#74 /foursuperior        16#75 /fivesuperior
+     16#76 /sixsuperior     16#77 /sevensuperior       16#78 /eightsuperior
+     16#79 /ninesuperior    16#7b /hyphensuperior      16#7d /parenleftsuperior
+     16#7e /parenrightsuperior
+     16#80 /zeroinferior    16#84 /fourinferior        16#85 /fiveinferior
+     16#81 /oneinferior     16#82 /twoinferior         16#83 /threeinferior
+     16#86 /sixinferior     16#87 /seveninferior       16#88 /eightinferior
+     16#89 /nineinferior    16#8b /hypheninferior      16#8d /parenleftinferior
+     16#8e /parenrightinferior
+  >> vg&redef
+  def
+
+% Unicode mathematical operators encoding (unicode codes \u2200-\u22ff)
+/UCMathOpsEncoding
+  NullEncoding dup length array copy
+  << 16#00 /universal       16#02 /partialdiff         16#03 /existential
+     16#05 /emptyset        16#06 /Delta               16#07 /gradient
+     16#08 /element         16#09 /notelement          16#0b /suchthat
+     16#0f /product         16#11 /summation           16#12 /minus
+     16#15 /fraction        16#17 /asteriskmath        16#19 /bullet
+     16#1a /radical         16#1d /proportional        16#1e /infinity
+     16#20 /angle           16#23 /bar                 16#27 /logicaland
+     16#28 /logicalor       16#29 /intersection        16#2a /union
+     16#2b /integral        16#34 /therefore           16#36 /colon
+     16#3c /similar         16#45 /congruent           16#48 /approxequal
+     16#60 /notequal        16#61 /equivalence         16#64 /lessequal
+     16#65 /greaterequal    16#82 /propersubset        16#83 /propersuperset
+     16#86 /reflexsubset    16#87 /reflexsuperset      16#95 /circleplus
+     16#97 /circlemultiply  16#a5 /perpendicular       16#03 /existential
+     16#c0 /logicaland      16#c1 /logicalor           16#c2 /intersection
+     16#c3 /union           16#c4 /diamond             16#c5 /dotmath
+  >> vg&redef
+  def
+
+% Unicode arrows encoding (unicode codes \u2190-\u21ff)
+% Also includes those "Letterlike" unicode characters
+% which are available in the symbol font. (unicode codes \u2100-\u214f)
+/UCArrowsEncoding
+  NullEncoding dup length array copy
+  << 16#11 /Ifraktur        16#1c /Rfraktur            16#22 /trademarkserif
+     16#35 /aleph
+     16#90 /arrowleft       16#91 /arrowup             16#92 /arrowright
+     16#93 /arrowdown       16#94 /arrowboth           16#d0 /arrowdblleft
+     16#d1 /arrowdblup      16#d2 /arrowdblright       16#d3 /arrowdbldown
+     16#d4 /arrowdblboth
+  >> vg&redef
+  def
+
+/ZapfDingbats findfont /Encoding get
+dup length array copy /UCDingbatsEncoding exch def
+16#20 1 16#7f {
+  dup 16#20 sub exch
+  UCDingbatsEncoding exch get
+  UCDingbatsEncoding 3 1 roll put
+} for
+16#a0 1 16#ff {
+  dup 16#40 sub exch
+  UCDingbatsEncoding exch get
+  UCDingbatsEncoding 3 1 roll put
+} for
+UCDingbatsEncoding [ 16#c0 1 16#ff {} for ] vg&undef
+[ 16#00  16#05 16#0a 16#0b  16#28 16#4c 16#4e  16#53 16#54 16#55  16#57 16#5f
+  16#60  16#68 16#69 16#6a  16#6b 16#6c 16#6d  16#6e 16#6f 16#70  16#71 16#72
+  16#73  16#74 16#75 16#95  16#96 16#97 16#b0  16#bf
+] vg&undef pop
+
+% Define the base fonts which don't change.
+/Undefined-UC NullEncoding       /Helvetica    vg&newbasefont pop
+/MathOps-UC   UCMathOpsEncoding  /Symbol       vg&newbasefont pop
+/Arrows-UC    UCArrowsEncoding   /Symbol       vg&newbasefont pop
+/Dingbats-UC  UCDingbatsEncoding /ZapfDingbats vg&newbasefont pop
+
+% Make the SansSerif composite fonts.
+/SansSerif /Helvetica 16#00 vg&newcompositefont
+/SansSerif-Bold /Helvetica-Bold 16#01 vg&newcompositefont
+/SansSerif-Italic /Helvetica-Oblique 16#02 vg&newcompositefont
+/SansSerif-BoldItalic /Helvetica-BoldOblique 16#03 vg&newcompositefont
+
+% Make the Serif composite fonts.
+/Serif /Times-Roman 16#00 vg&newcompositefont
+/Serif-Bold /Times-Bold 16#01 vg&newcompositefont
+/Serif-Italic /Times-Italic 16#02 vg&newcompositefont
+/Serif-BoldItalic /Times-BoldItalic 16#03 vg&newcompositefont
+
+% Make the Monospaced composite fonts.
+/Monospaced /Courier 16#00 vg&newcompositefont
+/Monospaced-Bold /Courier-Bold 16#01 vg&newcompositefont
+/Monospaced-Italic /Courier-Oblique 16#02 vg&newcompositefont
+/Monospaced-BoldItalic /Courier-BoldOblique 16#03 vg&newcompositefont
+
+% Make the Dialog composite fonts.
+/Dialog /Helvetica 16#00 vg&newcompositefont
+/Dialog-Bold /Helvetica-Bold 16#01 vg&newcompositefont
+/Dialog-Italic /Helvetica-Oblique 16#02 vg&newcompositefont
+/Dialog-BoldItalic /Helvetica-BoldOblique 16#03 vg&newcompositefont
+
+% Make the DialogInput composite fonts.
+/DialogInput /Helvetica 16#00 vg&newcompositefont
+/DialogInput-Bold /Helvetica-Bold 16#01 vg&newcompositefont
+/DialogInput-Italic /Helvetica-Oblique 16#02 vg&newcompositefont
+/DialogInput-BoldItalic /Helvetica-BoldOblique 16#03 vg&newcompositefont
+
+% Make the Typewriter composite fonts (JDK 1.1 only).
+/Typewriter /Courier 16#00 vg&newcompositefont
+/Typewriter-Bold /Courier-Bold 16#01 vg&newcompositefont
+/Typewriter-Italic /Courier-Oblique 16#02 vg&newcompositefont
+/Typewriter-BoldItalic /Courier-BoldOblique 16#03 vg&newcompositefont
+
+
+/cfontH {
+ dup /fontsize exch def /SansSerif exch sf
+ /vg&fontstyles [{cfontH} {cfontHB} {cfontHI} {cfontHBI}] def
+} def
+/cfontHB {
+  dup /fontsize exch def /SansSerif-Bold exch sf
+ /vg&fontstyles [{cfontH} {cfontHB} {cfontHI} {cfontHBI}] def
+} def
+/cfontHI {
+ dup /fontsize exch def /SansSerif-Italic exch sf
+ /vg&fontstyles [{cfontH} {cfontHB} {cfontHI} {cfontHBI}] def
+} def
+/cfontHBI {
+ dup /fontsize exch def /SansSerif-BoldItalic exch sf
+ /vg&fontstyles [{cfontH} {cfontHB} {cfontHI} {cfontHBI}] def
+} def
+
+/cfontT {
+ dup /fontsize exch def /Serif exch sf
+ /vg&fontstyles [{cfontT} {cfontTB} {cfontTI} {cfontTBI}] def
+} def
+/cfontTB {
+ dup /fontsize exch def /Serif-Bold exch sf
+ /vg&fontstyles [{cfontT} {cfontTB} {cfontTI} {cfontTBI}] def
+} def
+/cfontTI {
+ dup /fontsize exch def /Serif-Italic exch sf
+ /vg&fontstyles [{cfontT} {cfontTB} {cfontTI} {cfontTBI}] def
+} def
+/cfontTBI {
+ dup /fontsize exch def /Serif-BoldItalic exch sf
+ /vg&fontstyles [{cfontT} {cfontTB} {cfontTI} {cfontTBI}] def
+} def
+
+/cfontC {
+ dup /fontsize exch def /Typewriter exch sf
+ /vg&fontstyles [{cfontC} {cfontCB} {cfontCI} {cfontCBI}] def
+} def
+/cfontCB {
+ dup /fontsize exch def /Typewriter-Bold exch sf
+ /vg&fontstyles [{cfontC} {cfontCB} {cfontCI} {cfontCBI}] def
+} def
+/cfontCI {
+ dup /fontsize exch def /Typewriter-Italic exch sf
+ /vg&fontstyles [{cfontC} {cfontCB} {cfontCI} {cfontCBI}] def
+} def
+/cfontCBI {
+ dup /fontsize exch def /Typewriter-BoldItalic exch sf
+ /vg&fontstyles [{cfontC} {cfontCB} {cfontCI} {cfontCBI}] def
+} def
+
+% Darken or lighten the current color.
+/darken {0.7 exch exp 3 copy
+         q 4 -1 roll vg&C
+         currentrgbcolor 3 {4 -2 roll mul} repeat
+         3 array astore Q} def
+
+/displayColorMap
+<< /Cr   [1.00 0.00 0.00]       /Cg     [0.00 1.00 0.00]
+   /Cb   [0.00 0.00 1.00]       /Cc     [1.00 0.00 0.00 0.00]
+   /Cm   [0.00 1.00 0.00 0.00]  /Cy     [0.00 0.00 1.00 0.00]
+   /Co   [1.00 0.78 0.00]       /Cp     [1.00 0.67 0.67]
+   /Cw   [1   ]                 /Cgrl   [0.75]
+   /Cgr  [0.50]                 /Cgrd   [0.25]
+   /Ck   [0   ]
+   /CGr  [1.00 0.00 0.00]       /CGg    [0.00 1.00 0.00]
+   /CGb  [0.00 0.00 1.00]       /CGc    [1.00 0.00 0.00 0.00]
+   /CGm  [0.00 1.00 0.00 0.00]  /CGy    [0.00 0.00 1.00 0.00]
+   /CGo  [1.00 0.78 0.00]       /CGp    [1.00 0.67 0.67]
+   /CGw  [1   ]                 /CGgrl  [0.75]
+   /CGgr [0.50]                 /CGgrd  [0.25]
+   /CGk  [0   ]
+   /CIr  [1.00 0.00 0.00]       /CIg    [0.00 1.00 0.00]
+   /CIb  [0.00 0.00 1.00]       /CIc    [1.00 0.00 0.00 0.00]
+   /CIm  [0.00 1.00 0.00 0.00]  /CIy    [0.00 0.00 1.00 0.00]
+   /CIo  [1.00 0.78 0.00]       /CIp    [1.00 0.67 0.67]
+   /CIw  [1   ]                 /CIgrl  [0.75]
+   /CIgr [0.50]                 /CIgrd  [0.25]
+   /CIk  [0   ]
+>> def
+
+/printColorMap
+<< /Cr   [1.00 0.33 0.33]       /Cg     [0.33 1.00 0.33]
+   /Cb   [0.33 0.33 1.00]       /Cc     [1.00 0.00 0.00 0.00]
+   /Cm   [0.00 1.00 0.00 0.00]  /Cy     [0.00 0.00 1.00 0.00]
+   /Co   [1.00 0.78 0.00]       /Cp     [1.00 0.67 0.67]
+   /Cw   [1   ]                 /Cgrl   [0.75]
+   /Cgr  [0.50]                 /Cgrd   [0.25]
+   /Ck   [0   ]
+   /CGr  [1.00 0.33 0.33]       /CGg    [0.33 1.00 0.33]
+   /CGb  [0.33 0.33 1.00]       /CGc    [1.00 0.00 0.00 0.00]
+   /CGm  [0.00 1.00 0.00 0.00]  /CGy    [0.00 0.00 1.00 0.00]
+   /CGo  [1.00 0.78 0.00]       /CGp    [1.00 0.67 0.67]
+   /CGw  [1   ]                 /CGgrl  [0.75]
+   /CGgr [0.50]                 /CGgrd  [0.25]
+   /CGk  [0   ]
+   /CIr  [1.00 0.33 0.33]       /CIg    [0.33 1.00 0.33]
+   /CIb  [0.33 0.33 1.00]       /CIc    [1.00 0.00 0.00 0.00]
+   /CIm  [0.00 1.00 0.00 0.00]  /CIy    [0.00 0.00 1.00 0.00]
+   /CIo  [1.00 0.78 0.00]       /CIp    [1.00 0.67 0.67]
+   /CIw  [1   ]                 /CIgrl  [0.75]
+   /CIgr [0.50]                 /CIgrd  [0.25]
+   /CIk  [0   ]
+>> def
+
+/grayColorMap
+<< /Cr   [0   ]                 /Cg     [0   ]
+   /Cb   [0   ]                 /Cc     [0   ]
+   /Cm   [0   ]                 /Cy     [0   ]
+   /Co   [0   ]                 /Cp     [0   ]
+   /Cw   [0   ]                 /Cgrl   [0   ]
+   /Cgr  [0   ]                 /Cgrd   [0   ]
+   /Ck   [0   ]
+   /CGr  [0.75]                 /CGg    [1   ]
+   /CGb  [0.50]                 /CGc    [0.75]
+   /CGm  [0.50]                 /CGy    [1   ]
+   /CGo  [0.75]                 /CGp    [1   ]
+   /CGw  [0   ]                 /CGgrl  [0.25]
+   /CGgr [0.50]                 /CGgrd  [0.75]
+   /CGk  [1   ]
+   /CIr  [1   ]                 /CIg    [1   ]
+   /CIb  [1   ]                 /CIc    [1   ]
+   /CIm  [1   ]                 /CIy    [1   ]
+   /CIo  [1   ]                 /CIp    [1   ]
+   /CIw  [1   ]                 /CIgrl  [1   ]
+   /CIgr [1   ]                 /CIgrd  [1   ]
+   /CIk  [1   ]
+>> def
+
+/bwColorMap
+<< /Cr   [0   ]                 /Cg     [0   ]
+   /Cb   [0   ]                 /Cc     [0   ]
+   /Cm   [0   ]                 /Cy     [0   ]
+   /Co   [0   ]                 /Cp     [0   ]
+   /Cw   [0   ]                 /Cgrl   [0   ]
+   /Cgr  [0   ]                 /Cgrd   [0   ]
+   /Ck   [0   ]
+   /CGr  [1   ]                 /CGg    [1   ]
+   /CGb  [1   ]                 /CGc    [1   ]
+   /CGm  [1   ]                 /CGy    [1   ]
+   /CGo  [1   ]                 /CGp    [1   ]
+   /CGw  [0   ]                 /CGgrl  [1   ]
+   /CGgr [1   ]                 /CGgrd  [1   ]
+   /CGk  [1   ]
+   /CIr  [1   ]                 /CIg    [1   ]
+   /CIb  [1   ]                 /CIc    [1   ]
+   /CIm  [1   ]                 /CIy    [1   ]
+   /CIo  [1   ]                 /CIp    [1   ]
+   /CIw  [1   ]                 /CIgrl  [1   ]
+   /CIgr [1   ]                 /CIgrd  [1   ]
+   /CIk  [1   ]
+>> def
+
+%
+% The following routines handle the alignment of and printing of
+% tagged strings.
+%
+
+% Predefine the bounding box values.
+/bbllx 0 def /bblly 0 def /bburx 0 def /bbury 0 def
+
+% This routine pops the first unicode character off of a string and returns
+% the remainder of the string, the character code of first character,
+% and a "true" if the string was non-zero length.
+% <string>      popfirst <remaining string> <true>
+% <null string> popfirst <false>
+/popfirst {
+  dup length 1 gt
+    {dup 0 get /vg&fbyte exch def
+     dup 1 get /vg&cbyte exch def
+     dup length 2 sub 2 exch getinterval true}
+    {pop false} ifelse
+} def
+
+% This routine shows a single unicode character given the font and
+% character codes.
+% <font code> <char code> unicharshow --
+/unicharshow {
+  2 string
+  dup 0 5 -1 roll put
+  dup 1 4 -1 roll put
+  internalshow
+} def
+
+% This is an internal routine to alternate between determining the
+% bounding box for stringsize and showing the string for recshow.
+% <string> internalshow --
+/internalshow {show} def
+
+% This is an internal routine to alternate between determining the
+% bounding box for stringsize and stroking various ornaments.
+% <string> internalstroke --
+/internalstroke {S} def
+
+% Sets up internalshow to use the null device to determine string size.
+% -- nullinternalshow --
+/nullinternalshow {/internalshow {false charpath flattenpath
+                                  pathbbox updatebbox} def} def
+
+% Sets up internalstroke to use the null device to determine string size.
+% -- nullinternalstroke --
+/nullinternalstroke {
+ /internalstroke {flattenpath pathbbox updatebbox} def} def
+
+% This routine tests to see if the character code matches the first
+% character of a string.
+% <char code> <string> testchar <char code> <true or false>
+/testchar {exch dup 3 -1 roll 0 get eq} def
+
+% Raise the text baseline for superscripts.
+% -- raise --
+/raise {
+  0 fontsize 2 div rmoveto
+  /fontsize fontsize 2 mul 3 div def
+  currentfont /FontName get fontsize sf
+} def
+
+% Un-raise the text baseline for superscripts.
+% -- unraise --
+/unraise {
+  /fontsize fontsize 1.5 mul def
+  0 fontsize 2 div neg rmoveto
+} def
+
+% Lower the text baseline for subscripts.
+% -- lower --
+/lower {
+  0 fontsize 3 div neg rmoveto
+  /fontsize fontsize 2 mul 3 div def
+  currentfont /FontName get fontsize sf
+} def
+
+% Un-lower the text baseline for subscripts.
+% -- unlower --
+/unlower {
+  /fontsize fontsize 1.5 mul def
+  0 fontsize 3 div rmoveto
+} def
+
+% Compare the top two elements on the stack and leave only the
+% larger one.
+/maxval {2 copy gt {pop} {exch pop} ifelse} def
+
+% Tokenize a string.  Do not use the usual PostScript token because
+% parentheses will not be interpreted correctly because of rescanning
+% of the string.
+/vg&token {/vg&string exch def /vg&index -1 def /vg&level 0 def
+0 2 vg&string length 2 sub {
+  dup dup 1 add exch vg&string exch get 8 bitshift vg&string 3 -1 roll get or
+  dup 16#f0fe eq {pop 1}{16#f0ff eq {-1}{0} ifelse} ifelse
+  /vg&level exch vg&level add def
+  vg&level 0 eq {/vg&index exch def exit} if pop
+} for
+vg&index 0 ge {
+  vg&string vg&index 2 add dup vg&string length exch sub getinterval
+  vg&index 2 gt {vg&string 2 vg&index 2 sub getinterval}{()} ifelse
+  true}
+{false} ifelse
+} bind def
+
+% Recursively show an unicode string.
+% <string> recshow --
+/recshow {
+  popfirst
+  {
+    % Test to see if this is a string attribute.
+    vg&fbyte 16#f0 and 16#e0 eq
+    {
+      q
+
+      % Font style.
+      currentfont dup /FontStyleBits known {/FontStyleBits get}{pop 0} ifelse
+      vg&cbyte or vg&fontstyles exch get fontsize exch exec
+
+      vg&token pop recshow currentpoint Q m recshow
+    }
+    {
+      vg&fbyte 16#F8 and 16#F0 eq {
+
+        % Superscript and/or subscript.
+        vg&cbyte 16#00 eq {
+          vg&token pop exch vg&token pop 3 -1 roll
+          q raise recshow unraise currentpoint pop Q exch
+          q lower recshow unlower currentpoint pop Q
+          maxval currentpoint exch pop m recshow } if
+
+        % Strikeout.
+        vg&cbyte 16#01 eq {
+          vg&token pop currentpoint 3 -1 roll recshow
+          q 0 J vg&underline vg&uthick w
+          currentpoint 4 -2 roll fontsize 3 div add moveto
+          fontsize 3 div add lineto internalstroke Q
+          recshow} if
+
+        % Underline.
+        vg&cbyte 16#02 eq {
+          vg&token pop currentpoint 3 -1 roll recshow
+          q 0 J vg&underline vg&uthick w
+          currentpoint 4 -2 roll vg&uoffset add moveto
+          vg&uoffset add lineto internalstroke Q
+          recshow} if
+
+        % Dashed underline.
+        vg&cbyte 16#03 eq {
+          vg&token pop currentpoint 3 -1 roll recshow
+          q 0 J [ vg&uthick 5 mul vg&uthick 2 mul] 0 d
+          vg&underline vg&uthick w
+          currentpoint 4 -2 roll vg&uoffset add moveto
+          vg&uoffset add lineto internalstroke Q
+          recshow} if
+
+        % Dotted underline.
+        vg&cbyte 16#04 eq {
+          vg&token pop currentpoint 3 -1 roll recshow
+          q 1 J [ 0 vg&uthick 3 mul] 0 d
+          vg&underline vg&uthick w
+          currentpoint 4 -2 roll vg&uoffset add moveto
+          vg&uoffset add lineto internalstroke Q
+          recshow} if
+
+        % Thick underline.
+        vg&cbyte 16#05 eq {
+          vg&token pop currentpoint 3 -1 roll recshow
+          q 0 J vg&underline vg&uthick 2 mul w
+          currentpoint 4 -2 roll vg&uoffset vg&uthick 2 div sub add moveto
+          vg&uoffset vg&uthick 2 div sub add lineto internalstroke Q
+          recshow} if
+
+        % Gray thick underline.
+        vg&cbyte 16#06 eq {
+          vg&token pop currentpoint 3 -1 roll recshow
+          q 0 J vg&underline vg&uthick 2 mul w 0.5 setgray
+          currentpoint 4 -2 roll vg&uoffset vg&uthick 2 div sub add moveto
+          vg&uoffset vg&uthick 2 div sub add lineto internalstroke Q
+          recshow} if
+
+        % Overbar.
+        vg&cbyte 16#07 eq {
+          vg&token pop dup stringsize relative 4 1 roll pop pop exch
+          3 -1 roll recshow
+          q 0 J vg&underline vg&uthick w
+          vg&uoffset neg add dup currentpoint pop exch m l internalstroke Q
+          recshow} if
+      }
+      {
+        vg&fbyte vg&cbyte unicharshow recshow
+      } ifelse
+    } ifelse
+  } if
+} def
+
+% Get the underline position and thickness from the current font.
+/vg&underline {
+
+currentfont dup /FontType get 0 eq {/FDepVector get 0 get} if
+dup dup /FontInfo known {
+  /FontInfo get dup
+  dup /UnderlinePosition known {
+    /UnderlinePosition get /vg&uoffset exch def
+  }
+  {
+    pop /vg&uoffset 0 def
+  } ifelse
+  dup /UnderlineThickness known {
+    /UnderlineThickness get /vg&uthick exch def
+  }
+  {
+    pop /vg&uthick 0 def
+  } ifelse
+}
+{
+  pop /vg&uoffset 0 def /vg&uthick 0 def
+} ifelse
+/FontMatrix get
+currentfont dup /FontType get 0 eq
+{/FontMatrix get matrix concatmatrix}{pop} ifelse
+dup 0 vg&uoffset 3 -1 roll transform /vg&uoffset exch def pop
+0 vg&uthick 3 -1 roll transform /vg&uthick exch def pop
+} def
+
+% Make a frame with the coordinates on the stack.
+% <llx> <lly> <urx> <ury> frame --
+/frame {4 copy m 3 1 roll exch l 4 -2 roll l l h} def
+
+% Resets the accumulated bounding box to a degenerate box at the
+% current point.
+% -- resetbbox --
+/resetbbox {
+  currentpoint 2 copy
+  /bbury exch def
+  /bburx exch def
+  /bblly exch def
+  /bbllx exch def
+} def
+
+% Update the accumulated bounding box.
+% <llx'> <lly'> <urx'> <ury'> updatebbox --
+/updatebbox {
+  dup bbury gt {/bbury exch def} {pop} ifelse
+  dup bburx gt {/bburx exch def} {pop} ifelse
+  dup bblly lt {/bblly exch def} {pop} ifelse
+  dup bbllx lt {/bbllx exch def} {pop} ifelse
+} def
+
+% Set the bounding box to the values on the stack.
+% <llx'> <lly'> <urx'> <ury'> updatebbox --
+/restorebbox {
+  /bbury exch def /bburx exch def /bblly exch def /bbllx exch def
+} def
+
+% Push the accumulated bounding box onto the stack.
+% -- pushbbox <llx> <lly> <urx> <ury>
+/pushbbox {bbllx bblly bburx bbury} def
+
+% Make the relative bounding box relative to the currentpoint.
+% <llx'> <lly'> <urx'> <ury'> inflate <llx> <lly> <urx> <ury>
+/inflate {
+  2 {fontsize 0.2 mul add 4 1 roll} repeat
+  2 {fontsize 0.2 mul sub 4 1 roll} repeat
+} def
+
+% Make the relative bounding box relative to the currentpoint.
+% <llx'> <lly'> <urx'> <ury'> relative <llx> <lly> <urx> <ury>
+/relative {
+  currentpoint 3 -1 roll add 3 1 roll add exch 4 2 roll
+  currentpoint 3 -1 roll add 3 1 roll add exch 4 2 roll
+} def
+
+% Returns the size of a string appropriate for recshow.
+% <string> stringsize <llx> <lly> <urx> <ury>
+/stringsize {
+  pushbbox /internalshow load /internalstroke load 7 -1 roll
+  q
+  nulldevice 0 0 m
+  nullinternalshow nullinternalstroke
+  resetbbox
+  recshow
+  /internalstroke exch def /internalshow exch def
+  pushbbox 8 -4 roll restorebbox
+  Q
+} def
+
+% Calculate values for string positioning.
+/calcval {4 copy
+  3 -1 roll sub /widy exch def sub neg /widx exch def
+  pop pop /dy exch def /dx exch def} def
+
+% Utilities to position a string.
+% First letter (U=upper, C=center, B=baseline, L=lower)
+% Second letter (L=left, C=center, R=right)
+/align [
+{calcval dx neg widy dy add neg rmoveto} % UL
+{calcval dx neg widy 2 div dy add neg rmoveto} % CL
+{calcval dx neg 0 rmoveto} % BL
+{calcval dx neg dy neg rmoveto} % LL
+{calcval widx dx add neg widy dy add neg rmoveto} % UR
+{calcval widx dx add neg widy 2 div dy add neg rmoveto} % CR
+{calcval widx dx add neg 0 rmoveto} % BR
+{calcval widx dx add neg dy neg rmoveto} % LR
+{calcval widx 2 div dx add neg widy dy add neg rmoveto} % UC
+{calcval widx 2 div dx add neg widy 2 div dy add neg rmoveto} % CC
+{calcval widx 2 div dx add neg 0 rmoveto} % BC
+{calcval widx 2 div dx add neg dy neg rmoveto} % LC
+] def
+
+/vg&str {m q 1 -1 scale dup stringsize 4 copy align 11 -1 roll get exec
+         q inflate relative frame exch exec Q recshow Q} def
+
+end /procDict exch def
+
+%%BeginFont: APArial-Bold
+%!PS-Adobe-3.0 Resource-Font: APArial-Bold
+12 dict begin
+/FontType 42 def
+/FontName /Arial-Bold def
+/PaintType 0 def
+/FontMatrix [1 0 0 1 0 0] def
+/FontBBox [-0.31396 0.18823 1 -0.52783 ] def
+/Encoding ISOLatin1Encoding def
+/CharStrings 4 dict dup begin
+/.notdef 0 def
+/A 1 def
+/B 2 def
+/C 3 def
+end readonly def
+/sfnts [
+<00010000000a00800003002063767420ffc3ad47000000ac000007606670676dba2711a60000080c
+00000640676c796686326d7800000e4c0000048468656164333e8155000012d00000003668686561
+0d42045b0000130800000024686d7478175501f70000132c000000106c6f636100000a1e0000133c
+000000146d61787007fd065b00001350000000206e616d6565f55deb000013700000340f70726570
+034f36ae00004780000011f805ba001c05ba001c05a7001c0426001c0000ffe40000ffe40000ffe4
+fe69ffe405ba001cfe69ffe402ea0000011d0000011d000000000000000000b200ac00d701280120
+00b301fa001700f8011901310049000400f7000300af00fd00950014005400960112002400160055
+004901040119012b008c019bff76ffe9003d009200a2ffb70182ffaa0016008f00c600f8001c00de
+04010037004e00550055006500e903e50059ff9a00080087000b003b00520116006100d600d600f5
+00000093009400be017cfff80004001400820092003c00410041ffc1fffc002a008c049005d809b5
+009100bb0106ff63ff69001e0022008a022bffd6ffdf0026005900a300ac0104012b01c004480021
+006b00850098011903c6006b009500a400fe010c025d034305bf000000490056006e0077008a00aa
+00ca0112015005d805f0ff7bffe70006001300280061006900e90135014d02a5040cff3effda005b
+00b900c801190119011901c0045b04a7055bfe3fff9dffc2001500b7010a01bc01c10532058efd81
+ffa1ffae000c00260031003d004e00560062008300c100c900f100f2027fff7f00480053007700c5
+011d01200126012801d60219027e027e03d3002e0041005d006b0075009f00b000b200ba00bb00bd
+00d600db00e000e50114011b014a0162019101f2020c026402cf039b03b403d4040104a900160023
+0025002a007400a500b600cc00cd00cf0105012001300150016a016f0197019d01e002b002ec02f7
+0408048304fb04fd0526fee0fefbff4efff50018001a004c007a007f009100a300b300b400ce00d5
+00f200f300f601100138016801a101b001e001ec02090222024f0270029602a502ad034e039103c1
+04350442046b04cd04da0586058b076107fefca6fe93feadfed1ffb7ffd10003000e001800260046
+00690081008f00a500bf00d300d500d900dd00e20119012b0138013b015a015e0168017301880194
+01ad01c501d101ea01f20200020002000222023b0244024f026f0272027e02820293029402a502cf
+02cf02d002da02dd02eb02f5030503220336037103a103b003b803d003e604100426042e0431044f
+045a04ff053205320547055305a805ab05c205f0063c0664067006e80782078408ccfd2afddefe00
+fe68feb0feb3ffaa00080059007a0091009e00a200af00b400bb00ca00cc00ce00d900e000f40114
+011a01210127012b01390146014b014d0157015c01650182018701920198019b01a201ae01c501c5
+01d102070222022b024102530261026502840287028d02b402b402ba02c902d602d802ed02f50317
+0323032b03310349035a035b036e03710374037e03840391039103aa03cf03d303e703e803ed0408
+0417041e0475047a049904a704b404d1054c056d056d05a205bf05c005d105fc05fc0602061a061c
+062f066a06a806e2070607360750078907d407f30870011c012a011a012000000000000000000000
+00000219000b001e02aa0214047f01ed0000001d0104000f0091002b01880153011201f3003f03fe
+0168010e047f01ed036e03150219041300000000064004b00000027401bb003501c5007f06020301
+000004e000b201dc02e004c3023d00d50160011904a7036e05ca022100ab0426009002bc02bb0142
+00b4023c0256029c030001e501a800e5006b00780094016b017300ab01ed013a017d0137017f00d4
+021603530184003cffa202040109014901f0006e031500810464005e000000000000000000000000
+000000000000000000000000000000000000013900dc00e9fe9e040d047c012b00b80096005900ac
+00df01a900fa0105ffec00170003005500610004008c00a3008500280120005d00d6007f01260119
+0104016c06cf00b4010600000737063e047a00f000f900e905ba042604420000ffe7fe69049e04e3
+ff37ff2d01200105012000a800740068004700f200e500d900bd00a800680047005c0048000a0028
+003200410050005a0064007d00870091ffb0ff9cff83ff79ff6f00cb012000fa012c01fa01a000d5
+00b8005c003c00c800c8008f00d9018b00b300470000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000fe6400c000ea
+01180125013203b003ed0576059005aa05b405be05cd063100780084009b00cc00e200f4010a0120
+016300d100ea00f7010801420019002c00340041003800480058006c025903bd0043011a007000d3
+0028003700420050005a0064007300780082008c009c00a500bd00ce00f00110015c00be00d80102
+0117012c016300ea01080041004b0055005f007300a60109018301b300410064001e002a00eb00fa
+010e01380274002c00400082009600b600c000cc00dc00e600f000ff010a0120012c013b01440156
+016300f70057006401100136005001b10000ffb60039004e004403cc00e5002401100042012201a4
+00f0006000e0000e001d003905e30102002cfe4eff38026903bd011600ff000e00a00054001b003d
+01710041000f005000fd0015014f0035fe52002c00d3010304b001d200b600c000990265ff870377
+fe6c00cb00a9005c0040047607440472048504fb40425554403f3e3d3c3b3a393837353433323130
+2f2e2d2c2b2a292827262524232221201f1e1d1c1b1a191817161514131211100f0e0d0c0b0a0908
+07060504030201002c4523466020b02660b004262348482d2c452346236120b02661b00426234848
+2d2c45234660b0206120b04660b004262348482d2c4523462361b0206020b02661b02061b0042623
+48482d2c45234660b0406120b06660b004262348482d2c4523462361b0406020b02661b04061b004
+262348482d2c0110203c003c2d2c20452320b0cd442320b8015a51582320b08d44235920b0ed5158
+2320b04d44235920b09051582320b00d44235921212d2c20204518684420b001602045b04676688a
+4560442d2c01b10b0a432343650a2d2c00b10a0b4323430b2d2c00b0172370b101173e01b0172370
+b10217453ab10200080d2d2c45b01a234445b01923442d2c2045b00325456164b050515845441b21
+21592d2cb00143632362b0002342b00f2b2d2c2045b0004360442d2c01b00643b00743650a2d2c20
+69b04061b0008b20b12cc08a8cb8100062602b0c642364615c58b00361592d2c45b0112bb0172344
+b0177ae4182d2c45b0112bb01723442d2cb01243588745b0112bb0172344b0177ae41b038a451869
+20b01723448a8a8720b0c05158b0112bb0172344b0177ae41b21b0177ae45959182d2c2d2cb00225
+46608a46b040618c482d2c4b53205c58b002855958b00185592d2c20b0032545b019234445b01a23
+444565234520b00325606a20b009234223688a6a606120b01a8ab000527921b21a1a40b9ffe0001a
+45208a54582321b03f1b235961441cb114008a5279b31940201945208a54582321b03f1b23596144
+2d2cb110114323430b2d2cb10e0f4323430b2d2cb10c0d4323430b2d2cb10c0d432343650b2d2cb1
+0e0f432343650b2d2cb11011432343650b2d2c4b525845441b2121592d2c0120b003252349b04060
+b0206320b000525823b002253823b002256538008a63381b212121212159012d2c4bb06451584569
+b00943608a103a1b212121592d2c01b005251023208af500b0016023edec2d2c01b005251023208a
+f500b0016123edec2d2c01b0062510f500edec2d2c20b001600110203c003c2d2c20b00161011020
+3c003c2d2cb02b2bb02a2a2d2c00b00743b006430b2d2c3eb02a2a2d2c352d2c76b8023623701020
+b802364520b0005058b00161593a2f182d2c21210c6423648bb84000622d2c21b08051580c642364
+8bb82000621bb200402f2b59b002602d2c21b0c051580c6423648bb81555621bb200802f2b59b002
+602d2c0c6423648bb84000626023212d2cb4000100000015b00826b00826b00826b008260f101613
+45683ab001162d2cb4000100000015b00826b00826b00826b008260f1016134568653ab001162d2c
+4b53234b515a5820458a60441b2121592d2c4b545820458a60441b2121592d2c4b53234b515a5838
+1b2121592d2c4b5458381b2121592d2cb0134358031b02592d2cb0134358021b03592d2c4b54b012
+435c5a58381b2121592d2cb012435c580cb00425b00425060c6423646164b0035158b00425b00425
+012046b01060482046b0106048590a21211b2121592d2cb012435c580cb00425b00425060c642364
+6164b807085158b00425b00425012046b8fff060482046b8fff06048590a21211b2121592d2c4b53
+234b515a58b03a2b1b2121592d2c4b53234b515a58b03b2b1b2121592d2c4b53234b515ab012435c
+5a58381b2121592d2c0c8a034b54b00426024b545a8a8a0ab012435c5a58381b2121592d2c462346
+608a8a462320468a608a61b8ff8062232010238ab902a702a78a70456020b0005058b00161b8ffba
+8b1bb0468c59b0106068013a2d2cb1020042b123018851b1400188535a58b910000020885458b202
+010243604259b12401885158b920000040885458b2020202436042b12401885458b2022002436042
+004b014b5258b2020802436042591bb940000080885458b202040243604259b94000008063b80100
+885458b202080243604259b94000010063b80200885458b202100243604259b12601885158b94000
+020063b80400885458b202400243604259b94000040063b80800885458b202800243604259b12801
+885158b94000080063b81000885458ba000201000002436042595959595959592d2cb0024354584b
+53234b515a58381b2121591b21212121592d0000>
+<00020100000005000500000300070042b40201fe0607b8023f4013000504fe03000a0704fe010019
+080605fe0203bc0126000901b0011800182b10f63cfd3c4e10f43c4dfd3c003f3cfd3c10fc3cfd3c
+3130211121112521112101000400fc2003c0fc400500fb002004c000020000000005bf05ba000700
+0a0141b90007ffd84009373934062837393407b8ffc04009283534064028353407b8ffd840502127
+34062821273429002a042a05280a2f0c380037053f0c6a006a02650366056808670ae8030f4a0601
+02080901030a09090407090101200007140000070609040420050614050506080a401a1d3e0ab8ff
+c0400b1a1d340a25020303060409b801bc400e0607020504040100080c17171a00b80261400b1f01
+012001300180010301b8022440091f0901300980090209ba022400040261400920050105190b5e63
+182b4e10f45d4dfd19f65d71f45d7118fd4e456544e6003f3c3c103c3f3c4ded1112392f3cfd2b2b
+3c87052e2b877dc4872e182b877dc407103c3c87c4c4b10602435458b40934090d34002b59313001
+4bb00b534bb01e515a58b90003fffeb208040abafffe0007fffcb1060438383838385901715d2b2b
+2b2b2b2b212103210321012113030305bffebe80fdb679fec6023b01392acac6014dfeb305bafc8a
+0220fde0000300960000056205ba00130020002c00d8403f772a01680e782ae604f6040409211509
+06282c212516121f154f15023015af15021515142322251213082014250100021b27700680060206
+4b2827af0c010cb8ffc0b3090b340cb8028c4021302e402e502e602e702e802e902ea02e08202e30
+2e022e14222000201330130213b8028bb32d3153182b4e10f45d3c4dfd3c4d105d71f62b714dedf4
+5ded003f3cfd3c3f3cfd3c11392f5d71435c58b90015ff80b21d3915b8ffc0b21a3915b8ff80b113
+392b2b2b593cfd3c01111239001112393130014bb00b534bb00f515a58b10a203859015d005d1321
+321e0215140607161615140606070605210111333237363635342627262303112132373636353426
+262396024aaeab875a6f5f86905da1764afee5fe0d0128c2ad2a4c574b4a2cd1aa0112a02b425340
+79ca05ba1d5c995f67ac2b27bc7f64bd710d080204c6fead0509574744550905fdb9fe78090c5d4e
+425c2a00010061ffe7055e05d3001a00d6404e8609891489169f009806c709d403d40bf503092509
+280c280d2914291675057509860508071307171713171729022a03250507280599059709c903c50b
+053f014f01020152100001e000f0000200b8ffc0b311183400b8ffc0b30a0d3400b8015a4017182d
+04080e400e12340e4b5f0f014f0f010f401518340fb801284022122d0a030fef0e5600ef00014f01
+02011a301c011c1527a007010f071f0730070307b8028cb31b7e53182b4e10f45d714ded4e105df6
+5d4dedf4ed003ffdf42b5d71e42b3ffdf42b2b5d71e45d3130005d015d5d5d010506042320001110
+002120171617052626232206111016333236043f011f42fecdecfedcfe88017a0134010da86432fe
+db1aa576a3cbc8a076aa021b5bf0e9018f015a016e01959f5eb0467284eafefafeeaec96>
+<0001000000000000000000005f0f3cf50819080000000000e08c1b7500000000e08c1b75fafafcfd
+1000087200010006000100010000000000010000073efe4e004306000000000805bf000100000000
+0000000000000000000000040600010005c7000005c7009605c70061000000000000006b000001e4
+0000034b0000048400010000000402d2003c0094000600020010002f00560000074b02c200050002
+0000005303ea0000000300000000021a00000000000300000001000a021a00000003000000020008
+02240000000300000003003e022c00000003000000040014026a00000003000000050018027e0000
+000300000006001802960000000300000007006402ae000000030000000800300312000000030000
+0009008a0342000000030000000d0e0403cc0001000000000000010d11d000010000000000010005
+12dd0001000000000002000412e20001000000000003001f12e60001000000000004000a13050001
+000000000005000c130f0001000000000006000c131b000100000000000700311327000100000000
+000800181358000100000000000900451370000100000000000d070213b50003000104030002000e
+1ab70003000104030004001a1ac50003000104050002000a1adf000300010405000400161ae90003
+00010406000200061aff000300010406000400121b05000300010407000200081b17000300010407
+000400141b1f0003000104080002000c1b33000300010408000400181b3f0003000104090000021e
+1b570003000104090001000a1d75000300010409000200081d7f0003000104090003003e1d870003
+00010409000400141dc5000300010409000500181dd9000300010409000600181df1000300010409
+000700621e09000300010409000800301e6b0003000104090009008a1e9b000300010409000d0e14
+1f2500030001040a0002000e2d3900030001040a0004001a2d4700030001040b000200122d610003
+0001040b0004001e2d7300030001040c000200082d9100030001040c000400142d9900030001040e
+000200102dad00030001040e0004001c2dbd000300010410000200122dd90003000104100004001e
+2deb000300010413000200062e09000300010413000400122e0f0003000104140002000e2e210003
+000104140004001a2e2f000300010415000200142e49000300010415000400202e5d000300010416
+0002000e2e7d0003000104160004001a2e8b000300010419000200142ea500030001041900040020
+2eb900030001041b0002000a2ed900030001041b000400162ee300030001041d000200062ef90003
+0001041d000400122eff00030001041f0002000a2f1100030001041f000400162f1b000300010424
+0002000c2f31000300010424000400182f3d00030001042a000200082f5500030001042a00040014
+2f5d00030001042d0002000a2f7100030001042d000400162f7b00030001080a0002000e2f910003
+0001080a0004001a2f9f0003000108160002000e2fb90003000108160004001a2fc7000300010c0a
+0002000e2fe1000300010c0a0004001a2fef000300010c0c000200083009000300010c0c00040014
+301100a90020003200300031003700200054006800650020004d006f006e006f0074007900700065
+00200043006f00720070006f0072006100740069006f006e002e00200041006c006c002000520069
+0067006800740073002000520065007300650072007600650064002e0020000d000d004800650062
+0072006500770020004f00700065006e00540079007000650020004c00610079006f007500740020
+006c006f00670069006300200063006f0070007900720069006700680074002000a9002000320030
+003000330020002600200032003000300037002c002000520061006c00700068002000480061006e
+0063006f0063006b002000260020004a006f0068006e00200048007500640073006f006e002e0020
+00540068006900730020006c00610079006f007500740020006c006f00670069006300200066006f
+00720020004200690062006c006900630061006c0020004800650062007200650077002000690073
+0020006f00700065006e00200073006f007500720063006500200073006f00660074007700610072
+006500200075006e00640065007200200074006800650020004d004900540020004c006900630065
+006e00730065003b002000730065006500200065006d0062006500640064006500640020006c0069
+00630065006e007300650020006400650073006300720069007000740069006f006e00200066006f
+0072002000640065007400610069006c0073002e0041007200690061006c0042006f006c0064004d
+006f006e006f0074007900700065003a0041007200690061006c00200042006f006c006400200028
+004d006900630072006f0073006f0066007400290041007200690061006c00200042006f006c0064
+00560065007200730069006f006e00200037002e003000300041007200690061006c002d0042006f
+006c0064004d00540041007200690061006c00200020006900730020006100200074007200610064
+0065006d00610072006b0020006f006600200054006800650020004d006f006e006f007400790070
+006500200043006f00720070006f0072006100740069006f006e002e0054006800650020004d006f
+006e006f007400790070006500200043006f00720070006f0072006100740069006f006e004d006f
+006e006f007400790070006500200054007900700065002000440072006100770069006e00670020
+004f006600660069006300650020002d00200052006f00620069006e0020004e006900630068006f
+006c00610073002c0020005000610074007200690063006900610020005300610075006e00640065
+0072007300200031003900380032004d006900630072006f0073006f006600740020007300750070
+0070006c00690065006400200066006f006e0074002e00200059006f00750020006d006100790020
+0075007300650020007400680069007300200066006f006e007400200074006f0020006300720065
+006100740065002c00200064006900730070006c00610079002c00200061006e0064002000700072
+0069006e007400200063006f006e00740065006e00740020006100730020007000650072006d0069
+007400740065006400200062007900200074006800650020006c006900630065006e007300650020
+007400650072006d00730020006f00720020007400650072006d00730020006f0066002000750073
+0065002c0020006f006600200074006800650020004d006900630072006f0073006f006600740020
+00700072006f0064007500630074002c00200073006500720076006900630065002c0020006f0072
+00200063006f006e00740065006e007400200069006e002000770068006900630068002000740068
+0069007300200066006f006e0074002000770061007300200069006e0063006c0075006400650064
+002e00200059006f00750020006d006100790020006f006e006c0079002000280069002900200065
+006d0062006500640020007400680069007300200066006f006e007400200069006e00200063006f
+006e00740065006e00740020006100730020007000650072006d0069007400740065006400200062
+0079002000740068006500200065006d00620065006400640069006e006700200072006500730074
+00720069006300740069006f006e007300200069006e0063006c007500640065006400200069006e
+0020007400680069007300200066006f006e0074003b00200061006e006400200028006900690029
+002000740065006d0070006f0072006100720069006c007900200064006f0077006e006c006f0061
+00640020007400680069007300200066006f006e007400200074006f002000610020007000720069
+006e0074006500720020006f00720020006f00740068006500720020006f00750074007000750074
+002000640065007600690063006500200074006f002000680065006c00700020007000720069006e
+007400200063006f006e00740065006e0074002e00200041006e00790020006f0074006800650072
+0020007500730065002000690073002000700072006f0068006900620069007400650064002e000d
+000d00540068006500200066006f006c006c006f00770069006e00670020006c006900630065006e
+00730065002c0020006200610073006500640020006f006e00200074006800650020004d00490054
+0020006c006900630065006e00730065002000280068007400740070003a002f002f0065006e002e
+00770069006b006900700065006400690061002e006f00720067002f00770069006b0069002f004d
+00490054005f004c006900630065006e007300650029002c0020006100700070006c006900650073
+00200074006f00200074006800650020004f00700065006e00540079007000650020004c00610079
+006f007500740020006c006f00670069006300200066006f00720020004200690062006c00690063
+0061006c00200048006500620072006500770020201c004c00610079006f007500740020004c006f
+006700690063201d0020006100730020006a006f0069006e0074006c007900200064006500760065
+006c006f007000650064002000620079002000520061006c00700068002000480061006e0063006f
+0063006b00200061006e00640020004a006f0068006e00200048007500640073006f006e002e0020
+000d000d005000650072006d0069007300730069006f006e00200069007300200068006500720065
+006200790020006700720061006e007400650064002c002000660072006500650020006f00660020
+006300680061007200670065002c00200074006f00200061006e007900200070006500720073006f
+006e0020006f0062007400610069006e0069006e00670020006100200063006f007000790020006f
+006600200074006800650020004f00700065006e00540079007000650020004c00610079006f0075
+00740020006c006f00670069006300200066006f00720020004200690062006c006900630061006c
+002000480065006200720065007700200061006e00640020006100730073006f0063006900610074
+0065006400200064006f00630075006d0065006e0074006100740069006f006e002000660069006c
+00650073002000280074006800650020201c004c00610079006f007500740020004c006f00670069
+006300200053006f006600740077006100720065201d0029002c00200074006f0020006400650061
+006c00200069006e00200074006800650020004c00610079006f007500740020004c006f00670069
+006300200053006f00660074007700610072006500200077006900740068006f0075007400200072
+00650073007400720069006300740069006f006e002c00200069006e0063006c007500640069006e
+006700200077006900740068006f007500740020006c0069006d00690074006100740069006f006e
+0020007400680065002000720069006700680074007300200074006f0020007500730065002c0020
+0063006f00700079002c0020006d006f0064006900660079002c0020006d0065007200670065002c
+0020007000750062006c006900730068002c00200064006900730074007200690062007500740065
+002c0020007300750062006c006900630065006e00730065002c00200061006e0064002f006f0072
+002000730065006c006c00200063006f00700069006500730020006f006600200074006800650020
+004c00610079006f007500740020004c006f00670069006300200053006f00660074007700610072
+0065002c00200061006e006400200074006f0020007000650072006d006900740020007000650072
+0073006f006e007300200074006f002000770068006f006d00200074006800650020004c00610079
+006f007500740020004c006f00670069006300200053006f00660074007700610072006500200069
+00730020006600750072006e0069007300680065006400200074006f00200064006f00200073006f
+002c0020007300750062006a00650063007400200074006f002000740068006500200066006f006c
+006c006f00770069006e006700200063006f006e0064006900740069006f006e0073003a000d000d
+005400680065002000610062006f0076006500200063006f00700079007200690067006800740020
+006e006f007400690063006500200061006e0064002000740068006900730020007000650072006d
+0069007300730069006f006e0020006e006f00740069006300650020007300680061006c006c0020
+0062006500200069006e0063006c007500640065006400200069006e00200061006c006c00200063
+006f00700069006500730020006f00720020007300750062007300740061006e007400690061006c
+00200070006f007200740069006f006e00730020006f006600200074006800650020004c00610079
+006f007500740020004c006f00670069006300200053006f006600740077006100720065002e000d
+000d00540048004500200053004f004600540057004100520045002000490053002000500052004f
+0056004900440045004400200027004100530020004900530027002c00200057004900540048004f
+00550054002000570041005200520041004e005400590020004f004600200041004e00590020004b
+0049004e0044002c002000450058005000520045005300530020004f005200200049004d0050004c
+004900450044002c00200049004e0043004c005500440049004e004700200042005500540020004e
+004f00540020004c0049004d004900540045004400200054004f0020005400480045002000570041
+005200520041004e00540049004500530020004f00460020004d00450052004300480041004e0054
+004100420049004c004900540059002c0020004600490054004e00450053005300200046004f0052
+0020004100200050004100520054004900430055004c0041005200200050005500520050004f0053
+004500200041004e00440020004e004f004e0049004e004600520049004e00470045004d0045004e
+0054002e00200049004e0020004e004f0020004500560045004e00540020005300480041004c004c
+002000540048004500200041005500540048004f005200530020004f005200200043004f00500059
+0052004900470048005400200048004f004c00440045005200530020004200450020004c00490041
+0042004c004500200046004f005200200041004e005900200043004c00410049004d002c00200044
+0041004d00410047004500530020004f00520020004f00540048004500520020004c004900410042
+0049004c004900540059002c0020005700480045005400480045005200200049004e00200041004e
+00200041004300540049004f004e0020004f004600200043004f004e00540052004100430054002c
+00200054004f005200540020004f00520020004f00540048004500520057004900530045002c0020
+00410052004900530049004e0047002000460052004f004d002c0020004f005500540020004f0046
+0020004f005200200049004e00200043004f004e004e0045004300540049004f004e002000570049
+00540048002000540048004500200053004f0046005400570041005200450020004f005200200054
+0048004500200055005300450020004f00520020004f00540048004500520020004400450041004c
+0049004e0047005300200049004e002000540048004500200053004f004600540057004100520045
+002ea9203230313720546865204d6f6e6f7479706520436f72706f726174696f6e2e20416c6c2052
+69676874732052657365727665642e200d0d486562726577204f70656e54797065204c61796f7574
+206c6f67696320636f7079726967687420a92032303033202620323030372c2052616c7068204861
+6e636f636b2026204a6f686e20487564736f6e2e2054686973206c61796f7574206c6f6769632066
+6f72204269626c6963616c20486562726577206973206f70656e20736f7572636520736f66747761
+726520756e64657220746865204d4954204c6963656e73653b2073656520656d626564646564206c
+6963656e7365206465736372697074696f6e20666f722064657461696c732e417269616c426f6c64
+4d6f6e6f747970653a417269616c20426f6c6420284d6963726f736f667429417269616c20426f6c
+6456657273696f6e20372e3030417269616c2d426f6c644d54417269616c20697320612074726164
+656d61726b206f6620546865204d6f6e6f7479706520436f72706f726174696f6e2e546865204d6f
+6e6f7479706520436f72706f726174696f6e4d6f6e6f7479706520547970652044726177696e6720
+4f6666696365202d20526f62696e204e6963686f6c61732c205061747269636961205361756e6465
+727320313938324d6963726f736f667420737570706c69656420666f6e742e20596f75206d617920
+757365207468697320666f6e7420746f206372656174652c20646973706c61792c20616e64207072
+696e7420636f6e74656e74206173207065726d697474656420627920746865206c6963656e736520
+7465726d73206f72207465726d73206f66207573652c206f6620746865204d6963726f736f667420
+70726f647563742c20736572766963652c206f7220636f6e74656e7420696e207768696368207468
+697320666f6e742077617320696e636c756465642e20596f75206d6179206f6e6c79202869292065
+6d626564207468697320666f6e7420696e20636f6e74656e74206173207065726d69747465642062
+792074686520656d62656464696e67207265737472696374696f6e7320696e636c7564656420696e
+207468697320666f6e743b20616e6420286969292074656d706f726172696c7920646f776e6c6f61
+64207468697320666f6e7420746f2061207072696e746572206f72206f74686572206f7574707574
+2064657669636520746f2068656c70207072696e7420636f6e74656e742e20416e79206f74686572
+207573652069732070726f686962697465642e0d0d54686520666f6c6c6f77696e67206c6963656e
+73652c206261736564206f6e20746865204d4954206c6963656e73652028687474703a2f2f656e2e
+77696b6970656469612e6f72672f77696b692f4d49545f4c6963656e7365292c206170706c696573
+20746f20746865204f70656e54797065204c61796f7574206c6f67696320666f72204269626c6963
+616c2048656272657720d24c61796f7574204c6f676963d3206173206a6f696e746c792064657665
+6c6f7065642062792052616c70682048616e636f636b20616e64204a6f686e20487564736f6e2e20
+0d0d5065726d697373696f6e20697320686572656279206772616e7465642c2066726565206f6620
+6368617267652c20746f20616e7920706572736f6e206f627461696e696e67206120636f7079206f
+6620746865204f70656e54797065204c61796f7574206c6f67696320666f72204269626c6963616c
+2048656272657720616e64206173736f63696174656420646f63756d656e746174696f6e2066696c
+6573202874686520d24c61796f7574204c6f67696320536f667477617265d3292c20746f20646561
+6c20696e20746865204c61796f7574204c6f67696320536f66747761726520776974686f75742072
+65737472696374696f6e2c20696e636c7564696e6720776974686f7574206c696d69746174696f6e
+207468652072696768747320746f207573652c20636f70792c206d6f646966792c206d657267652c
+207075626c6973682c20646973747269627574652c207375626c6963656e73652c20616e642f6f72
+2073656c6c20636f70696573206f6620746865204c61796f7574204c6f67696320536f6674776172
+652c20616e6420746f207065726d697420706572736f6e7320746f2077686f6d20746865204c6179
+6f7574204c6f67696320536f667477617265206973206675726e697368656420746f20646f20736f
+2c207375626a65637420746f2074686520666f6c6c6f77696e6720636f6e646974696f6e733a0d0d
+5468652061626f766520636f70797269676874206e6f7469636520616e642074686973207065726d
+697373696f6e206e6f74696365207368616c6c20626520696e636c7564656420696e20616c6c2063
+6f70696573206f72207375627374616e7469616c20706f7274696f6e73206f6620746865204c6179
+6f7574204c6f67696320536f6674776172652e0d0d54484520534f4654574152452049532050524f
+564944454420274153204953272c20574954484f55542057415252414e5459204f4620414e59204b
+494e442c2045585052455353204f5220494d504c4945442c20494e434c5544494e4720425554204e
+4f54204c494d4954454420544f205448452057415252414e54494553204f46204d45524348414e54
+4142494c4954592c204649544e45535320464f52204120504152544943554c415220505552504f53
+4520414e44204e4f4e494e4652494e47454d454e542e20494e204e4f204556454e54205348414c4c
+2054484520415554484f5253204f5220434f5059524947485420484f4c44455253204245204c4941
+424c4520464f5220414e5920434c41494d2c2044414d41474553204f52204f54484552204c494142
+494c4954592c205748455448455220494e20414e20414354494f4e204f4620434f4e54524143542c
+20544f5254204f52204f54484552574953452c2041524953494e472046524f4d2c204f5554204f46
+204f5220494e20434f4e4e454354494f4e20574954482054484520534f465457415245204f522054
+484520555345204f52204f54484552204445414c494e475320494e2054484520534f465457415245
+2e004e0065006700720065007400610041007200690061006c0020004e0065006700720065007400
+6100740075010d006e00e90041007200690061006c002000740075010d006e00e900660065006400
+41007200690061006c002000660065006400460065007400740041007200690061006c0020004600
+6500740074038803bd03c403bf03bd03b10041007200690061006c0020038803bd03c403bf03bd03
+b100a90020003200300031003700200054006800650020004d006f006e006f007400790070006500
+200043006f00720070006f0072006100740069006f006e002e00200041006c006c00200052006900
+67006800740073002000520065007300650072007600650064002e0020000d000a000d000a004800
+6500620072006500770020004f00700065006e00540079007000650020004c00610079006f007500
+740020006c006f00670069006300200063006f0070007900720069006700680074002000a9002000
+320030003000330020002600200032003000300037002c002000520061006c007000680020004800
+61006e0063006f0063006b002000260020004a006f0068006e00200048007500640073006f006e00
+2e002000540068006900730020006c00610079006f007500740020006c006f006700690063002000
+66006f00720020004200690062006c006900630061006c0020004800650062007200650077002000
+6900730020006f00700065006e00200073006f007500720063006500200073006f00660074007700
+610072006500200075006e00640065007200200074006800650020004d004900540020004c006900
+630065006e00730065003b002000730065006500200065006d006200650064006400650064002000
+6c006900630065006e007300650020006400650073006300720069007000740069006f006e002000
+66006f0072002000640065007400610069006c0073002e0041007200690061006c0042006f006c00
+64004d006f006e006f0074007900700065003a0041007200690061006c00200042006f006c006400
+200028004d006900630072006f0073006f0066007400290041007200690061006c00200042006f00
+6c006400560065007200730069006f006e00200037002e003000300041007200690061006c002d00
+42006f006c0064004d00540041007200690061006c00200069007300200061002000740072006100
+640065006d00610072006b0020006f006600200054006800650020004d006f006e006f0074007900
+70006500200043006f00720070006f0072006100740069006f006e002e0054006800650020004d00
+6f006e006f007400790070006500200043006f00720070006f0072006100740069006f006e004d00
+6f006e006f007400790070006500200054007900700065002000440072006100770069006e006700
+20004f006600660069006300650020002d00200052006f00620069006e0020004e00690063006800
+6f006c00610073002c0020005000610074007200690063006900610020005300610075006e006400
+650072007300200031003900380032004d006900630072006f0073006f0066007400200073007500
+700070006c00690065006400200066006f006e0074002e00200059006f00750020006d0061007900
+200075007300650020007400680069007300200066006f006e007400200074006f00200063007200
+65006100740065002c00200064006900730070006c00610079002c00200061006e00640020007000
+720069006e007400200063006f006e00740065006e00740020006100730020007000650072006d00
+69007400740065006400200062007900200074006800650020006c006900630065006e0073006500
+20007400650072006d00730020006f00720020007400650072006d00730020006f00660020007500
+730065002c0020006f006600200074006800650020004d006900630072006f0073006f0066007400
+2000700072006f0064007500630074002c00200073006500720076006900630065002c0020006f00
+7200200063006f006e00740065006e007400200069006e0020007700680069006300680020007400
+680069007300200066006f006e0074002000770061007300200069006e0063006c00750064006500
+64002e00200059006f00750020006d006100790020006f006e006c00790020002800690029002000
+65006d0062006500640020007400680069007300200066006f006e007400200069006e0020006300
+6f006e00740065006e00740020006100730020007000650072006d00690074007400650064002000
+620079002000740068006500200065006d00620065006400640069006e0067002000720065007300
+7400720069006300740069006f006e007300200069006e0063006c00750064006500640020006900
+6e0020007400680069007300200066006f006e0074003b00200061006e0064002000280069006900
+29002000740065006d0070006f0072006100720069006c007900200064006f0077006e006c006f00
+6100640020007400680069007300200066006f006e007400200074006f0020006100200070007200
+69006e0074006500720020006f00720020006f00740068006500720020006f007500740070007500
+74002000640065007600690063006500200074006f002000680065006c0070002000700072006900
+6e007400200063006f006e00740065006e0074002e00200041006e00790020006f00740068006500
+720020007500730065002000690073002000700072006f0068006900620069007400650064002e00
+0d000a000d000a00540068006500200066006f006c006c006f00770069006e00670020006c006900
+630065006e00730065002c0020006200610073006500640020006f006e0020007400680065002000
+4d004900540020006c006900630065006e00730065002000280068007400740070003a002f002f00
+65006e002e00770069006b006900700065006400690061002e006f00720067002f00770069006b00
+69002f004d00490054005f004c006900630065006e007300650029002c0020006100700070006c00
+690065007300200074006f00200074006800650020004f00700065006e0054007900700065002000
+4c00610079006f007500740020006c006f00670069006300200066006f0072002000420069006200
+6c006900630061006c00200048006500620072006500770020201c004c00610079006f0075007400
+20004c006f006700690063201d0020006100730020006a006f0069006e0074006c00790020006400
+6500760065006c006f007000650064002000620079002000520061006c0070006800200048006100
+6e0063006f0063006b00200061006e00640020004a006f0068006e00200048007500640073006f00
+6e002e0020000d000a000d000a005000650072006d0069007300730069006f006e00200069007300
+200068006500720065006200790020006700720061006e007400650064002c002000660072006500
+650020006f00660020006300680061007200670065002c00200074006f00200061006e0079002000
+70006500720073006f006e0020006f0062007400610069006e0069006e0067002000610020006300
+6f007000790020006f006600200074006800650020004f00700065006e0054007900700065002000
+4c00610079006f007500740020006c006f00670069006300200066006f0072002000420069006200
+6c006900630061006c002000480065006200720065007700200061006e0064002000610073007300
+6f00630069006100740065006400200064006f00630075006d0065006e0074006100740069006f00
+6e002000660069006c00650073002000280074006800650020201c004c00610079006f0075007400
+20004c006f00670069006300200053006f006600740077006100720065201d0029002c0020007400
+6f0020006400650061006c00200069006e00200074006800650020004c00610079006f0075007400
+20004c006f00670069006300200053006f0066007400770061007200650020007700690074006800
+6f007500740020007200650073007400720069006300740069006f006e002c00200069006e006300
+6c007500640069006e006700200077006900740068006f007500740020006c0069006d0069007400
+6100740069006f006e0020007400680065002000720069006700680074007300200074006f002000
+7500730065002c00200063006f00700079002c0020006d006f0064006900660079002c0020006d00
+65007200670065002c0020007000750062006c006900730068002c00200064006900730074007200
+690062007500740065002c0020007300750062006c006900630065006e00730065002c0020006100
+6e0064002f006f0072002000730065006c006c00200063006f00700069006500730020006f006600
+200074006800650020004c00610079006f007500740020004c006f00670069006300200053006f00
+6600740077006100720065002c00200061006e006400200074006f0020007000650072006d006900
+7400200070006500720073006f006e007300200074006f002000770068006f006d00200074006800
+650020004c00610079006f007500740020004c006f00670069006300200053006f00660074007700
+61007200650020006900730020006600750072006e0069007300680065006400200074006f002000
+64006f00200073006f002c0020007300750062006a00650063007400200074006f00200074006800
+6500200066006f006c006c006f00770069006e006700200063006f006e0064006900740069006f00
+6e0073003a000d000a000d000a005400680065002000610062006f0076006500200063006f007000
+79007200690067006800740020006e006f007400690063006500200061006e006400200074006800
+6900730020007000650072006d0069007300730069006f006e0020006e006f007400690063006500
+20007300680061006c006c00200062006500200069006e0063006c00750064006500640020006900
+6e00200061006c006c00200063006f00700069006500730020006f00720020007300750062007300
+740061006e007400690061006c00200070006f007200740069006f006e00730020006f0066002000
+74006800650020004c00610079006f007500740020004c006f00670069006300200053006f006600
+740077006100720065002e000d000a000d000a00540048004500200053004f004600540057004100
+520045002000490053002000500052004f0056004900440045004400200027004100530020004900
+530027002c00200057004900540048004f00550054002000570041005200520041004e0054005900
+20004f004600200041004e00590020004b0049004e0044002c002000450058005000520045005300
+530020004f005200200049004d0050004c004900450044002c00200049004e0043004c0055004400
+49004e004700200042005500540020004e004f00540020004c0049004d0049005400450044002000
+54004f0020005400480045002000570041005200520041004e00540049004500530020004f004600
+20004d00450052004300480041004e0054004100420049004c004900540059002c00200046004900
+54004e00450053005300200046004f00520020004100200050004100520054004900430055004c00
+41005200200050005500520050004f0053004500200041004e00440020004e004f004e0049004e00
+4600520049004e00470045004d0045004e0054002e00200049004e0020004e004f00200045005600
+45004e00540020005300480041004c004c002000540048004500200041005500540048004f005200
+530020004f005200200043004f005000590052004900470048005400200048004f004c0044004500
+5200530020004200450020004c004900410042004c004500200046004f005200200041004e005900
+200043004c00410049004d002c002000440041004d00410047004500530020004f00520020004f00
+540048004500520020004c0049004100420049004c004900540059002c0020005700480045005400
+480045005200200049004e00200041004e00200041004300540049004f004e0020004f0046002000
+43004f004e00540052004100430054002c00200054004f005200540020004f00520020004f005400
+48004500520057004900530045002c002000410052004900530049004e0047002000460052004f00
+4d002c0020004f005500540020004f00460020004f005200200049004e00200043004f004e004e00
+45004300540049004f004e00200057004900540048002000540048004500200053004f0046005400
+570041005200450020004f0052002000540048004500200055005300450020004f00520020004f00
+540048004500520020004400450041004c0049004e0047005300200049004e002000540048004500
+200053004f004600540057004100520045002e004e00650067007200690074006100410072006900
+61006c0020004e006500670072006900740061004c0069006800610076006f006900740075004100
+7200690061006c0020004c0069006800610076006f00690074007500470072006100730041007200
+690061006c00200047007200610073004600e9006c006b00f6007600e90072004100720069006100
+6c0020004600e9006c006b00f6007600e9007200470072006100730073006500740074006f004100
+7200690061006c002000470072006100730073006500740074006f00560065007400410072006900
+61006c002000560065007400480061006c00760066006500740041007200690061006c0020004800
+61006c00760066006500740050006f00670072007500620069006f006e0079004100720069006100
+6c00200050006f00670072007500620069006f006e0079004e00650067007200690074006f004100
+7200690061006c0020004e00650067007200690074006f041f043e043b0443043604380440043d04
+4b04390041007200690061006c0020041f043e043b0443043604380440043d044b04390054007501
+0d006e00e90041007200690061006c002000540075010d006e00e900460065007400410072006900
+61006c0020004600650074004b0061006c0131006e0041007200690061006c0020004b0061006c01
+31006e004b007200650070006b006f0041007200690061006c0020004b007200650070006b006f01
+1100e20323006d0041007200690061006c0020011100e20323006d004c006f006400690061004100
+7200690061006c0020004c006f006400690061004e00650067007200690074006100410072006900
+61006c0020004e006500670072006900740061004e00650067007200690074006f00410072006900
+61006c0020004e00650067007200690074006f004e00650067007200690074006100410072006900
+61006c0020004e00650067007200690074006100470072006100730041007200690061006c002000
+4700720061007300410c005403af03af03af0235001d001f03ae03ad003c001f03adb3061d1f8041
+0d03ac00af03ac0002001003ac002003ac00a003ac0003004003acb3070d3240b803acb312143240
+b803acb2162b32b9ffc003acb23a3340b803acb32d943280bc03ab005f0033ffc003abb2553340b8
+03abb340443240b803abb3333b3240b803abb32f313240b803abb2083340b803abb30714321f411a
+03ab002f03ab0002000f03ab002f03ab004f03ab008f03ab009f03ab00bf03ab0006001003ab00df
+03ab00ff03ab000303a803a2b2461f40b803a5b208330f411403a50001004003a500cf03a500ff03
+a50003002003a500af03a500ef03a500ff03a50004ffc003a3b3090c3240b803a3b208330f411b03
+a30001000f03a3001003a3008003a300af03a300cf03a30005006f03a3009f03a300ff03a3000300
+9f03a200af03a2000203a203a1b2101f10410a039e007f039e0002039a000f0101001fffc00398b3
+10143240b80399b30f1332404110039500500395000200b0034d00c0034d0002006f0391007f0391
+0002ffc0034bb22d3132b9ffc0034bb30a0e32104110038b0020038b0080038b000300a0038b0001
+0020038b0040038b0002ffc0038bb313163240b80383b20f1132b9ffc0037bb2303432b9ffc0037b
+b3101832504114037800010365036e0023001f037e036e001e001f0363036e001d001f0362036400
+0d001fffc00340b30f1032804110033f0001033f03150029001f034103160032001f0344031a001b
+001fffc00375b20e1132b9ffc00375b2282a32410a034303180032001f030f030d0034001f030803
+07b2321f20bb0340000100400388b3090b3240b80388b2101532bd038503070014001f03800307b2
+171f0fbd030a002f030a0002ffc00354b3090d3290410c035400a003540002001f036e0001009f03
+6e00010040036eb2090b3241110345031c0016001f036b031d0015001f0346031e0015001f03a703
+a10046001f039db3261c1fc0bb0393000100400392b3090d3240b8033eb2083340b8033eb30d0e32
+c04109033e000100b0038e00c0038e0002ffc00390b326383200412603280030032800020020037f
+0030037f00020010038a0030038a0050038a006f038a007f038a009f038a00060000038900300389
+0002002f037a0070037700900377009f037a0004ffc00315b20f1032b9ffc00315b2242832b90319
+0318b2321f10bb031a0001ffc0031ab3090e3240b80318b2121332b9ffc00318b30c0e323fbd0373
+004f0373000200400374b31718326fbb032a00010040032cb3181b3240b80370b2090c32bd031703
+160032001fffc00316b20e1132bd031c031e0016001f031d031eb2151fb0411f031e0001000f031f
+000102ca02d00015001f02d302d5000d001f02cf02d0000d001f02cb02d0000d001f02cd02d0000d
+001f02ce02d0000d001fffc002d0b3090c3240b802d2b3090c32e0411c02e50001005f02dd009f02
+e5000202bb02c30030001f02da02b80032001f02d902b9003f001f02d802b80064001f02b902b800
+33001f02bab221c81fb802b8b321c81f40b8039bb20d1632b9ffc002c3b22b2f32b9ffc002c3b21f
+2532b9ffc002c3b2171b32b9ffc002c3b2121632412502c202c1001c001f02d702c10024001f02c1
+02c00022001f02bf02c00018001f02c0027400c8001f02b50235003b001f02b40235003b001f02c4
+02bc001e001f02b702b60038001f02b3b20ec81fb802b0b207c81fb802afb206c81fb802aeb200c8
+1fb802afb2502f1fbc02ae02ab001a001f02adb2261a1fb802a8b326241f0fbb0235000102a50274
+b21d1f12410a02a1015801f4001f02a000d801f4001f001202a2b237c81fb80290b2bc201fb90290
+02904018374025402d40a6033025302d30a6032025202d203720a6204110028e0005009f028b0001
+028b028b003700200289003002890040028900900289b20437b041fd027400c00274000200800274
+00a00274000200600274007002740002000002740010027400020080027400f002740002003f0285
+004f028500020090027e0090027f009002800090028100040090027a0090027b0090027c0090027d
+000400900274009002750090027700030070027e0070027f007002800070028100040070027a0070
+027b0070027c0070027d000400700274007002750070027700030060027e0060027f006002800060
+028100040060027a0060027b0060027c0060027d000400600274006002750060027700030050027e
+0050027f005002800050028100040050027a0050027b0050027c0050027d00040050027400500275
+0050027700030040027e0040027f004002800040028100040040027a0040027b0040027c0040027d
+000400400274004002750040027700030030027e0030027f003002800030028100040030027a0030
+027b0030027c0030027d000400300274003002750030027700030020027e0020027f002002800020
+028100040020027a0020027b0020027c0020027d000400200274002002750020027700030010027e
+0010027f001002800010028100040010027a0010027b0010027c0010027d00040010027400100275
+00100277000300e0027e00e0027f00e0028000e00281000400e0027a00e0027b00e0027c00e0027d
+000400e0027400e0027500e00277b103d041c5027e00d0027f00d0028000d00281000400d0027a00
+d0027b00d0027c00d0027d000400d0027400d0027500d0027700030030027400400274000200c002
+7e00c0027f00c0028000c00281000400c0027a00c0027b00c0027c00c0027d000400c0027400c002
+7500c00277000300b0027e00b0027f00b0028000b00281000400b0027a00b0027b00b0027c00b002
+7d000400b0027400b0027500b00277000300a0027e00a0027f00a0028000a00281000400a0027a00
+a0027b00a0027c00a0027d000400a0027400a0027500a0027700030090027e0090027f0090028000
+90028100040090027a0090027b0090027c0090027d00040090027400900275009002770003002002
+7e0020027f002002800020028100040020027a0020027b0020027c0020027d000400200274002002
+75002002770003028101580801001f028001290801001f027f00ec0801001f027e00d80801001f02
+7d00b10801001f027c00a60801001f027b00820801001f027a00370801001f027700260801001f02
+7500200801001f0274001f0801b21f370f41160235004f0235005f0235006f0235009f023500af02
+3500bf0235000700af023500cf023500df023500ff02354022040f074f079f07af07bf0705af07e0
+07020f064f069f06af06bf0605af06e0060220411b020d0001005f02350001008f02350001007f02
+3500ef02350002002f0235003f02350002003f0234004f0234000202350235023402344011ed20ef
+2a01cf2a01bf2a01af2a018f2a01410902470104001e001f022000370201001f0158400c263e1fd8
+263e1f3726273e1fb8028eb6ec171fb226361fb801bcb226361fb80129402b26361fec26361fb126
+361fa626361f8226361f3726361f3226361f2d26361f2526361f1f26361f37262a1fb80158402226
+3e1fd8263e1fbc263e1f27263e1f21263e1f20263e1f3700161600000012110840b9020d01a6b3c5
+0d0009b801bcb227281fb801bbb227301fb801b8b2274f1fb801b7b227621f410901b60027010100
+1f01b5002002ab001f01afb21fe41fb801adb21fe41fb801acb21fbb1fb801a8b21f341fb8015db2
+272e1fb8015bb227cd1f410d0155001f0401001f0154001f0401001f0153001f0201001f0152b21f
+561fb80151b21f291fb8012bb227261f410d012a00270125001f0129015800e4001f0125001f0401
+001f0124b21fe41fb80123b21f3b1fb80122b21f391f410d010800270801001f0106002d0101001f
+0105001f0101001f0103b31fbb1fefb901580401400b1fed1f931fec1fe41feb1fb80201b21fd920
+b80401b21fcf25b80156400a1fbc2d9e1fbb1f411fb2410a01580401001f00b101580401001f00b0
+01580401b51fa625891f9bb901580125b61f991f2e1f8e2db80801b51f8d1f291f89b901580401b2
+1f8220b802ab40131f801f301f742de41f731f4a1f611f521f5d25b802abb21f5c1fbc0801001f00
+59015802abb61f5025891f491fb80125b21f4725b80401400b1f461f791f401f271f3920bc02ab00
+1f003801580401b21f372dbc0125001f003201580125b61f2c1f341f2a25b80801b21f5537b80111
+402a07f00790075b0742073b07230722071e071d071408120810080e080c080a0808080608040802
+08000814b8ffe0402b00000100140610000001000604000001000410000001001002000001000200
+000001000002010802004a00b013034b024b5342014bb0c063004b6220b0f65323b8010a515ab005
+234201b0124b004b5442b0382b4bb807ff52b0372b4bb007505b58b101018e59b0382bb00288b801
+005458b801ffb101018e851bb0124358b10100858d1bb900010119858d5959001816763f183f123e
+113946443e113946443e113946443e113946443e11394660443e11394660442b2b2b2b2b2b2b2b2b
+2b2b182b2b2b2b2b2b2b2b2b2b182b1db0964b5358b0aa1d59b0324b5358b0ff1d594bb08153205c
+58b9020f020d4544b9020e020d45445958b90470020f455258b9020f04704459594bb0e453205c58
+b90020020e4544b90027020e45445958b908420020455258b9002008424459594bb8012553205c58
+b90026020f4544b90021020f45445958b90a0d0026455258b900260a0d4459594bb8040153205c58
+b1d8204544b1202045445958b9250000d8455258b900d825004459594bb8040153205c58b9015800
+264544b1262645445958b923200158455258b9015823204459594bb02953205c58b11f1f4544b12d
+1f45445958b9010d001f455258b9001f010d4459594bb02f53205c58b11f1f4544b1251f45445958
+b90135001f455258b9001f01354459594bb8030153205c58b11f1f4544b11f1f45445958b9142800
+1f455258b9001f14284459592b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b
+2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b65422b01
+b331757ec3456523456023456560234560b08b766818b080622020b17e754565234520b003266062
+636820b003266165b075236544b07e234420b131c34565234520b003266062636820b003266165b0
+c3236544b0312344b100c3455458b1c3406544b23140314523614459b33f3c584145652345602345
+6560234560b089766818b080622020b1583c4565234520b003266062636820b003266165b03c2365
+44b058234420b13f414565234520b003266062636820b003266165b041236544b03f2344b1004145
+5458b141406544b23f403f452361445945695342014b5058b108004259435c58b108004259b3020b
+0a124358601b2159421610703eb0124358b93b21187e1bba040001a8000b2b59b00c2342b00d2342
+b0124358b92d412d411bba04000400000b2b59b00e2342b00f2342b0124358b9187e3b211bba01a8
+0400000b2b59b0102342b0112342002b2b2b2b2b2b2b2b00b01243584bb035514bb021535a58b126
+2645b040614459592b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b737373737345b0406144180045
+69444569447373737473737374737473742b2b2b2b2b2b2b2b2b2b2b2b0073737373737373737373
+73737373737373737373737374747474747474747474747474747474747474747475757573747575
+75752b7300004bb02a534bb036515a58b1070745b040604459004bb02e534bb036515a58b1030345
+b0406044b1090945b8ffc06044592b4569440174007373732b4569442b012b435c58400a00060007
+02a006a00702b9ffc00274b31a1d326fbd0277007f02770002ffc00277b22f3132b9ffc00277b322
+253240b80274b32f353240b80274b3282a3240b80274b21a2132b8ffc0b3371a1d32b8ffc0b3251a
+1d32b8ffc040112d1a1d329025902d9037a025a02da03706b8ffc0b6a61a1d321fa61fb8028eb22f
+a60300742b732b2b2b2b2b2b2b2b742b737459002b2b435c58b9ffc002a1b21c1d32b9ffc002a0b2
+1c1d322b2b592b73012b2b2b2b002b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b012b2b2b2b2b2b2b
+73742b2b2b2b2b2b2b2b73732b2b2b2b2b2b732b732b2b2b742b2b2b73737373732b73732b2b2b73
+2b2b002b2b2b2b7374732b732b2b2b2b752b2b2b2b2b2b2b2b752b2b2b2b2b732b2b2b2b7374752b
+2b7373732b2b2b732b737374752b2b7374752b2b7374752b2b2b2b2b2b2b2b2b2b2b2b7475002b2b
+2b4569442b000000>
+] def
+/Arial-Bold currentdict end definefont pop
+/CIDInit /ProcSet findresource begin
+11 dict begin
+begincmap
+/CIDSystemInfo
+<< /Registry (Adobe)
+/Ordering (UCS)
+/Supplement 0
+>> def
+/CMapName /APCMapArial-Bold def
+/CMapType 1 def
+1 begincodespacerange
+<0000><FFFF>
+endcodespacerange
+4 beginbfchar
+<FFFF>/.notdef
+<41><41>
+<42><42>
+<43><43>
+endbfchar
+endcmap
+CMapName currentdict /CMap defineresource pop
+end
+end
+/APArial-Bold /APCMapArial-Bold [/Arial-Bold] composefont pop
+%%EndFont
+%%EndProlog
+
+%%BeginSetup
+procDict begin
+printColorMap begin
+595 842 setpagesize
+0 0 0 0 setmargins
+0 0 setorigin
+595 842 setsize
+fittopage
+portrait
+imagescale
+cliptobounds
+setbasematrix
+defaultGraphicsState
+%%EndSetup
+
+1.0 1.0 1.0 RG
+newpath
+0 0 m
+595 0 l
+595 842 l
+0 842 l
+h
+f
+0.0 0.0 0.0 RG
+q
+20.0 100.0 translate
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J_^45+j^[OlLqF7+D!WN.UDu2Tq!;!aqMC8T,f`~>
+/ImageDS0 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS0
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+0 J
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J_^45()^[d:9pa2X3Qj;trrrB.dnE,TVTF_(U~>
+/ImageDS1 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS1
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J_^454Z5O?0Momf:)J3W^W5O?0MjM2*NTF_(U~>
+/ImageDS2 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS2
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J_^455D!<3&c^d%M,rrDtI5P;ek!:7KcjSo5&.%h+Nf`~>
+/ImageDS3 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS3
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J_L;2Z7?gpampa50bJ)HfGn5#YsGjG>8nbWlBe&L6$rJ3[L%i0E1`]bsPPWf1oO2YEVnQ1PG"*b&QnI
+LJ(9B$t%^c.^r]Aa9D=1l/q24\AZ]=QL79h+F1qYK?$RH9]k.%h+Nf`~>
+/ImageDS4 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS4
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J^qYpQI!<3%kr88+]rrA8`d7"`Ms4I~>
+/ImageDS5 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS5
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J_mQ<MgchLTA!:YMd3r!jU%u:,spa+lPL\IA[e+EY?%UOY%-3!rPrrE$10DIl@087+?n-?hd$c-3>M1
+<CWrr@^FrY"EJ0-Ke/KYQJQrrBn^i3*XcGJRT;dl^j6l@0>e.%h+Nf`~>
+/ImageDS6 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS6
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J_hL6GY+7Ou6_Lh7^p*]berrDgarW$^p8,P1C!5W"MJ&4MK/9j\a&RY<2\hEb(NU^*L'OQFk!3ncI;L
+/9Bn:c5kn@..9#_0_4piYR,M#JY!!/26K&,93iDo&0*-j0M&~>
+/ImageDS7 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS7
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J_^3h0a+8A8(!9"7a!/`0''kdFochLMt#QFe`choEq!/-:0)0c&m5PSZJpqsl!n,>"N_k6G*rr?F;ML
+Y,UrrC&)rm6/b:4L-Trr@^r;uZiST>JqL<M/f8KbR>gs4I~>
+/ImageDS8 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS8
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J^qY3S\!#4o".6mWn^YrFI__1j3rrA`#rY9)D-3!u7iue'%J+ID^n=[PT3:m.MjO\nA;kNQdrmC`G-o
+(\4IbF`$'bNkK!WUg~>
+/ImageDS9 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS9
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J\n%q7#rr@][rXb^sU4;,qJ&7TQ!/4_KKDmM/_XBG_)&pj#!/;?j!0"kpYs77Q4p:lc_INHCGfTdt:]
++_cm.pY])"mn/%,Lp`%/$KI`3].Trr@ckrrA'gMC>,.s4I~>
+/ImageDS10 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS10
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^JP00D8p!"+ed&j6W^Q[h7BHp@.<LVs,l"aH*ee/+IDn=m\V>^shGnJB&+5OfhNHputsfuI%!pj[)K9D
+3AT2%KjnkZXVF!WN-,_u:P*^`O8tcPlf`_*!)krr<2<T>Eh^B;n<6!WUg~>
+/ImageDS11 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS11
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^IEr^H;PQ9X=FrrBSGrXg7I6%AD?5N,mt_RfaIL04HUX#p=]Ke`T-%!DRM38+<3LMZtj`tq/Y:^@$R~>
+/ImageDS12 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS12
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J]r:+uaJ)LJ/!/0,+.%g95+7Q-liFr-srr@sAn@QsF!/<u7J)Rs<!95duA&%fTO+BObR/Z"B1&h6-'E
+8%M#Q$]7`]\gh2h/_.C4Gb)rJ#g\L4A6NU5C?$s4I~>
+/ImageDS13 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS13
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J_Iss#"`C9e,$a]hETD2Og!:\KF(I.,3rr@bNrr<=[r'*:B05(4=Du;9Gpd+h=q)U2(gE6>Cca3WOb&
+b=+0<tNW`B$jb!.Y%%~>
+/ImageDS14 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS14
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J_5J1:]n+]O?iAU]9MVJ+GTDU9*pf]m!5N;0[;?$WLF8d)9rXmKODL_H*:YQQ^1S;Tmn>eclrr@bFn<
+&4?5(:hMnPOeQh>[J.O%fQRM.adlpf`1;RUm10#QNH~>
+/ImageDS15 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS15
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J_+9!6prrCf'n=[DprO;e,$Oc<.Zj*k;rrBr$r+balr$sGR@c..u5PS-f0D=8/nQYu/Vo+#Z6GMK"rr
+Bn\rr<=+a57U0Zf#Ko+TDEO^);;XnK7Z^9ATSc_Es,."97$~>
+/ImageDS16 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS16
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+-480.0 32.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J_&,\rVchLTA!:ZWY3r"Wk%u;8>ptOa\L_bFZe271*&`/#S-3!rPrrE$10DJ7`08a'9nc&U+h06\Bn<
+X(S_SH0OKX^pm(bG,'nTTZ$iEuTb_Bn5L%etsu?7j\)>Gc.b&'?;n&-(;~>
+/ImageDS17 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS17
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J^qYpPY:]CDqZ2Xe4Z2XfH(]GG!rr<ECrr<M[r&$_:&-qp,rr@aqrr?$arYZOO("`B;a8@^5r+T]9M?
+*\0~>
+/ImageDS18 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS18
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J^qYpPYZ2Xf*:]CD(:]CE:li%r^rr<Dlrr<N^r%c=j&-qo2rr@b2rr?%8rYk,%(,,UA5Q!B'r,.mrM?
+*\0~>
+/ImageDS19 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS19
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^IEr^jm'>A*jiBDc?@!;p:2r*D&OG*i+Z0DWg^r"7ic5JQ0_J)GiA[SPYmj'^d6:S7ERrrBr!rr?s3S,
+Ok-0DdE`.&)5Vs4I~>
+/ImageDS20 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS20
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^IEr^o]Z>bCpNTDW:#!;pF.!;p!Wpj$fU.GssF8,O,Ir]G\hNPFD%5I%]MJ)am#n5#\OOak89IpmS7r[
+FC:qbuZ+U4>K.f`~>
+/ImageDS21 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS21
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J\n,?-Hrr?,orr<8Hrn8IgEI[KGhtUm"r%*?VH[`aP*P^PfrrB$rqbR2(TD=LpC=b]13/T,W&-(;~>
+/ImageDS22 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS22
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J\n,?8'rr?),rr<8Hrl+m;pMQVmnLsZM:])HPiC*[\*s-rN%fZO.>Pg5U&T@Jrr+aUY!94;V.%h+Nf`
+~>
+/ImageDS23 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS23
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J^qYpPIEdu@9rrDEd58c]\$M71a!.Y%%~>
+/ImageDS24 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS24
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J^qYpPNEduXArrCu-5PTL'!;t"3;+1J7s4I~>
+/ImageDS25 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS25
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^IEp:1,&S([fA]V>E+nFMlA70%i;f`~>
+/ImageDS26 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS26
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^IErYZgWXIK4i3Hb?%kV:IR'ES6e~>
+/ImageDS27 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS27
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^IErWrW*!'5?(!8bPaqpQsfM?*\0~>
+/ImageDS28 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS28
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^IErZ)%>!*XUH!9_1Jr\GssM?*\0~>
+/ImageDS29 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS29
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J_^450)49>H^<SRKe:]6F5#CjX3r#P<grXn&WU47+]!.dB(LO[gEq[*8KTCA6J!6kiM!/9h?!#jB9U4
+>K.f`~>
+/ImageDS30 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS30
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J_^450)4FdA2<%%Y]\,DHH)#jTR%=B2cGQ&@Bn@cSTrrA):n<j4UeDpE4rm-)`LO[Qlrr@`drr<uf.&
+)5Vs4I~>
+/ImageDS31 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS31
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J_^45+3^Yt7R!9G+`YV5>Di@jt.J+?dXij/RaL)g3>rr@^Fr^k0.O>#7ip43/CKq\39pdr,Drr=9Vr$
+#M;Kmflu,[]<`n<WB)fVK9Y#QNH~>
+/ImageDS32 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS32
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+-480.0 32.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J_^40c;pr!+3pg@J(-BJ(h:\[>m?k4-)`TmI'O\>R=rYT_U(pDj6r0*3:WP6LS!"20n)?]sOchSY8J)
+Lb7!/+#B$iVX5mI0G5'V^Hbs4I~>
+/ImageDS33 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS33
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J_^454#rrC"WnC.=@rY3-F=oSKT_r:Tmrr<i#rYFtrYP_qo`"1Mhp3ch/,l[k!1&[:5D>sSCfChl4@G
+p$rrrB=]m0BNd9DFGF!"+Y]/)pi'nRGM&rr@a+qbBZOYbI!Ts4I~>
+/ImageDS34 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS34
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J\n,EA!"9&S@rr<S&rI@-",2_sOTD[cZr%JBR3a;U*BDe#Zq47Nci<Z08-j0M&~>
+/ImageDS35 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS35
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J^qYpPr/,oUp2Lje[r10ba+:%mY0DROKqQO?'_DN$)5Tg$Z~>
+/ImageDS36 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS36
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J_NkQEZ;uZiOQ/Xr"j"L<f#OR$2^\^O[rrC$!%=c93I_^FAJ)MmW!.oIQrr?GS/Ff%6rr<C-p3Zb&^Y
+paB\,QHe1\cOjqthoC(H%iP5Q:]j_rK)@-9noAKl?tk@ZU;"bt%Y4rZ.PE;+1J7s4I~>
+/ImageDS37 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS37
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J_T"[75FT2>prrE'!#e,e@CZ04,e.;IPmCk@RA[U+h!9Cop!6?>]-1M6"%tpQGrrA9KrrC-\BCUo?'q
+^<^!94"YrrC"[j8T*$pcn`u"9/?/]An,&!)Z/bJ,e1~>
+/ImageDS38 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS38
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J^48:?'"9/A=5Q:`$+o]@9&V&_q5O_&_N^"J4iK-/pi]TZhf80DVrrC/;rr@dFrr@d]pcn:Aa8S<8f7
+2_@SgNuEVo0+'*\I>`4<rlJ4#ucBD>(a>X^pr<NIS>%1s*C(;+1J7s4I~>
+/ImageDS39 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS39
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J^RaRNtpiGGq>Q4\Yh\#cNnB4o3P<;.07Iblfhgi@*iie;JZNpCA_r:'DFWZTh7u"cgrr@^Z"L\70M;
+J^=8`Lof-O52d13a%)phTbVIaYgZL,<7lIM_MZ_;-d'cbe!8rlLU!lnP2LTC>)IMC8T,f`~>
+/ImageDS40 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS40
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^IErWm$6!#q+$!/@6J!/,Fm0k:2#A,[17r$(%i;1H')iF;fe_VG.kKEqKJ=8Xhor%"uG='tI?+0p+gOh
+^Zm?eA`TY.s!8J)Q\XiKc^dMP'D#dY]FTs4I~>
+/ImageDS41 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS41
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J_c?pAd5PRgaa89u5q"s%Ur$a9<I`NQ1nK!\+?NjS^_X[M1r/?+B+34(uT*,",q`oC!iePG[:C297cb
+Z1QZi,ocJ)][?^Vk,:T>nXR[[I-q%'^?0r_Z)aJ,e1~>
+/ImageDS42 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS42
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J_`d_Sbfot>,quZhep!%ROF8.t2j(g<#rr<,n>O1ZXi*V*60B0)e`EjAM?gQfsV;5EkGFu4&m)uI)?c
+4!%ec,V]?eNkE5>RdBFT%f=*sq3sZe*#dH[gX>#VLQ;GSe00![sdn5QBC~>
+/ImageDS43 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS43
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J_c>>._iE^l,iRbuJO,+h[pa+ioL`ZnM#H-hc"8G7^O8f1eA,@AI))jnW>PgR4cX.'%0A/9dn<]18!+
+ZT\pe+`ZF<;O;4$hlnA,[@<qd\VULO;2R,J]a\JMfSdp-gC(J3X(e~>
+/ImageDS44 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS44
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J_QG7/FJt=Ie7H%4tIqme,_uB_FJ,BrFi'3"pC#bhBT*mh8?"uEu`6X0f%/`&^=R+K;!"scpI2Bm!=2
+`?2rX+/6rrC`i85BhBQbrS@O*1I&Jj0gZ(\%18,NA_'ML6*;!!OhO!.ogd56O.mG]][;!<:^~>
+/ImageDS45 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS45
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J_It-ESrrCR^rrB+7rrA6grrC?_J'&1LjT%O<O.Z?YBVL@as4I~>
+/ImageDS46 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS46
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^JYo>?ldnG=m65X/[qpa2QPm"+)uNP5buO=rdGrmm\_^,:9]rn7;OL?\]krr@^&i;We9IQIJ[Q[]SH!+
+at!pp]3pr"T/2iFe'r8,iPqT8('(r$T5WYWo?ViNPO\q*#Jl!5V/^rD-5Z1uGYH72,e&f`~>
+/ImageDS47 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS47
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^JXce,;l/,oU&TDfiCrr<snrr@X9r'gVcKo>s2"G-?7nK7`_5K'b0rrBq5q[`Td#Q?CFa5?[C&!$YiZ2
+Xf;%3PQ_^\F"+hsl"ThtUJ!)Sb;)Bj]P#nTG6fTF_(U~>
+/ImageDS48 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS48
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+-480.0 32.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^IEr;QbhqTo_0.%h+Nf`~>
+/ImageDS49 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS49
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^IEr`$H.!3DB6_o][]cG/=3J&<:Vi`#jW_SuNTKo>s2%8[!(;CDAd5Oa8Sbg6:h#s\>d`=u,Rs4I~>
+/ImageDS50 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS50
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J_Nk@C2chLO*n:5mfpoiTdL`Q^!!.nJN'B02YO$3r!(@gMLp-8I1:\I$N+^2(cce93/L%m[.pa\l)Dh
+1,`%g%!b7e'Q?IK]QTn^!*#O8*k4p;b(#NP?E])u()^rWM^TJc>`.M<,FJ#QNH~>
+/ImageDS51 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS51
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J\DtZTtO[%d^rr<CU_86-O*WA"qDtre[rC?Qde9jKS:%:I-I+f@>-g\\>]CoWr=7NnM$2=Vl#N/7"hH
+aLIa2SXF)SEd;\:WSt`V843rLNjPIIR^)B>i,P?QZX>O4LbS[OFWZ!WUg~>
+/ImageDS52 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS52
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+32.0 0.0 translate
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+f*
+0.0 0.0 0.0 RG
+newpath
+0 0 m
+32 0 l
+32 32 l
+0 32 l
+h
+S
+Q
+0.0 0.0 0.0 RG
+0 J
+200.0 400.0 moveto
+q
+1 -1 scale
+/APArial-Bold findfont 96.0 scalefont setfont
+(ABC) false charpath
+S
+Q
+0.0 0.0 0.0 RG
+2 J
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J^jSo53C&\1*r8sXIrrA9td7"fM!#n$P_VaZLqT&U9)'9T4n+sZ8=hb>o`\!\[!+^Rsrr?SX?iDfE,Q
+@aV`.)Lk<bM)dpfG`?!-.\h@>Fj_B;Ot.n+OeRpb2Serr?7fj"04s'`S/537g=O^\G\;hs<#hQhq0U^[
+[V0BDX;3qdYV,O0*oKmX+rXrLrn#0Dd=CA++pIf`~>
+/ImageDS53 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS53
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+200.0 400.0 moveto
+q
+1 -1 scale
+/APArial-Bold findfont 96.0 scalefont setfont
+(ABC) show
+Q
+0.0 0.0 0.0 RG
+currentfile /ASCII85Decode filter /DCTDecode filter /ReusableStreamDecode filter
+s4IA0!"_al8O`[\!<E1.!+5d,s5<r]7<iNY!!#_f!%IsK!!iQ.!s&B*!!!!"!!!!k!s8N(!!!!"z;%N^
+.!!!!"!<<*";%Wd2!!!!"!!!MH;%`j3!!!!"!!!MHz!!.hI!!'9bs4[N@!!**$!<E3%!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!WUmS6NI2g!<E3%!<E3%!<E
+3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<N59!"fJ:#QP,4!?q
+LF&HMtG!WU(<*rl9A"T\W)!<E3$z!!!!"!WrQ/"pYD?$4HmP!4<@<!W`B*!X&T/"U"r.!!.KK!WrE*&H
+rdj0gQ!W;.0\RE>10ZOeE%*6F"?A;UOtZ1LbBV#mqFa(`=5<-7:2j.Ps"@2`NfY6UX@47n?3D;cHat='
+/U/@q9._B4u!oF*)PJGBeCZK7nr5LPUeEP*;,qQC!u,R\HRQV5C/hWN*81['d?O\@K2f_o0O6a2lBFda
+Q^rf%8R-g>V&OjQ5OekiqC&o(2MHp@n@XqZ"J6*ru?D!<E3%!<E3%!<<*"!!!!"!WrQ/"pYD?$4HmP!4
+<C=!W`?*"9Sc3"U"r.!<RHF!<N?8"9fr'"qj4!#@VTc+u4]T'LIqUZ,$_k1K*]W@WKj'(*k`q-1Mcg)&
+ahL-n-W'2E*TU3^Z;(7Rp!@8lJ\h<``C+>%;)SAnPdkC3+K>G'A1VH@gd&KnbA=M2II[Pa.Q$R$jD;US
+O``Vl6SpZEppG[^WcW]#)A'`Q#s>ai`&\eCE.%f\,!<j5f=akNM0qo(2MHp@n@XqZ#7L$j-M1!YGMH!'
+^J]X8&Ii!#,A4pfnp414R/jrr<KOnONS6DtmIBn;@5G_re_nn:/^-J&:XR!/*GUrrA7ErrA%LrrBpDni
+u4l?a4P&5N4q*7=X(4JUd8jrrCjgrr@B.o3Q#.!%rch-iW-js4I~>
+/ImageDS54 exch def
+<<
+/PatternType 1
+/PaintType 1
+/TilingType 1
+/BBox [0.0 0.0 8.0 8.0]
+/XStep 8.0
+/YStep 8.0
+/PaintProc
+{
+begin
+/DeviceRGB setcolorspace
+0.0 0.0 translate
+8.0 8.0 scale
+<<
+/ImageType 1
+/Width 8  /Height 8
+/BitsPerComponent 8
+/Decode [0 1 0 1 0 1]
+/ImageMatrix [8 0 0 8 0 0]
+/DataSource ImageDS54
+
+>> image
+end
+} bind
+>>
+matrix makepattern
+
+setpattern
+5.0 w
+0 J
+200.0 600.0 moveto
+q
+1 -1 scale
+/APArial-Bold findfont 96.0 scalefont setfont
+(ABC) false charpath
+S
+Q
+0.0 0.0 0.0 RG
+1.0 w
+2 J
+end end showpage
+
+%%Trailer
+%%EOF

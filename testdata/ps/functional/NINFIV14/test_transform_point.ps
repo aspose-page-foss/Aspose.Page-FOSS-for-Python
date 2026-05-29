@@ -1,0 +1,73 @@
+%!PS
+
+%	This example appears in section "Listing Characters Metrics
+%	from a Font" in Chapter 14 - "PostScript Nine to Five".
+%
+
+/inch { 72 mul } def				%  define inch procedure
+/WhatFont  /Palatino-Roman def
+/XCharacter  (X = ) def
+/YCharacter  (Y = ) def
+/XTempStr 16 string def
+/YTempStr 16 string def
+
+/X0 314.96 def
+/Y0 280.19 def
+/Matrix [0.0018 0 0 0.0018 29.3 295.7] def
+X0 Y0 Matrix transform
+/Y 1 index def
+pop
+/X 1 index def
+pop
+/XStr X XTempStr cvs def
+/YStr Y YTempStr cvs def
+
+WhatFont findfont 14 scalefont setfont
+
+10 150 moveto
+0.0 setgray
+XStr XCharacter show	show
+10 175 moveto
+YStr YCharacter show	show
+
+10 200 moveto
+/i 0 def
+i 2 string cvs show
+
+10 225 moveto
+/i i 1 add def
+i 2 string cvs show
+
+10 250 moveto
+/i i 1 add def
+i 2 string cvs show
+
+10 275 moveto
+/i i 1 add def
+
+/print_matrix {
+	/mat exch def
+	10 300 moveto
+	([) show
+	mat 0 get 16 string cvs show
+	(, ) show
+	mat 1 get 16 string cvs show
+	(, ) show
+	mat 2 get 16 string cvs show
+	(, ) show
+	mat 3 get 16 string cvs show
+	(, ) show
+	mat 4 get 16 string cvs show
+	%1 0 rmoveto
+	(, ) show
+	mat 5 get 16 string cvs show
+	(]) show
+} def
+
+
+matrix print_matrix
+
+
+
+
+showpage					%  display page

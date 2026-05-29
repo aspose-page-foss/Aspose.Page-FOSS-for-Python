@@ -1,0 +1,14 @@
+%!PS
+
+%	This example appears in section "Basic Text - Show a Message" in
+%	Chapter 1 - "Introducing PostScript".
+%
+
+/Palatino-Roman findfont	%  find required font
+162 scalefont			%  scale font to required size
+setfont				%  set as current font
+108 36 moveto			%  set current point
+52 rotate			%  rotate coordinate system
+0.50 setgray			%  set medium gray color
+(PostScript!) show		%  image title on page
+showpage			%  display page

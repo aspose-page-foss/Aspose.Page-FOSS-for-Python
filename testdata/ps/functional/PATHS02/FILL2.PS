@@ -1,0 +1,13 @@
+%!PS
+
+%	This example appears in section "Filling the Interior of a Path" in
+%	Chapter 2 - "Paths and Painting".
+%
+
+/inch { 72 mul } def		%  define inch procedure
+1 inch 2 inch moveto		%  set current point
+4.25 inch 9 inch lineto		%  left side of triangle
+7.5 inch 2 inch lineto		%  right side of triangle
+0.5 setgray			%  medium gray shade
+fill				%  paint the shape
+showpage			%  display page

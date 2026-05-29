@@ -1,0 +1,18 @@
+%!PS
+
+%	This example appears in section "Two Way Conditional" in
+%	Chapter 5 - "PostScript Language".
+%
+
+/inch { 72 mul } def				%  define inch procedure
+/Palatino-Roman findfont			%  find the required font
+48 scalefont					%  scale it to required size
+setfont						%  set current font
+systemdict /filenameforall known {		%  see if it's in systemdict
+	0.25 inch 5.5 inch moveto		%  set current point ready
+	(filenameforall is there) show		%  do this if it's there
+} {
+	0.25 inch 5.5 inch moveto		%  set current point ready
+	(filenameforall is not there) show	%  do this if it's not there
+} ifelse
+showpage					%  display page

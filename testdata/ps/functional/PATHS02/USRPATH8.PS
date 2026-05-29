@@ -1,0 +1,17 @@
+%!PS
+
+%	This example appears in section "Encoded User Paths" in
+%	Chapter 2 - "Paths and Painting".
+%
+%	Caveats:	Requires PostScript Level 2.
+
+0.0 1.0 0.0 setrgbcolor			%  set color green
+[					%  start outer array
+	[				%  start inner array
+		54 144 558 648		%  bounding box
+		306 396 252 0 360	%  draw circle
+	]				%  end inner array
+	<00070a>			%  setbbox, arc, closepath
+]					%  end outer array
+ufill					%  fill circle
+showpage				%  display page

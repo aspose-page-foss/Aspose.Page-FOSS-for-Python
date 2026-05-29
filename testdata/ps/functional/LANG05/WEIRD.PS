@@ -1,0 +1,38 @@
+%!PS
+
+%	This example appears in section "Using forall to Traverse
+%	Dictionaries" in Chapter 5 - "PostScript Language".
+%
+
+/WeirdUnits 14 dict def			%  define weird units dictionary
+WeirdUnits begin			%  put on dictionary stack
+	/Pi 3.141592653 def		%  good old pi
+	/G 9.80665 def			%  acceleration due to G
+	/BakersDozen 13 def
+	/AU 149597871 def		%  astronomical unit in Km
+	/Radian 57.2957795 def		%  degrees per radian
+	/Year 365.24219879 def		%  days in year
+	/Inch 72 def			%  PostScript units in inch
+	/Foot 12 Inch mul def		%  PostScript units in foot
+	/Yard 3 Foot mul def		%  PostScript units in yard
+	/Mile 1760 Yard mul def		%  PostScript units in mile
+	/Barleycorn Inch 3 div def	%  PostScript units in barleycorn
+	/BoardFoot 144 Inch dup dup mul mul mul def
+	/Fathom 6 Foot mul def		%  PostScript units in fathom
+	/Furlong 220 Yard mul def	%  PostScript units in furlong
+end					%  pop from dictionary stack
+
+/inch { 72 mul } def			%  define inch procedure
+/Palatino-Roman findfont		%  choose font
+48 scalefont setfont
+/top 10 inch def			%  position of top line
+WeirdUnits				%  place on operand stack
+{					%  start forall loop
+	exch				%  name on top
+	100 string cvs			%  convert name to string
+	1 inch top moveto show		%  image name
+	(        ) show			%  add some space
+	100 string cvs show		%  show converted value
+	/top top 54 sub def		%  decrement line position
+} forall				%  end forall loop
+showpage				%  display page

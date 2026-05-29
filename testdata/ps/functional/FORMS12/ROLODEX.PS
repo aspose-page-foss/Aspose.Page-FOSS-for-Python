@@ -1,0 +1,62 @@
+%!PS
+
+%	This example appears in section "Embedded Forms"
+%	in Chapter 12 - "Forms".
+%
+%	Caveats:	Requires PostScript Level 2.
+
+/inch { 72 mul } def				%  the dreaded inch
+/RolodexForm 8 dict def				%  define form dictionary
+RolodexForm begin				%  push form dictionary
+/FormType 1 def					%  Required--must be 1
+/BBox [0 0 4 inch 7 add 2.5 inch] def		%  bounding box
+/Matrix [1 0 0 1 0 0] def			%  transformation matrix
+/TitlesForm 5 dict def				%  define form dictionary
+TitlesForm begin				%  push form dictionary
+	/FormType 1 def				%  Required--must be 1
+	/BBox [0 0 3.6 inch 2.2 inch] def	%  bounding box
+	/Matrix [1 0 0 1 0 0] def		%  transformation matrix
+	/PaintProc {				%  define paint procedure
+		pop				%  pop form dictionary
+		/Times-Italic 12 selectfont	%  choose font & draw titles
+		0.25 inch 2.0 inch moveto (Name:) show
+		0.25 inch 1.75 inch moveto (Address:) show
+		0.25 inch 1.25 inch moveto (Phone:) show
+		0.25 inch 1.0 inch moveto (Birthday:) show
+	} def
+end
+/insertNotch {					%  draw notches
+	0 0.1875 inch rlineto -0.0625 inch 0 rlineto
+	0 0.3125 inch rlineto 0.25 inch 0 rlineto
+	0 -.3125 inch rlineto -.0625 inch 0 rlineto
+	0 -.1875 inch rlineto
+} def
+/DrawBox {					%  draw card outline
+	1.4357 inch 7 moveto insertNotch
+	2.4357 inch 7 lineto insertNotch
+	4 inch 7 4 inch 2.5 inch 25 arcto
+	4 inch 2.5 inch 0 2.5 inch 25 arcto
+	0 2.5 inch 0 7 25 arcto
+	0 7 4 inch 7 25 arcto
+	closepath
+} def
+/PaintProc {					%  define paint procedure
+	begin					%  push form dictionary
+	gsave
+		7 -7 translate
+		DrawBox 0.6666 setgray fill	%  drop shadow
+	grestore
+	DrawBox 1 setgray fill			%  white background
+	DrawBox 0 setgray stroke		%  black outline
+	TitlesForm execform			%  execute embedded form
+	end
+} def
+end
+RolodexForm execform				%  image form
+/Times-Roman 12 selectfont			%  choose a font
+1 inch 2.0 inch moveto (Richard Campione) show	%  display data points
+1 inch 1.75 inch moveto (50 Waikele Court) show
+1 inch 1.5 inch moveto (Honolulu, HI  09876) show
+1 inch 1.25 inch moveto ((415) 123-4567) show
+1 inch 1 inch moveto (29 Dec 63) show
+showpage					%  display page

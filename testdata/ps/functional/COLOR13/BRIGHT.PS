@@ -1,0 +1,83 @@
+%!PS
+
+%	This example appears in section "HSB Color Model"
+%	in Chapter 13 - "Color and Halftones".
+%
+
+/inch { 72 mul } def				%  define inch procedure
+/point_right 0 def				%  set of definitions and
+/point_left  1 def				%  procedures to draw arrows
+/point_up    2 def
+/point_down  3 def
+
+/arrow {					%  x  y  length  direction
+    4 2 roll					%  length  direction  x  y
+    /m matrix currentmatrix def
+    translate					%  length  direction
+    0 0 moveto					%  length  direction
+    dup						%  length  direction  direction
+    [ 
+        {  0 24 -42 -12 }			%  right
+        {  0 24  42 -12 }			%  left
+        { 24  0 -12 -42 }			%  up
+        { 24  0 -12  42 }			%  down
+    ] exch get exec rlineto rlineto closepath
+    fill					%  length  direction
+    0 0 moveto
+    [
+        { neg 0      }
+        {     0      }
+        { neg 0 exch }
+        {     0 exch }
+    ] exch get exec rlineto stroke
+    m setmatrix
+} def
+
+/right_arrow {					%  x y length
+    point_right arrow
+} def
+ 
+/left_arrow {					%  x y length
+    point_left arrow
+} def
+ 
+/down_arrow {					%  x y length
+    point_down arrow
+} def
+
+/up_arrow {					%  x y length
+    point_up arrow
+} def
+
+/YPOS 8.0 inch def				%  define starting Y position
+/top 8.0 inch def				%  define top of triangle
+/XPOS -1.5 inch def				%  define starting X position
+
+/w 0.05 def					%  delta x
+/h 0.05 def					%  delta y
+
+120 -1 1 {					%  loop to draw triangle
+    /i exch def
+    /hue 5 6 div def
+    i neg 2 div 1 i 2 div {
+        /angle exch def
+        hue 1.0 i 120 div sethsbcolor
+        angle i add w mul inch XPOS add		%  x
+        YPOS w inch h inch rectfill
+    } for
+    /XPOS XPOS w inch add def
+    /top top h inch sub def
+    /YPOS top def
+} for
+
+3 setlinewidth					%  set thicker line widht
+1 setgray					%  set white color
+4.525 inch 2 inch 3 inch down_arrow		%  draw arrow down
+4.525 inch 8.1 inch 3.5 inch up_arrow		%  draw arrow up
+
+0 setgray					%  set black color
+/Palatino-Italic findfont 48 scalefont setfont	%  establish font
+1.4 inch 7.25 inch moveto			%  establish current point
+(Brightness) show				%  show label
+
+showpage					%  display page

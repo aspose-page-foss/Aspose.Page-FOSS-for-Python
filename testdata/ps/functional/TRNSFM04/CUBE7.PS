@@ -1,0 +1,39 @@
+%!PS
+
+%	This example appears in section "Parallel Projections"
+%	in Chapter 4 - "Transformations".
+%
+
+/square {				%  stack = side
+	0 0 moveto			%  set current point
+	dup 0 rlineto			%  bottom of square
+	dup 0 exch rlineto		%  right side of square
+	neg 0 rlineto			%  top of square
+	closepath			%  finish the shape
+} def					%  define procedure
+
+/inch { 72 mul } def			%  define inch procedure
+/side 4 inch def			%  size of side
+/left_y_shear { 10 sin } def
+/left_x_squash { 10 cos } def
+/right_y_shear { 25 sin } def
+/right_x_squash { 25 cos } def
+4.25 inch 2 inch translate		%  set origin
+					%  right side of cube
+gsave					%  remember graphics state
+	[ right_x_squash right_y_shear 0 1 0 0 ] concat
+	side square 0.50 setgray fill	%  medium gray right side
+grestore				%  restore graphics state
+					%  left side of cube
+gsave					%  remember graphics state
+	[ left_x_squash neg left_y_shear 0 1 0 0 ] concat
+	side square 0.00 setgray fill	%  black left side
+grestore				%  restore graphics state
+0 side translate
+					%  top of cube
+gsave					%  remember graphics state
+	[ right_x_squash  right_y_shear
+	left_x_squash neg left_y_shear 0 0 ] concat
+	side square 0.90 setgray fill	%  light gray top
+grestore				%  restore graphics state
+showpage				%  display page

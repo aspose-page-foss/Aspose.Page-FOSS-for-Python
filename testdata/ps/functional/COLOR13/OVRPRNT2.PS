@@ -1,0 +1,24 @@
+%!PS
+
+%	This example appears in section "Overprinting"
+%	in Chapter 13 - "Color and Halftones".
+%
+%	Caveats:	Requires PostScript Level 2.
+
+/inch { 72 mul } def				%  define inch procedure
+
+/DrawRect {					%  stack = x y width height
+	4 2 roll moveto				%  move to x, y 
+	1 index 0 rlineto			%  bottom edge
+	0 exch rlineto				%  right edge
+	neg 0 rlineto				%  top edge
+	closepath				%  close rectangle
+} def
+
+true setoverprint				%  turn overprinting on
+0.0 1.0 0.0 0.0 setcmykcolor			%  draw magenta square
+0.5 inch 1.0 inch 6.5 inch 6.5 inch DrawRect fill
+0.0 0.0 1.0 0.0 setcmykcolor			%  draw yellow circle
+5.0 inch 7.0 inch moveto
+5.0 inch 7.0 inch 3.0 inch 0 360 arc fill
+showpage					%  display page

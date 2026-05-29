@@ -1,0 +1,17 @@
+%!PS
+
+%	This example appears in section "Square Line Caps"
+%	in Chapter 6 - "Line Weights and Line Styles".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+1 inch 2 inch moveto			%  set current point
+4.25 inch 9 inch lineto			%  add line segment
+4.25 inch 9 inch moveto			%  set current point
+7.5 inch 2 inch lineto			%  add line segment
+7.5 inch 2 inch moveto			%  set current point
+1 inch 2 inch lineto			%  add line segment
+2 setlinecap				%  set square caps
+1 inch setlinewidth			%  fat line width
+stroke					%  paint the path
+showpage				%  display page

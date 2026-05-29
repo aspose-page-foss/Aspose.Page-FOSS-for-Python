@@ -1,0 +1,15 @@
+%!PS
+
+%	This example appears in section "Relative Bezier Curves"
+%	in Chapter 7 - "Arcs and Curves".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+/P0 { 1.0 inch 1.0 inch } def		%  first end point
+/P1 { 0.0 inch 6.0 inch } def		%  first control point
+/P2 { 4.0 inch 5.0 inch } def		%  second control point
+/P3 { 6.0 inch 1.0 inch } def		%  second end point
+P0 moveto P1 P2 P3 rcurveto		%  draw relative Bezier curve
+0.125 inch setlinewidth			%  fat line width
+stroke					%  stroke the path
+showpage				%  display page

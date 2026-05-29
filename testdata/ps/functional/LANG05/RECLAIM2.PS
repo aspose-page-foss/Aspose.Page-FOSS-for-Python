@@ -1,0 +1,15 @@
+%!PS
+
+%	This example appears in section "Reclaiming Virtual Memory with Save
+%	and Restore" in Chapter 5 - "PostScript Language".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+save					%  save state
+	/Palatino-Roman findfont	%  set current font
+	2.25 inch scalefont setfont
+	1.5 inch 0.5 inch moveto	%  set current point
+	52 rotate			%  rotate user space
+	(PostScript!) show		%  display temporary string
+	showpage			%  display page
+restore					%  restore state

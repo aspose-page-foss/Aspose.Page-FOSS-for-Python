@@ -1,0 +1,17 @@
+%!PS
+
+%	This example appears in section "Encapsulated PostScript"
+%	in Chapter 14 - "PostScript Nine to Five".
+%
+
+/inch { 72 mul } def			%  define inch define
+1 inch setlinewidth			%  fat line width
+4.25 inch 5.5 inch 3.5 inch 0 360 arc closepath
+0.66 setgray stroke			%  stroke with light gray
+4.25 inch 5.5 inch 2.5 inch 0 360 arc closepath
+0.50 setgray stroke			%  stroke with medium gray
+4.25 inch 5.5 inch 1.5 inch 0 360 arc closepath
+0.33 setgray stroke			%  stroke with dark gray
+4.25 inch 5.5 inch 0.5 inch 0 360 arc closepath
+0.00 setgray stroke			%  stroke with black
+showpage				%  fat line width

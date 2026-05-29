@@ -1,0 +1,18 @@
+%!PS
+
+%	This example appears in section "Putting an Element into a String"
+%	in Chapter 5 - "PostScript Language".
+%
+
+
+/inch { 72 mul } def			%  define inch procedure
+/Palatino-Roman findfont		%  choose font
+3 inch scalefont setfont
+/MyString (flip) def			%  define string
+1.0 inch 6.5 inch moveto		%  set current point
+MyString show				%  show string
+MyString 2 111 put			%  put new character
+2.5 inch 4.5 inch moveto		%  set current point
+1 -1 scale				%  invert coordinate system
+MyString show				%  show string
+showpage				%  display page

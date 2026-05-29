@@ -1,0 +1,18 @@
+
+EXAMPLES FOR CHAPTER 11 - "Patterns".
+
+The examples for this chapter require 23 KB.
+			
+Files contained in this folder:				
+	Manifest
+	astroid.ps (*)
+	circle.ps (*)
+	duck1.ps (*)
+	duck2.ps (*)
+	duck3.ps (*)
+	heart1.ps
+	heart2.ps (*)
+	4inst.ps (*)
+
+(*)	Requires PostScript Level 2.
+

@@ -1,0 +1,27 @@
+%!PS
+
+%	This example appears in section "Halftones" in
+%	Chapter 1 - "Introducing PostScript".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+0.25 inch 0.5 inch translate		%  position origin
+0 1 9 {					%  count rows of squares
+	0 1 7 {				%  count columns of squares
+		gsave 			%  remember graphics state
+       					%  position origin
+		dup inch 2 index inch translate
+		0 0 moveto 		%  set current point
+		1 inch 0 rlineto 	%  bottom of square
+		0 1 inch rlineto 	%  right side of square
+		-1 inch 0 rlineto 	%  top of square
+		closepath 		%  finish square
+       					%  compute gray
+		1 index 8 mul 1 index add 80 div setgray
+		fill 			%  fill square
+		grestore 		%  recall saved graphics state
+		pop 			%  remove spare number
+	} for				%  end for loop
+	pop				%  remove spare number
+} for					%  end for loop
+showpage				%  display page

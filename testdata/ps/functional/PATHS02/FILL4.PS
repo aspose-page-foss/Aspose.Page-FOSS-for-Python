@@ -1,0 +1,21 @@
+%!PS
+
+%	This example appears in section "Rules for Filling Intersecting
+%	Subpaths" in Chapter 2 - "Paths and Painting".
+%
+
+/inch { 72 mul } def		%  define inch procedure
+/width 4 inch def		%  define width of rectangle
+/height 4 inch def		%  define height of rectangle
+1 inch 1 inch moveto		%  set current point
+width 0 rlineto			%  bottom of rectangle
+0 height rlineto		%  right side
+width neg 0 rlineto		%  top
+closepath			%  close the path
+7.5 inch 10 inch moveto		%  set current point
+width neg 0 rlineto		%  top of rectangle
+0 height neg rlineto		%  left side
+width 0 rlineto			%  bottom
+closepath			%  close the path
+0.50 setgray fill		%  fill with medium gray
+showpage			%  display page

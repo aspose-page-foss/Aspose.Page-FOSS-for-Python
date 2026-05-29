@@ -1,0 +1,19 @@
+%!PS
+
+%	This example appears in section "Reclaiming Virtual Memory with Save
+%	and Restore" in Chapter 5 - "PostScript Language".
+%
+
+/inch { 72 mul } def				%  define inch procedure
+/String (Mozzarella) def			%  define string object
+/Array [ 2 0 0 2 0 0 ] def			%  define array
+save						%  save virtual memory
+	String 0 (Parmesan) putinterval		%  modify string object
+	Array 0 [ 1 0 0 1 0 0 ] putinterval	%  modify array
+restore						%  restore virtual memory
+/Palatino-Italic findfont			%  choose font
+0.75 inch scalefont setfont
+0.75 inch 5.5 inch moveto			%  set current point
+Array concat					%  modify CTM
+String show					%  display string
+showpage					%  display page

@@ -1,0 +1,21 @@
+%!PS
+
+%	This example appears in section "Mitered Line Joins"
+%	in Chapter 6 - "Line Weights and Line Styles".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+1.5 inch 1 inch moveto			%  move to initial point
+4.25 inch 7 inch lineto			%  draw left leg
+7.0 inch 1 inch lineto			%  draw right leg
+gsave					%  push graphics state
+	2 inch setlinewidth		%  set fat line width
+	0 setlinejoin			%  mitered line join
+	0.50 setgray stroke		%  stroke with medium gray
+grestore				%  pop graphics state
+gsave					%  push graphics state
+	1 setlinejoin			%  round line join
+	0.125 inch setlinewidth		%  thin line width to show path
+	1.0 setgray stroke		%  draw path in white
+grestore				%  pop graphics state
+showpage				%  display page

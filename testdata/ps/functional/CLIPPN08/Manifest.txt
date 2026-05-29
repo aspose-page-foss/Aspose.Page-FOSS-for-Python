@@ -1,0 +1,45 @@
+
+EXAMPLES FOR CHAPTER 8 - "Clipping".
+
+The examples for this chapter require 56 KB.
+			
+Files contained in this folder:				
+	Manifest
+	Zstep1.ps
+	Zstep2.ps
+	Zstep3.ps
+	Zstep4.ps
+	Zstep5.ps
+	bbox1.ps
+	bbox2.ps
+	bbox3.ps
+	bbox4.ps
+	bbox5.ps
+	borro.ps
+	clip1.ps
+	clip2.ps
+	clip3.ps
+	clip4.ps
+	clip5.ps
+	clip6.ps
+	fill.ps
+	flatten.ps
+	initial.ps
+	intersct.ps
+	outside1.ps (*)
+	outside2.ps (*)
+	outside3.ps (*)
+	pentagon.ps
+	plyback1.ps
+	plyback2.ps (1)
+	rect.ps (*)
+	star.ps
+	stroke1.ps
+	stroke2.ps
+	stroke3.ps
+
+(*)	Requires PostScript Level 2.
+
+(1)	The example in the book left off the final showpage instruction.
+	The example on the disk fixed this oversight.
+	

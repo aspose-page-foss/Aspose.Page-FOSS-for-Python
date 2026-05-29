@@ -1,0 +1,33 @@
+%!PS
+
+%	This example appears in section "Clipping with Paths" in
+%	Chapter 1 - "Introducing PostScript".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+matrix currentmatrix			%  save transformation matrix
+4.25 inch 5.5 inch translate		%  origin to center of page
+1.5 2 scale				%  set scale factor
+0 0 2.75 inch 				%  center and radius of ellipse
+0 360 arc closepath			%  draw ellipse
+clip					%  use as clipping path
+newpath					%  start a new path
+setmatrix				%  restore matrix
+/Palatino-Roman findfont		%  find required font
+36 scalefont				%  scale to required size
+setfont					%  set current font
+/CircleText {				%  define procedure
+	gsave				%  remember graphics state
+	translate			%  move coordinate system
+	24 {				%  do 24 times
+		0.5 inch 0 moveto	%  set current point
+		(PostScript) show	%  show string
+		15 rotate		%  rotate coordinate system
+	} repeat			%  end of loop
+	grestore			%  restore graphics state
+} def					%  end of procedure definition
+2.125 inch 7.75 inch CircleText		%  upper left fan
+6.375 inch 7.75 inch CircleText		%  upper right fan
+2.125 inch 2.75 inch CircleText		%  lower left fan
+6.375 inch 2.75 inch CircleText		%  lower right fan
+showpage				%  display page

@@ -1,0 +1,22 @@
+%!PS
+
+%	This example appears in section "Filling Areas"
+%	in Chapter 8 - "Clipping".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+/side 3.5 inch def			%  define length of side
+2.25 inch 2.5 inch translate		%  translate to first point
+newpath					%  start a new path
+0 0 moveto				%  set current point
+side 0 rlineto				%  add line segment to path
+1 1 3 {					%  start for loop
+	side 0 translate		%  set new origin
+	72 rotate			%  rotate coordinate system
+	side 0 rlineto			%  add line segment to path
+} for					%  end for loop
+closepath				%  close the shape
+1.5 inch setlinewidth			%  set fat line width
+strokepath				%  replace current path
+eofill					%  fill the shape
+showpage				%  display page

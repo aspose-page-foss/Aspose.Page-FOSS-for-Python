@@ -1,0 +1,43 @@
+%!PS
+
+%	This example appears in section "Extending the Playing Cards Font
+%	to a Composite Font" in Chapter 10 - "Fonts".
+%
+%	Notes:		This font is used by other fonts: "deck1.ps"
+%			and "deck2.ps".
+
+12 dict						%  dictionary for base font
+dup						%  make copy for later
+begin						%  place on dictionary stack
+	/FontName /Diamonds-Suit def		%  define name
+	/FontType 3 def				%  user-defined font
+	/FontMatrix [ 0.001 0 0 0.001 0 0 ] def	%  1000-unit system
+	/FontBBox [ 0 0 0 0 ] def		%  overall font bounding box
+	/Encoding 256 array def			%  encoding
+	0 1 255 {				%  fill with /.notdef
+		Encoding exch /.notdef put
+	} for
+	(0) 0 get				%  get position of char "0"
+	Encoding exch				%  get encoding
+	[					%  ten characters
+		/Ten /.notdef /Two /Three /Four
+		/Five /Six /Seven /Eight /Nine
+	] putinterval				%  fill in character codes
+	(A) 0 get				%  get position of "A"
+	Encoding exch				%  get encoding
+	/Ace put				%  put name for /Ace
+	/Metrics 10 dict def			%  define Metrics dictionary
+	/UniqueID 3 def				%  ensure unique ID
+	/CardShape {
+		0 405 moveto    -320 -15 lineto
+		0 -465 lineto    320 -15 lineto
+		0 405 lineto    closepath
+	} def
+	/BuildChar {				%  interface procedure
+		rootfont /RootBuildChar get	%  get root font proc
+		exec				%  execute it
+	} def					%  end of interface procedure
+end						%  remove from dict stack
+/Diamonds-Suit exch				%  name of font
+definefont					%  define this base font
+pop						%  remove extraneous dict

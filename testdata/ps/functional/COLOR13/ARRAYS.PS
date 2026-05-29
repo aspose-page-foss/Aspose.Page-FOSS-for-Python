@@ -1,0 +1,109 @@
+%!PS
+
+%	This example appears in section "Setting Halftone Screens Using
+%	setscreen" in Chapter 13 - "Color and Halftones".
+%
+%	Caveats:	Requires Postscript Level 2.
+
+/inch { 72 mul } def					%  define inch procedure
+
+/center_show {						%  stack = x y (string)
+	dup						%  make copy of string
+	stringwidth pop 2 div				%  half string width
+	4 -1 roll exch sub				%  decrement x position
+	3 -1 roll moveto				%  set current point
+	show						%  image string
+} def
+
+/s 100 string def					%  dummy string
+
+/Palatino-Italic findfont 18 scalefont setfont		%  choose font
+4.25 inch 4.875 inch (Frequencies) center_show		%  show title
+
+/Palatino-Italic findfont 16 scalefont setfont		%  choose font
+/Y 4 inch def						%  beginning Y position
+
+/Frequencies [ 10 20 30 40 50 75 90 110 130 ] def	%  list of frequencies
+1 1 9 {							%  begin for loop
+	0.75 setgray					%  choose gray
+	/memidx exch def				%  save index
+	Frequencies memidx 1 sub get			%  get frequency
+	45
+	{
+		dup mul exch dup mul add 1 exch sub
+	} setscreen					%  set halftone
+	memidx 0.75 inch mul Y 0.75 inch 0.75 inch	%  x y w h
+	rectfill					%  fill rectangle
+	0 setgray					%  choose gray
+	memidx 0.75 inch mul Y 0.75 inch 0.75 inch	%  x y w h
+	rectstroke					%  stroke rectangle
+	memidx 0.75 inch mul 0.35 inch add Y 0.25 inch sub
+	Frequencies memidx 1 sub get s cvs center_show	%  show frequency
+} for
+
+/Palatino-Italic findfont 18 scalefont setfont		%  choose font
+4.25 inch 3.125 inch (Angles) center_show		%  show title
+
+/Palatino-Italic findfont 16 scalefont setfont		%  choose font
+/Y 2.25 inch def					%  first Y position
+
+1 1 9 {							%  begin for loop
+	0.75 setgray					%  choose gray
+	/memidx exch def				%  remember index
+	50
+	memidx 10 mul
+	{
+		dup mul exch dup mul add 1 exch sub
+	} setscreen					%  set halftone
+	memidx 0.75 inch mul Y 0.75 inch 0.75 inch	%  x y w h
+	rectfill					%  fill rectangle
+	0 setgray					%  choose gray
+	memidx 0.75 inch mul Y 0.75 inch 0.75 inch	%  x y w h
+	rectstroke					%  stroke rectangle
+	memidx 0.75 inch mul 0.35 inch add		%  show angle
+	Y 0.25 inch sub memidx 10 mul s cvs center_show
+} for
+
+/Palatino-Italic findfont 18 scalefont setfont		%  choose font
+4.25 inch 1.375 inch (Spot Functions) center_show	%  show title
+
+/Palatino-Italic findfont 16 scalefont setfont		%  choose font
+/Y 0.25 inch def					%  initial y position
+
+30 45 {
+	dup mul exch dup mul add 1 exch sub
+} setscreen						%  set halftone
+0.5 setgray						%  choose gray
+1.25 inch Y 1 inch 1 inch rectfill			%  fill rectangle
+0 setgray						%  choose gray
+1.25 inch Y 1 inch 1 inch rectstroke			%  stroke rectangle
+1.75 inch Y 0.25 inch sub  (Round Dot) center_show	%  show title
+
+30 45 {
+	dup mul exch dup mul .7 mul add 1 exch sub
+} setscreen						%  set halftone
+0.5 setgray						%  choose gray
+2.75 inch Y 1 inch 1 inch rectfill			%  fill rectangle
+0 setgray						%  choose gray
+2.75 inch Y 1 inch 1 inch rectstroke			%  stroke rectangle
+3.25 inch Y 0.25 inch sub  (Elliptical Dot) center_show	%  show title
+
+30 45 {
+	pop
+} setscreen						%  set halftone
+0.5 setgray						%  choose gray
+4.25 inch Y 1 inch 1 inch rectfill			%  fill rectangle
+0 setgray						%  choose gray
+4.25 inch Y 1 inch 1 inch rectstroke			%  stroke rectangle
+4.75 inch Y 0.25 inch sub  (Line Screen) center_show	%  show title
+
+30 45 {
+	abs .7 mul exch abs add 2 div
+} setscreen						%  set halftone
+0.5 setgray						%  choose gray
+5.75 inch Y 1 inch 1 inch rectfill			%  fill rectangle
+0 setgray						%  choose gray
+5.75 inch Y 1 inch 1 inch rectstroke			%  stroke rectangle
+6.25 inch Y 0.25 inch sub  (Rhombus) center_show	%  show title
+
+showpage						%  display page

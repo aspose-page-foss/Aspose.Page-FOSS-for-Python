@@ -1,0 +1,15 @@
+%!PS
+
+%	This example appears in section "Beveled Line Joins"
+%	in Chapter 6 - "Line Weights and Line Styles".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+1.0 inch 2.0 inch moveto		%  move to initial point
+4.25 inch 8 inch lineto			%  draw left leg
+7.5 inch 2.0 inch lineto		%  draw right leg
+2.0 inch setlinewidth			%  set fat line width
+2 setlinejoin				%  beveled line join
+0.50 setgray				%  gray shade
+stroke					%  stroke the path
+showpage				%  display page

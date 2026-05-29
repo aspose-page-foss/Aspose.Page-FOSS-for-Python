@@ -1,0 +1,17 @@
+%!PS
+
+%	This example appears in section "Putting a Substring into a String"
+%	in Chapter 5 - "PostScript Language".
+%
+
+
+/inch { 72 mul } def			%  define inch procedure
+/Palatino-Roman findfont		%  choose font
+1.5 inch scalefont setfont
+/MyString (Pantomime) def		%  define string
+0.5 inch 9.0 inch moveto		%  set current point
+MyString show				%  show string
+MyString 2 (lm Tre) putinterval		%  change string
+1.0 inch 1.0 inch moveto		%  set current point
+MyString show				%  show string
+showpage				%  display page

@@ -1,0 +1,19 @@
+%!PS
+
+%	This example appears in section "User Paths" in
+%	Chapter 2 - "Paths and Painting".
+%
+%	Caveats:	Requires PostScript Level 2.
+
+/inch { 72 mul } def		%  define inch procedure
+/novice {			%  define beginner's procedure
+	54 144 558 648 setbbox	%  bounding box
+	306 396 252 0 360 arc	%  draw circle
+	closepath		%  close the shape
+} cvlit def
+0.0 0.0 1.0 setrgbcolor		%  set color blue
+novice ufill			%  fill circle
+0.0 setgray			%  black stroke
+0.5 inch setlinewidth		%  fat line width
+novice ustroke			%  paint path
+showpage			%  display page

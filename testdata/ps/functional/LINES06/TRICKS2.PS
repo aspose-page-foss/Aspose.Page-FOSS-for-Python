@@ -1,0 +1,23 @@
+%!PS
+
+%	This example appears in section "Tricks of the Trade"
+%	in Chapter 6 - "Line Weights and Line Styles".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+/LineStart { 1 inch    1 inch } def
+/LineEnd   { 7.5 inch 10 inch } def
+LineStart moveto			%  set current point
+LineEnd lineto				%  add line segment
+1 inch setlinewidth			%  fat line width
+[ 1.25 inch 0.75 inch ] 0 setdash	%  dash pattern
+0 setlinecap				%  chopped off line caps
+stroke					%  paint path
+[] 0 setdash				%  remove dash pattern
+LineStart moveto			%  to start of line
+72.1 72.1 lineto			%  degenerate line segment
+LineEnd moveto				%  to end of line
+540.1 720.1 lineto				%  degenerate line segment
+1 setlinecap				%  round line caps
+stroke					%  paint degenerate lines
+showpage				%  display page

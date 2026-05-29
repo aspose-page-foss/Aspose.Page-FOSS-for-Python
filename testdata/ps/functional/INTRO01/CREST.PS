@@ -1,0 +1,56 @@
+%!PS
+
+%	This example appears in section "Opaque Paint" in
+%	Chapter 1 - "Introducing PostScript".
+%
+
+/inch { 72 mul } def				%  define inch procedure
+
+/draw_heart {					%  procedure to draw heart
+	/size exch def				%  size of heart
+	/offset size 4 div def			%  offset from neighbor
+	0 0 moveto				%  set current point
+	size size 2 div offset dup add
+	size offset add 0 size curveto		%  left side of heart
+	offset dup add neg size offset add
+	size neg size 2 div  0 0  curveto	%  right side of heart
+	closepath				%  finish shape
+} def
+
+/one_heart {
+	gsave					%  save graphics state
+		3.5 inch draw_heart		%  draw outer heart
+		0 0.25 inch translate		%  translate coordinate system
+		2.75 inch draw_heart		%  draw inner heart
+		gsave				%  save graphics state
+			1.0 setgray eofill	%  fill with white
+		grestore			%  restore graphics state
+		0.0 setgray			%  set color to black
+		4 setlinewidth			%  wide lines
+		stroke				%  stroke the outline
+	grestore				%  restore graphics state
+} def
+
+4.25 inch 5.5 inch translate			%  translate coordinate system
+0 0 4 inch 0 360 arc				%  draw background circle
+0.90 setgray fill				%  fill with light gray
+one_heart					%  draw first heart
+72 rotate one_heart				%  draw next heart
+72 rotate one_heart				%  draw next heart
+72 rotate one_heart				%  draw next heart
+72 rotate one_heart				%  draw next heart
+72 rotate					%  rotate back to beginning
+gsave						%  save graphics state
+	0 0 moveto				%  set current point
+	3 inch 0 rlineto			%  draw box
+	0 3 inch rlineto
+	-3 inch 0 rlineto
+	closepath				%  finish box
+	clip					%  clip to box
+	newpath one_heart			%  final overlapping heart
+grestore					%  restore graphics state
+newpath 0 0 36 0 360 arc			%  draw small center circle
+0.0 setgray fill				%  fill it with black
+newpath 0 0 32 0 360 arc			%  draw smaller center circle
+1.0 setgray fill				%  fill it with white
+showpage					%  display page

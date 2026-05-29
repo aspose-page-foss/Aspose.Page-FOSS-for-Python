@@ -1,0 +1,13 @@
+%!PS
+
+%	This example appears in section "Filling Rectangles"
+%	in Chapter 2 - "Paths and Painting".
+%
+%	Caveats:	Requires PostScript Level 2.
+
+/inch { 72 mul } def	%  define inch procedure
+0.5 setgray		%  set medium gray
+1 inch 1 inch		%  lower-left corner
+6 inch 8 inch		%  width and height
+rectfill		%  paint the area
+showpage		%  display page

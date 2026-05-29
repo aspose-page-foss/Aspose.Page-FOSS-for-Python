@@ -1,0 +1,39 @@
+%!PS
+
+%	This example appears in section "Precise Widths and Heights of
+%	Strings" in Chapter 3 - "Text".
+%
+
+/center_show {					%  stack =  x  y  (string)
+	dup					%  make copy of string
+	stringwidth pop 2 div			%  compute half string width
+	4 -1 roll exch sub			%  decrement x position
+	3 -1 roll moveto			%  set current point
+	show					%  image string
+} def
+
+/stringheight {
+	gsave					%  push graphics state
+		newpath				%  clear current path
+		0 0 moveto			%  set current point
+		(PostScript!) false charpath	%  get path
+		flattenpath			%  flatten path
+		pathbbox			%  stack=ll(x) ll(y) ur(x) ur(y)
+		exch pop			%  stack = ll(x) ll(y) ur(y)
+		exch sub			%  stack = ll(x) (ur(y) - ll(y))
+		exch pop			%  stack = (ur(y) - ll(y))
+	grestore				%  pop graphics state
+} def
+
+/inch { 72 mul } def				%  define inch procedure
+1 inch 5.5 inch moveto				%  draw horizontal base line
+7.5 inch 5.5 inch lineto
+stroke
+/Palatino-Roman findfont			%  obtain font
+1 inch scalefont				%  scale font to required size
+setfont						%  set into graphics state
+(PostScript!) stringheight			%  compute height
+2 div 5.5 inch exch sub				%  x position
+1.5 inch exch moveto				%  set current point
+(PostScript!) show				%  show the string
+showpage					%  display page

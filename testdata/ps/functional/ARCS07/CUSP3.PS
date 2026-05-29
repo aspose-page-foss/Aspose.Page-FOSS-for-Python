@@ -1,0 +1,20 @@
+%!PS
+
+%	This example appears in section "Joining Bezier Curve Segments"
+%	in Chapter 7 - "Arcs and Curves".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+/P10 { 3.0 inch 10.5 inch } def		%  Bezier points for first curve
+/P11 { 8.25 inch 8.5 inch } def
+/P12 { 0.5 inch 7.0 inch } def
+/P13 { 4.25 inch 5.5 inch } def
+/P21 { 8.375 inch 3.65 inch } def	%  Bezier points for second curve
+/P22 { 4.25 inch 1.5 inch } def
+/P23 { 1.0 inch 0.25 inch } def
+P10 moveto				%  set current point
+P11 P12 P13 curveto			%  first Bezier curve segment
+P21 P22 P23 curveto			%  second Bezier curve segment
+0.125 inch setlinewidth			%  fat line width
+stroke					%  paint path
+showpage				%  display page

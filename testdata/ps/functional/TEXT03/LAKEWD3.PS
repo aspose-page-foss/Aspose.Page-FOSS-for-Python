@@ -1,0 +1,38 @@
+%!PS
+
+%	This example appears in section "Show String with Track Kerning" in
+%	Chapter 3 - "Text".
+%
+
+/inch { 72 mul } def				%  define inch procedure
+
+/DrawRect {					%  stack = x y width height
+	4 2 roll moveto				%  move to x, y 
+	1 index 0 rlineto			%  bottom edge
+	0 exch rlineto				%  right edge
+	neg 0 rlineto				%  top edge
+	closepath				%  close rectangle
+} def
+
+/BusinessCardOutline {
+	0.66666 setgray				%  drop shadow
+	8 -8 3.5 inch 2.0 inch DrawRect fill
+	1 setgray				%  white background
+	0 0 3.5 inch 2.0 inch DrawRect fill
+	0 setgray
+	1 setlinewidth				%  outline of card
+	0 0 3.5 inch 2.0 inch DrawRect stroke
+} def
+
+BusinessCardOutline				%  draw business card
+/Optima findfont 36 scalefont setfont		%  set font for name
+0.25 inch 0.75 inch moveto			%  set current point
+(LAKEWOOD) show					%  display the name
+(LAKEWOOD) stringwidth pop			%  get width of name
+/Optima findfont 28 scalefont setfont		%  set font for caption
+0.25 inch 0.25 inch moveto			%  set current point
+(Ski Resort) stringwidth pop			%  get width of caption
+sub						%  total extra space
+(Ski Resort) length 1 sub div 0			%  per character space
+(Ski Resort) ashow				%  kern caption
+showpage					%  display page

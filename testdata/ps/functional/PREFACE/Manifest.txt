@@ -1,0 +1,10 @@
+
+EXAMPLES FOR CHAPTER 0 - "Preface".
+
+The examples for this chapter require 1 KB.
+			
+Files contained in this folder:				
+	Manifest
+	club.ps
+	superS.ps
+

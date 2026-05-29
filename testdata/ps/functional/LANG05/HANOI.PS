@@ -1,0 +1,89 @@
+%!PS
+
+%	This example appears in the introductory section 
+%	of Chapter 5 - "PostScript Language".
+%
+
+/DrawEllipse {				%  stack = x y xr yr
+	matrix currentmatrix		%  remember CTM
+	5 3 roll translate		%  translate coordinate system
+	3 1 roll scale			%  scale coordinate system
+	0 0 1 0 360 arc closepath	%  draw circle
+	setmatrix			%  restore CTM
+} def
+
+/ellarc {				%  stack = x y xr yr startangle endangle
+	/m matrix currentmatrix def
+	6 4 roll translate
+	4 2 roll 1 index div 1 exch scale
+	3 1 roll 0 0 5 2 roll arc
+	m setmatrix
+} def
+
+/ellarcn {				%  stack = x y xr yr startangle endangle
+	/m matrix currentmatrix def
+	6 4 roll translate
+	4 2 roll 1 index div 1 exch scale
+	3 1 roll 0 0 5 2 roll arcn
+	m setmatrix
+} def
+
+/inch { 72 mul } def			%  define inch procedure
+
+/platter {				%  stack = x y xrad yrad height
+	/height exch def 
+	/yrad exch def
+	/xrad exch def
+	/y exch def
+	/x exch def
+	x y xrad yrad 180 360 ellarc
+	0 height rlineto
+	x y height add xrad yrad 360 180 ellarcn
+	0 height neg rlineto
+	closepath gsave 0.50 setgray fill grestore 0.00 setgray stroke
+	x y height add xrad yrad DrawEllipse 0.90 setgray fill
+	x y height add xrad yrad DrawEllipse 0.00 setgray stroke
+} def
+
+/tower {				%  stack = x y height
+	/height exch def
+	/y exch def
+	/x exch def
+	x 1 inch sub y moveto
+	2 inch 0 inch rlineto
+	0 inch height rlineto
+	-2 inch 0 inch rlineto
+	0 inch height neg rlineto closepath
+	0.50 setgray fill 0.0 setgray
+	x y 1 inch 0.25 inch 180 360 ellarc
+	0.50 setgray fill 0.0 setgray
+} def
+
+0 1 inch translate			%  move coordinate system
+newpath					%  ensure empty path
+					%  draw lowest platter and tower piece
+4.25 inch 0.5 inch 4.0 inch 0.75 inch 0.5 inch platter
+4.25 inch 1.0 inch 2 inch tower
+
+					%  draw next platter and tower piece
+4.25 inch 2.0 inch 3.5 inch 0.625 inch 0.5 inch platter
+4.25 inch 2.5 inch 1.25 inch 0.375 inch DrawEllipse 0.10 setgray fill
+4.25 inch 2.375 inch 2.5 add 2 inch tower
+
+					%  draw next platter and tower piece
+4.25 inch 3.25 inch 3.0 inch 0.5 inch 0.5 inch platter
+4.25 inch 3.75 inch 1.25 inch 0.375 inch DrawEllipse 0.10 setgray fill
+4.25 inch 3.625 inch 2.5 add 2 inch tower
+
+					%  draw next platter and tower piece
+4.25 inch 4.5 inch 2.5 inch 0.375 inch 0.5 inch platter
+4.25 inch 5.0 inch 1.25 inch 0.25 inch DrawEllipse 0.10 setgray fill
+4.25 inch 4.875 inch 10.0 add 1 inch tower
+
+					%  draw topmost platter and tower piece
+4.25 inch 5.75 inch 2.0 inch 0.25 inch 0.5 inch platter
+4.25 inch 6.25 inch 1.25 inch 13.5 DrawEllipse 0.10 setgray fill
+4.25 inch 6.125 inch 14.5 add 0.5 inch tower
+4.25 inch 6.875 inch 1.00 inch 10 DrawEllipse 0.10 setgray fill
+
+showpage				%  display page

@@ -1,0 +1,14 @@
+%!PS
+
+%	This example appears in section "Filling Multiple Rectangles"
+%	in Chapter 2 - "Paths and Painting".
+%
+%	Caveats:	Requires PostScript Level 2.
+
+/inch { 72 mul } def			%  define inch procedure
+0.1 setgray 1 inch 1.0 inch 3 inch 3 inch rectfill
+0.3 setgray 2 inch 2.5 inch 3 inch 3 inch rectfill
+0.5 setgray 3 inch 4.0 inch 3 inch 3 inch rectfill
+0.7 setgray 4 inch 5.5 inch 3 inch 3 inch rectfill
+0.9 setgray 5 inch 7.0 inch 3 inch 3 inch rectfill
+showpage				%  display page

@@ -1,0 +1,25 @@
+%!PS
+
+%	This example appears in section "How the Dictionary Stack Works"
+%	in Chapter 5 - "PostScript Language".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+/Rectangle 10 dict def			%  define dictionary
+Rectangle begin				%  current dictionary
+	/linewidth 0.5 inch def		%  define linewidth
+	/width 6 inch def		%  width of rectangle
+	/height 3 inch def		%  height of rectangle
+	/Draw {				%  stack = x y
+		linewidth setlinewidth	%  set line width
+		moveto width 0 rlineto	%  bottom edge
+		0 height rlineto	%  right edge
+		width neg 0 rlineto	%  top edge
+		closepath		%  finish shape
+		stroke			%  draw shape
+	} def				%  define Draw procedure
+end					%  remove current dictionary
+Rectangle begin				%  current dictionary
+    1.25 inch 5.5 inch Draw		%  draw rectangle
+end					%  remove current dictionary
+showpage				%  display page

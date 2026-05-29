@@ -1,0 +1,20 @@
+%!PS
+
+%	This example appears in section "How the Dictionary Stack Works"
+%	in Chapter 5 - "PostScript Language".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+/Circle 10 dict def			%  define dictionary
+Circle begin				%  current dictionary
+	/radius 3 inch def		%  define circle radius
+	/linewidth 0.5 inch def		%  define linewidth
+	/Draw {				%  stack = x y
+		linewidth setlinewidth	%  set line width
+		radius 0 360 arc stroke	%  describe circle
+	} def				%  define Draw procedure
+end					%  remove current dictionary
+Circle begin				%  current dictionary
+	4.25 inch 5.5 inch Draw		%  draw circle
+end					%  remove current dictionary
+showpage				%  display page

@@ -1,0 +1,46 @@
+%!PS
+
+%	This example appears in section "Relational Operators with Strings"
+%	in Chapter 5 - "PostScript Language".
+%
+
+/bubble {				%  stack = unsorted array
+    /Array exch def			%  remember array
+    0 1 Array length 2 sub {		%  loop through array
+	-1 0 {				%  and again
+	    /i exch def	%  define loop variable
+	    Array i 2 getinterval	%  get array with two strings
+	    aload pop			%  get two strings
+	    2 copy			%  copy them
+	    gt {			%  is one greater
+		exch 2 array astore	%  put strings in small array
+		Array exch i exch	%  swap them
+		putinterval
+		} { pop pop } ifelse	%  otherwise clean up stack
+	} for
+    } for
+    Array				%  return sorted array
+} def
+
+/inch { 72 mul } def			%  define inch procedure
+/Palatino-Roman findfont		%  choose font
+0.75 inch scalefont setfont
+/base 9.5 inch def			%  y location of first wine
+[
+	(Chardonnay)
+	(Cabernet)
+	(Cabernet Sauvignon)
+	(Chianti)
+	(Merlot)
+	(Pinot Noir)
+	(Champagne)
+	(Gamay)
+	(Zinfandel)
+]					%  define array of strings
+bubble					%  sort the array
+{
+	0.5 inch base moveto		%  set current point
+	show				%  show string
+	/base base 1 inch sub def	%  move y position
+} forall				%  for all strings in the array
+showpage				%  display page

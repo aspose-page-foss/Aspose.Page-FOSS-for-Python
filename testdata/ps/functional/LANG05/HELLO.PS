@@ -1,0 +1,14 @@
+%!PS
+
+%	This example appears in section "How the Dictionary Stack Works"
+%	in Chapter 5 - "PostScript Language".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+/Palatino-Roman findfont		%  choose font
+1 inch scalefont setfont
+/lineto {				%  redefine lineto
+	moveto (Hello World!) show
+} def
+1.25 inch 5.5 inch lineto		%  call lineto
+showpage				%  display page

@@ -1,0 +1,23 @@
+%!PS
+
+%	This example appears in section "Stroking Character Paths"
+%	in Chapter 3 - "Text".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+/Palatino-Roman findfont		%  choose large font
+13.5 inch scalefont setfont
+0.25 inch 0.75 inch moveto		%  set current point
+0.75 inch setlinewidth			%  set fat linewidth
+(P) false charpath			%  get character outline
+strokepath				%  replace path
+clip					%  clip to character outline
+newpath					%  newpath
+1 setlinewidth				%  smaller linewidth
+5.25 inch 7.5 inch translate		%  upper right of page
+180 {					%  repeat
+	0 0 moveto 10 inch 0 lineto	%  draw line
+	2 rotate			%  rotate
+} repeat				%  loop again
+stroke					%  stroke starburst
+showpage				%  display page

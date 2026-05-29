@@ -1,0 +1,21 @@
+%!PS
+
+%	This example appears in section "For Loop" in
+%	Chapter 5 - "PostScript Language".
+%
+
+
+/inch { 72 mul } def		%  define inch procedure
+1 1 9 {				%  start for loop
+	dup			%  copy control variable
+	1 inch mul		%  compute y position
+	2.25 inch exch		%  set x position
+	moveto			%  set current point
+	4 inch 0 rlineto	%  bottom of rectangle
+	0 0.75 inch rlineto	%  right side
+	-4 inch 0 rlineto	%  top
+	closepath		%  finish the shape
+	0.1 mul setgray		%  set gray based on control variable
+	fill			%  fill the rectangle
+} for				%  end for loop
+showpage			%  display page

@@ -1,0 +1,39 @@
+
+EXAMPLES FOR CHAPTER 1 - "Introducing PostScript".
+
+The examples for this chapter require 47 KB.
+		
+Files contained in this folder:
+	Manifest
+	circle.ps
+	clipping.ps
+	color.ps
+	crest.ps
+	ellipse1.ps
+	ellipse2.ps
+	filledZ.ps (*)
+	fonts.ps
+	gstates.ps (*)
+	halftone.ps
+	opaque.ps (*)
+	path1.ps
+	path2.ps
+	path3.ps
+	path4.ps (*)
+	pattern.ps (*)
+	ps.ps
+	ps_sign.ps (1)
+	pscube.ps
+	showmsg1.ps
+	showmsg2.ps (*)
+	showmsg3.ps
+	triangl1.ps
+	triangl2.ps
+	triangl3.ps
+
+(*)	Requires PostScript Level 2.
+
+(1)	ps_sign.ps in the printed copy of the book contained the procedure
+	definition for the inch procedure which the example did not use. This
+	example omits that procedure definition.
+	

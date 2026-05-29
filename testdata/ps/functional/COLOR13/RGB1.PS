@@ -1,0 +1,38 @@
+%!PS
+
+%	This example appears in section "RGB Color Model"
+%	in Chapter 13 - "Color and Halftones".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+
+/DrawRect {				%  stack = x y width height
+	4 2 roll moveto			%  move to x, y 
+	1 index 0 rlineto		%  bottom edge
+	0 exch rlineto			%  right edge
+	neg 0 rlineto			%  top edge
+	closepath			%  close rectangle
+} def
+
+/Colors [ [ 1.0 0.0 0.0 ]		%  current color = red
+	[ 1.0 0.5 0.0 ]			%  current color = orange
+	[ 1.0 1.0 0.0 ]			%  current color = yellow
+	[ 0.0 1.0 0.0 ]			%  current color = green
+	[ 0.0 0.0 1.0 ]			%  current color = blue
+	[ 0.5 0.0 1.0 ]			%  current color = indigo
+	[ 0.5 0.0 0.5 ] ] def		%  current color = violet
+/YPos 1.5 inch def			%  initial y position
+/YInc 1.2 inch def			%  y increment
+0 1 6 {					%  draw 7 rectangles
+	Colors exch get			%  get color values from array
+	aload pop setrgbcolor		%  set current color
+	0.5 inch YPos			%  lower-left corner
+	7.5 inch 1.0 inch DrawRect fill	%  fill rectangle
+	/YPos YPos YInc add def		%  increment y
+} for
+/Palatino-Roman findfont		%  choose font
+4.0 inch scalefont setfont
+1.0 1.0 1.0 setrgbcolor			%  set color to white
+2.15 inch 1.15 inch moveto		%  position current point
+45 rotate (ELM) show			%  rotate and show characters
+showpage				%  display page

@@ -1,0 +1,12 @@
+%!PS
+
+%	This example appears in section "Simple Conditional" in
+%	Chapter 5 - "PostScript Language".
+%
+
+systemdict /filenameforall known {	%  check in systemdict
+  /Courier-Bold findfont 14 scalefont setfont
+  144 144 moveto			%  move to arbitrary point
+  (filenameforall is there) show	%  print message
+  showpage				%  display page
+} if

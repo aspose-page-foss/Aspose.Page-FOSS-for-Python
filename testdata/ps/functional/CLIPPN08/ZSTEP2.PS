@@ -1,0 +1,16 @@
+%!PS
+
+%	This example appears in the introductory section
+%	of Chapter 8 - "Clipping".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+/CharacterScale 13.75 inch def
+/CharacterOrigin { -0.84 inch 1.75 inch } def
+/ZapfChancery-MediumItalic findfont	%  find the required font
+CharacterScale scalefont		%  scale to required size
+setfont					%  make it the current font
+0.0 setgray				%  set color black
+CharacterOrigin moveto			%  set current point
+(Z) show				%  image large character
+showpage				%  display page

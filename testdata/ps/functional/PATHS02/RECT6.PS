@@ -1,0 +1,16 @@
+%!PS
+
+%	This example appears in section "Stroking Rectangles with a Matrix"
+%	in Chapter 2 - "Paths and Painting".
+%
+%	Caveats:	Requires PostScript Level 2.
+
+/inch { 72 mul } def		%  define inch procedure
+[ 1 0 12 sin 1 0 0 ] concat	%  set up for shear
+0.25 inch setlinewidth		%  fat line width
+2 setlinejoin			%  beveled line join
+1 inch 1 inch			%  lower-left corner
+5 inch 8 inch			%  width and height
+[ 4 0 0 1 0 0 ]			%  scale line width
+rectstroke			%  draw and stroke rectangle
+showpage			%  display page

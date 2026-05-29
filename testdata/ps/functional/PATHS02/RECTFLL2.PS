@@ -1,0 +1,20 @@
+%!PS
+
+%	This example appears in section "Filling Rectangles"
+%	in Chapter 2 - "Paths and Painting".
+%
+%	Caveats:	Requires PostScript Level 2.
+
+/inch { 72 mul } def		%  define inch procedure
+[ 1 0 12 sin 1 0 0 ] concat	%  set up for shear
+0.5 setgray			%  set medium gray
+1 inch 1 inch			%  lower-left corner
+5 inch 8 inch			%  width and height
+rectfill			%  paint the area
+0.0 setgray			%  set black color
+0.125 inch setlinewidth		%  fat line width
+1 inch 1 inch			%  lower-left corner
+5 inch 8 inch			%  width and height
+[ 1 0 0 3 0 0 ]			%  scale line weight
+rectstroke			%  paint the path
+showpage			%  display page

@@ -1,0 +1,24 @@
+%!PS
+
+%	This example appears in section "Add Bezier Curve to Current Path"
+%	in Chapter 7 - "Arcs and Curves".
+%
+
+/DrawHeart {				%  stack = size
+	/size exch def			%  define size temporarily
+	/offset size 4 div def		%  define offset temporarily
+	0 0 moveto			%  first end point
+	size size			%  first Bezier control point
+	offset size offset add		%  second Bezier control point
+	0 size				%  second end point
+	curveto				%  draw Bezier curve
+	offset neg size offset add	%  first Bezier control point
+	size neg size			%  second Bezier control point
+	0 0				%  second end point
+	curveto				%  draw Bezier curve
+} def
+/inch { 72 mul } def			%  define inch procedure
+4.25 inch 1 inch translate		%  set origin
+8 inch DrawHeart			%  draw heart shape
+1.0 0.0 0.5 setrgbcolor fill		%  fill with nice pink
+showpage				%  display page

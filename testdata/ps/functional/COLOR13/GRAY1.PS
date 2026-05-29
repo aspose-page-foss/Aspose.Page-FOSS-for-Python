@@ -1,0 +1,16 @@
+%!PS
+
+%	This example appears in section "Gray Color Model"
+%	in Chapter 13 - "Color and Halftones".
+%
+
+/inch { 72 mul } def				%  define inch procedure
+4.0 inch 10.0 inch moveto 1.0 inch 2.0 inch lineto
+5.5 inch 1.5 inch lineto closepath
+gsave 0.333 setgray fill			%  current gray = 33 % white
+grestore 0.0 setgray stroke			%  current gray = black
+4.0 inch 10.0 inch moveto 7.5 inch 3.0 inch lineto
+5.5 inch 1.5 inch lineto closepath
+gsave 0.667 setgray fill			%  current gray = 66 % white
+grestore 0.0 setgray stroke			%  current gray = black
+showpage					%  display page

@@ -1,0 +1,66 @@
+%!PS
+
+%	This example appears in the introductory section 
+%	in Chapter 8 - "Clipping".
+%
+
+/inch { 72 mul } def				%  define inch procedure
+/side 1.25 inch def				%  1/2 radius				
+/radius 2.50 inch def				%  radius of each ring
+
+/circle_1 {					%  first circle
+	newpath side 90 cos mul 4.25 inch add
+		side 90 sin mul 5.5 inch add radius 0 360 arc
+	gsave 0.75 inch setlinewidth 0.00 setgray stroke grestore
+	gsave 0.50 inch setlinewidth 1.00 setgray stroke grestore
+	gsave 0.25 inch setlinewidth 0.50 setgray stroke grestore
+} def
+
+/circle_2 {					%  second circle
+	newpath side 210 cos mul 4.25 inch add
+		side 210 sin mul 5.5 inch add radius 0 360 arc
+	gsave 0.75 inch setlinewidth 0.00 setgray stroke grestore
+	gsave 0.50 inch setlinewidth 1.00 setgray stroke grestore
+	gsave 0.25 inch setlinewidth 0.50 setgray stroke grestore
+} def
+
+/circle_3 {					%  third circle
+	newpath side 330 cos mul 4.25 inch add
+		side 330 sin mul 5.5 inch add radius 0 360 arc
+	gsave 0.75 inch setlinewidth 0.00 setgray stroke grestore
+	gsave 0.50 inch setlinewidth 1.00 setgray stroke grestore
+	gsave 0.25 inch setlinewidth 0.50 setgray stroke grestore
+} def
+
+/rect {						%  stack = x y w h
+	4 2 roll moveto
+	1 index 0 rlineto
+	0 exch rlineto
+	neg 0 rlineto
+	closepath
+} def
+
+circle_1  circle_2  circle_3			%  draw three circles
+
+gsave						%  save graphics state
+	newpath					%  ensure empty path
+	1.25 inch 5.75 inch 1.25 inch 2.00 inch rect
+	4.75 inch 3.75 inch 1.50 inch 2.00 inch rect clip
+	circle_1				%  creat overlap
+grestore					%  restore graphics state
+
+gsave						%  save graphics state
+	newpath					%  ensure empty path
+	3.25 inch 2.00 inch 2.00 inch 1.25 inch rect
+	3.25 inch 6.50 inch 2.00 inch 1.25 inch rect clip
+	circle_2				%  create overlap
+grestore					%  restore graphics state
+
+gsave						%  save graphics state
+	newpath					%  ensure empty path
+	2.25 inch 3.75 inch 1.25 inch 2.00 inch rect
+	6.00 inch 5.75 inch 1.25 inch 2.00 inch rect clip
+	circle_3				%  create overlap
+grestore					%  restore graphics state
+
+showpage					%  display page

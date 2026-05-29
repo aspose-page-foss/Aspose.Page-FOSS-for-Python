@@ -1,0 +1,1797 @@
+%!PS-Adobe-3.0
+%%Pages: (atend)
+%%EndComments
+% graph initalize
+/nstr 7 string def
+/haba 0 def
+/int 0 def
+/Mainfont /Courier findfont 4 scalefont def
+/Mainfont2 /Courier findfont 3 scalefont def
+/Subfont /Courier findfont 2 scalefont def
+/Subsubfont /Courier findfont 1.5 scalefont def
+/Taufont /Symbol findfont 3 scalefont def
+
+/mm 72 25.4 div def
+
+/prt-n
+{ nstr cvs show } def
+
+/dia 20 def
+/radius dia 2 div def
+/NoOfBlade 0 def
+/CenterOfProp {145 95} def
+/Offset    0.0 def
+/putprop {
+0.2 setlinewidth
+CenterOfProp translate
+-1 Offset mul rotate
+0 360 NoOfBlade div 359 {
+pop
+0 0 moveto
+0 10 93.5 div radius mul rlineto
+10 93.5 div radius mul 5  93.5 div radius mul 35  93.5 div radius mul 10 93.5 div radius mul 35 93.5 div radius mul 40 93.5 div radius mul rcurveto
+0 25 93.5 div radius mul -20 93.5 div radius mul 35 93.5 div radius mul -35 93.5 div radius mul 40 93.5 div radius mul rcurveto
+gsave closepath
+1. setgray fill
+grestore
+0. setgray
+stroke
+-360 NoOfBlade div rotate
+0 0 moveto
+0 90 93.5 div radius mul rmoveto
+-15 93.5 div radius mul 5 93.5 div radius mul -30 93.5 div radius mul 0 -30 93.5 div radius mul -5 93.5 div radius mul rcurveto
+0 -5 93.5 div radius mul 5 93.5 div radius mul -5 93.5 div radius mul 10 93.5 div radius mul -10 93.5 div radius mul rcurveto
+5 93.5 div radius mul -5 93.5 div radius mul 10 93.5 div radius mul -15 93.5 div radius mul 10 93.5 div radius mul -25 93.5 div radius mul rcurveto
+0 -50 93.5 div radius mul rlineto
+gsave
+10 93.5 div radius mul 0 rlineto closepath
+1. setgray fill
+grestore
+0. setgray
+stroke
+} for
+0 0 25 93.5 div radius mul 0 360 arc
+gsave
+1. setgray fill
+grestore
+.0 setgray
+stroke
+0 360 NoOfBlade div 359 {
+0 0 moveto
+0 radius 5 add rlineto
+0.1 setlinewidth
+[10 1 1 1] 5 setdash
+stroke
+-360 NoOfBlade div rotate
+} for
+Offset rotate
+Offset 0 ne
+{0 0 moveto
+0 radius 5 add rlineto
+stroke
+[] 0 setdash
+0 0 radius 2 add 90 Offset sub 10 sub 100 arc
+-1 radius 2.5 add moveto
+1 -0.5 rlineto
+-1 -0.5 rlineto
+stroke
+Offset -1 mul rotate
+1 radius 2.5 add moveto
+-1 -0.5 rlineto
+1 -0.5 rlineto
+stroke
+2 radius 3 add moveto
+Mainfont setfont
+Offset prt-n
+(deg.) show
+Offset rotate
+} if
+0.2 setlinewidth
+CenterOfProp exch -1 mul exch -1 mul translate
+} def
+/SREONshow
+{
+25 110.5 moveto
+Mainfont2 setfont
+(including variable crank inertia) show
+} def
+
+/HarmShow
+{
+25 108 moveto
+Mainfont2 setfont
+(harmonics: ue_06_1) show
+} def
+/MisHarmShow
+{
+25 105.5 moveto
+Mainfont2 setfont
+(misfiring: mf_ue_06_1) show
+} def
+/Cylcutcmptcomshow
+{
+88 110.5 moveto
+Mainfont2 setfont
+(misfiring with compression No.) show
+} def
+/Cylcutcmptcomendshow
+{
+Mainfont2 setfont
+(cyl.) show
+} def
+
+/Cylcutopevcomshow
+{
+88 108 moveto
+Mainfont2 setfont
+(misfiring without compression No.) show
+} def
+/Cylcutopevcomendshow
+{
+Mainfont2 setfont
+(cyl.) show
+} def
+
+/Cylcutsdmfcomshow
+{
+88 105.5 moveto
+Mainfont2 setfont
+(sudden misfiring No.) show
+} def
+/Cylcutsdmfcomendshow
+{
+Mainfont2 setfont
+(cyl.) show
+} def
+
+/Cylcutntrlcomshow
+{
+88 103 moveto
+Mainfont2 setfont
+(natural misfiring No.) show
+} def
+/Cylcutntrlcomendshow
+{
+Mainfont2 setfont
+(cyl.->mip  -1.0bar) show
+} def
+/Idealcomshow
+{
+88 110.5 moveto
+Mainfont2 setfont
+(ideal firing) show
+} def
+
+/Tau1show
+{
+moveto
+Taufont setfont
+(t) show
+Subsubfont setfont
+(1) show
+Subfont setfont
+( dia=) show
+prt-n
+(mm uts=) show
+prt-n
+(N/mm2 Ck=) show
+prt-n
+} def
+
+/CTau1show
+{
+moveto
+Taufont setfont
+(t) show
+Subsubfont setfont
+(1&3) show
+Subfont setfont
+( uts=) show
+prt-n
+(N/mm2 yp=) show
+prt-n
+(N/mm2) show
+} def
+
+/CTau1show2
+{
+moveto
+Taufont setfont
+(t) show
+Subsubfont setfont
+(1) show
+Subfont setfont
+( dia=) show
+prt-n
+(mm uts=) show
+prt-n
+(N/mm2) show
+} def
+
+/Tau2show
+{
+moveto
+Taufont setfont
+(t) show
+Subsubfont setfont
+(2) show
+Subfont setfont
+( dia=) show
+prt-n
+(mm uts=) show
+prt-n
+(N/mm2 Ck=) show
+prt-n
+} def
+
+/CTau2show
+{
+moveto
+Taufont setfont
+(t) show
+Subsubfont setfont
+(2) show
+Subfont setfont
+( uts=) show
+prt-n
+(N/mm2 yp=) show
+prt-n
+(N/mm2) show
+} def
+
+/CTau2show2
+{
+moveto
+Taufont setfont
+(t) show
+Subsubfont setfont
+(2) show
+Subfont setfont
+( dia=) show
+prt-n
+(mm uts=) show
+prt-n
+(N/mm2) show
+} def
+
+/CenterShow
+{ dup nstr cvs stringwidth pop
+2 div dup /haba exch def neg 0 rmoveto prt-n haba neg 0 rmoveto
+} def
+
+/RightShow
+{ dup dup nstr cvs stringwidth pop
+ neg 0 rmoveto prt-n
+} def
+
+/LeftShow
+{ dup dup nstr cvs stringwidth pop
+ exch prt-n neg 0 rmoveto
+} def
+
+/drawarrow
+{
+moveto
+gsave
+-0.5 1 rlineto
+0.5 -1 rmoveto
+2.5 5 rlineto
+10 0 rlineto
+.1 setlinewidth
+stroke
+grestore
+2.5 5.5 rmoveto
+Subfont setfont
+show
+Mainfont setfont
+newpath
+} def
+
+/drawarrow2
+{
+moveto
+gsave
+0.5 1 rlineto
+-0.5 -1 rmoveto
+-2.5 5 rlineto
+-10 0 rlineto
+.1 setlinewidth
+stroke
+grestore
+-12.5 5.5 rmoveto
+Subfont setfont
+show
+Mainfont setfont
+newpath
+} def
+
+/Init
+{
+% Line drawing
+.3 setlinewidth
+150 0 moveto
+-150 0 rlineto
+0 100 rlineto
+gsave
+150 0 rlineto
+closepath
+.95 setgray fill
+
+150 0 moveto
+xbrrd xzero sub xspan xzero sub div 150 mul 150 sub 0 rlineto
+0 100 rlineto
+150 100 lineto
+closepath
+.80 setgray fill
+
+grestore
+stroke
+
+% Put x-pitch
+0 0 moveto
+xzero xpitch xspan xpitch sub {
+xspan xzero sub xpitch div 150 exch div 0 rmoveto
+0 1 rlineto 0 -1 rmoveto
+} for
+stroke
+
+% Put y-pitch
+0 0 moveto
+yzero ypitch yspan ypitch sub {
+yspan yzero sub ypitch div 100 exch div 0 exch rmoveto
+-1 0 rlineto 1 0 rmoveto
+} for
+stroke
+
+% Put y-pitch(sub)
+0 0 moveto
+yzero2 ypitch2 yspan2 ypitch2 sub {
+yspan2 yzero2 sub ypitch2 div 100 exch div 0 exch rmoveto
+1 0 rlineto -1 0 rmoveto
+} for
+stroke
+
+% MCR line
+newpath
+nmcr 0 moveto
+0 100 rlineto
+.1 setlinewidth
+stroke
+nmcr 0 moveto
+0 100 rmoveto
+-3 1 rmoveto
+Subfont setfont
+(CMCR) show
+Mainfont setfont
+
+% Put x-axis value
+0 -6 moveto
+xzero xpitch xspan {
+CenterShow
+xspan xzero sub xpitch div 150 exch div 0 rmoveto
+} for
+
+% Put y-axis value
+-2 -1 moveto
+yzero ypitch yspan {
+RightShow
+yspan yzero sub ypitch div 100 exch div 0 exch rmoveto
+} for
+
+% Put y-axis value(sub)
+2 -1 moveto
+yzero2 ypitch2 yspan2 {
+dup yzero2 gt {LeftShow} {} ifelse
+yspan2 yzero2 sub ypitch2 div 100 exch div 0 exch rmoveto
+} for
+
+% Put x-axis comment
+0 -10 moveto
+(Engine Speed) dup stringwidth pop
+2 div 75 exch sub 0 rmoveto show
+( [min) show
+Subfont setfont
+0 2 rmoveto (-1) show
+Mainfont setfont
+0 -2 rmoveto (]) show
+
+% Put y-axis comment
+90 rotate
+0 15 moveto
+ycom dup stringwidth pop
+2 div 50 exch sub 0 rmoveto show
+-90 rotate
+
+% Put y-axis unit1
+-20 103 moveto
+( [) show
+Subfont setfont
+0 2 rmoveto (+) show
+(+) stringwidth pop neg -2 rmoveto (-) show
+Mainfont setfont
+yunit show
+Subfont setfont
+0 2 rmoveto yunitsub show
+Mainfont setfont
+0 -2 rmoveto (]) show
+
+% Put y-axis unit2
+0 103 moveto
+( [) show
+Subfont setfont
+0 2 rmoveto (+) show
+(+) stringwidth pop neg -2 rmoveto (-) show
+Mainfont setfont
+yunit2 show
+Subfont setfont
+0 2 rmoveto yunit2sub show
+Mainfont setfont
+0 -2 rmoveto (]) show
+
+% Put graph comment
+0 114 moveto
+comment dup stringwidth pop
+2 div 75 exch sub 0 rmoveto show
+0 0 moveto
+} def
+
+/Init2
+{
+-15 119 moveto
+185 0 rlineto
+.2 setlinewidth
+stroke
+Mainfont setfont
+-15 134 moveto
+(Hull No.:  ) dup stringwidth pop exch show neg -4 rmoveto
+(Engine type: ) dup stringwidth pop exch show neg -4 rmoveto
+(CMCR:  ) dup stringwidth pop exch show
+Subfont setfont
+0 2 rmoveto (-1) dup stringwidth pop exch show add neg -4 rmoveto
+Mainfont setfont 0 -2 rmoveto
+(Classification society: ) dup stringwidth pop exch show neg -4 rmoveto
+165 4 rmoveto
+(page ) show
+prt-n
+135 134 moveto
+() show
+0 0 moveto
+} def
+
+/Init3
+{
+% Line drawing
+.3 setlinewidth
+150 0 moveto
+-150 0 rlineto
+0 100 rlineto
+gsave
+150 0 rlineto
+closepath
+.95 setgray fill
+
+grestore
+stroke
+
+150 0 moveto
+xbrrd xzero sub xspan xzero sub div 150 mul 150 sub 0 rlineto
+0 100 rlineto
+150 100 lineto
+closepath
+.80 setgray fill
+
+% Put x-pitch
+0 0 moveto
+xzero xpitch xspan xpitch sub {
+xspan xzero sub xpitch div 150 exch div 0 rmoveto
+0 1 rlineto 0 -1 rmoveto
+} for
+stroke
+
+% Put y-pitch
+0 0 moveto
+yzero ypitch yspan ypitch sub {
+yspan yzero sub ypitch div 100 exch div 0 exch rmoveto
+-1 0 rlineto 1 0 rmoveto
+} for
+stroke
+
+% MCR line
+newpath
+nmcr 0 moveto
+0 100 rlineto
+.1 setlinewidth
+stroke
+nmcr 0 moveto
+0 100 rmoveto
+-3 1 rmoveto
+Subfont setfont
+(CMCR) show
+Mainfont setfont
+
+% Put x-axis value
+0 -6 moveto
+xzero xpitch xspan {
+CenterShow
+xspan xzero sub xpitch div 150 exch div 0 rmoveto
+} for
+
+% Put y-axis value
+-2 -1 moveto
+yzero ypitch yspan {
+RightShow
+yspan yzero sub ypitch div 100 exch div 0 exch rmoveto
+} for
+
+% Put x-axis comment
+0 -12 moveto
+(Engine Speed) dup stringwidth pop
+2 div 75 exch sub 0 rmoveto show
+( [min) show
+Subfont setfont
+0 2 rmoveto (-1) show
+Mainfont setfont
+0 -2 rmoveto (]) show
+
+% Put y-axis comment
+90 rotate
+0 15 moveto
+ycom dup stringwidth pop
+2 div 50 exch sub 0 rmoveto show
+-90 rotate
+
+% Put y-axis unit1
+-20 103 moveto
+( [) show
+yunit show
+(]) show
+
+% Put graph comment
+0 113 moveto
+comment dup stringwidth pop
+2 div 75 exch sub 0 rmoveto show
+0 0 moveto
+} def
+
+/Reset {0.0 0.0 0.0 setrgbcolor} def
+/SetRed {1.0 0.0 0.0 setrgbcolor} def
+/SetGre {0.0 1.0 0.0 setrgbcolor} def
+/SetBlu {0.0 0.0 1.0 setrgbcolor} def
+/SetYel {1.0 1.0 0.0 setrgbcolor} def
+/SetCya {0.0 1.0 1.0 setrgbcolor} def
+/SetMag {1.0 0.0 1.0 setrgbcolor} def
+/DrawDia {.1 setlinewidth 0.0 0.5 rlineto -0.5 -0.5 rlineto 0.5 -0.5 rlineto 0.5 0.5 rlineto -0.5 0.5 rlineto stroke} def
+/DrawTri {.1 setlinewidth 0.0 0.5 rlineto -0.5 -0.7 rlineto 1.0 0.0 rlineto -0.5 0.7 rlineto stroke} def
+/DrawSqu {.1 setlinewidth 0.0 0.4 rlineto -0.4 0.0 rlineto 0.0 -0.8 rlineto 0.8 0.0 rlineto 0.0 0.8 rlineto -0.4 0.0 rlineto stroke} def
+/PT1 {moveto SetRed DrawDia Reset} def
+/PT2 {moveto SetGre DrawTri Reset} def
+/PT3 {moveto SetBlu DrawSqu Reset} def
+/PT4 {moveto SetYel DrawDia Reset} def
+/PT5 {moveto SetCya DrawTri Reset} def
+/PT6 {moveto SetMag DrawSqu Reset} def
+/PutLegend1 {153 96 moveto SetRed DrawDia Reset} def
+/PutLegend2 {153 92 moveto SetGre DrawTri Reset} def
+/PutLegend3 {153 88 moveto SetBlu DrawSqu Reset} def
+/PutLegend4 {153 84 moveto SetYel DrawDia Reset} def
+/PutLegend5 {153 80 moveto SetCya DrawTri Reset} def
+/PutLegend6 {153 76 moveto SetMag DrawSqu Reset} def
+/PROTDIA {0.5 0 rmoveto -0.5 0.5 rlineto -0.5 -0.5 rlineto 0.5 -0.5 rlineto closepath fill} def
+/SHOWINFO {.1 setlinewidth [0.3 0.7] 0 setdash 0 moveto 0 exch rlineto stroke [] 0 setdash} def
+/SHOWINFOCOM {-1 add 1 moveto 90 rotate Subfont setfont (No.) show prt-n (Cyl. ) show dup prt-n (-) show 1 add prt-n Mainfont setfont -90 rotate} def
+
+%%Page: 1 1
+% Main program
+mm mm scale
+35 155 translate
+
+1 Init2
+% draw firing order
+newpath
+.2 setlinewidth
+110 95 10 0 360 arc
+stroke
+newpath
+108 104 moveto
+2 1 rlineto
+-2 1 rlineto
+closepath
+fill
+110 95 moveto
+118.660255 99.999999 lineto
+stroke
+121.258331 100.499999 moveto
+Mainfont setfont
+12 CenterShow
+110 95 moveto
+101.339746 100.000000 lineto
+stroke
+98.741670 100.500001 moveto
+Mainfont setfont
+11 CenterShow
+110 95 moveto
+109.999999 85.000000 lineto
+stroke
+109.999999 81.000000 moveto
+Mainfont setfont
+10 CenterShow
+110 95 moveto
+105.000000 103.660254 lineto
+stroke
+103.500000 105.258330 moveto
+Mainfont setfont
+9 CenterShow
+110 95 moveto
+104.999999 86.339746 lineto
+stroke
+103.499999 82.741670 moveto
+Mainfont setfont
+8 CenterShow
+110 95 moveto
+120.000000 94.999999 lineto
+stroke
+123.000000 93.999999 moveto
+Mainfont setfont
+7 CenterShow
+110 95 moveto
+114.999999 86.339746 lineto
+stroke
+116.499999 82.741669 moveto
+Mainfont setfont
+6 CenterShow
+110 95 moveto
+115.000001 103.660253 lineto
+stroke
+116.500001 105.258329 moveto
+Mainfont setfont
+5 CenterShow
+110 95 moveto
+100.000000 95.000001 lineto
+stroke
+97.000000 94.000001 moveto
+Mainfont setfont
+4 CenterShow
+110 95 moveto
+101.339746 90.000001 lineto
+stroke
+98.741669 87.500001 moveto
+Mainfont setfont
+3 CenterShow
+110 95 moveto
+118.660254 89.999999 lineto
+stroke
+121.258330 87.499999 moveto
+Mainfont setfont
+2 CenterShow
+110 95 moveto
+110.000000 105.000000 lineto
+stroke
+110.000000 107.000000 moveto
+Mainfont setfont
+1 CenterShow
+96 77 moveto
+(Firing order) show
+
+% draw mode diagram
+0 55 moveto
+150 0 rlineto
+.1 setlinewidth
+stroke
+
+newpath
+0 70.000000 moveto
+20.212070 68.530102 lineto
+27.002148 68.486013 lineto
+33.425909 68.382383 lineto
+39.849670 68.212286 lineto
+46.273431 67.976566 lineto
+52.697192 67.676395 lineto
+59.120952 67.313262 lineto
+65.156578 66.968565 lineto
+71.157277 66.622649 lineto
+77.581037 66.130816 lineto
+84.004798 65.583699 lineto
+90.428559 64.984015 lineto
+96.852320 64.334743 lineto
+103.276081 63.639107 lineto
+109.012553 63.132628 lineto
+114.324469 62.738984 lineto
+114.426407 62.738983 lineto
+125.501903 57.928184 lineto
+137.618868 51.376507 lineto
+150.000000 44.385535 lineto
+-10 92 moveto
+15 0 rlineto
+3 -1 rmoveto
+Mainfont2 setfont
+(Node-1 Frequency:  4.821[Hz]  289.23[cpm]) show
+[5 0] 0 setdash
+.2 setlinewidth
+stroke
+0 70.000000 moveto
+20.212070 57.698810 lineto
+27.002148 57.365671 lineto
+33.425909 56.990429 lineto
+39.849670 56.532453 lineto
+46.273431 56.010780 lineto
+52.697192 55.447093 lineto
+59.120952 54.864823 lineto
+65.156578 54.396344 lineto
+71.157277 53.940143 lineto
+77.581037 53.411688 lineto
+84.004798 52.949253 lineto
+90.428559 52.572058 lineto
+96.852320 52.295782 lineto
+103.276081 52.131909 lineto
+109.012553 52.101283 lineto
+114.324469 52.082583 lineto
+114.426407 52.082583 lineto
+125.501903 52.662397 lineto
+137.618868 53.849303 lineto
+150.000000 55.255037 lineto
+-10 88 moveto
+15 0 rlineto
+3 -1 rmoveto
+Mainfont2 setfont
+(Node-2 Frequency: 13.945[Hz]  836.71[cpm]) show
+[4 1] 0 setdash
+.2 setlinewidth
+stroke
+0 70.000000 moveto
+20.212070 50.471052 lineto
+27.002148 49.980133 lineto
+33.425909 49.903324 lineto
+39.849670 50.162836 lineto
+46.273431 50.741544 lineto
+52.697192 51.601259 lineto
+59.120952 52.685251 lineto
+65.156578 53.689993 lineto
+71.157277 54.686858 lineto
+77.581037 55.958535 lineto
+84.004798 57.166960 lineto
+90.428559 58.232391 lineto
+96.852320 59.084522 lineto
+103.276081 59.667123 lineto
+109.012553 59.855456 lineto
+114.324469 59.987906 lineto
+114.426407 59.987906 lineto
+125.501903 59.360153 lineto
+137.618868 57.315126 lineto
+150.000000 54.701292 lineto
+-10 84 moveto
+15 0 rlineto
+3 -1 rmoveto
+Mainfont2 setfont
+(Node-3 Frequency: 17.571[Hz] 1054.25[cpm]) show
+[3 2] 0 setdash
+.2 setlinewidth
+stroke
+[] 0 setdash
+% draw inertia & spring model
+0.000000 30 moveto
+0 -20 rlineto
+.2 setlinewidth
+stroke
+.1 setlinewidth
+0.000000 30 moveto
+0.000000 70.000000 lineto
+stroke
+.2 setlinewidth
+0.000000 30 0.600882 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+0.000000 10 0.600882 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+0.000000 5 moveto
+Subfont setfont
+1 CenterShow
+0.000000 20 moveto
+20.212070 20 lineto
+stroke
+20.212070 30 moveto
+0 -20 rlineto
+.2 setlinewidth
+stroke
+.1 setlinewidth
+20.212070 30 moveto
+20.212070 68.530102 lineto
+stroke
+.2 setlinewidth
+20.212070 30 0.412823 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+20.212070 10 0.412823 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+20.212070 5 moveto
+Subfont setfont
+2 CenterShow
+20.212070 20 moveto
+27.002148 20 lineto
+stroke
+27.002148 30 moveto
+0 -20 rlineto
+.2 setlinewidth
+stroke
+.1 setlinewidth
+27.002148 30 moveto
+27.002148 68.486013 lineto
+stroke
+.2 setlinewidth
+27.002148 30 0.710634 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+27.002148 10 0.710634 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+27.002148 5 moveto
+Subfont setfont
+3 CenterShow
+27.002148 20 moveto
+33.425909 20 lineto
+stroke
+33.425909 30 moveto
+0 -20 rlineto
+.2 setlinewidth
+stroke
+.1 setlinewidth
+33.425909 30 moveto
+33.425909 68.382383 lineto
+stroke
+.2 setlinewidth
+33.425909 30 0.710634 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+33.425909 10 0.710634 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+33.425909 5 moveto
+Subfont setfont
+4 CenterShow
+33.425909 20 moveto
+39.849670 20 lineto
+stroke
+39.849670 30 moveto
+0 -20 rlineto
+.2 setlinewidth
+stroke
+.1 setlinewidth
+39.849670 30 moveto
+39.849670 68.212286 lineto
+stroke
+.2 setlinewidth
+39.849670 30 0.710634 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+39.849670 10 0.710634 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+39.849670 5 moveto
+Subfont setfont
+5 CenterShow
+39.849670 20 moveto
+46.273431 20 lineto
+stroke
+46.273431 30 moveto
+0 -20 rlineto
+.2 setlinewidth
+stroke
+.1 setlinewidth
+46.273431 30 moveto
+46.273431 67.976566 lineto
+stroke
+.2 setlinewidth
+46.273431 30 0.710634 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+46.273431 10 0.710634 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+46.273431 5 moveto
+Subfont setfont
+6 CenterShow
+46.273431 20 moveto
+52.697192 20 lineto
+stroke
+52.697192 30 moveto
+0 -20 rlineto
+.2 setlinewidth
+stroke
+.1 setlinewidth
+52.697192 30 moveto
+52.697192 67.676395 lineto
+stroke
+.2 setlinewidth
+52.697192 30 0.710634 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+52.697192 10 0.710634 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+52.697192 5 moveto
+Subfont setfont
+7 CenterShow
+52.697192 20 moveto
+59.120952 20 lineto
+stroke
+59.120952 30 moveto
+0 -20 rlineto
+.2 setlinewidth
+stroke
+.1 setlinewidth
+59.120952 30 moveto
+59.120952 67.313262 lineto
+stroke
+.2 setlinewidth
+59.120952 30 0.710634 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+59.120952 10 0.710634 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+59.120952 5 moveto
+Subfont setfont
+8 CenterShow
+59.120952 20 moveto
+65.156578 20 lineto
+stroke
+65.156578 30 moveto
+0 -20 rlineto
+.2 setlinewidth
+stroke
+.1 setlinewidth
+65.156578 30 moveto
+65.156578 66.968565 lineto
+stroke
+.2 setlinewidth
+65.156578 30 0.495692 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+65.156578 10 0.495692 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+65.156578 5 moveto
+Subfont setfont
+9 CenterShow
+65.156578 20 moveto
+71.157277 20 lineto
+stroke
+71.157277 30 moveto
+0 -20 rlineto
+.2 setlinewidth
+stroke
+.1 setlinewidth
+71.157277 30 moveto
+71.157277 66.622649 lineto
+stroke
+.2 setlinewidth
+71.157277 30 0.710634 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+71.157277 10 0.710634 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+71.157277 5 moveto
+Subfont setfont
+10 CenterShow
+71.157277 20 moveto
+77.581037 20 lineto
+stroke
+77.581037 30 moveto
+0 -20 rlineto
+.2 setlinewidth
+stroke
+.1 setlinewidth
+77.581037 30 moveto
+77.581037 66.130816 lineto
+stroke
+.2 setlinewidth
+77.581037 30 0.710634 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+77.581037 10 0.710634 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+77.581037 5 moveto
+Subfont setfont
+11 CenterShow
+77.581037 20 moveto
+84.004798 20 lineto
+stroke
+84.004798 30 moveto
+0 -20 rlineto
+.2 setlinewidth
+stroke
+.1 setlinewidth
+84.004798 30 moveto
+84.004798 65.583699 lineto
+stroke
+.2 setlinewidth
+84.004798 30 0.710634 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+84.004798 10 0.710634 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+84.004798 5 moveto
+Subfont setfont
+12 CenterShow
+84.004798 20 moveto
+90.428559 20 lineto
+stroke
+90.428559 30 moveto
+0 -20 rlineto
+.2 setlinewidth
+stroke
+.1 setlinewidth
+90.428559 30 moveto
+90.428559 64.984015 lineto
+stroke
+.2 setlinewidth
+90.428559 30 0.710634 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+90.428559 10 0.710634 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+90.428559 5 moveto
+Subfont setfont
+13 CenterShow
+90.428559 20 moveto
+96.852320 20 lineto
+stroke
+96.852320 30 moveto
+0 -20 rlineto
+.2 setlinewidth
+stroke
+.1 setlinewidth
+96.852320 30 moveto
+96.852320 64.334743 lineto
+stroke
+.2 setlinewidth
+96.852320 30 0.710634 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+96.852320 10 0.710634 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+96.852320 5 moveto
+Subfont setfont
+14 CenterShow
+96.852320 20 moveto
+103.276081 20 lineto
+stroke
+103.276081 30 moveto
+0 -20 rlineto
+.2 setlinewidth
+stroke
+.1 setlinewidth
+103.276081 30 moveto
+103.276081 63.639107 lineto
+stroke
+.2 setlinewidth
+103.276081 30 0.710634 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+103.276081 10 0.710634 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+103.276081 5 moveto
+Subfont setfont
+15 CenterShow
+103.276081 20 moveto
+109.012553 20 lineto
+stroke
+109.012553 30 moveto
+0 -20 rlineto
+.2 setlinewidth
+stroke
+.1 setlinewidth
+109.012553 30 moveto
+109.012553 63.132628 lineto
+stroke
+.2 setlinewidth
+109.012553 30 0.426889 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+109.012553 10 0.426889 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+109.012553 5 moveto
+Subfont setfont
+16 CenterShow
+109.012553 20 moveto
+114.324469 20 lineto
+stroke
+114.324469 30 moveto
+0 -20 rlineto
+.2 setlinewidth
+stroke
+.1 setlinewidth
+114.324469 30 moveto
+114.324469 62.738984 lineto
+stroke
+.2 setlinewidth
+114.324469 30 0.655931 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+114.324469 10 0.655931 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+114.324469 5 moveto
+Subfont setfont
+17 CenterShow
+114.324469 20 moveto
+114.426407 20 lineto
+stroke
+114.426407 30 moveto
+0 -20 rlineto
+.2 setlinewidth
+stroke
+.1 setlinewidth
+114.426407 30 moveto
+114.426407 62.738983 lineto
+stroke
+.2 setlinewidth
+114.426407 30 0.591218 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+114.426407 10 0.591218 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+114.426407 5 moveto
+Subfont setfont
+18 CenterShow
+114.426407 20 moveto
+125.501903 20 lineto
+stroke
+125.501903 30 moveto
+0 -20 rlineto
+.2 setlinewidth
+stroke
+.1 setlinewidth
+125.501903 30 moveto
+125.501903 59.360153 lineto
+stroke
+.2 setlinewidth
+125.501903 30 0.619168 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+125.501903 10 0.619168 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+125.501903 5 moveto
+Subfont setfont
+19 CenterShow
+125.501903 20 moveto
+137.618868 20 lineto
+stroke
+137.618868 30 moveto
+0 -20 rlineto
+.2 setlinewidth
+stroke
+.1 setlinewidth
+137.618868 30 moveto
+137.618868 57.315126 lineto
+stroke
+.2 setlinewidth
+137.618868 30 0.560731 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+137.618868 10 0.560731 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+137.618868 5 moveto
+Subfont setfont
+20 CenterShow
+137.618868 20 moveto
+150.000000 20 lineto
+stroke
+150.000000 30 moveto
+0 -20 rlineto
+.2 setlinewidth
+stroke
+.1 setlinewidth
+150.000000 30 moveto
+150.000000 55.255037 lineto
+stroke
+.2 setlinewidth
+150.000000 30 1.219490 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+150.000000 10 1.219490 0 360 arc
+gsave
+1. setgray fill
+grestore
+stroke
+150.000000 5 moveto
+21 CenterShow
+Mainfont2 setfont
+% put title
+-10 -5 moveto
+(No.) show
+-5 -5 moveto
+(Name) show
+30 -5 moveto
+(Inertia) show
+50 -5 moveto
+(Elast.) show
+65 -5 moveto
+(Abs.Damp.) show
+90 -5 moveto
+(Rel.Damp.) show
+120 -5 moveto
+(Eq.Dia.) show
+135 -5 moveto
+(Firing angle) show
+
+% put unit
+30 -9 moveto
+([kgm) show
+0 1 rmoveto
+Subfont setfont
+(2) show
+0 -1 rmoveto
+Mainfont2 setfont
+(]) show
+50 -9 moveto
+([rad/Nm]) show
+65 -9 moveto
+([Nms/rad]) show
+90 -9 moveto
+([Nms/rad]) show
+120 -9 moveto
+([mm]) show
+135 -9 moveto
+([deg.]) show
+
+% put massno
+-10 -17 moveto
+% put subunit
+60 -13 moveto
+(*10) show
+Subfont setfont
+0 1 rmoveto
+(-9) show
+Mainfont2 setfont
+
+% put remarks
+-10 -122 moveto
+(Inertia of Flywheel:  3432.5 [kgm) show
+Subfont setfont 0 1 rmoveto (2) show Mainfont2 setfont 0 -1 rmoveto
+(] (std.)) show
+-10 -126 moveto
+(D: Propeller dia.[m]) show
+-10 -130 moveto
+(F: Frequency[cpm]) show
+-10 -134 moveto
+(T: Propeller torque[Nm]) show
+-10 -138 moveto
+(N: Propeller speed[min) show
+Subfont setfont
+0 1 rmoveto
+(-1) show
+0 -1 rmoveto
+Mainfont2 setfont
+(]) show
+
+% put no.
+-10 -17 moveto
+(1) show
+-10 -21.000000 moveto
+(2) show
+-10 -25.000000 moveto
+(3) show
+-10 -29.000000 moveto
+(4) show
+-10 -33.000000 moveto
+(5) show
+-10 -37.000000 moveto
+(6) show
+-10 -41.000000 moveto
+(7) show
+-10 -45.000000 moveto
+(8) show
+-10 -49.000000 moveto
+(9) show
+-10 -53.000000 moveto
+(10) show
+-10 -57.000000 moveto
+(11) show
+-10 -61.000000 moveto
+(12) show
+-10 -65.000000 moveto
+(13) show
+-10 -69.000000 moveto
+(14) show
+-10 -73.000000 moveto
+(15) show
+-10 -77.000000 moveto
+(16) show
+-10 -81.000000 moveto
+(17) show
+-10 -85.000000 moveto
+(18) show
+-10 -89.000000 moveto
+(19) show
+-10 -93.000000 moveto
+(20) show
+-10 -97.000000 moveto
+(21) show
+-10 -101.000000 moveto
+% put massname
+-5 -17 moveto
+(D195/13-OUT) show
+-5 -21.000000 moveto
+(D195/13-IN+Shaft) show
+-5 -25.000000 moveto
+(CrankNo.12) show
+-5 -29.000000 moveto
+(CrankNo.11) show
+-5 -33.000000 moveto
+(CrankNo.10) show
+-5 -37.000000 moveto
+(CrankNo.9) show
+-5 -41.000000 moveto
+(CrankNo.8) show
+-5 -45.000000 moveto
+(CrankNo.7) show
+-5 -49.000000 moveto
+(Gear) show
+-5 -53.000000 moveto
+(CrankNo.6) show
+-5 -57.000000 moveto
+(CrankNo.5) show
+-5 -61.000000 moveto
+(CrankNo.4) show
+-5 -65.000000 moveto
+(CrankNo.3) show
+-5 -69.000000 moveto
+(CrankNo.2) show
+-5 -73.000000 moveto
+(CrankNo.1) show
+-5 -77.000000 moveto
+(ThrustBrg.) show
+-5 -81.000000 moveto
+(Flywheel) show
+-5 -85.000000 moveto
+(RShaft-F) show
+-5 -89.000000 moveto
+(RShaft-A+OTShaft-F) show
+-5 -93.000000 moveto
+(OTShaft-A+PS-F) show
+-5 -97.000000 moveto
+(PS-A+PROP.) show
+-5 -101.000000 moveto
+% put inertia
+30 -17 moveto
+(  2350.0) show
+30 -21.000000 moveto
+(   359.7) show
+30 -25.000000 moveto
+(  5436.9) show
+30 -29.000000 moveto
+(  5436.9) show
+30 -33.000000 moveto
+(  5436.9) show
+30 -37.000000 moveto
+(  5436.9) show
+30 -41.000000 moveto
+(  5436.9) show
+30 -45.000000 moveto
+(  5436.9) show
+30 -49.000000 moveto
+(   897.8) show
+30 -53.000000 moveto
+(  5436.9) show
+30 -57.000000 moveto
+(  5436.9) show
+30 -61.000000 moveto
+(  5436.9) show
+30 -65.000000 moveto
+(  5436.9) show
+30 -69.000000 moveto
+(  5436.9) show
+30 -73.000000 moveto
+(  5436.9) show
+30 -77.000000 moveto
+(   425.3) show
+30 -81.000000 moveto
+(  3642.6) show
+30 -85.000000 moveto
+(  2167.0) show
+30 -89.000000 moveto
+(  2730.0) show
+30 -93.000000 moveto
+(  1663.0) show
+30 -97.000000 moveto
+( 80912.0) show
+30 -101.000000 moveto
+% put length
+50 -19 moveto
+(45.4545) show
+50 -23.000000 moveto
+(1.1980) show
+50 -27.000000 moveto
+(0.9958) show
+50 -31.000000 moveto
+(0.9958) show
+50 -35.000000 moveto
+(0.9958) show
+50 -39.000000 moveto
+(0.9958) show
+50 -43.000000 moveto
+(0.9958) show
+50 -47.000000 moveto
+(0.8090) show
+50 -51.000000 moveto
+(0.7935) show
+50 -55.000000 moveto
+(0.9958) show
+50 -59.000000 moveto
+(0.9958) show
+50 -63.000000 moveto
+(0.9958) show
+50 -67.000000 moveto
+(0.9958) show
+50 -71.000000 moveto
+(0.9958) show
+50 -75.000000 moveto
+(0.6829) show
+50 -79.000000 moveto
+(0.5285) show
+50 -83.000000 moveto
+(0.0000) show
+50 -87.000000 moveto
+(6.1200) show
+50 -91.000000 moveto
+(8.2576) show
+50 -95.000000 moveto
+(8.8731) show
+50 -99.000000 moveto
+% put Cabs
+65 -17 moveto
+65 -21.000000 moveto
+65 -25.000000 moveto
+(  758.0*F) show
+Subfont setfont
+0 1 rmoveto
+(0.435) show
+0 -1 rmoveto
+Mainfont2 setfont
+65 -29.000000 moveto
+(  758.0*F) show
+Subfont setfont
+0 1 rmoveto
+(0.435) show
+0 -1 rmoveto
+Mainfont2 setfont
+65 -33.000000 moveto
+(  758.0*F) show
+Subfont setfont
+0 1 rmoveto
+(0.435) show
+0 -1 rmoveto
+Mainfont2 setfont
+65 -37.000000 moveto
+(  758.0*F) show
+Subfont setfont
+0 1 rmoveto
+(0.435) show
+0 -1 rmoveto
+Mainfont2 setfont
+65 -41.000000 moveto
+(  758.0*F) show
+Subfont setfont
+0 1 rmoveto
+(0.435) show
+0 -1 rmoveto
+Mainfont2 setfont
+65 -45.000000 moveto
+(  758.0*F) show
+Subfont setfont
+0 1 rmoveto
+(0.435) show
+0 -1 rmoveto
+Mainfont2 setfont
+65 -49.000000 moveto
+65 -53.000000 moveto
+(  758.0*F) show
+Subfont setfont
+0 1 rmoveto
+(0.435) show
+0 -1 rmoveto
+Mainfont2 setfont
+65 -57.000000 moveto
+(  758.0*F) show
+Subfont setfont
+0 1 rmoveto
+(0.435) show
+0 -1 rmoveto
+Mainfont2 setfont
+65 -61.000000 moveto
+(  758.0*F) show
+Subfont setfont
+0 1 rmoveto
+(0.435) show
+0 -1 rmoveto
+Mainfont2 setfont
+65 -65.000000 moveto
+(  758.0*F) show
+Subfont setfont
+0 1 rmoveto
+(0.435) show
+0 -1 rmoveto
+Mainfont2 setfont
+65 -69.000000 moveto
+(  758.0*F) show
+Subfont setfont
+0 1 rmoveto
+(0.435) show
+0 -1 rmoveto
+Mainfont2 setfont
+65 -73.000000 moveto
+(  758.0*F) show
+Subfont setfont
+0 1 rmoveto
+(0.435) show
+0 -1 rmoveto
+Mainfont2 setfont
+65 -77.000000 moveto
+65 -81.000000 moveto
+65 -85.000000 moveto
+65 -89.000000 moveto
+65 -93.000000 moveto
+65 -97.000000 moveto
+(35.0*T/N) show
+65 -101.000000 moveto
+% put Crel
+90 -19 moveto
+(110000.0*F) show
+Subfont setfont
+0 1 rmoveto
+(0.000) show
+0 -1 rmoveto
+Mainfont2 setfont
+90 -23.000000 moveto
+90 -27.000000 moveto
+(0.001400*F) show
+Subfont setfont
+0 1 rmoveto
+(2.650) show
+0 -1 rmoveto
+Mainfont2 setfont
+90 -31.000000 moveto
+(0.001400*F) show
+Subfont setfont
+0 1 rmoveto
+(2.650) show
+0 -1 rmoveto
+Mainfont2 setfont
+90 -35.000000 moveto
+(0.001400*F) show
+Subfont setfont
+0 1 rmoveto
+(2.650) show
+0 -1 rmoveto
+Mainfont2 setfont
+90 -39.000000 moveto
+(0.001400*F) show
+Subfont setfont
+0 1 rmoveto
+(2.650) show
+0 -1 rmoveto
+Mainfont2 setfont
+90 -43.000000 moveto
+(0.001400*F) show
+Subfont setfont
+0 1 rmoveto
+(2.650) show
+0 -1 rmoveto
+Mainfont2 setfont
+90 -47.000000 moveto
+90 -51.000000 moveto
+90 -55.000000 moveto
+(0.001400*F) show
+Subfont setfont
+0 1 rmoveto
+(2.650) show
+0 -1 rmoveto
+Mainfont2 setfont
+90 -59.000000 moveto
+(0.001400*F) show
+Subfont setfont
+0 1 rmoveto
+(2.650) show
+0 -1 rmoveto
+Mainfont2 setfont
+90 -63.000000 moveto
+(0.001400*F) show
+Subfont setfont
+0 1 rmoveto
+(2.650) show
+0 -1 rmoveto
+Mainfont2 setfont
+90 -67.000000 moveto
+(0.001400*F) show
+Subfont setfont
+0 1 rmoveto
+(2.650) show
+0 -1 rmoveto
+Mainfont2 setfont
+90 -71.000000 moveto
+(0.001400*F) show
+Subfont setfont
+0 1 rmoveto
+(2.650) show
+0 -1 rmoveto
+Mainfont2 setfont
+90 -75.000000 moveto
+90 -79.000000 moveto
+90 -83.000000 moveto
+90 -87.000000 moveto
+90 -91.000000 moveto
+90 -95.000000 moveto
+90 -99.000000 moveto
+120 -19 moveto
+120 -23.000000 moveto
+( 625.0) show
+120 -27.000000 moveto
+( 625.0) show
+120 -31.000000 moveto
+( 625.0) show
+120 -35.000000 moveto
+( 625.0) show
+120 -39.000000 moveto
+( 625.0) show
+120 -43.000000 moveto
+( 625.0) show
+120 -47.000000 moveto
+( 625.0) show
+120 -51.000000 moveto
+( 625.0) show
+120 -55.000000 moveto
+( 625.0) show
+120 -59.000000 moveto
+( 625.0) show
+120 -63.000000 moveto
+( 625.0) show
+120 -67.000000 moveto
+( 625.0) show
+120 -71.000000 moveto
+( 625.0) show
+120 -75.000000 moveto
+( 625.0) show
+120 -79.000000 moveto
+( 625.0) show
+120 -83.000000 moveto
+(1030.0) show
+120 -87.000000 moveto
+( 533.3) show
+120 -91.000000 moveto
+( 526.9) show
+120 -95.000000 moveto
+( 648.3) show
+120 -99.000000 moveto
+% put firing angle
+135 -17 moveto
+135 -21.000000 moveto
+135 -25.000000 moveto
+(300.000) show
+135 -29.000000 moveto
+( 60.000) show
+135 -33.000000 moveto
+(180.000) show
+135 -37.000000 moveto
+( 30.000) show
+135 -41.000000 moveto
+(150.000) show
+135 -45.000000 moveto
+(270.000) show
+135 -49.000000 moveto
+135 -53.000000 moveto
+(210.000) show
+135 -57.000000 moveto
+(330.000) show
+135 -61.000000 moveto
+( 90.000) show
+135 -65.000000 moveto
+(120.000) show
+135 -69.000000 moveto
+(240.000) show
+135 -73.000000 moveto
+(  0.000) show
+135 -77.000000 moveto
+135 -81.000000 moveto
+135 -85.000000 moveto
+135 -89.000000 moveto
+135 -93.000000 moveto
+135 -97.000000 moveto
+135 -101.000000 moveto
+showpage
+
+%%Trailer
+%%Pages: 1
+%%EOF

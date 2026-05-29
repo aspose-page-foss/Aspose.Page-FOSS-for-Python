@@ -1,0 +1,28 @@
+
+EXAMPLES FOR CHAPTER 9 - "Images".
+
+The examples for this chapter require 27 KB.
+			
+Files contained in this folder:				
+	Manifest
+	dict1.ps (*)  (1)
+	dict2.ps (*) 
+	dict3.ps (*) (1)
+	filters1.ps (*)
+	filters2.ps (*)
+	imgmask1.ps
+	imgmask2.ps
+	imgmask3.ps
+	imgmask4.ps
+	imgmask5.ps
+	shuimg1.ps
+	shuimg2.ps
+	sigma.ps
+
+(*)	Requires PostScript Level 2.
+
+(1)	The line reading
+		/DataSource { currentfile temp readhexstring pop }
+	in the book, should read
+		/DataSource { currentfile temp readhexstring pop } def
+	Both examples on this disk have been fixed.

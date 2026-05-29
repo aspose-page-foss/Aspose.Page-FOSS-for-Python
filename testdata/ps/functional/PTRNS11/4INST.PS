@@ -1,0 +1,98 @@
+%!PS
+
+%	This example appears in section "Painting with an Uncolored
+%	Pattern" in Chapter 11 - "Patterns".
+%
+%	Caveats:	Requires PostScript Level 2.
+
+/inch { 72 mul } def			%  define inch procedure
+
+/CloverLeaf {				%  define procedure to draw clover
+	/OneLeaf {
+		10 0 rlineto
+		10 110 110 100 110 220 rcurveto
+		0 70 -60 120 -130 120 rcurveto
+		-70 0 -130 -50 -130 -120 rcurveto
+		0 -110 110 -120 120 -220 rcurveto
+		closepath
+		-20 -10 rmoveto
+	} def
+	400 400 moveto
+	OneLeaf
+	90 rotate OneLeaf
+	90 rotate OneLeaf
+	90 rotate OneLeaf
+} def
+
+/Astroid {				%  define procedure to draw astroid
+	410 10 moveto
+	0 220 180 390 380 380 rcurveto
+	20 10 20 10 0 20 rcurveto
+	90 rotate
+	0 220 180 390 380 380 rcurveto
+	20 10 20 10 0 20 rcurveto
+	90 rotate
+	0 220 180 390 380 380 rcurveto
+	20 10 20 10 0 20 rcurveto
+	90 rotate
+	0 220 180 390 380 380 rcurveto
+	20 10 20 10 0 20 rcurveto
+} def
+
+/AstroidLeaf {				%  start definition of cell
+	gsave				%  remember graphics state
+		0 8 translate		%  lower-left portion
+		0.4 dup scale		%  scale to required size
+		CloverLeaf		%  draw cloverleaf shape
+		0.25 setgray fill	%  fill with dark gray shade
+	grestore			%  restore graphics state
+	gsave				%  remember graphics state
+		306 8 translate		%  lower-right portion
+		0.4 dup scale		%  scale to required size
+		Astroid			%  draw astroid shape
+		0.50 setgray fill	%  fill with medium gray shade
+	grestore			%  restore graphics state
+	gsave				%  remember graphics state
+		0 306 8 add translate	%  upper-left portion
+		0.4 dup scale		%  scale to required size
+		Astroid			%  draw astroid shape
+		0.50 setgray fill	%  fill with medium gray shade
+	  grestore			%  restore graphics state
+	gsave				%  remember graphics state
+		306 306 8 add translate	%  upper-right portion
+		0.4 dup scale		%  scale to required size
+		CloverLeaf		%  draw cloverleaf shape
+		0.25 setgray fill	%  fill with dark gray shade
+	grestore			%  restore graphics state
+} def					%  end of definition
+
+4.25 inch 0 moveto			%  draw grid
+0 8.5 inch rlineto
+0 4.25 inch moveto
+8.5 inch 0 rlineto
+stroke
+0 0 moveto
+8.5 inch 0 rlineto
+0 8.5 inch rlineto
+-8.5 inch 0 rlineto
+closepath
+stroke
+
+gsave					%  draw 3rd quadrant
+	1.5 inch -0.125 inch translate
+	30 rotate 0.4 dup scale
+	AstroidLeaf
+grestore
+gsave					%  draw 4th quadrant
+	4.25 inch 3.5 inch add 1 inch translate
+	90 rotate 0.3 dup scale AstroidLeaf
+grestore
+gsave					%  draw 2nd quadrant
+	0 inch 5.25 inch translate
+	[ 1 0 45 sin 1 0 0 ] concat 0.3 dup scale AstroidLeaf
+grestore
+gsave					%  draw 1st quadrant
+	4.25 inch 5.25 inch translate
+	0.5 0.3 scale AstroidLeaf
+grestore
+showpage				%  display page

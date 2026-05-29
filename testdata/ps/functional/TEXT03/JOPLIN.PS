@@ -1,0 +1,23 @@
+%!PS
+
+%	This example appears in section "Show String Using x and y Widths"
+%	in Chapter 3 - "Text".
+%
+%	Caveats:	Requires PostScript Level 2.
+
+/inch { 72 mul } def		%  define inch procedure
+/Sonata 1.8 inch selectfont	%  choose font
+0.28 inch 7.05 inch moveto	%  set current point
+(|) show			%  show barline at beginning
+7.77 inch 7.05 inch moveto	%  set current point
+(|) show			%  show barline at end
+/Sonata 1.5 inch selectfont	%  choose font
+0.29 inch 5.5 inch moveto	%  set current point
+(=====) show			%  show stave
+0.4 inch 5.5 inch moveto	%  set current point
+(&C)[ 80 54 80 -54 ] xyshow	%  treble clef and time signature
+(eQeQqq)			%  characters to show
+[ 65 67 75 -67 65 67		%  displacements
+75 -67 50 67 0 0 ]
+xyshow				%  show music notes
+showpage			%  display page

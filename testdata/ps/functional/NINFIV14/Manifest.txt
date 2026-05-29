@@ -1,0 +1,35 @@
+
+EXAMPLES FOR CHAPTER 14 - "PostScript Nine to Five".
+
+The examples for this chapter require 34 KB.
+
+Files contained in this folder:
+	Manifest
+	bbox.ps
+	char.ps
+	eps1.ps
+	eps2.ps
+	eps3.ps
+	error1.ps
+	error2.ps
+	fonts1.ps
+	fonts2.ps
+	fonts3.ps (1)
+	fonts4.ps (*)
+	fonts5.ps (*)
+	fonts6.ps (*)
+	memusage.ps
+	metrics.ps
+	struct.ps
+	triangle.ps (2)
+
+(*)	Requires PostScript Level 2.
+
+(1)	The line reading
+		SaveWorld restore		%  restore VM to prior
+	in the book is in the wrong position. The example has been fixed on
+	this disk.
+	
+(2)	This example has a deliberate error. Please see the appropriate
+	section in the book for an explanation.
+	

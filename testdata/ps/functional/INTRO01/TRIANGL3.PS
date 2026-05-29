@@ -1,0 +1,13 @@
+%!PS
+
+%	This example appears in section "Transformations" in
+%	Chapter 1 - "Introducing PostScript".
+%
+
+/cm { 28.35 mul } def	%  define cm procedure
+2 cm 5 cm moveto	%  set initial point
+11 cm 24 cm lineto	%  add line segment
+20 cm 5 cm lineto	%  add another line segment
+closepath		%  finish the shape
+stroke			%  paint the path
+showpage		%  display page

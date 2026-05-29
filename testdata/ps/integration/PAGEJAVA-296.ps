@@ -1,0 +1,183 @@
+%!PS-Adobe-3.0
+
+/deffont {
+  findfont exch scalefont def
+} bind def
+
+/reencode_font {
+  findfont reencode 2 copy definefont pop def
+} bind def
+
+% reencode the font
+% <encoding-vector> <fontdict> -> <newfontdict>
+/reencode { %def
+  dup length 5 add dict begin
+    { %forall
+      1 index /FID ne
+      { def }{ pop pop } ifelse
+    } forall
+    /Encoding exch def
+
+    % Use the font's bounding box to determine the ascent, descent,
+    % and overall height; don't forget that these values have to be
+    % transformed using the font's matrix.
+    % We use 'load' because sometimes BBox is executable, sometimes not.
+    % Since we need 4 numbers an not an array avoid BBox from being executed
+    /FontBBox load aload pop
+    FontMatrix transform /Ascent exch def pop
+    FontMatrix transform /Descent exch def pop
+    /FontHeight Ascent Descent sub def
+
+    % Define these in case they're not in the FontInfo (also, here
+    % they're easier to get to.
+    /UnderlinePosition 1 def
+    /UnderlineThickness 1 def
+
+    % Get the underline position and thickness if they're defined.
+    currentdict /FontInfo known {
+      FontInfo
+
+      dup /UnderlinePosition known {
+        dup /UnderlinePosition get
+        0 exch FontMatrix transform exch pop
+        /UnderlinePosition exch def
+      } if
+
+      dup /UnderlineThickness known {
+        /UnderlineThickness get
+        0 exch FontMatrix transform exch pop
+        /UnderlineThickness exch def
+      } if
+
+    } if
+    currentdict
+  end
+} bind def
+
+/ISO-8859-1Encoding [
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+/space /exclam /quotedbl /numbersign /dollar /percent /ampersand /quoteright
+/parenleft /parenright /asterisk /plus /comma /minus /period /slash
+/zero /one /two /three /four /five /six /seven
+/eight /nine /colon /semicolon /less /equal /greater /question
+/at /A /B /C /D /E /F /G
+/H /I /J /K /L /M /N /O
+/P /Q /R /S /T /U /V /W
+/X /Y /Z /bracketleft /backslash /bracketright /asciicircum /underscore
+/quoteleft /a /b /c /d /e /f /g
+/h /i /j /k /l /m /n /o
+/p /q /r /s /t /u /v /w
+/x /y /z /braceleft /bar /braceright /asciitilde /.notdef
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+/space /exclamdown /cent /sterling /currency /yen /brokenbar /section
+/dieresis /copyright /ordfeminine /guillemotleft /logicalnot /hyphen /registered /macron
+/degree /plusminus /twosuperior /threesuperior /acute /mu /paragraph /bullet
+/cedilla /onesuperior /ordmasculine /guillemotright /onequarter /onehalf /threequarters /questiondown
+/Agrave /Aacute /Acircumflex /Atilde /Adieresis /Aring /AE /Ccedilla
+/Egrave /Eacute /Ecircumflex /Edieresis /Igrave /Iacute /Icircumflex /Idieresis
+/Eth /Ntilde /Ograve /Oacute /Ocircumflex /Otilde /Odieresis /multiply
+/Oslash /Ugrave /Uacute /Ucircumflex /Udieresis /Yacute /Thorn /germandbls
+/agrave /aacute /acircumflex /atilde /adieresis /aring /ae /ccedilla
+/egrave /eacute /ecircumflex /edieresis /igrave /iacute /icircumflex /idieresis
+/eth /ntilde /ograve /oacute /ocircumflex /otilde /odieresis /divide
+/oslash /ugrave /uacute /ucircumflex /udieresis /yacute /thorn /ydieresis
+] def
+/ISOTimes-Roman-Bold ISO-8859-1Encoding /Times-Roman-Bold reencode_font
+/labelclip {
+	newpath
+	1.000000 1.000000 moveto
+	125.000000 1.000000 lineto
+	125.000000 69.000000 lineto
+	1.000000 69.000000 lineto
+	closepath
+	clip
+
+} def
+
+% end prologue
+
+% set font type and size
+ISOTimes-Roman-Bold 8 scalefont setfont
+%%Page: labels 1
+
+%%BeginPageSetup
+14.000000 0.000000 translate
+%%EndPageSetup
+
+gsave
+0 0
+translate
+labelclip
+newpath
+ISOTimes-Roman-Bold 5 scalefont setfont
+3.000000 63.636364 moveto
+(NOMBRE: URBINA RAMIREZ) show
+3.000000 57.803030 moveto
+(APELLIDO: MARIANELA DEL CARMEN) show
+3.000000 51.969697 moveto
+(RUT: 103436192) show
+3.000000 46.136364 moveto
+(MUESTRA: UTERO MIOMA Y ANEXOS) show
+3.000000 40.303030 moveto
+(DR: ASFURA ASFURA CARLOS) show
+3.000000 34.469697 moveto
+(FECHA: 2016-09-27 15:17:50) show
+3.000000 28.636364 moveto
+() show
+3.000000 22.803030 moveto
+() show
+3.000000 16.969697 moveto
+() show
+3.000000 11.136364 moveto
+() show
+stroke
+grestore
+
+
+%!PS-Adobe-2.0
+%%Creator: "barcode", libbarcode sample frontend
+%%DocumentPaperSizes: A4
+%%EndComments
+%%EndProlog
+
+%%Page: 1 1
+
+% Printing barcode for "BICE2715891", scaled  0.77, encoded using "code 128-B"
+% The space/bar succession is represented by the following widths (space first):
+% 02112141311232313111313211321132232113121311232212132123112223211221232211143112331112
+[
+%  height  xpos   ypos  width       height  xpos   ypos  width
+   [20.00  10.77  10.00  1.39]      [20.00  12.69  10.00  0.62]
+   [20.00  15.00  10.00  0.62]      [20.00  18.85  10.00  0.62]
+   [20.00  21.92  10.00  0.62]      [20.00  23.85  10.00  1.39]
+   [20.00  27.69  10.00  1.39]      [20.00  31.15  10.00  0.62]
+   [20.00  34.23  10.00  0.62]      [20.00  35.77  10.00  0.62]
+   [20.00  38.85  10.00  0.62]      [20.00  42.31  10.00  1.39]
+   [20.00  44.23  10.00  0.62]      [20.00  47.69  10.00  1.39]
+   [20.00  49.62  10.00  0.62]      [20.00  53.08  10.00  1.39]
+   [20.00  56.54  10.00  2.16]      [20.00  59.62  10.00  0.62]
+   [20.00  61.92  10.00  2.16]      [20.00  64.62  10.00  1.39]
+   [20.00  67.31  10.00  2.16]      [20.00  69.62  10.00  0.62]
+   [20.00  72.69  10.00  2.16]      [20.00  76.15  10.00  1.39]
+   [20.00  78.46  10.00  1.39]      [20.00  81.15  10.00  2.16]
+   [20.00  84.23  10.00  0.62]      [20.00  87.31  10.00  2.16]
+   [20.00  89.62  10.00  0.62]      [20.00  92.31  10.00  1.39]
+   [20.00  95.77  10.00  2.16]      [20.00  98.85  10.00  0.62]
+   [20.00 100.77  10.00  1.39]      [20.00 103.46  10.00  0.62]
+   [20.00 106.54  10.00  2.16]      [20.00 110.00  10.00  1.39]
+   [20.00 111.92  10.00  0.62]      [20.00 114.62  10.00  2.93]
+   [20.00 118.85  10.00  0.62]      [20.00 120.77  10.00  1.39]
+   [20.00 125.00  10.00  2.16]      [20.00 127.31  10.00  0.62]
+   [20.00 129.23  10.00  1.39]   
+]	{ {} forall setlinewidth moveto 0 exch rlineto stroke} bind forall
+% End barcode for "BICE2715891"
+
+showpage
+%%Trailer
+

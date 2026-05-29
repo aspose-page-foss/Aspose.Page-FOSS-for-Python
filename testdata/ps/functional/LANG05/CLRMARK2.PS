@@ -1,0 +1,22 @@
+%!PS
+
+%	This example appears in section "Clear Stack Down to Mark"
+%	in Chapter 5 - "PostScript Language".
+%
+
+
+/inch { 72 mul } def			%  define inch procedure
+mark
+4.25 inch 9 inch moveto			%  set initial point
+					%  draw four line/arc combinations
+2   inch 9 inch 2    inch 5.5 inch 1 inch arcto
+2   inch 2 inch 4.25 inch 2   inch 1 inch arcto
+6.5 inch 2 inch 6.5  inch 5.5 inch 1 inch arcto
+6.5 inch 9 inch 4.25 inch 9   inch 1 inch arcto
+cleartomark				%  clear debris from stack
+closepath				%  finish the shape
+gsave					%  push graphics state
+	0.90 setgray fill		%  fill with light gray
+grestore				%  pop graphics state
+0.125 inch setlinewidth stroke		%  stroke with fat line
+showpage				%  display page

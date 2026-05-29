@@ -1,0 +1,18 @@
+%!PS
+
+%	This example appears in section "Butt Line Caps"
+%	in Chapter 6 - "Line Weights and Line Styles".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+1.25 inch 2.5 inch moveto		%  set current point
+7.25 inch 2.5 inch lineto		%  add line segment
+7.25 inch 2.5 inch moveto		%  set current point
+7.25 inch 8.5 inch lineto		%  add line segment
+7.25 inch 8.5 inch moveto		%  set current point
+1.25 inch 8.5 inch lineto		%  add line segment
+1.25 inch 8.5 inch moveto		%  set current point
+1.25 inch 2.5 inch lineto		%  add line segment
+1 inch setlinewidth			%  fat line width
+stroke					%  paint the path
+showpage				%  display page

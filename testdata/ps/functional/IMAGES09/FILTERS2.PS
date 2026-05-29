@@ -1,0 +1,39 @@
+%!PS
+%	This example appears in section "Images with Filters"
+%	in Chapter 9 - "Images".
+%
+%	Caveats:	Requires PostScript Level 2.
+
+/inch { 72 mul } def				%  define inch procedure
+/temp 16 string def				%  string for temporary results
+1.25 inch 2.5 inch translate			%  set origin
+6 inch 6 inch scale				%  scale image large
+<<						%  start image dictionary
+    /ImageType 1				%  required
+    /Width 64					%  bits per scan line
+    /Height 64					%  number of scan lines
+    /BitsPerComponent 1				%  depth of image
+    /ImageMatrix [ 64 0 0 64 0 0 ]		%  image matrix
+    /DataSource currentfile /ASCII85Decode filter
+    /Decode [ 0 1 ]				%  transfer function
+>>						%  end image dictionary
+						%  image operation
+image
+s8W-!s8W-!s8W,ss8W-!s8W,oJ,fQKs8W,o5QCc`
+s8W,o5QCc`s8W,o5QCc`s8W,o5QCc`n,NF_5QCc`
+oDejc5QCc`q#CBh5QCc`r]gGX5QCY2rt#/)5QCM.
+s+gXL5QBX`s5F"QJ,d:ps7$'`J,]KNs7h*=J,TFt
+s85+VJ,BEKs8EQ(J+sQSs8N?%J+,]&s8R`LJ)LA,
+s8Tq5J&20bs8V$TIu"((s8VS9Ih2SZs8VkAINSUi
+s8W!ZI"21rs8W!:I/j6Hs8W',GlRgDs8W*-F8u:?
+s8W+PF8u:?s8W+LBE/#3s8W,7Du]k;s8W,W:]LIp
+s8W,g?iU0+huE`W!!!!0huE`W!!!!0s8W,sJ,f9S
+s8W,sJ,fEgs*t(HJ,fF2s1eU3J,fNJs53kSJ,fQK
+s3L`CJ,fQKs6'F[J,fQKs5X.WJ,fQKs7?9gJ,fQK
+s7--eJ,fQKs7--eJ,fQKs7cQo!!!-$s7cQo!!!-$
+s87BEJ,BQOs87BEJ,TuYs85+ZJ,^Vjs8G7\J,fQK
+s8F,<J,fQKs8F,<J,fQKs8EQ,J,fQKs8E,qJ,fQK
+s8N2rJ,fQKs8NW)5QCc`s8RTD+92B@s8W,o+92B@
+s8W,o+92B@s8W,js8W-!s8W-!s8W-!s8W-!s8W-!
+~>
+showpage					%  display page

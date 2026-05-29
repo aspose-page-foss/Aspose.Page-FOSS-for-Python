@@ -1,0 +1,46 @@
+%!PS
+
+%	This example appears in section "Separations for Spot Color"
+%	in Chapter 13 - "Color and Halftones".
+%
+%	Caveats:	Requires PostScript Level 2.
+
+/inch { 72 mul } def			%  define inch procedure
+
+/center_show {				%  stack =  x  y  (string)
+	dup				%  make copy of string
+	stringwidth pop 2 div		%  compute half string width
+	4 -1 roll exch sub		%  decrement x position
+	3 -1 roll moveto		%  set current point
+	show				%  image string
+} def
+
+/DrawRect {				%  stack = x y width height
+	4 2 roll moveto			%  move to x, y 
+	1 index 0 rlineto		%  bottom edge
+	0 exch rlineto			%  right edge
+	neg 0 rlineto			%  top edge
+	closepath			%  close rectangle
+} def
+
+[ /Separation				%  separation color space
+	(WarpedPurple)			%  separation for spot color
+	/DeviceGray			%  alternate color space
+	{ 0.0 sub } ] setcolorspace	%  reverse polarity from device gray
+1.0 setcolor				%  set full tint
+/Palatino-Roman findfont		%  choose font
+72 scalefont setfont
+4.25 inch 9.75 inch			%  location for text
+(Warp Tours, Inc.) center_show		%  show text
+0.5 inch 6.25 inch			%  x position for globe
+4.82 inch 2.75 inch			%  y position for globe
+DrawRect stroke				%  outline for globe
+5 setlinewidth				%  set line width
+0.5 inch 9.5 inch moveto
+8.0 inch 9.5 inch lineto stroke		%  draw underline
+0.75 setgray				%  new separation
+					%  show text rectangles
+0.5 inch 0.5 inch 2.16 inch 5.5 inch DrawRect fill
+3.16 inch 0.5 inch 2.16 inch 5.5 inch DrawRect fill
+5.82 inch 0.5 inch 2.16 inch 8.5 inch DrawRect fill
+showpage				%  display page

@@ -1,0 +1,21 @@
+%!PS
+
+%	This example appears in section "Relational Operators with Strings"
+%	in Chapter 5 - "PostScript Language".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+/Palatino-Roman findfont		%  choose font
+1.0 inch scalefont setfont		%  various weather conditions
+/Piraeus (Sunny) def
+/Seattle (Raining) def
+/Aruba (Windy) def
+/London (Foggy) def
+/LosAngeles (Smoggy) def
+/Bangkok (Humid) def
+/Today (Windy) def			%  today's weather
+0.75 inch 5.5 inch moveto		%  ah, what to do
+Today Piraeus eq Today Aruba eq or
+{ (Go To Beach) show }
+{ (Go To Cafe) show } ifelse
+showpage				%  display page

@@ -1,0 +1,292 @@
+%!
+%%DocumentPaperSizes: A4
+%%Orientation:Portrait
+%%BoundingBox: 0 0 596 743
+
+    0        0  translate 
+
+%!
+
+ /fontprob 10 def
+
+ /fontniv 8  def
+
+ /fontlab 9  def
+
+ /con { 2.54 div 72 mul} def
+
+ /cen { 
+        newpath 
+          con 0 360 arc 
+          setlinewidth 
+        stroke 
+      } def 
+
+ /cir { 
+        gsave 
+         newpath 
+           con 0 360 arc 
+           setlinewidth 
+           [3 3] 0 setdash 
+         stroke 
+        grestore 
+      } def 
+
+ /rad { 
+        gsave 
+         rotate 
+         newpath 
+           0 exch con moveto 
+           0 exch con lineto 
+           setlinewidth 
+           [3 3] 0 setdash 
+         stroke 
+        grestore 
+      } def 
+
+ /box { 
+        gsave 
+         rotate 
+         newpath 
+           con        0 exch moveto 
+           con  2 div 0      rlineto 
+           con        0 exch rlineto 
+           con -1 mul 0      rlineto 
+           con -1 mul 0 exch rlineto 
+         closepath 
+         gsave 
+           setgray 
+           fill 
+         grestore 
+           setlinewidth 
+           stroke 
+        grestore 
+      } def 
+
+  /probdir { gsave 
+               /Times-Roman findfont 
+                fontprob scalefont 
+                setfont 
+                dup -1  mul    rotate 
+                exch con 0 exch translate 
+                dup        rotate 
+
+                dup cos 0 ge 
+                { 0  0   moveto } 
+                { 0 fontprob -1 mul  moveto } 
+                ifelse 
+
+                sin 0 ge 
+                { dup stringwidth pop pop }
+                { dup stringwidth pop 
+                  -1 mul 0 rmoveto } 
+                ifelse 
+               show 
+
+              grestore 
+            } def  
+
+  /blank {  
+            gsave 
+              newpath 
+                0   0             moveto 
+                dup 0    exch     rlineto 
+                exch     0        rlineto 
+                0   exch -1   mul rlineto 
+              closepath 
+              1 setgray 
+              fill 
+            grestore 
+         }  def   
+
+  /probniv {  
+              gsave 
+                /Times-Roman findfont 
+                 fontniv  scalefont 
+                 setfont 
+                dup rotate  
+
+                -1 mul cos 0 gt  
+                { con fontniv 0.5 mul sub  
+                    0 exch translate}  
+                { con fontniv 0.4 mul add  
+                    0 exch translate  
+                  180 rotate } 
+                ifelse 
+
+                dup stringwidth pop 
+                    -0.5 mul 0 translate 
+                dup stringwidth pop 
+                    fontniv blank 
+                0 0 moveto
+                show
+              grestore 
+           }  def 
+
+   /labniv { 
+              gsave  
+                /Times-Roman findfont 
+                 fontlab   scalefont  
+                 setfont              
+                 con 0 exch translate 
+                 dup stringwidth pop  
+                  -1 mul 0  translate 
+                 0 0  moveto          
+                 show 
+              grestore 
+           }  def 
+
+ gsave 
+10.50 con 16.00 con translate
+
+ 0.10 0 0 0.500 cen
+
+ 0.10 0 0 1.333 cir
+ 0.10 0 0 2.167 cir
+ 0.10 0 0 3.000 cir
+ 0.10 0 0 3.833 cir
+ 0.10 0 0 4.667 cir
+ 0.10 0 0 5.500 cir
+
+ 0.10 5.50 0.50    0.0 rad
+ 0.10 5.50 0.50  -22.5 rad
+ 0.10 5.50 0.50  -45.0 rad
+ 0.10 5.50 0.50  -67.5 rad
+ 0.10 5.50 0.50  -90.0 rad
+ 0.10 5.50 0.50 -112.5 rad
+ 0.10 5.50 0.50 -135.0 rad
+ 0.10 5.50 0.50 -157.5 rad
+ 0.10 5.50 0.50 -180.0 rad
+ 0.10 5.50 0.50 -202.5 rad
+ 0.10 5.50 0.50 -225.0 rad
+ 0.10 5.50 0.50 -247.5 rad
+ 0.10 5.50 0.50 -270.0 rad
+ 0.10 5.50 0.50 -292.5 rad
+ 0.10 5.50 0.50 -315.0 rad
+ 0.10 5.50 0.50 -337.5 rad
+
+ 0.10 0.15  0.735  0.133  0.735  0.133  0.500    0.0 box
+ 0.10 0.30  0.050  0.267  0.050  0.267  1.235    0.0 box
+
+ 0.10 0.15  0.618  0.133  0.618  0.133  0.500  -22.5 box
+ 0.10 0.30  0.050  0.267  0.050  0.267  1.118  -22.5 box
+
+ 0.10 0.15  0.952  0.133  0.952  0.133  0.500  -45.0 box
+ 0.10 0.30  0.334  0.267  0.334  0.267  1.452  -45.0 box
+ 0.10 0.45  0.017  0.400  0.017  0.400  1.786  -45.0 box
+
+ 0.10 0.15  1.119  0.133  1.119  0.133  0.500  -67.5 box
+ 0.10 0.30  0.735  0.267  0.735  0.267  1.619  -67.5 box
+ 0.10 0.45  0.050  0.400  0.050  0.400  2.354  -67.5 box
+ 0.10 0.60  0.017  0.533  0.017  0.533  2.404  -67.5 box
+
+ 0.10 0.15  1.971  0.133  1.971  0.133  0.500  -90.0 box
+ 0.10 0.30  1.654  0.267  1.654  0.267  2.471  -90.0 box
+ 0.10 0.45  0.317  0.400  0.317  0.400  4.125  -90.0 box
+ 0.10 0.60  0.033  0.533  0.033  0.533  4.442  -90.0 box
+
+ 0.10 0.15  1.871  0.133  1.871  0.133  0.500 -112.5 box
+ 0.10 0.30  0.902  0.267  0.902  0.267  2.371 -112.5 box
+ 0.10 0.45  0.100  0.400  0.100  0.400  3.273 -112.5 box
+
+ 0.10 0.15  1.487  0.133  1.487  0.133  0.500 -135.0 box
+ 0.10 0.30  0.301  0.267  0.301  0.267  1.987 -135.0 box
+ 0.10 0.45  0.033  0.400  0.033  0.400  2.287 -135.0 box
+
+ 0.10 0.15  1.153  0.133  1.153  0.133  0.500 -157.5 box
+ 0.10 0.30  0.050  0.267  0.050  0.267  1.653 -157.5 box
+
+ 0.10 0.15  0.802  0.133  0.802  0.133  0.500 -180.0 box
+ 0.10 0.30  0.050  0.267  0.050  0.267  1.302 -180.0 box
+ 0.10 0.45  0.000  0.400  0.000  0.400  1.352 -180.0 box
+ 0.10 0.60  0.017  0.533  0.017  0.533  1.352 -180.0 box
+
+ 0.10 0.15  0.752  0.133  0.752  0.133  0.500 -202.5 box
+ 0.10 0.30  0.033  0.267  0.033  0.267  1.252 -202.5 box
+
+ 0.10 0.15  1.186  0.133  1.186  0.133  0.500 -225.0 box
+ 0.10 0.30  0.167  0.267  0.167  0.267  1.686 -225.0 box
+
+ 0.10 0.15  1.236  0.133  1.236  0.133  0.500 -247.5 box
+ 0.10 0.30  0.401  0.267  0.401  0.267  1.736 -247.5 box
+ 0.10 0.45  0.033  0.400  0.033  0.400  2.137 -247.5 box
+ 0.10 0.60  0.017  0.533  0.017  0.533  2.170 -247.5 box
+ 0.10 0.75  0.017  0.667  0.017  0.667  2.187 -247.5 box
+
+ 0.10 0.15  1.837  0.133  1.837  0.133  0.500 -270.0 box
+ 0.10 0.30  1.637  0.267  1.637  0.267  2.337 -270.0 box
+ 0.10 0.45  0.635  0.400  0.635  0.400  3.974 -270.0 box
+ 0.10 0.60  0.234  0.533  0.234  0.533  4.609 -270.0 box
+ 0.10 0.75  0.017  0.667  0.017  0.667  4.843 -270.0 box
+ 0.10 0.90  0.017  0.800  0.017  0.800  4.860 -270.0 box
+
+ 0.10 0.15  1.186  0.133  1.186  0.133  0.500 -292.5 box
+ 0.10 0.30  0.835  0.267  0.835  0.267  1.686 -292.5 box
+ 0.10 0.45  0.200  0.400  0.200  0.400  2.521 -292.5 box
+ 0.10 0.60  0.067  0.533  0.067  0.533  2.722 -292.5 box
+ 0.10 0.75  0.017  0.667  0.017  0.667  2.788 -292.5 box
+
+ 0.10 0.15  0.835  0.133  0.835  0.133  0.500 -315.0 box
+ 0.10 0.30  0.251  0.267  0.251  0.267  1.335 -315.0 box
+
+ 0.10 0.15  0.702  0.133  0.702  0.133  0.500 -337.5 box
+ 0.10 0.30  0.050  0.267  0.050  0.267  1.202 -337.5 box
+
+ (N   )     5.800    0.000 probdir
+ (NNE )     5.800   22.500 probdir
+ (NE  )     5.800   45.000 probdir
+ (ENE )     5.800   67.500 probdir
+ (E   )     5.800   90.000 probdir
+ (ESE )     5.800  112.500 probdir
+ (SE  )     5.800  135.000 probdir
+ (SSE )     5.800  157.500 probdir
+ (S   )     5.800  180.000 probdir
+ (SSW )     5.800  202.500 probdir
+ (SW  )     5.800  225.000 probdir
+ (WSW )     5.800  247.500 probdir
+ (W   )     5.800  270.000 probdir
+ (WNW )     5.800  292.500 probdir
+ (NW  )     5.800  315.000 probdir
+ (NNW )     5.800  337.500 probdir
+
+ (  3% )     1.333   -33.750 probniv
+ (  6% )     2.167   -33.750 probniv
+ (  9% )     3.000   -33.750 probniv
+ ( 12% )     3.833   -33.750 probniv
+ ( 15% )     4.667   -33.750 probniv
+ ( 18% )     5.500   -33.750 probniv
+
+ grestore 
+
+ gsave 
+
+ 3.50 con  2.50 con  translate
+
+   /Times-Roman findfont 
+         10   scalefont  
+         setfont         
+ 0.86 con  5.70 con  moveto
+ ( Velocidad de la Corriente  ) show
+(( cm/s )) show
+ gsave 
+ 1.50 con  0.86 con  translate
+ 0.10 0.90  0.714  0.800  0.714  0.800  0.000    0.0 box
+ 0.10 0.75  0.714  0.667  0.714  0.667  0.714    0.0 box
+ 0.10 0.60  0.714  0.533  0.714  0.533  1.429    0.0 box
+ 0.10 0.45  0.714  0.400  0.714  0.400  2.143    0.0 box
+ 0.10 0.30  0.714  0.267  0.714  0.267  2.857    0.0 box
+ 0.10 0.15  0.714  0.133  0.714  0.133  3.571    0.0 box
+
+ grestore 
+ gsave 
+ 4.50 con  0.86 con  translate
+  ( > 50 )                0.357 labniv
+ ( 40 - 50 )              1.071 labniv
+ ( 30 - 40 )              1.786 labniv
+ ( 20 - 30 )              2.500 labniv
+ ( 10 - 20 )              3.214 labniv
+ ( 00 - 10 )              3.929 labniv
+
+ grestore 
+ grestore 
+showpage

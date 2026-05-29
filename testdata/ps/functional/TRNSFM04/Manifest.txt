@@ -1,0 +1,47 @@
+
+EXAMPLES FOR CHAPTER 4 - "Transformations".
+
+The examples for this chapter require 45 KB.
+			
+Files contained in this folder:				
+	Manifest
+	ctm.ps
+	cube1.ps
+	cube2.ps
+	cube3.ps
+	cube4.ps
+	cube5.ps
+	cube6.ps
+	cube7.ps
+	diamond1.ps
+	diamond2.ps
+	flip1.ps (*)
+	flip2.ps (*)
+	intro.ps
+	order1.ps
+	order2.ps
+	order3.ps
+	order4.ps
+	rotate1.ps
+	rotate2.ps
+	rotate3.ps
+	scale.ps
+	shear1.ps
+	shear2.ps
+	shear3.ps
+	shear4.ps
+	shear5.ps
+	strkadj1.ps
+	strkadj2.ps (1)
+	strkadj3.ps
+	strkadj4.ps (*)
+	translt1.ps
+	translt2.ps
+	translt3.ps
+	triangle.ps
+
+(*)	Requires PostScript Level 2.
+
+(1)	stradj2.ps will not run in its current state. You must substitute
+	a valid value for x on the 3rd to last line in the example.
+	

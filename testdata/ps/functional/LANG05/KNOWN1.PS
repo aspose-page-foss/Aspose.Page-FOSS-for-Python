@@ -1,0 +1,21 @@
+%!PS
+
+%	This example appears in section "Test Name Defined in Dictionary"
+%	in Chapter 5 - "PostScript Language".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+/Palatino-Roman findfont		%  find required font
+42 scalefont				%  scale to required size
+setfont					%  set in graphics state
+systemdict				%  systemdict to stack
+/diskonline known {			%  look for name
+	0.5 inch 5.5 inch moveto	%  set current point
+	(diskonline in systemdict)	%  affirmative message
+	show				%  show message
+} {
+	0.5 inch 5.5 inch moveto	%  set current point
+	(diskonline not in systemdict)	%  negatory message
+	show				%  show message
+} ifelse				%  end of conditional
+showpage				%  display page

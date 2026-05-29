@@ -1,0 +1,26 @@
+%!PS
+
+%	This example appears in section "Filling Rules" in
+%	Chapter 2 - "Paths and Painting".
+%
+
+/inch { 72 mul } def		%  define inch procedure
+
+/widdershins {			%  stack = x  y  width  height
+	4 2 roll moveto		%  set current point
+	1 index 0 rlineto	%  bottom of rectangle
+	0 exch rlineto		%  right side
+	neg 0 rlineto		%  top of rectangle
+	closepath		%  finish shape
+} def
+				%  draw rectangle
+0.75 inch 2 inch 7 inch 7 inch widdershins
+currentgray			%  remember gray shade
+0.50 setgray			%  medium gray color
+fill				%  fill rectangle
+setgray				%  revert to previous gray
+2 setlinewidth			%  fatter line width
+				%  draw rectangle
+0.75 inch 2 inch 7 inch 7 inch widdershins
+stroke				%  paint outline
+showpage			%  display page

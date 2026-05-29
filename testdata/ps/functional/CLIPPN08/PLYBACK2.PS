@@ -1,0 +1,75 @@
+%!PS
+
+%	This example appears in section "Playing Back a Path"
+%	in Chapter 8 - "Clipping".
+%
+
+/inch { 72 mul } def				%  define inch procedure
+
+/Optima-Bold findfont 48 scalefont setfont
+/showString
+  (Demonstrating Flowing Character Strings
+  Around Circumference Of Circle) def
+
+/movetoProc {					%  reads out moveto
+	/previousY exch def			%  remember y coordinate
+	/previousX exch def			%  remember x coordinate
+	/charNum 0 def				%  character index for string
+} def
+
+/linetoProc {					%  reads out lineto
+	/currentY exch def			%  current y coordinate
+	/currentX exch def			%  current x coordinate
+						%  compute rotation angle
+	currentY previousY sub			%  compute delta y
+	currentX previousX sub			%  compute delta x
+	atan					%  determine angle to rotate
+	/angle exch def				%  save angle
+  						%  compute hypotenuse
+	currentX previousX sub dup mul		%  compute x^2
+	currentY previousY sub dup mul		%  compute y^2
+	add sqrt				%  compute sqrt(x^2 + y^2)
+	/hypot exch def				%  save for later
+  						%  image character
+	gsave					%  remember graphics state
+		previousX previousY translate	%  origin to start of line
+		angle rotate			%  rotate to correct angle
+		showString charNum 1 getinterval%  get current character
+		dup				%  make copy for show later
+		stringwidth pop			%  compute width of character
+		hypot exch sub 2 div 0 moveto	%  set current point
+		show				%  image character
+	grestore				%  recall saved graphics state
+  						%  set up for next time around
+	/previousX currentX def			%  update y coordinate
+	/previousY currentY def			%  update x coordinate
+	/charNum charNum 1 add def		%  update character index
+} def
+
+/curvetoProc {					%  reads out curveto
+						%  should not be called
+} def
+
+/closepathProc {				%  reads out closepath
+						%  should do nothing
+} def
+
+4.25 inch 5.5 inch				%  center of circle
+3.5 inch					%  radius of circle
+90 450 arc					%  draw a circle
+closepath					%  finish circle
+reversepath					%  reverse the order of the path
+1 setflat flattenpath				%  reduce path to line segments
+	/movetoProc load			%  reads out moveto
+	/linetoProc load			%  reads out lineto
+	/curvetoProc load			%  reads out curveto
+	/closepathProc load			%  reads out closepath
+pathforall					%  replay path
+showpage					%  display page
+1 setflat flattenpath
+  /movetoProc load				%  reads out moveto
+  /linetoProc load				%  reads out lineto
+  /curvetoProc load				%  reads out curveto
+  /closepathProc load				%  reads out closepath
+pathforall					%  replay path
+showpage					%  display page

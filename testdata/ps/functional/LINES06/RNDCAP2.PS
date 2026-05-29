@@ -1,0 +1,18 @@
+%!PS
+
+%	This example appears in section "Round Line Caps"
+%	in Chapter 6 - "Line Weights and Line Styles".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+4.25 inch 1 inch moveto			%  set current point
+4.25 inch 10 inch lineto		%  add line segment
+stroke					%  stroke the path
+2 inch setlinewidth			%  set fat line width
+4.25 inch 5.5 inch 3 inch 270 90 arc	%  draw arc
+1 setlinecap				%  set round line caps
+0.5 setgray stroke			%  stroke with medium gray
+4.25 inch 5.5 inch 3 inch 270 90 arc	%  draw arc again
+0 setlinecap				%  set butt line caps
+0.0 setgray stroke			%  stroke with black
+showpage				%  display page

@@ -1,0 +1,109 @@
+%!PS
+
+%	This example appears in section "Listing Characters Metrics
+%	from a Font" in Chapter 14 - "PostScript Nine to Five".
+%
+
+/inch { 72 mul } def				%  define inch procedure
+/WhatFont  /Palatino-Roman def
+/WhatCharacter  (X) def
+/DesignSize 1000 def
+/BoxSize 720 def
+/ScaleFactor BoxSize DesignSize div def
+/MarkLen 18  def
+/HalfMarkLen MarkLen 2 div def
+/TwoMarkLen MarkLen 2 mul def
+/NoteSize 30 def
+/Temp1 128 string def
+/Temp2 128 string def
+/DrawBounds {
+	/midx llx urx llx sub 2 div add def
+	/midy lly ury lly sub 2 div add def
+						%  lower-left marker
+	llx 2 sub lly moveto MarkLen neg 0 rlineto
+	llx lly 2 sub moveto 0 MarkLen neg rlineto
+						%  lower-right marker
+	urx 2 add lly moveto  MarkLen 0 rlineto
+	urx lly 2 sub moveto 0 MarkLen neg rlineto
+						%  upper-right marker
+	urx 2 add ury moveto  MarkLen 0 rlineto
+	urx ury 2 add moveto 0  MarkLen rlineto
+						%  upper-left marker
+	llx 2 sub ury moveto MarkLen neg 0 rlineto
+	llx ury 2 add moveto 0  MarkLen rlineto
+						%  bottom marker
+	midx MarkLen sub lly moveto
+	TwoMarkLen 0 rlineto
+	midx lly moveto 0 MarkLen neg rlineto
+						%  right marker
+	urx midy MarkLen sub moveto
+	0 TwoMarkLen rlineto
+	urx midy moveto MarkLen 0 rlineto
+						%  top marker
+	midx MarkLen sub ury moveto
+	TwoMarkLen 0 rlineto
+	midx ury moveto 0 MarkLen rlineto
+						%  right marker
+	llx midy MarkLen sub moveto
+	0 TwoMarkLen rlineto
+	llx midy moveto MarkLen neg 0 rlineto
+	stroke					%  stroke all the lines
+} def
+/Cross {					%  stack = x y
+	/YOrigin exch def
+	/XOrigin exch def
+	XOrigin 1 sub YOrigin moveto HalfMarkLen neg 0 rlineto
+	XOrigin 1 add YOrigin moveto HalfMarkLen 0 rlineto
+	XOrigin YOrigin 1 sub moveto 0 HalfMarkLen neg rlineto
+	XOrigin YOrigin 1 add moveto 0 HalfMarkLen rlineto
+	stroke					%  stroke all the lines
+} def
+/ShowCorners {
+	/Palatino-Roman findfont NoteSize scalefont setfont
+	LowerY Temp2 cvs
+	LowerX Temp1 cvs
+	llx 4 sub lly 4 sub moveto show (, ) show show
+	UpperY Temp2 cvs
+	UpperX Temp1 cvs
+	urx 4 add ury 4 add moveto show (, ) show show
+	YWidth Temp2 cvs
+	XWidth Temp1 cvs
+	XOrigin 4 add YOrigin 4 add moveto show (, ) show show
+} def
+WhatFont findfont DesignSize scalefont setfont
+						%  get width of character
+newpath 0 0 moveto WhatCharacter stringwidth
+round cvi /YWidth exch def
+round cvi /XWidth exch def
+						%  get bounding box
+newpath 0 0 moveto WhatCharacter false charpath
+flattenpath pathbbox
+4 1 roll round cvi
+4 1 roll round cvi
+4 1 roll round cvi
+4 1 roll round cvi
+/UpperY exch def
+/UpperX exch def
+/LowerY exch def
+/LowerX exch def
+						%  scale to display size
+/ury UpperY ScaleFactor mul def
+/urx UpperX ScaleFactor mul def
+/lly LowerY ScaleFactor mul def
+/llx LowerX ScaleFactor mul def
+						%  get font and scale
+WhatFont findfont BoxSize scalefont setfont
+gsave
+	10 150 translate			%  set origin
+	newpath 0 0 moveto			%  set current point
+	0.90 setgray				%  light gray
+	WhatCharacter show			%  show the character
+	0.0 setgray				%  back to black
+	0.25 setlinewidth			%  thin line width
+	newpath 0 0 Cross			%  draw cross at origin
+	XWidth ScaleFactor mul			%  draw cross at right side
+	YWidth ScaleFactor mul Cross
+	DrawBounds				%  draw bounding boxes
+	ShowCorners				%  fill in values
+grestore
+showpage					%  display page

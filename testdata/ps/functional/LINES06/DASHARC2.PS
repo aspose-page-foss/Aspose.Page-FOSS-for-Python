@@ -1,0 +1,17 @@
+%!PS
+
+%	This example appears in section "Fat Dashed Lines on Circular Paths"
+%	in Chapter 6 - "Line Weights and Line Styles".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+4.25 inch 5.5 inch translate		%  origin to middle of page
+0 1 11 {				%  start a for loop
+	pop				%  discard unwanted value
+	30 rotate			%  rotate coordinate system
+	2 inch 0 moveto			%  set current point
+	4 inch 0 lineto			%  add line segment to path
+} for					%  end for loop
+0.75 inch setlinewidth			%  set fat line width
+stroke					%  stroke the path
+showpage				%  display page

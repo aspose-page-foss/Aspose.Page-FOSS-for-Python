@@ -1,0 +1,18 @@
+%!PS
+
+%	This example appears in section "Stroking Rectangles with a Matrix"
+%	in Chapter 2 - "Paths and Painting".
+%
+%	Caveats:	Requires PostScript Level 2.
+
+/inch { 72 mul } def			%  define inch procedure
+0.125 inch setlinewidth			%  fat line width
+[					%  start numarray
+  1.0 inch 1.0 inch 3.5 inch 2.0 inch	%  lower-left rectangle
+  5.5 inch 1.0 inch 2.0 inch 4.0 inch	%  lower right rectangle
+  4.5 inch 8.0 inch 3.0 inch 2.0 inch	%  upper-right rectangle
+  1.0 inch 5.0 inch 2.0 inch 5.0 inch	%  upper left rectangle
+]					%  end numarray
+[ 4 0 0 1 0 0 ]				%  scale line width
+rectstroke				%  stroke the path
+showpage				%  display page

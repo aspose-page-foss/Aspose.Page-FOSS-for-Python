@@ -1,0 +1,44 @@
+
+EXAMPLES FOR CHAPTER 6 - "Line Weights and Line Styles".
+
+The examples for this chapter require 31 KB.
+			
+Files contained in this folder:				
+	Manifest
+	bevljn1.ps
+	bevljn2.ps
+	buttcap1.ps
+	buttcap2.ps
+	dasharc1.ps (1)
+	dasharc2.ps
+	dashed1.ps
+	dashed2.ps
+	dashed3.ps
+	dashed4.ps
+	dashed5.ps
+	dashed6.ps (2)
+	dashed7.ps
+	joincap.ps
+	miterjn1.ps
+	miterjn2.ps
+	mtrlimit.ps
+	rndcap1.ps
+	rndcap2.ps
+	rndjoin1.ps
+	rndjoin2.ps
+	scaling1.ps
+	scaling2.ps
+	scaling3.ps
+	scaling4.ps
+	sqrcap1.ps
+	sqrcap2.ps
+	tricks1.ps
+	tricks2.ps
+
+(1)	The book listing had a closepath instruction which should not have
+	been there. The example on this disk removed it.
+	
+(2)	This example uses a procedure called ellipse. That procedure was not
+	listed in chapter 6 in the book. The procedure is included in this
+	example on the disk.
+	

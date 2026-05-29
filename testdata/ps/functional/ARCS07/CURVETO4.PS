@@ -1,0 +1,15 @@
+%!PS
+
+%	This example appears in section "More About Bezier Curves"
+%	in Chapter 7 - "Arcs and Curves".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+8.25 inch 5.5 inch moveto		%  set current point
+8.25 inch 7.708 inch			%  first Bezier control point
+6.458 inch 9.5 inch			%  second Bezier control point
+4.25 inch 9.5 inch			%  end point of Bezier curve
+curveto					%  draw Bezier curve
+0.125 inch setlinewidth			%  fat line width
+stroke					%  paint path
+showpage				%  display page

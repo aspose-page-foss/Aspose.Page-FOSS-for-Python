@@ -1,0 +1,18 @@
+%!PS
+
+%	This example appears in section "Creating a Pattern Prototype"
+%	in Chapter 11 - "Patterns".
+%
+
+/middle { 306 396 } def				%  define middle of page
+/Heart {
+	0 0 moveto				%  set current point
+	500 500  125 625  0 500  curveto	%  right side of heart
+	-125 625  -500 500  0 0  curveto	%  left side of heart
+} def
+middle translate				%  place origin
+0.75 dup scale					%  scale smaller
+Heart						%  draw heart shape
+0.50 setgray					%  medium gray shade
+fill						%  fill heart shape
+showpage					%  display page

@@ -1,0 +1,26 @@
+%!PS
+
+%	This example appears in section "Basic PostScript Syntax"
+%	in Chapter 1 - "Introducing PostScript".
+%
+
+306 396 270 0 360 arc	%  draw a circle
+closepath		%  finish circle
+gsave			%  remember graphics state
+	0.50 setgray	%  medium gray shade
+	fill		%  fill circle
+grestore		%  restore graphics state
+72 setlinewidth		%  fat line width
+stroke			%  paint outline of circle
+/Palatino-Bold findfont	%  find a font
+360 scalefont		%  make letters large
+setfont			%  set current font
+96 275 moveto		%  position current point
+(PS) false charpath	%  get character path
+gsave			%  remember graphics state
+	18 setlinewidth	%  fat line width
+	stroke		%  paint outline of characters
+grestore		%  restore graphics state
+1.0 setgray		%  white color
+fill			%  fill character outlines
+showpage		%  display page

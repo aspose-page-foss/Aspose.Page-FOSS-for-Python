@@ -1,0 +1,64 @@
+
+EXAMPLES FOR CHAPTER 5 - "PostScript Language".
+
+The examples for this chapter require 58 KB.
+			
+Files contained in this folder:				
+	Manifest
+	beach.ps
+	binding1.ps
+	binding2.ps (1)
+	binding3.ps
+	clrmark1.ps (2)
+	clrmark2.ps (2)
+	dictstk1.ps
+	dictstk2.ps
+	forall.ps
+	forloop1.ps (2)
+	forloop2.ps
+	getintvl.ps
+	hanoi.ps
+	hello.ps
+	honk.ps
+	if.ps
+	ifelse.ps (2)
+	known1.ps
+	known2.ps (3)
+	names.ps
+	octagon1.ps
+	octagon2.ps
+	parmesan.ps
+	pop.ps (2)
+	proc1.ps
+	proc2.ps
+	proc3.ps
+	proc4.ps
+	put.ps
+	putintvl.ps
+	reclaim1.ps
+	reclaim2.ps
+	repeat.ps (3)
+	roll.ps (*) (2)
+	shuimage.ps (*)
+	trig.ps (2)
+	weird.ps
+	where.ps
+	whilelp.ps (4)
+	wines1.ps
+	wines2.ps
+
+(*)	Requires PostScript Level 2.
+
+(1)	binding2.ps has an error in it. This is deliberate. Please refer to
+	the appropriate section in the book for an explanation.
+	
+(2)	The listing in the book for these examples accidentally omitted
+	the definition for the inch procedure. These examples were modified
+	to contain that definition so they'd work.
+
+(3)	known2.ps will give different results depending on the system.
+
+(4)	The example listing in the book left out the showpage instruction
+	at the end of the PostScript program. This instruction is included
+	in these examples on this disk.
+	

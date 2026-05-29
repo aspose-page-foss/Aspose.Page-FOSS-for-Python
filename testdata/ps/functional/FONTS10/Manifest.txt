@@ -1,0 +1,50 @@
+
+EXAMPLES FOR CHAPTER 10 - "Fonts".
+
+The examples for this chapter require 72 KB.
+			
+Files contained in this folder:				
+	Manifest
+	Z.ps (*)
+	circle.ps
+	clock.ps
+	club.ps
+	cmposite.ps
+	deck1.ps
+	deck2.ps (1)
+	diamond.ps
+	empty.ps
+	hand1.ps
+	hand2.ps
+	heart.ps
+	kern1.ps
+	kern2.ps (*)
+	kern3.ps
+	oneeach.ps
+	pscript.ps
+	scrabble.ps (*)
+	scrbble1.ps
+	scrbble2.ps (*)
+	spade.ps
+	spade2.ps (2)
+	suitfont.ps
+	super1.ps (*)
+	super2.ps (*)
+	superfnt.ps (*)
+
+(*)	Requires PostScript Level 2.
+
+(1)	In the book, the procedure definitions for /Ace, /Two and
+	/Four left out the call to another procedure CardOutline. The font
+	on this disk has been fixed.
+	
+	Also, the line in procedure /Two reading
+		BottomEdge		%  y position
+	in the book should read (and now does in the example on the disk)
+		BottomEdge 160 add	%  y position
+
+	
+(2)	The definition for /CardShape listed in the book does not give the
+	proper results. The example disk has been fixed to draw the spade
+	correctly.
+	

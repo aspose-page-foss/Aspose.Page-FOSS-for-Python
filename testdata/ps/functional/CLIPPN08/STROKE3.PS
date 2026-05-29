@@ -1,0 +1,30 @@
+%!PS
+
+%	This example appears in section "Stroking a Path"
+%	in Chapter 8 - "Clipping".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+/side 3.5 inch def			%  define length of side
+/m matrix currentmatrix def		%  remember the CTM
+2.25 inch 2.5 inch translate		%  translate to first point
+newpath					%  start a new path
+0 0 moveto				%  set current point
+side 0 rlineto				%  add line segment to path
+1 1 3 {					%  start for loop
+	side 0 translate		%  set new origin
+	72 rotate			%  rotate coordinate system
+	side 0 rlineto			%  add line segment to path
+} for					%  end for loop
+closepath				%  close the shape
+1.5 inch setlinewidth			%  set fat line width
+strokepath				%  replace current path
+clip					%  use it as a clipping path
+m setmatrix				%  restore CTM
+newpath					%  start new path
+4.25 inch 1 inch moveto			%  set current point
+4.25 inch 10 inch lineto		%  add line segment
+8 inch setlinewidth			%  set very fat line width
+[ 0.25 inch 0.25 inch ] 0 setdash	%  set dash pattern
+stroke					%  stroke the line
+showpage				%  display page

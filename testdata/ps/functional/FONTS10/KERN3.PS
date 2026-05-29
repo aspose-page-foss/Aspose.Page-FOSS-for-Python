@@ -1,0 +1,35 @@
+%!PS
+
+%	This example appears in section "Kerning Data"
+%	in Chapter 10 - "Fonts".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+/Palatino-Roman findfont		%  find required font
+1.125 inch scalefont			%  scale to required size
+setfont					%  make current font
+/BaseLine 9 inch def			%  initial y position
+/KernValues [				%  values to adjust characters
+	{  2  0 }			%  positive--spread characters
+	{  0  0 }			%  neutral--no kerning
+	{ -2  0 }			%  negative--mild kerning
+	{ -4  0 }			%  negative--medium kerning
+	{ -6  0 }			%  negative--tight kerning
+] def					%  end of kern definition
+0					%  index to access kern values
+[					%  strings to kern
+	(Kerning Spread)
+	(Kerning None)
+	(Kerning Light)
+	(Kerning Medium)
+	(Kerning Tight)
+]
+{					%  start forall loop
+	0.25 inch BaseLine moveto	%  set current point
+	KernValues 2 index get exec	%  get kern values onto stack
+	3 2 roll			%  rearrange for ashow
+	ashow				%  show with adjustments
+	/BaseLine BaseLine 2 inch sub def  %  decrement y position
+	1 add				%  increment array index
+} forall				%  traverse array of strings
+showpage				%  display page

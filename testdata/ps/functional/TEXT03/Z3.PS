@@ -1,0 +1,25 @@
+%!PS
+
+%	This example appears in section "Special Effects Using Character
+%	Paths" in Chapter 3 - "Text".
+%
+
+/inch { 72 mul } def			%  dreaded inch procedure
+/ZapfChancery-MediumItalic findfont	%  find required font
+10 inch scalefont			%  scale to fit page
+setfont					%  set font into graphics state
+0.5 inch 3 inch moveto			%  set current point
+(Z) false charpath			%  obtain character path
+gsave					%  push graphics state
+    24 setlinewidth			%  set fat line width
+    0.0 setgray				%  set black color
+    stroke				%  paint the path
+grestore				%  pop graphics state
+16 setlinewidth				%  set narrower line width
+1.0 setgray				%  set white color
+stroke 					%  paint the path
+0.5 inch 3 inch moveto			%  set current point
+(Z)					%  character to image
+0.0 setgray				%  set black color
+show					%  image the character
+showpage				%  display page

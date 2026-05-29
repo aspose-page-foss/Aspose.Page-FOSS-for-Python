@@ -1,0 +1,66 @@
+%!PS
+
+%	This example appears in section "A More Complex Error Handler"
+%	in Chapter 14 - "PostScript Nine to Five".
+%
+
+$error /recordstacks true put			%  Display PostScript
+/SimpleErrorDict 20 dict def			%  define dictionary for types
+SimpleErrorDict begin				%  place on dictionary stack
+	/arraytype { pop (>> array <<) } def	%  array procedure
+	/booleantype { =string cvs } def	%  Boolean procedure
+	/conditiontype { pop (>> condition <<) } def
+	/dicttype { pop (>> dictionary <<) } def
+	/filetype { pop (>> file <<) } def
+	/fonttype { pop (>> font ID <<) } def
+	/gstatetype { pop (>> gstate <<) } def
+	/integertype { =string cvs } def
+	/locktype { pop (>> lock <<) } def
+	/marktype { pop (>> mark <<) } def
+	/nametype { pop (>> name <<) } def
+	/nulltype { pop (>> null <<) } def
+	/operatortype { pop (>> operator <<) } def
+	/packedarraytype { pop (>> packed array <<) } def
+	/realtype { =string cvs } def
+	/savetype { pop (>> save object <<) } def
+	/stringtype { } def			%  just print string
+end						%  pop from dictionary stack
+/BaseLine 736 def				%  initial baseline
+/NewLine {					%  define new line procedure
+	/BaseLine BaseLine 16 sub def		%  decrement baseline
+	72 BaseLine moveto			%  set current point
+} def
+/DisplayValue {   				%  display based on type
+	dup					%  make copy of object
+	type SimpleErrorDict exch get exec	%  run conversion procedure
+	show					%  image converted object
+	NewLine					%  position to new line
+} def
+errordict begin					%  error dictionary to stack
+	/handleerror {				%  define new handleerror
+	systemdict begin			%  system dictionary to stack
+		userdict begin			%  user dictionary to stack
+			initgraphics		%  restore graphics state
+			/Courier findfont 12 scalefont setfont
+			NewLine			%  start new line
+			(PostScript problem: ) show	%  show problem
+			$error /errorname get
+			=string cvs show
+			NewLine
+			(Command: ) show	%  show PostScript instruction
+			$error /command get
+			=string cvs show
+			NewLine
+		        (Stack: ) show		%  show contents of stack
+			NewLine
+			$error /ostack get	%  stack snapshot to stack
+			aload			%  spread contents onto stack
+			length {		%  get length for repeat count
+				DisplayValue	%  display each stack element
+			} repeat		%  determined by length
+			systemdict /showpage get%  get real showpage
+			exec			%  display page
+		end  %  userdict		%  user dictionary off stack
+	end  %  systemdict			%  system dictionary off stack
+	} def					%  end of handleerror procedure
+end  %  errordict				%  error dictionary off stack

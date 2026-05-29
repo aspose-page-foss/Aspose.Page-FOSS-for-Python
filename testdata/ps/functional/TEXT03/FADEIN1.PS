@@ -1,0 +1,17 @@
+%!PS
+
+%	This example appears in section "Show String Under Procedural Control"
+%	in Chapter 3 - "Text".
+%
+
+/inch { 72 mul } def		%  inch definition
+/Palatino-BoldItalic findfont	%  choose font
+2.5 inch scalefont setfont
+/gray 0.9 def			%  gray for second character
+1.125 inch 0.875 inch moveto	%  set current point
+52 rotate			%  turn coordinate system
+{ pop pop			%  pop characters off stack
+	gray setgray		%  change gray shade
+	/gray gray 0.1 sub def	%  increment for next time
+} (fading in!) kshow		%  show string
+showpage			%  display page

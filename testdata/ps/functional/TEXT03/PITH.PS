@@ -1,0 +1,22 @@
+%!PS
+
+%	This example appears in section "Accumulating Widths of Strings
+%	in Different Fonts" in Chapter 3 - "Text".
+%
+
+/inch { 72 mul } def		%  define inch procedure
+/Palatino-Roman findfont	%  choose regular font
+1 inch scalefont setfont
+0.25 inch 7.5 inch moveto	%  set current point
+(...all the pith is) show	%  show text
+				%  set current point
+0.25 inch 7.5 inch 1.25 inch sub moveto
+(   in the ) show		%  show text
+/Palatino-Italic findfont	%  choose italic font
+1 inch scalefont setfont
+(PostScript.) show		%  show text
+/Palatino-Italic findfont	%  choose italic smaller font
+48 scalefont setfont
+4.0 inch 5.0 inch moveto	%  set current point
+(William Hazlitt) show		%  show text
+showpage			%  display page

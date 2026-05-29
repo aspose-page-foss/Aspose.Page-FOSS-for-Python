@@ -1,0 +1,16 @@
+%!PS
+
+%	This example appears in section "Translating the Origin"
+%	in Chapter 4 - "Transformations".
+%
+
+/inch { 72 mul } def		%  define inch procedure
+2 inch 2 inch translate		%  translate coordinate system
+2.25 inch 3.5 inch moveto	%  set initial point
+4 inch 0 rlineto		%  bottom of square
+0 4 inch rlineto		%  right side of square
+-4 inch 0 rlineto		%  top of square
+closepath			%  close the shape
+0.0 0.0 1.0 setrgbcolor		%  set color blue
+fill				%  paint the shape
+showpage			%  display page

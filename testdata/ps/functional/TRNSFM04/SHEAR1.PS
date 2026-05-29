@@ -1,0 +1,20 @@
+%!PS
+
+%	This example appears in section "Shear Transformations"
+%	in Chapter 4 - "Transformations".
+%
+
+/inch { 72 mul } def		%  define inch procedure
+
+/square {			%  stack = side
+	0 0 moveto		%  set current point
+	dup 0 rlineto		%  bottom of square
+	dup 0 exch rlineto	%  right side of square
+	neg 0 rlineto		%  top of square
+	closepath		%  finish the shape
+} def				%  define procedure
+
+0.75 inch 3.5 inch translate	%  set origin
+4 inch square			%  draw square
+0.5 setgray fill		%  fill with medium gray
+showpage			%  display page

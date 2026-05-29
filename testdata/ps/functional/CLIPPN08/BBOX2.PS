@@ -1,0 +1,34 @@
+%!PS
+
+%	This example appears in section "Obtaining Path Bounding Box"
+%	in Chapter 8 - "Clipping".
+%
+
+/DrawHeptagram {
+	3 inch 0 inch moveto		%  set initial point
+	3 3 18 {			%  set up for loop
+		360 7 div mul		%  angle for seven points
+		dup			%  need copy
+		cos 3 inch mul		%  compute x coordinate
+		exch sin 3 inch mul	%  compute y coordinate
+		lineto			%  add line segment to path
+	} for				%  end for loop
+	closepath			%  close the path
+} def
+
+/inch { 72 mul } def			%  define inch procedure
+4.25 inch 5.5 inch translate		%  origin to middle of page
+DrawHeptagram 				%  draw the shape
+gsave					%  push graphics state
+	0.50 setgray eofill		%  fill with medium gray
+grestore				%  pop graphics state
+pathbbox				%  get path bounding box
+newpath					%  start a new path
+4 2 roll 2 copy moveto			%  set current point
+dup 4 index exch lineto			%  bottom of box
+4 2 roll dup 3 1 roll lineto		%  right side of box
+2 index exch lineto			%  top of box
+pop pop					%  discard unwanted stack values
+closepath				%  close the path medium gray
+stroke 					%  stroke the box
+showpage				%  display page

@@ -1,0 +1,24 @@
+%!PS
+
+%	This example appears in section "Dashed Line Styles with Line Caps"
+%	in Chapter 6 - "Line Weights and Line Styles".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+
+/DrawEllipse {				%  stack = x y xr yr
+	matrix currentmatrix		%  remember CTM
+	5 3 roll translate		%  translate coordinate system
+	3 1 roll scale			%  scale coordinate system
+	0 0 1 0 360 arc closepath	%  draw circle
+	setmatrix			%  restore CTM
+} def
+
+4.25 inch 5.5 inch 3 inch 4 inch DrawEllipse
+gsave					%  push graphics state
+	0.50 setgray fill		%  fill with medium gray
+grestore				%  pop graphics state
+[ 0 0.75 inch ] 0 setdash		%  set dash pattern
+0.25 inch setlinewidth			%  set fat line width
+1 setlinecap stroke			%  round line caps
+showpage				%  display page

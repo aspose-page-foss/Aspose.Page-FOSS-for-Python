@@ -1,0 +1,19 @@
+%!PS
+
+%	This example appears in section "Procedure Definitions"
+%	in Chapter 5 - "PostScript Language".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+
+/triangle {				%  stack = llx lly
+	moveto				%  set current point
+	6 inch 0 rlineto		%  first side
+	120 rotate 6 inch 0 rlineto	%  second side
+	closepath			%  finish shape
+} def					%  define triangle procedure
+
+0.5 inch setlinewidth			%  set line width
+1.25 inch 3.5 inch			%  lower-left corner of triangle
+triangle stroke				%  right side up triangle
+showpage				%  display page

@@ -1,0 +1,16 @@
+%!PS
+
+%	This example appears in section "User Paths" in
+%	Chapter 2 - "Paths and Painting".
+%
+
+/inch { 72 mul } def		%  define inch procedure
+newpath				%  initialize path
+1.25 inch 2.5 inch moveto	%  set current point
+6 inch 0 rlineto		%  bottom of square
+0 6 inch rlineto		%  right side of square
+-6 inch 0 rlineto		%  top of square
+closepath			%  close the shape
+0.0 0.0 1.0 setrgbcolor		%  set color blue
+fill				%  paint the shape
+showpage			%  display page

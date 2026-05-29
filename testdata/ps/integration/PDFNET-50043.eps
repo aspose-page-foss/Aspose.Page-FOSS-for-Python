@@ -1,0 +1,3900 @@
+%!PS-Adobe-3.0 EPSF-3.0
+%%Title: 
+%%Creator: PScript5.dll Version 5.2.2
+%%CreationDate: 6/3/2021 14:55:32
+%%For: Klaus
+%%BoundingBox: 0 0 672 143
+%%Pages: 1
+%%Orientation: Portrait
+%%PageOrder: Ascend
+%%DocumentNeededResources: (atend)
+%%DocumentSuppliedResources: (atend)
+%%DocumentData: Clean7Bit
+%%TargetDevice: () (52.3) 320
+%%LanguageLevel: 1
+%%EndComments
+
+%%BeginDefaults
+%%PageBoundingBox: 0 0 672 143
+%%ViewingOrientation: 1 0 0 1
+%%EndDefaults
+
+%%BeginProlog
+%%BeginResource: file Pscript_WinNT_VMErrorHandler 5.0 0
+/currentpacking where{pop/oldpack currentpacking def/setpacking where{pop false
+setpacking}if}if/$brkpage 64 dict def $brkpage begin/prnt{dup type/stringtype
+ne{=string cvs}if dup length 6 mul/tx exch def/ty 10 def currentpoint/toy exch
+def/tox exch def 1 setgray newpath tox toy 2 sub moveto 0 ty rlineto tx 0
+rlineto 0 ty neg rlineto closepath fill tox toy moveto 0 setgray show}bind def
+/nl{currentpoint exch pop lmargin exch moveto 0 -10 rmoveto}def/=={/cp 0 def
+typeprint nl}def/typeprint{dup type exec}readonly def/lmargin 72 def/rmargin 72
+def/tprint{dup length cp add rmargin gt{nl/cp 0 def}if dup length cp add/cp
+exch def prnt}readonly def/cvsprint{=string cvs tprint( )tprint}readonly def
+/integertype{cvsprint}readonly def/realtype{cvsprint}readonly def/booleantype
+{cvsprint}readonly def/operatortype{(--)tprint =string cvs tprint(-- )tprint}
+readonly def/marktype{pop(-mark- )tprint}readonly def/dicttype{pop
+(-dictionary- )tprint}readonly def/nulltype{pop(-null- )tprint}readonly def
+/filetype{pop(-filestream- )tprint}readonly def/savetype{pop(-savelevel- )
+tprint}readonly def/fonttype{pop(-fontid- )tprint}readonly def/nametype{dup
+xcheck not{(/)tprint}if cvsprint}readonly def/stringtype{dup rcheck{(\()tprint
+tprint(\))tprint}{pop(-string- )tprint}ifelse}readonly def/arraytype{dup rcheck
+{dup xcheck{({)tprint{typeprint}forall(})tprint}{([)tprint{typeprint}forall(])
+tprint}ifelse}{pop(-array- )tprint}ifelse}readonly def/packedarraytype{dup
+rcheck{dup xcheck{({)tprint{typeprint}forall(})tprint}{([)tprint{typeprint}
+forall(])tprint}ifelse}{pop(-packedarray- )tprint}ifelse}readonly def/courier
+/Courier findfont 10 scalefont def end errordict/handleerror{systemdict begin
+$error begin $brkpage begin newerror{/newerror false store vmstatus pop pop 0
+ne{grestoreall}if initgraphics courier setfont lmargin 720 moveto errorname
+(VMerror)eq{version cvi 2016 ge{userdict/ehsave known{clear userdict/ehsave get
+restore 2 vmreclaim}if vmstatus exch pop exch pop PrtVMMsg}if}if systemdict
+/showpage get exec(%%[ Error: )print errorname =print(; OffendingCommand: )
+print/command load =print( ]%%)= flush}if end end end}dup 0 systemdict put dup
+4 $brkpage put bind readonly put/currentpacking where{pop/setpacking where{pop
+oldpack setpacking}if}if
+%%EndResource
+%%BeginProcSet: Pscript_Res_Emul 5.0 0
+/defineresource where{pop}{userdict begin/defineresource{userdict/Resources 2
+copy known{get begin}{15 dict dup begin put}ifelse exch readonly exch
+currentdict 1 index known not{dup 30 dict def}if load 3 -1 roll 2 index put
+end}bind readonly def/findresource{userdict/Resources get exch get exch get}
+bind readonly def/resourceforall{pop pop pop pop}bind readonly def
+/resourcestatus{userdict/Resources 2 copy known{get exch 2 copy known{get exch
+known{0 -1 true}{false}ifelse}{pop pop pop false}ifelse}{pop pop pop pop false}
+ifelse}bind readonly def end}ifelse
+%%EndProcSet
+userdict /Pscript_WinNT_Incr 230 dict dup begin put
+%%BeginResource: file Pscript_FatalError 5.0 0
+userdict begin/FatalErrorIf{{initgraphics findfont 1 index 0 eq{exch pop}{dup
+length dict begin{1 index/FID ne{def}{pop pop}ifelse}forall/Encoding
+{ISOLatin1Encoding}stopped{StandardEncoding}if def currentdict end
+/ErrFont-Latin1 exch definefont}ifelse exch scalefont setfont counttomark 3 div
+cvi{moveto show}repeat showpage quit}{cleartomark}ifelse}bind def end
+%%EndResource
+userdict begin/PrtVMMsg{vmstatus exch sub exch pop gt{[
+(Dieser Druckauftrag erfordert mehr Speicher, als auf diesem Drucker vorhanden ist. )
+100 500
+(Versuchen Sie es mit einer oder mehreren der folgenden Methoden und drucken Sie dann erneut:)
+100 485(Wählen Sie für das Ausgabeformat die Option "Optimale Portierung".)115
+470
+(Stellen Sie sicher, daß auf der Registerkarte "Geräteeinstellungen" die Angabe für "Verfügbarer Postscript-Speicher" korrekt ist.)
+115 455(Reduzieren Sie die Anzahl der im Dokument verwendeten Schriftarten. )
+115 440(Drucken Sie das Dokument in verschiedenen Teilstücken. )115 425 12
+/Times-Roman showpage(%%[ PrinterError: Low Printer VM ]%%)= true FatalErrorIf}
+if}bind def end version cvi 2016 ge{/VM?{pop}bind def}{/VM? userdict/PrtVMMsg
+get def}ifelse
+%%BeginResource: file Pscript_Win_Basic 5.0 0
+/d/def load def/,/load load d/~/exch , d/?/ifelse , d/!/pop , d/`/begin , d/^
+/index , d/@/dup , d/+/translate , d/$/roll , d/U/userdict , d/M/moveto , d/-
+/rlineto , d/&/currentdict , d/:/gsave , d/;/grestore , d/F/false , d/T/true ,
+d/N/newpath , d/E/end , d/Ac/arc , d/An/arcn , d/A/ashow , d/D/awidthshow , d/C
+/closepath , d/V/div , d/O/eofill , d/L/fill , d/I/lineto , d/-c/curveto , d/-M
+/rmoveto , d/+S/scale , d/Ji/setfont , d/Lc/setlinecap , d/Lj/setlinejoin , d
+/Lw/setlinewidth , d/Lm/setmiterlimit , d/sd/setdash , d/S/show , d/LH/showpage
+, d/K/stroke , d/W/widthshow , d/R/rotate , d/L2? false/languagelevel where{pop
+languagelevel 2 ge{pop true}if}if d L2?{/xS/xshow , d/yS/yshow , d/zS/xyshow ,
+d}if/b{bind d}bind d/bd{bind d}bind d/xd{~ d}bd/ld{, d}bd/bn/bind ld/lw/Lw ld
+/lc/Lc ld/lj/Lj ld/sg/setgray ld/ADO_mxRot null d/self & d/OrgMx matrix
+currentmatrix d/reinitialize{: OrgMx setmatrix[/TextInit/GraphInit/UtilsInit
+counttomark{@ where{self eq}{F}?{cvx exec}{!}?}repeat cleartomark ;}b
+/initialize{`{/Pscript_Win_Data where{!}{U/Pscript_Win_Data & put}?/ADO_mxRot ~
+d/TextInitialised? F d reinitialize E}{U/Pscript_Win_Data 230 dict @ ` put
+/ADO_mxRot ~ d/TextInitialised? F d reinitialize}?}b/terminate{!{& self eq
+{exit}{E}?}loop E}b/suspend/terminate , d/resume{` Pscript_Win_Data `}b U `
+/lucas 21690 d/featurebegin{countdictstack lucas[}b/featurecleanup{stopped
+{cleartomark @ lucas eq{! exit}if}loop countdictstack ~ sub @ 0 gt{{E}repeat}
+{!}?}b E/snap{transform 0.25 sub round 0.25 add ~ 0.25 sub round 0.25 add ~
+itransform}b/dsnap{dtransform round ~ round ~ idtransform}b/nonzero_round{@ 0.5
+ge{round}{@ -0.5 lt{round}{0 ge{1}{-1}?}?}?}b/nonzero_dsnap{dtransform
+nonzero_round ~ nonzero_round ~ idtransform}b U<04>cvn{}put/rr{1 ^ 0 - 0 ~ -
+neg 0 - C}b/irp{4 -2 $ + +S fx 4 2 $ M 1 ^ 0 - 0 ~ - neg 0 -}b/rp{4 2 $ M 1 ^ 0
+- 0 ~ - neg 0 -}b/solid{[]0 sd}b/g{@ not{U/DefIf_save save put}if U/DefIf_bool
+2 ^ put}b/DefIf_El{if U/DefIf_bool get not @{U/DefIf_save get restore}if}b/e
+{DefIf_El !}b/UDF{L2?{undefinefont}{!}?}b/UDR{L2?{undefineresource}{! !}?}b
+/freeVM{/Courier findfont[40 0 0 -40 0 0]makefont Ji 2 vmreclaim}b/hfRedefFont
+{findfont @ length dict `{1 ^/FID ne{d}{! !}?}forall & E @ ` ~{/CharStrings 1
+dict `/.notdef 0 d & E d}if/Encoding 256 array 0 1 255{1 ^ ~/.notdef put}for d
+E definefont !}bind d/hfMkCIDFont{/CIDFont findresource @ length 2 add dict `{1
+^ @/FID eq ~ @/XUID eq ~/UIDBase eq or or{! !}{d}?}forall/CDevProc ~ d/Metrics2
+16 dict d/CIDFontName 1 ^ d & E 1 ^ ~/CIDFont defineresource ![~]composefont !}
+bind d
+%%EndResource
+%%BeginResource: file Pscript_Win_Utils_L1 5.0 0
+/rf{N rp L}b/fx{1 1 dtransform @ 0 ge{1 sub 1}{1 add -0.25}? 3 -1 $ @ 0 ge{1
+sub 1}{1 add -0.25}? 3 1 $ 4 1 $ idtransform 4 -2 $ idtransform}b/BZ{4 -2 $
+snap + +S fx rf}b/rs{N rp C K}b/rc{N rp clip N}b/UtilsInit{}b/setcolorspace{!}b
+/scol{[/setgray/setrgbcolor/setcolor/setcmykcolor/setcolor/setgray]~ get cvx
+exec}b/colspRefresh{}b/AddFontInfoBegin{/FontInfo 8 dict @ `}bind d/AddFontInfo
+{/GlyphNames2Unicode 16 dict d/GlyphNames2HostCode 16 dict d}bind d
+/AddFontInfoEnd{E d}bind d
+%%EndResource
+end
+%%EndProlog
+
+%%BeginSetup
+[ 1 0 0 1 0 0 ] false Pscript_WinNT_Incr dup /initialize get exec
+1 setlinecap 1 setlinejoin
+/mysetup [ 72 600 V 0 0 -72 600 V 0 142.86613 ] def 
+%%EndSetup
+
+%%Page: 1 1
+%%PageBoundingBox: 0 0 672 143
+%%EndPageComments
+%%BeginPageSetup
+/DeviceRGB dup setcolorspace /colspABC exch def
+mysetup concat colspRefresh
+%%EndPageSetup
+
+Pscript_WinNT_Incr begin
+%%BeginResource: file Pscript_Win_GdiObject 5.0 0
+/SavedCTM null d/CTMsave{/SavedCTM SavedCTM currentmatrix d}b/CTMrestore
+{SavedCTM setmatrix}b/mp null d/ADO_mxRot null d/GDIHMatrix null d
+/GDIHPatternDict 22 dict d GDIHPatternDict `/PatternType 1 d/PaintType 2 d/Reps
+L2?{1}{5}? d/XStep 8 Reps mul d/YStep XStep d/BBox[0 0 XStep YStep]d/TilingType
+1 d/PaintProc{` 1 Lw[]0 sd PaintData , exec E}b/FGnd null d/BGnd null d
+/HS_Horizontal{horiz}b/HS_Vertical{vert}b/HS_FDiagonal{fdiag}b/HS_BDiagonal
+{biag}b/HS_Cross{horiz vert}b/HS_DiagCross{fdiag biag}b/MaxXYStep XStep YStep
+gt{XStep}{YStep}? d/horiz{Reps{0 4 M XStep 0 - 0 8 +}repeat 0 -8 Reps mul + K}b
+/vert{Reps{4 0 M 0 YStep - 8 0 +}repeat 0 -8 Reps mul + K}b/biag{Reps{0 0 M
+MaxXYStep @ - 0 YStep neg M MaxXYStep @ - 0 8 +}repeat 0 -8 Reps mul + 0 YStep
+M 8 8 - K}b/fdiag{Reps{0 0 M MaxXYStep @ neg - 0 YStep M MaxXYStep @ neg - 0 8
++}repeat 0 -8 Reps mul + MaxXYStep @ M 8 -8 - K}b E/makehatch{4 -2 $/yOrg ~ d
+/xOrg ~ d GDIHPatternDict/PaintData 3 -1 $ put CTMsave GDIHMatrix setmatrix
+GDIHPatternDict matrix xOrg yOrg + mp CTMrestore ~ U ~ 2 ^ put}b/h0{/h0
+/HS_Horizontal makehatch}b/h1{/h1/HS_Vertical makehatch}b/h2{/h2/HS_FDiagonal
+makehatch}b/h3{/h3/HS_BDiagonal makehatch}b/h4{/h4/HS_Cross makehatch}b/h5{/h5
+/HS_DiagCross makehatch}b/GDIBWPatternMx null d/pfprep{save 8 1 $
+/PatternOfTheDay 8 1 $ GDIBWPatternDict `/yOrg ~ d/xOrg ~ d/PaintData ~ d/yExt
+~ d/Width ~ d/BGnd ~ d/FGnd ~ d/Height yExt RepsV mul d/mx[Width 0 0 Height 0
+0]d E build_pattern ~ !}b/pfbf{/fEOFill ~ d pfprep hbf fEOFill{O}{L}? restore}b
+/GraphInit{GDIHMatrix null eq{/SavedCTM matrix d : ADO_mxRot concat 0 0 snap +
+: 0.48 @ GDIHPatternDict ` YStep mul ~ XStep mul ~ nonzero_dsnap YStep V ~
+XStep V ~ E +S/GDIHMatrix matrix currentmatrix readonly d ; : 0.24 -0.24 +S
+GDIBWPatternDict ` Width Height E nonzero_dsnap +S/GDIBWPatternMx matrix
+currentmatrix readonly d ; ;}if}b
+%%EndResource
+%%BeginResource: file Pscript_Win_GdiObject_L1 5.0 0
+/GDIBWPatternDict 25 dict @ `/PatternType 1 d/PaintType 2 d/RepsV 6 d/RepsH 5 d
+/BBox[0 0 RepsH 1]d/TilingType 1 d/XStep 1 d/YStep 1 d/Height 8 RepsV mul d
+/Width 8 d/mx[Width 0 0 Height neg 0 Height]d/FGnd null d/BGnd null d
+/SetBGndFGnd{}b/PaintProc{` SetBGndFGnd RepsH{Width Height F mx PaintData
+imagemask Width 0 +}repeat E}b E d/GDIpattfill{@ ` BGnd null ne PaintType 2 eq
+and{: BGnd aload ! scol fEOFill{O}{L}? ; FGnd aload ! U/iCol 2 ^ put @ 0 eq{!
+2}{@ 1 eq ~ 2 eq or{4}{5}?}? -1 $}if E @ patterncalc : 4 ^/PaintType get 2 eq
+{iCol 0 eq{6 -1 $}if iCol 1 eq iCol 2 eq or{8 -3 $}if iCol 3 eq iCol 4 eq or{9
+-4 $}if iCol scol}if fEOFill{eoclip}{clip}? N patternfill ; N}b/hbf
+{GDIpattfill}b/hfMain{/fEOFill ~ d ~/iCol ~ d GDIpattfill}b/hf{: hfMain ;}b
+/mpstr 1 string d/mp{~ @ length 12 add dict copy `/PatternCTM matrix
+currentmatrix d/PatternMatrix ~ d/PatWidth XStep mpstr length mul d/PatHeight
+YStep d/FontType 3 d/Encoding 256 array d 3 string 0 1 255{Encoding ~ @ 3 ^ cvs
+cvn put}for !/FontMatrix matrix d/FontBBox BBox d/BuildChar{! @ ` XStep 0
+FontBBox aload ! setcachedevice/PaintProc , E : exec ;}b & E ~ @ 3 -1 $
+definefont}b/build_pattern{: GDIBWPatternDict ` Width Height E dsnap +S
+/GDIBWPatternMx matrix currentmatrix d ; CTMsave GDIBWPatternMx setmatrix
+GDIBWPatternDict @ ` xOrg yOrg E matrix + mp CTMrestore}b/patterncalc{` :
+PatternCTM setmatrix PatternMatrix concat BBox aload ! ! ! + pathbbox ;
+PatHeight V ceiling 4 1 $ PatWidth V ceiling 4 1 $ PatHeight V floor 4 1 $
+PatWidth V floor 4 1 $ 2 ^ sub cvi abs ~ 3 ^ sub cvi abs ~ 4 2 $ PatHeight mul
+~ PatWidth mul ~ E}b/patternfill{5 -1 $ @ ` Ji PatternCTM setmatrix
+PatternMatrix concat 0 2 ^ 2 ^ M 0 1 mpstr length 1 sub{1 ^ mpstr 3 1 $ put}for
+! 2 ^{currentpoint 5 ^{mpstr S}repeat YStep add M}repeat ! ! ! ! E}b/pbf{: 14
+dict `/fGray ~ d/fEOFill ~ d/yOrg ~ d/xOrg ~ d/PaintData ~ d/OutputBPP ~ d
+/Height ~ d/Width ~ d/mx xOrg yOrg matrix + d fGray{/PaintProc{` Width Height
+OutputBPP mx PaintData image E}b}{/PaintProc{` Width Height 8 mx PaintData F
+OutputBPP 8 idiv colorimage E}b}? pathbbox fEOFill{eoclip}{clip}?/Top ~ d/Right
+~ d/Bottom ~ d/Left ~ d Top Height neg Bottom 1 sub{Left Width Right 1 sub{1 ^
+2 copy + & PaintProc neg ~ neg ~ +}bind for !}bind for E ;}b
+%%EndResource
+end reinitialize
+N 5 13 M 5 97 I 191 97 I 191 13 I 5 13 I C 
+0.949 0.949 0.949 1 scol  O N 191 13 M 191 97 I 377 97 I 377 13 I 191 13 I C 
+ O N 377 13 M 377 97 I 562 97 I 562 13 I 377 13 I C 
+ O N 562 13 M 562 97 I 748 97 I 748 13 I 562 13 I C 
+ O N 748 13 M 748 97 I 934 97 I 934 13 I 748 13 I C 
+ O N 934 13 M 934 97 I 2421 97 I 2421 13 I 934 13 I C 
+ O N 2421 14 M 2421 97 I 4653 97 I 4653 14 I 2421 14 I C 
+ O N 4653 14 M 4653 97 I 4840 97 I 4840 14 I 4653 14 I C 
+ O N 4840 14 M 4840 97 I 5027 97 I 5027 14 I 4840 14 I C 
+ O N 5027 14 M 5027 97 I 5214 97 I 5214 14 I 5027 14 I C 
+ O N 5214 14 M 5214 97 I 5401 97 I 5401 14 I 5214 14 I C 
+ O N 5401 14 M 5401 97 I 5588 97 I 5588 14 I 5401 14 I C 
+ O N 5 97 M 5 181 I 191 181 I 191 97 I 5 97 I C 
+ O N 191 97 M 191 181 I 377 181 I 377 97 I 191 97 I C 
+ O N 377 97 M 377 181 I 562 181 I 562 97 I 377 97 I C 
+ O N 562 97 M 562 181 I 748 181 I 748 97 I 562 97 I C 
+ O N 748 97 M 748 181 I 934 181 I 934 97 I 748 97 I C 
+ O N 934 97 M 934 181 I 1120 181 I 1120 97 I 934 97 I C 
+ O N 1120 97 M 1120 181 I 1306 181 I 1306 97 I 1120 97 I C 
+ O N 1306 97 M 1306 181 I 1492 181 I 1492 97 I 1306 97 I C 
+ O N 1492 97 M 1492 181 I 1678 181 I 1678 97 I 1492 97 I C 
+ O N 1678 97 M 1678 181 I 1863 181 I 1863 97 I 1678 97 I C 
+ O N 1863 97 M 1863 181 I 2049 181 I 2049 97 I 1863 97 I C 
+ O N 2049 97 M 2049 181 I 2235 181 I 2235 97 I 2049 97 I C 
+ O N 2235 97 M 2235 181 I 2421 181 I 2421 97 I 2235 97 I C 
+ O N 2421 97 M 2421 181 I 2607 181 I 2607 97 I 2421 97 I C 
+ O N 2607 97 M 2607 181 I 2793 181 I 2793 97 I 2607 97 I C 
+ O N 2793 97 M 2793 181 I 2979 181 I 2979 97 I 2793 97 I C 
+ O N 2979 97 M 2979 181 I 3166 181 I 3166 97 I 2979 97 I C 
+ O N 3166 97 M 3166 181 I 3352 181 I 3352 97 I 3166 97 I C 
+ O N 3352 97 M 3352 181 I 3537 181 I 3537 97 I 3352 97 I C 
+ O N 3537 97 M 3537 181 I 3723 181 I 3723 97 I 3537 97 I C 
+ O N 3723 97 M 3723 181 I 3909 181 I 3909 97 I 3723 97 I C 
+ O N 3909 97 M 3909 181 I 4095 181 I 4095 97 I 3909 97 I C 
+ O N 4095 97 M 4095 181 I 4281 181 I 4281 97 I 4095 97 I C 
+ O N 4281 97 M 4281 181 I 4467 181 I 4467 97 I 4281 97 I C 
+ O N 4467 97 M 4467 181 I 4653 181 I 4653 97 I 4467 97 I C 
+ O N 4653 97 M 4653 181 I 4840 181 I 4840 97 I 4653 97 I C 
+ O N 4840 97 M 4840 181 I 5027 181 I 5027 97 I 4840 97 I C 
+ O N 5027 97 M 5027 181 I 5214 181 I 5214 97 I 5027 97 I C 
+ O N 5214 97 M 5214 181 I 5401 181 I 5401 97 I 5214 97 I C 
+ O N 5401 97 M 5401 181 I 5588 181 I 5588 97 I 5401 97 I C 
+ O N 934 181 M 934 611 I 1120 611 I 1120 181 I 934 181 I C 
+0.254 0.379 0.609 1 scol  O N 2049 181 M 2049 611 I 2235 611 I 2235 181 I 2049 181 I C 
+ O N 2793 181 M 2793 611 I 2979 611 I 2979 181 I 2793 181 I C 
+0 0.156 0.434 1 scol  O N 3166 181 M 3166 611 I 3352 611 I 3352 181 I 3166 181 I C 
+ O N 3723 181 M 3723 611 I 3909 611 I 3909 181 I 3723 181 I C 
+ O N 4467 181 M 4467 611 I 4840 611 I 4840 181 I 4467 181 I C 
+0.906 0.902 0.902 1 scol  O N 4840 181 M 4840 611 I 5027 611 I 5027 181 I 4840 181 I C 
+ O N 5027 181 M 5027 611 I 5214 611 I 5214 181 I 5027 181 I C 
+ O N 5214 181 M 5214 611 I 5401 611 I 5401 181 I 5214 181 I C 
+ O N 5401 181 M 5401 611 I 5588 611 I 5588 181 I 5401 181 I C 
+ O 0 0 0 1 scol 1 Lj 0 Lc solid N 193 179 M 193 183 I 188 183 I 188 179 I 193 179 I C 
+193 196 M 193 200 I 188 200 I 188 196 I 193 196 I C 
+193 212 M 193 217 I 188 217 I 188 212 I 193 212 I C 
+193 229 M 193 233 I 188 233 I 188 229 I 193 229 I C 
+193 246 M 193 250 I 188 250 I 188 246 I 193 246 I C 
+193 262 M 193 266 I 188 266 I 188 262 I 193 262 I C 
+193 279 M 193 283 I 188 283 I 188 279 I 193 279 I C 
+193 296 M 193 300 I 188 300 I 188 296 I 193 296 I C 
+193 312 M 193 316 I 188 316 I 188 312 I 193 312 I C 
+193 329 M 193 333 I 188 333 I 188 329 I 193 329 I C 
+193 346 M 193 350 I 188 350 I 188 346 I 193 346 I C 
+193 362 M 193 366 I 188 366 I 188 362 I 193 362 I C 
+193 379 M 193 383 I 188 383 I 188 379 I 193 379 I C 
+193 395 M 193 400 I 188 400 I 188 395 I 193 395 I C 
+193 412 M 193 416 I 188 416 I 188 412 I 193 412 I C 
+193 429 M 193 433 I 188 433 I 188 429 I 193 429 I C 
+193 445 M 193 450 I 188 450 I 188 445 I 193 445 I C 
+193 462 M 193 466 I 188 466 I 188 462 I 193 462 I C 
+193 479 M 193 483 I 188 483 I 188 479 I 193 479 I C 
+193 495 M 193 499 I 188 499 I 188 495 I 193 495 I C 
+193 512 M 193 516 I 188 516 I 188 512 I 193 512 I C 
+193 529 M 193 533 I 188 533 I 188 529 I 193 529 I C 
+193 545 M 193 549 I 188 549 I 188 545 I 193 545 I C 
+193 562 M 193 566 I 188 566 I 188 562 I 193 562 I C 
+193 579 M 193 583 I 188 583 I 188 579 I 193 579 I C 
+193 595 M 193 599 I 188 599 I 188 595 I 193 595 I C 
+193 612 M 193 613 I 188 613 I 188 612 I 193 612 I C 
+:  L ; : 0.102 0.102 +S K 
+; N 379 179 M 379 183 I 374 183 I 374 179 I 379 179 I C 
+379 196 M 379 200 I 374 200 I 374 196 I 379 196 I C 
+379 212 M 379 217 I 374 217 I 374 212 I 379 212 I C 
+379 229 M 379 233 I 374 233 I 374 229 I 379 229 I C 
+379 246 M 379 250 I 374 250 I 374 246 I 379 246 I C 
+379 262 M 379 266 I 374 266 I 374 262 I 379 262 I C 
+379 279 M 379 283 I 374 283 I 374 279 I 379 279 I C 
+379 296 M 379 300 I 374 300 I 374 296 I 379 296 I C 
+379 312 M 379 316 I 374 316 I 374 312 I 379 312 I C 
+379 329 M 379 333 I 374 333 I 374 329 I 379 329 I C 
+379 346 M 379 350 I 374 350 I 374 346 I 379 346 I C 
+379 362 M 379 366 I 374 366 I 374 362 I 379 362 I C 
+379 379 M 379 383 I 374 383 I 374 379 I 379 379 I C 
+379 395 M 379 400 I 374 400 I 374 395 I 379 395 I C 
+379 412 M 379 416 I 374 416 I 374 412 I 379 412 I C 
+379 429 M 379 433 I 374 433 I 374 429 I 379 429 I C 
+379 445 M 379 450 I 374 450 I 374 445 I 379 445 I C 
+379 462 M 379 466 I 374 466 I 374 462 I 379 462 I C 
+379 479 M 379 483 I 374 483 I 374 479 I 379 479 I C 
+379 495 M 379 499 I 374 499 I 374 495 I 379 495 I C 
+379 512 M 379 516 I 374 516 I 374 512 I 379 512 I C 
+379 529 M 379 533 I 374 533 I 374 529 I 379 529 I C 
+379 545 M 379 549 I 374 549 I 374 545 I 379 545 I C 
+379 562 M 379 566 I 374 566 I 374 562 I 379 562 I C 
+379 579 M 379 583 I 374 583 I 374 579 I 379 579 I C 
+379 595 M 379 599 I 374 599 I 374 595 I 379 595 I C 
+379 612 M 379 613 I 374 613 I 374 612 I 379 612 I C 
+:  L ; : 0.102 0.102 +S K 
+; N 564 179 M 564 183 I 560 183 I 560 179 I 564 179 I C 
+564 196 M 564 200 I 560 200 I 560 196 I 564 196 I C 
+564 212 M 564 217 I 560 217 I 560 212 I 564 212 I C 
+564 229 M 564 233 I 560 233 I 560 229 I 564 229 I C 
+564 246 M 564 250 I 560 250 I 560 246 I 564 246 I C 
+564 262 M 564 266 I 560 266 I 560 262 I 564 262 I C 
+564 279 M 564 283 I 560 283 I 560 279 I 564 279 I C 
+564 296 M 564 300 I 560 300 I 560 296 I 564 296 I C 
+564 312 M 564 316 I 560 316 I 560 312 I 564 312 I C 
+564 329 M 564 333 I 560 333 I 560 329 I 564 329 I C 
+564 346 M 564 350 I 560 350 I 560 346 I 564 346 I C 
+564 362 M 564 366 I 560 366 I 560 362 I 564 362 I C 
+564 379 M 564 383 I 560 383 I 560 379 I 564 379 I C 
+564 395 M 564 400 I 560 400 I 560 395 I 564 395 I C 
+564 412 M 564 416 I 560 416 I 560 412 I 564 412 I C 
+564 429 M 564 433 I 560 433 I 560 429 I 564 429 I C 
+564 445 M 564 450 I 560 450 I 560 445 I 564 445 I C 
+564 462 M 564 466 I 560 466 I 560 462 I 564 462 I C 
+564 479 M 564 483 I 560 483 I 560 479 I 564 479 I C 
+564 495 M 564 499 I 560 499 I 560 495 I 564 495 I C 
+564 512 M 564 516 I 560 516 I 560 512 I 564 512 I C 
+564 529 M 564 533 I 560 533 I 560 529 I 564 529 I C 
+564 545 M 564 549 I 560 549 I 560 545 I 564 545 I C 
+564 562 M 564 566 I 560 566 I 560 562 I 564 562 I C 
+564 579 M 564 583 I 560 583 I 560 579 I 564 579 I C 
+564 595 M 564 599 I 560 599 I 560 595 I 564 595 I C 
+564 612 M 564 613 I 560 613 I 560 612 I 564 612 I C 
+:  L ; : 0.102 0.102 +S K 
+; N 750 179 M 750 183 I 746 183 I 746 179 I 750 179 I C 
+750 196 M 750 200 I 746 200 I 746 196 I 750 196 I C 
+750 212 M 750 217 I 746 217 I 746 212 I 750 212 I C 
+750 229 M 750 233 I 746 233 I 746 229 I 750 229 I C 
+750 246 M 750 250 I 746 250 I 746 246 I 750 246 I C 
+750 262 M 750 266 I 746 266 I 746 262 I 750 262 I C 
+750 279 M 750 283 I 746 283 I 746 279 I 750 279 I C 
+750 296 M 750 300 I 746 300 I 746 296 I 750 296 I C 
+750 312 M 750 316 I 746 316 I 746 312 I 750 312 I C 
+750 329 M 750 333 I 746 333 I 746 329 I 750 329 I C 
+750 346 M 750 350 I 746 350 I 746 346 I 750 346 I C 
+750 362 M 750 366 I 746 366 I 746 362 I 750 362 I C 
+750 379 M 750 383 I 746 383 I 746 379 I 750 379 I C 
+750 395 M 750 400 I 746 400 I 746 395 I 750 395 I C 
+750 412 M 750 416 I 746 416 I 746 412 I 750 412 I C 
+750 429 M 750 433 I 746 433 I 746 429 I 750 429 I C 
+750 445 M 750 450 I 746 450 I 746 445 I 750 445 I C 
+750 462 M 750 466 I 746 466 I 746 462 I 750 462 I C 
+750 479 M 750 483 I 746 483 I 746 479 I 750 479 I C 
+750 495 M 750 499 I 746 499 I 746 495 I 750 495 I C 
+750 512 M 750 516 I 746 516 I 746 512 I 750 512 I C 
+750 529 M 750 533 I 746 533 I 746 529 I 750 529 I C 
+750 545 M 750 549 I 746 549 I 746 545 I 750 545 I C 
+750 562 M 750 566 I 746 566 I 746 562 I 750 562 I C 
+750 579 M 750 583 I 746 583 I 746 579 I 750 579 I C 
+750 595 M 750 599 I 746 599 I 746 595 I 750 595 I C 
+750 612 M 750 613 I 746 613 I 746 612 I 750 612 I C 
+:  L ; : 0.102 0.102 +S K 
+; N 936 179 M 936 183 I 932 183 I 932 179 I 936 179 I C 
+936 196 M 936 200 I 932 200 I 932 196 I 936 196 I C 
+936 212 M 936 217 I 932 217 I 932 212 I 936 212 I C 
+936 229 M 936 233 I 932 233 I 932 229 I 936 229 I C 
+936 246 M 936 250 I 932 250 I 932 246 I 936 246 I C 
+936 262 M 936 266 I 932 266 I 932 262 I 936 262 I C 
+936 279 M 936 283 I 932 283 I 932 279 I 936 279 I C 
+936 296 M 936 300 I 932 300 I 932 296 I 936 296 I C 
+936 312 M 936 316 I 932 316 I 932 312 I 936 312 I C 
+936 329 M 936 333 I 932 333 I 932 329 I 936 329 I C 
+936 346 M 936 350 I 932 350 I 932 346 I 936 346 I C 
+936 362 M 936 366 I 932 366 I 932 362 I 936 362 I C 
+936 379 M 936 383 I 932 383 I 932 379 I 936 379 I C 
+936 395 M 936 400 I 932 400 I 932 395 I 936 395 I C 
+936 412 M 936 416 I 932 416 I 932 412 I 936 412 I C 
+936 429 M 936 433 I 932 433 I 932 429 I 936 429 I C 
+936 445 M 936 450 I 932 450 I 932 445 I 936 445 I C 
+936 462 M 936 466 I 932 466 I 932 462 I 936 462 I C 
+936 479 M 936 483 I 932 483 I 932 479 I 936 479 I C 
+936 495 M 936 499 I 932 499 I 932 495 I 936 495 I C 
+936 512 M 936 516 I 932 516 I 932 512 I 936 512 I C 
+936 529 M 936 533 I 932 533 I 932 529 I 936 529 I C 
+936 545 M 936 549 I 932 549 I 932 545 I 936 545 I C 
+936 562 M 936 566 I 932 566 I 932 562 I 936 562 I C 
+936 579 M 936 583 I 932 583 I 932 579 I 936 579 I C 
+936 595 M 936 599 I 932 599 I 932 595 I 936 595 I C 
+936 612 M 936 613 I 932 613 I 932 612 I 936 612 I C 
+:  L ; : 0.102 0.102 +S K 
+; N 1122 179 M 1122 183 I 1118 183 I 1118 179 I 1122 179 I C 
+1122 196 M 1122 200 I 1118 200 I 1118 196 I 1122 196 I C 
+1122 212 M 1122 217 I 1118 217 I 1118 212 I 1122 212 I C 
+1122 229 M 1122 233 I 1118 233 I 1118 229 I 1122 229 I C 
+1122 246 M 1122 250 I 1118 250 I 1118 246 I 1122 246 I C 
+1122 262 M 1122 266 I 1118 266 I 1118 262 I 1122 262 I C 
+1122 279 M 1122 283 I 1118 283 I 1118 279 I 1122 279 I C 
+1122 296 M 1122 300 I 1118 300 I 1118 296 I 1122 296 I C 
+1122 312 M 1122 316 I 1118 316 I 1118 312 I 1122 312 I C 
+1122 329 M 1122 333 I 1118 333 I 1118 329 I 1122 329 I C 
+1122 346 M 1122 350 I 1118 350 I 1118 346 I 1122 346 I C 
+1122 362 M 1122 366 I 1118 366 I 1118 362 I 1122 362 I C 
+1122 379 M 1122 383 I 1118 383 I 1118 379 I 1122 379 I C 
+1122 395 M 1122 400 I 1118 400 I 1118 395 I 1122 395 I C 
+1122 412 M 1122 416 I 1118 416 I 1118 412 I 1122 412 I C 
+1122 429 M 1122 433 I 1118 433 I 1118 429 I 1122 429 I C 
+1122 445 M 1122 450 I 1118 450 I 1118 445 I 1122 445 I C 
+1122 462 M 1122 466 I 1118 466 I 1118 462 I 1122 462 I C 
+1122 479 M 1122 483 I 1118 483 I 1118 479 I 1122 479 I C 
+1122 495 M 1122 499 I 1118 499 I 1118 495 I 1122 495 I C 
+1122 512 M 1122 516 I 1118 516 I 1118 512 I 1122 512 I C 
+1122 529 M 1122 533 I 1118 533 I 1118 529 I 1122 529 I C 
+1122 545 M 1122 549 I 1118 549 I 1118 545 I 1122 545 I C 
+1122 562 M 1122 566 I 1118 566 I 1118 562 I 1122 562 I C 
+1122 579 M 1122 583 I 1118 583 I 1118 579 I 1122 579 I C 
+1122 595 M 1122 599 I 1118 599 I 1118 595 I 1122 595 I C 
+1122 612 M 1122 613 I 1118 613 I 1118 612 I 1122 612 I C 
+:  L ; : 0.102 0.102 +S K 
+; N 1308 179 M 1308 183 I 1304 183 I 1304 179 I 1308 179 I C 
+1308 196 M 1308 200 I 1304 200 I 1304 196 I 1308 196 I C 
+1308 212 M 1308 217 I 1304 217 I 1304 212 I 1308 212 I C 
+1308 229 M 1308 233 I 1304 233 I 1304 229 I 1308 229 I C 
+1308 246 M 1308 250 I 1304 250 I 1304 246 I 1308 246 I C 
+1308 262 M 1308 266 I 1304 266 I 1304 262 I 1308 262 I C 
+1308 279 M 1308 283 I 1304 283 I 1304 279 I 1308 279 I C 
+1308 296 M 1308 300 I 1304 300 I 1304 296 I 1308 296 I C 
+1308 312 M 1308 316 I 1304 316 I 1304 312 I 1308 312 I C 
+1308 329 M 1308 333 I 1304 333 I 1304 329 I 1308 329 I C 
+1308 346 M 1308 350 I 1304 350 I 1304 346 I 1308 346 I C 
+1308 362 M 1308 366 I 1304 366 I 1304 362 I 1308 362 I C 
+1308 379 M 1308 383 I 1304 383 I 1304 379 I 1308 379 I C 
+1308 395 M 1308 400 I 1304 400 I 1304 395 I 1308 395 I C 
+1308 412 M 1308 416 I 1304 416 I 1304 412 I 1308 412 I C 
+1308 429 M 1308 433 I 1304 433 I 1304 429 I 1308 429 I C 
+1308 445 M 1308 450 I 1304 450 I 1304 445 I 1308 445 I C 
+1308 462 M 1308 466 I 1304 466 I 1304 462 I 1308 462 I C 
+1308 479 M 1308 483 I 1304 483 I 1304 479 I 1308 479 I C 
+1308 495 M 1308 499 I 1304 499 I 1304 495 I 1308 495 I C 
+1308 512 M 1308 516 I 1304 516 I 1304 512 I 1308 512 I C 
+1308 529 M 1308 533 I 1304 533 I 1304 529 I 1308 529 I C 
+1308 545 M 1308 549 I 1304 549 I 1304 545 I 1308 545 I C 
+1308 562 M 1308 566 I 1304 566 I 1304 562 I 1308 562 I C 
+1308 579 M 1308 583 I 1304 583 I 1304 579 I 1308 579 I C 
+1308 595 M 1308 599 I 1304 599 I 1304 595 I 1308 595 I C 
+1308 612 M 1308 613 I 1304 613 I 1304 612 I 1308 612 I C 
+:  L ; : 0.102 0.102 +S K 
+; N 1494 179 M 1494 183 I 1490 183 I 1490 179 I 1494 179 I C 
+1494 196 M 1494 200 I 1490 200 I 1490 196 I 1494 196 I C 
+1494 212 M 1494 217 I 1490 217 I 1490 212 I 1494 212 I C 
+1494 229 M 1494 233 I 1490 233 I 1490 229 I 1494 229 I C 
+1494 246 M 1494 250 I 1490 250 I 1490 246 I 1494 246 I C 
+1494 262 M 1494 266 I 1490 266 I 1490 262 I 1494 262 I C 
+1494 279 M 1494 283 I 1490 283 I 1490 279 I 1494 279 I C 
+1494 296 M 1494 300 I 1490 300 I 1490 296 I 1494 296 I C 
+1494 312 M 1494 316 I 1490 316 I 1490 312 I 1494 312 I C 
+1494 329 M 1494 333 I 1490 333 I 1490 329 I 1494 329 I C 
+1494 346 M 1494 350 I 1490 350 I 1490 346 I 1494 346 I C 
+1494 362 M 1494 366 I 1490 366 I 1490 362 I 1494 362 I C 
+1494 379 M 1494 383 I 1490 383 I 1490 379 I 1494 379 I C 
+1494 395 M 1494 400 I 1490 400 I 1490 395 I 1494 395 I C 
+1494 412 M 1494 416 I 1490 416 I 1490 412 I 1494 412 I C 
+1494 429 M 1494 433 I 1490 433 I 1490 429 I 1494 429 I C 
+1494 445 M 1494 450 I 1490 450 I 1490 445 I 1494 445 I C 
+1494 462 M 1494 466 I 1490 466 I 1490 462 I 1494 462 I C 
+1494 479 M 1494 483 I 1490 483 I 1490 479 I 1494 479 I C 
+1494 495 M 1494 499 I 1490 499 I 1490 495 I 1494 495 I C 
+1494 512 M 1494 516 I 1490 516 I 1490 512 I 1494 512 I C 
+1494 529 M 1494 533 I 1490 533 I 1490 529 I 1494 529 I C 
+1494 545 M 1494 549 I 1490 549 I 1490 545 I 1494 545 I C 
+1494 562 M 1494 566 I 1490 566 I 1490 562 I 1494 562 I C 
+1494 579 M 1494 583 I 1490 583 I 1490 579 I 1494 579 I C 
+1494 595 M 1494 599 I 1490 599 I 1490 595 I 1494 595 I C 
+1494 612 M 1494 613 I 1490 613 I 1490 612 I 1494 612 I C 
+:  L ; : 0.102 0.102 +S K 
+; N 1680 179 M 1680 183 I 1676 183 I 1676 179 I 1680 179 I C 
+1680 196 M 1680 200 I 1676 200 I 1676 196 I 1680 196 I C 
+1680 212 M 1680 217 I 1676 217 I 1676 212 I 1680 212 I C 
+1680 229 M 1680 233 I 1676 233 I 1676 229 I 1680 229 I C 
+1680 246 M 1680 250 I 1676 250 I 1676 246 I 1680 246 I C 
+1680 262 M 1680 266 I 1676 266 I 1676 262 I 1680 262 I C 
+1680 279 M 1680 283 I 1676 283 I 1676 279 I 1680 279 I C 
+1680 296 M 1680 300 I 1676 300 I 1676 296 I 1680 296 I C 
+1680 312 M 1680 316 I 1676 316 I 1676 312 I 1680 312 I C 
+1680 329 M 1680 333 I 1676 333 I 1676 329 I 1680 329 I C 
+1680 346 M 1680 350 I 1676 350 I 1676 346 I 1680 346 I C 
+1680 362 M 1680 366 I 1676 366 I 1676 362 I 1680 362 I C 
+1680 379 M 1680 383 I 1676 383 I 1676 379 I 1680 379 I C 
+1680 395 M 1680 400 I 1676 400 I 1676 395 I 1680 395 I C 
+1680 412 M 1680 416 I 1676 416 I 1676 412 I 1680 412 I C 
+1680 429 M 1680 433 I 1676 433 I 1676 429 I 1680 429 I C 
+1680 445 M 1680 450 I 1676 450 I 1676 445 I 1680 445 I C 
+1680 462 M 1680 466 I 1676 466 I 1676 462 I 1680 462 I C 
+1680 479 M 1680 483 I 1676 483 I 1676 479 I 1680 479 I C 
+1680 495 M 1680 499 I 1676 499 I 1676 495 I 1680 495 I C 
+1680 512 M 1680 516 I 1676 516 I 1676 512 I 1680 512 I C 
+1680 529 M 1680 533 I 1676 533 I 1676 529 I 1680 529 I C 
+1680 545 M 1680 549 I 1676 549 I 1676 545 I 1680 545 I C 
+1680 562 M 1680 566 I 1676 566 I 1676 562 I 1680 562 I C 
+1680 579 M 1680 583 I 1676 583 I 1676 579 I 1680 579 I C 
+1680 595 M 1680 599 I 1676 599 I 1676 595 I 1680 595 I C 
+1680 612 M 1680 613 I 1676 613 I 1676 612 I 1680 612 I C 
+:  L ; : 0.102 0.102 +S K 
+; N 1866 179 M 1866 183 I 1861 183 I 1861 179 I 1866 179 I C 
+1866 196 M 1866 200 I 1861 200 I 1861 196 I 1866 196 I C 
+1866 212 M 1866 217 I 1861 217 I 1861 212 I 1866 212 I C 
+1866 229 M 1866 233 I 1861 233 I 1861 229 I 1866 229 I C 
+1866 246 M 1866 250 I 1861 250 I 1861 246 I 1866 246 I C 
+1866 262 M 1866 266 I 1861 266 I 1861 262 I 1866 262 I C 
+1866 279 M 1866 283 I 1861 283 I 1861 279 I 1866 279 I C 
+1866 296 M 1866 300 I 1861 300 I 1861 296 I 1866 296 I C 
+1866 312 M 1866 316 I 1861 316 I 1861 312 I 1866 312 I C 
+1866 329 M 1866 333 I 1861 333 I 1861 329 I 1866 329 I C 
+1866 346 M 1866 350 I 1861 350 I 1861 346 I 1866 346 I C 
+1866 362 M 1866 366 I 1861 366 I 1861 362 I 1866 362 I C 
+1866 379 M 1866 383 I 1861 383 I 1861 379 I 1866 379 I C 
+1866 395 M 1866 400 I 1861 400 I 1861 395 I 1866 395 I C 
+1866 412 M 1866 416 I 1861 416 I 1861 412 I 1866 412 I C 
+1866 429 M 1866 433 I 1861 433 I 1861 429 I 1866 429 I C 
+1866 445 M 1866 450 I 1861 450 I 1861 445 I 1866 445 I C 
+1866 462 M 1866 466 I 1861 466 I 1861 462 I 1866 462 I C 
+1866 479 M 1866 483 I 1861 483 I 1861 479 I 1866 479 I C 
+1866 495 M 1866 499 I 1861 499 I 1861 495 I 1866 495 I C 
+1866 512 M 1866 516 I 1861 516 I 1861 512 I 1866 512 I C 
+1866 529 M 1866 533 I 1861 533 I 1861 529 I 1866 529 I C 
+1866 545 M 1866 549 I 1861 549 I 1861 545 I 1866 545 I C 
+1866 562 M 1866 566 I 1861 566 I 1861 562 I 1866 562 I C 
+1866 579 M 1866 583 I 1861 583 I 1861 579 I 1866 579 I C 
+1866 595 M 1866 599 I 1861 599 I 1861 595 I 1866 595 I C 
+1866 612 M 1866 613 I 1861 613 I 1861 612 I 1866 612 I C 
+:  L ; : 0.102 0.102 +S K 
+; N 2051 179 M 2051 183 I 2047 183 I 2047 179 I 2051 179 I C 
+2051 196 M 2051 200 I 2047 200 I 2047 196 I 2051 196 I C 
+2051 212 M 2051 217 I 2047 217 I 2047 212 I 2051 212 I C 
+2051 229 M 2051 233 I 2047 233 I 2047 229 I 2051 229 I C 
+2051 246 M 2051 250 I 2047 250 I 2047 246 I 2051 246 I C 
+2051 262 M 2051 266 I 2047 266 I 2047 262 I 2051 262 I C 
+2051 279 M 2051 283 I 2047 283 I 2047 279 I 2051 279 I C 
+2051 296 M 2051 300 I 2047 300 I 2047 296 I 2051 296 I C 
+2051 312 M 2051 316 I 2047 316 I 2047 312 I 2051 312 I C 
+2051 329 M 2051 333 I 2047 333 I 2047 329 I 2051 329 I C 
+2051 346 M 2051 350 I 2047 350 I 2047 346 I 2051 346 I C 
+2051 362 M 2051 366 I 2047 366 I 2047 362 I 2051 362 I C 
+2051 379 M 2051 383 I 2047 383 I 2047 379 I 2051 379 I C 
+2051 395 M 2051 400 I 2047 400 I 2047 395 I 2051 395 I C 
+2051 412 M 2051 416 I 2047 416 I 2047 412 I 2051 412 I C 
+2051 429 M 2051 433 I 2047 433 I 2047 429 I 2051 429 I C 
+2051 445 M 2051 450 I 2047 450 I 2047 445 I 2051 445 I C 
+2051 462 M 2051 466 I 2047 466 I 2047 462 I 2051 462 I C 
+2051 479 M 2051 483 I 2047 483 I 2047 479 I 2051 479 I C 
+2051 495 M 2051 499 I 2047 499 I 2047 495 I 2051 495 I C 
+2051 512 M 2051 516 I 2047 516 I 2047 512 I 2051 512 I C 
+2051 529 M 2051 533 I 2047 533 I 2047 529 I 2051 529 I C 
+2051 545 M 2051 549 I 2047 549 I 2047 545 I 2051 545 I C 
+2051 562 M 2051 566 I 2047 566 I 2047 562 I 2051 562 I C 
+2051 579 M 2051 583 I 2047 583 I 2047 579 I 2051 579 I C 
+2051 595 M 2051 599 I 2047 599 I 2047 595 I 2051 595 I C 
+2051 612 M 2051 613 I 2047 613 I 2047 612 I 2051 612 I C 
+:  L ; : 0.102 0.102 +S K 
+; N 2237 179 M 2237 183 I 2233 183 I 2233 179 I 2237 179 I C 
+2237 196 M 2237 200 I 2233 200 I 2233 196 I 2237 196 I C 
+2237 212 M 2237 217 I 2233 217 I 2233 212 I 2237 212 I C 
+2237 229 M 2237 233 I 2233 233 I 2233 229 I 2237 229 I C 
+2237 246 M 2237 250 I 2233 250 I 2233 246 I 2237 246 I C 
+2237 262 M 2237 266 I 2233 266 I 2233 262 I 2237 262 I C 
+2237 279 M 2237 283 I 2233 283 I 2233 279 I 2237 279 I C 
+2237 296 M 2237 300 I 2233 300 I 2233 296 I 2237 296 I C 
+2237 312 M 2237 316 I 2233 316 I 2233 312 I 2237 312 I C 
+2237 329 M 2237 333 I 2233 333 I 2233 329 I 2237 329 I C 
+2237 346 M 2237 350 I 2233 350 I 2233 346 I 2237 346 I C 
+2237 362 M 2237 366 I 2233 366 I 2233 362 I 2237 362 I C 
+2237 379 M 2237 383 I 2233 383 I 2233 379 I 2237 379 I C 
+2237 395 M 2237 400 I 2233 400 I 2233 395 I 2237 395 I C 
+2237 412 M 2237 416 I 2233 416 I 2233 412 I 2237 412 I C 
+2237 429 M 2237 433 I 2233 433 I 2233 429 I 2237 429 I C 
+2237 445 M 2237 450 I 2233 450 I 2233 445 I 2237 445 I C 
+2237 462 M 2237 466 I 2233 466 I 2233 462 I 2237 462 I C 
+2237 479 M 2237 483 I 2233 483 I 2233 479 I 2237 479 I C 
+2237 495 M 2237 499 I 2233 499 I 2233 495 I 2237 495 I C 
+2237 512 M 2237 516 I 2233 516 I 2233 512 I 2237 512 I C 
+2237 529 M 2237 533 I 2233 533 I 2233 529 I 2237 529 I C 
+2237 545 M 2237 549 I 2233 549 I 2233 545 I 2237 545 I C 
+2237 562 M 2237 566 I 2233 566 I 2233 562 I 2237 562 I C 
+2237 579 M 2237 583 I 2233 583 I 2233 579 I 2237 579 I C 
+2237 595 M 2237 599 I 2233 599 I 2233 595 I 2237 595 I C 
+2237 612 M 2237 613 I 2233 613 I 2233 612 I 2237 612 I C 
+:  L ; : 0.102 0.102 +S K 
+; N 2423 179 M 2423 183 I 2419 183 I 2419 179 I 2423 179 I C 
+2423 196 M 2423 200 I 2419 200 I 2419 196 I 2423 196 I C 
+2423 212 M 2423 217 I 2419 217 I 2419 212 I 2423 212 I C 
+2423 229 M 2423 233 I 2419 233 I 2419 229 I 2423 229 I C 
+2423 246 M 2423 250 I 2419 250 I 2419 246 I 2423 246 I C 
+2423 262 M 2423 266 I 2419 266 I 2419 262 I 2423 262 I C 
+2423 279 M 2423 283 I 2419 283 I 2419 279 I 2423 279 I C 
+2423 296 M 2423 300 I 2419 300 I 2419 296 I 2423 296 I C 
+2423 312 M 2423 316 I 2419 316 I 2419 312 I 2423 312 I C 
+2423 329 M 2423 333 I 2419 333 I 2419 329 I 2423 329 I C 
+2423 346 M 2423 350 I 2419 350 I 2419 346 I 2423 346 I C 
+2423 362 M 2423 366 I 2419 366 I 2419 362 I 2423 362 I C 
+2423 379 M 2423 383 I 2419 383 I 2419 379 I 2423 379 I C 
+2423 395 M 2423 400 I 2419 400 I 2419 395 I 2423 395 I C 
+2423 412 M 2423 416 I 2419 416 I 2419 412 I 2423 412 I C 
+2423 429 M 2423 433 I 2419 433 I 2419 429 I 2423 429 I C 
+2423 445 M 2423 450 I 2419 450 I 2419 445 I 2423 445 I C 
+2423 462 M 2423 466 I 2419 466 I 2419 462 I 2423 462 I C 
+2423 479 M 2423 483 I 2419 483 I 2419 479 I 2423 479 I C 
+2423 495 M 2423 499 I 2419 499 I 2419 495 I 2423 495 I C 
+2423 512 M 2423 516 I 2419 516 I 2419 512 I 2423 512 I C 
+2423 529 M 2423 533 I 2419 533 I 2419 529 I 2423 529 I C 
+2423 545 M 2423 549 I 2419 549 I 2419 545 I 2423 545 I C 
+2423 562 M 2423 566 I 2419 566 I 2419 562 I 2423 562 I C 
+2423 579 M 2423 583 I 2419 583 I 2419 579 I 2423 579 I C 
+2423 595 M 2423 599 I 2419 599 I 2419 595 I 2423 595 I C 
+2423 612 M 2423 613 I 2419 613 I 2419 612 I 2423 612 I C 
+:  L ; : 0.102 0.102 +S K 
+; N 2609 179 M 2609 183 I 2605 183 I 2605 179 I 2609 179 I C 
+2609 196 M 2609 200 I 2605 200 I 2605 196 I 2609 196 I C 
+2609 212 M 2609 217 I 2605 217 I 2605 212 I 2609 212 I C 
+2609 229 M 2609 233 I 2605 233 I 2605 229 I 2609 229 I C 
+2609 246 M 2609 250 I 2605 250 I 2605 246 I 2609 246 I C 
+2609 262 M 2609 266 I 2605 266 I 2605 262 I 2609 262 I C 
+2609 279 M 2609 283 I 2605 283 I 2605 279 I 2609 279 I C 
+2609 296 M 2609 300 I 2605 300 I 2605 296 I 2609 296 I C 
+2609 312 M 2609 316 I 2605 316 I 2605 312 I 2609 312 I C 
+2609 329 M 2609 333 I 2605 333 I 2605 329 I 2609 329 I C 
+2609 346 M 2609 350 I 2605 350 I 2605 346 I 2609 346 I C 
+2609 362 M 2609 366 I 2605 366 I 2605 362 I 2609 362 I C 
+2609 379 M 2609 383 I 2605 383 I 2605 379 I 2609 379 I C 
+2609 395 M 2609 400 I 2605 400 I 2605 395 I 2609 395 I C 
+2609 412 M 2609 416 I 2605 416 I 2605 412 I 2609 412 I C 
+2609 429 M 2609 433 I 2605 433 I 2605 429 I 2609 429 I C 
+2609 445 M 2609 450 I 2605 450 I 2605 445 I 2609 445 I C 
+2609 462 M 2609 466 I 2605 466 I 2605 462 I 2609 462 I C 
+2609 479 M 2609 483 I 2605 483 I 2605 479 I 2609 479 I C 
+2609 495 M 2609 499 I 2605 499 I 2605 495 I 2609 495 I C 
+2609 512 M 2609 516 I 2605 516 I 2605 512 I 2609 512 I C 
+2609 529 M 2609 533 I 2605 533 I 2605 529 I 2609 529 I C 
+2609 545 M 2609 549 I 2605 549 I 2605 545 I 2609 545 I C 
+2609 562 M 2609 566 I 2605 566 I 2605 562 I 2609 562 I C 
+2609 579 M 2609 583 I 2605 583 I 2605 579 I 2609 579 I C 
+2609 595 M 2609 599 I 2605 599 I 2605 595 I 2609 595 I C 
+2609 612 M 2609 613 I 2605 613 I 2605 612 I 2609 612 I C 
+:  L ; : 0.102 0.102 +S K 
+; N 2795 179 M 2795 183 I 2791 183 I 2791 179 I 2795 179 I C 
+2795 196 M 2795 200 I 2791 200 I 2791 196 I 2795 196 I C 
+2795 212 M 2795 217 I 2791 217 I 2791 212 I 2795 212 I C 
+2795 229 M 2795 233 I 2791 233 I 2791 229 I 2795 229 I C 
+2795 246 M 2795 250 I 2791 250 I 2791 246 I 2795 246 I C 
+2795 262 M 2795 266 I 2791 266 I 2791 262 I 2795 262 I C 
+2795 279 M 2795 283 I 2791 283 I 2791 279 I 2795 279 I C 
+2795 296 M 2795 300 I 2791 300 I 2791 296 I 2795 296 I C 
+2795 312 M 2795 316 I 2791 316 I 2791 312 I 2795 312 I C 
+2795 329 M 2795 333 I 2791 333 I 2791 329 I 2795 329 I C 
+2795 346 M 2795 350 I 2791 350 I 2791 346 I 2795 346 I C 
+2795 362 M 2795 366 I 2791 366 I 2791 362 I 2795 362 I C 
+2795 379 M 2795 383 I 2791 383 I 2791 379 I 2795 379 I C 
+2795 395 M 2795 400 I 2791 400 I 2791 395 I 2795 395 I C 
+2795 412 M 2795 416 I 2791 416 I 2791 412 I 2795 412 I C 
+2795 429 M 2795 433 I 2791 433 I 2791 429 I 2795 429 I C 
+2795 445 M 2795 450 I 2791 450 I 2791 445 I 2795 445 I C 
+2795 462 M 2795 466 I 2791 466 I 2791 462 I 2795 462 I C 
+2795 479 M 2795 483 I 2791 483 I 2791 479 I 2795 479 I C 
+2795 495 M 2795 499 I 2791 499 I 2791 495 I 2795 495 I C 
+2795 512 M 2795 516 I 2791 516 I 2791 512 I 2795 512 I C 
+2795 529 M 2795 533 I 2791 533 I 2791 529 I 2795 529 I C 
+2795 545 M 2795 549 I 2791 549 I 2791 545 I 2795 545 I C 
+2795 562 M 2795 566 I 2791 566 I 2791 562 I 2795 562 I C 
+2795 579 M 2795 583 I 2791 583 I 2791 579 I 2795 579 I C 
+2795 595 M 2795 599 I 2791 599 I 2791 595 I 2795 595 I C 
+2795 612 M 2795 613 I 2791 613 I 2791 612 I 2795 612 I C 
+:  L ; : 0.102 0.102 +S K 
+; N 2981 179 M 2981 183 I 2977 183 I 2977 179 I 2981 179 I C 
+2981 196 M 2981 200 I 2977 200 I 2977 196 I 2981 196 I C 
+2981 212 M 2981 217 I 2977 217 I 2977 212 I 2981 212 I C 
+2981 229 M 2981 233 I 2977 233 I 2977 229 I 2981 229 I C 
+2981 246 M 2981 250 I 2977 250 I 2977 246 I 2981 246 I C 
+2981 262 M 2981 266 I 2977 266 I 2977 262 I 2981 262 I C 
+2981 279 M 2981 283 I 2977 283 I 2977 279 I 2981 279 I C 
+2981 296 M 2981 300 I 2977 300 I 2977 296 I 2981 296 I C 
+2981 312 M 2981 316 I 2977 316 I 2977 312 I 2981 312 I C 
+2981 329 M 2981 333 I 2977 333 I 2977 329 I 2981 329 I C 
+2981 346 M 2981 350 I 2977 350 I 2977 346 I 2981 346 I C 
+2981 362 M 2981 366 I 2977 366 I 2977 362 I 2981 362 I C 
+2981 379 M 2981 383 I 2977 383 I 2977 379 I 2981 379 I C 
+2981 395 M 2981 400 I 2977 400 I 2977 395 I 2981 395 I C 
+2981 412 M 2981 416 I 2977 416 I 2977 412 I 2981 412 I C 
+2981 429 M 2981 433 I 2977 433 I 2977 429 I 2981 429 I C 
+2981 445 M 2981 450 I 2977 450 I 2977 445 I 2981 445 I C 
+2981 462 M 2981 466 I 2977 466 I 2977 462 I 2981 462 I C 
+2981 479 M 2981 483 I 2977 483 I 2977 479 I 2981 479 I C 
+2981 495 M 2981 499 I 2977 499 I 2977 495 I 2981 495 I C 
+2981 512 M 2981 516 I 2977 516 I 2977 512 I 2981 512 I C 
+2981 529 M 2981 533 I 2977 533 I 2977 529 I 2981 529 I C 
+2981 545 M 2981 549 I 2977 549 I 2977 545 I 2981 545 I C 
+2981 562 M 2981 566 I 2977 566 I 2977 562 I 2981 562 I C 
+2981 579 M 2981 583 I 2977 583 I 2977 579 I 2981 579 I C 
+2981 595 M 2981 599 I 2977 599 I 2977 595 I 2981 595 I C 
+2981 612 M 2981 613 I 2977 613 I 2977 612 I 2981 612 I C 
+:  L ; : 0.102 0.102 +S K 
+; N 3168 179 M 3168 183 I 3164 183 I 3164 179 I 3168 179 I C 
+3168 196 M 3168 200 I 3164 200 I 3164 196 I 3168 196 I C 
+3168 212 M 3168 217 I 3164 217 I 3164 212 I 3168 212 I C 
+3168 229 M 3168 233 I 3164 233 I 3164 229 I 3168 229 I C 
+3168 246 M 3168 250 I 3164 250 I 3164 246 I 3168 246 I C 
+3168 262 M 3168 266 I 3164 266 I 3164 262 I 3168 262 I C 
+3168 279 M 3168 283 I 3164 283 I 3164 279 I 3168 279 I C 
+3168 296 M 3168 300 I 3164 300 I 3164 296 I 3168 296 I C 
+3168 312 M 3168 316 I 3164 316 I 3164 312 I 3168 312 I C 
+3168 329 M 3168 333 I 3164 333 I 3164 329 I 3168 329 I C 
+3168 346 M 3168 350 I 3164 350 I 3164 346 I 3168 346 I C 
+3168 362 M 3168 366 I 3164 366 I 3164 362 I 3168 362 I C 
+3168 379 M 3168 383 I 3164 383 I 3164 379 I 3168 379 I C 
+3168 395 M 3168 400 I 3164 400 I 3164 395 I 3168 395 I C 
+3168 412 M 3168 416 I 3164 416 I 3164 412 I 3168 412 I C 
+3168 429 M 3168 433 I 3164 433 I 3164 429 I 3168 429 I C 
+3168 445 M 3168 450 I 3164 450 I 3164 445 I 3168 445 I C 
+3168 462 M 3168 466 I 3164 466 I 3164 462 I 3168 462 I C 
+3168 479 M 3168 483 I 3164 483 I 3164 479 I 3168 479 I C 
+3168 495 M 3168 499 I 3164 499 I 3164 495 I 3168 495 I C 
+3168 512 M 3168 516 I 3164 516 I 3164 512 I 3168 512 I C 
+3168 529 M 3168 533 I 3164 533 I 3164 529 I 3168 529 I C 
+3168 545 M 3168 549 I 3164 549 I 3164 545 I 3168 545 I C 
+3168 562 M 3168 566 I 3164 566 I 3164 562 I 3168 562 I C 
+3168 579 M 3168 583 I 3164 583 I 3164 579 I 3168 579 I C 
+3168 595 M 3168 599 I 3164 599 I 3164 595 I 3168 595 I C 
+3168 612 M 3168 613 I 3164 613 I 3164 612 I 3168 612 I C 
+:  L ; : 0.102 0.102 +S K 
+; N 3354 179 M 3354 183 I 3350 183 I 3350 179 I 3354 179 I C 
+3354 196 M 3354 200 I 3350 200 I 3350 196 I 3354 196 I C 
+3354 212 M 3354 217 I 3350 217 I 3350 212 I 3354 212 I C 
+3354 229 M 3354 233 I 3350 233 I 3350 229 I 3354 229 I C 
+3354 246 M 3354 250 I 3350 250 I 3350 246 I 3354 246 I C 
+3354 262 M 3354 267 I 3350 267 I 3350 262 I 3354 262 I C 
+3354 279 M 3354 283 I 3350 283 I 3350 279 I 3354 279 I C 
+3354 296 M 3354 300 I 3350 300 I 3350 296 I 3354 296 I C 
+3354 312 M 3354 317 I 3350 317 I 3350 312 I 3354 312 I C 
+3354 329 M 3354 333 I 3350 333 I 3350 329 I 3354 329 I C 
+3354 346 M 3354 350 I 3350 350 I 3350 346 I 3354 346 I C 
+3354 362 M 3354 366 I 3350 366 I 3350 362 I 3354 362 I C 
+3354 379 M 3354 383 I 3350 383 I 3350 379 I 3354 379 I C 
+3354 396 M 3354 400 I 3350 400 I 3350 396 I 3354 396 I C 
+3354 412 M 3354 416 I 3350 416 I 3350 412 I 3354 412 I C 
+3354 429 M 3354 433 I 3350 433 I 3350 429 I 3354 429 I C 
+3354 445 M 3354 450 I 3350 450 I 3350 445 I 3354 445 I C 
+3354 462 M 3354 466 I 3350 466 I 3350 462 I 3354 462 I C 
+3354 479 M 3354 483 I 3350 483 I 3350 479 I 3354 479 I C 
+3354 495 M 3354 500 I 3350 500 I 3350 495 I 3354 495 I C 
+3354 512 M 3354 516 I 3350 516 I 3350 512 I 3354 512 I C 
+3354 529 M 3354 533 I 3350 533 I 3350 529 I 3354 529 I C 
+3354 545 M 3354 550 I 3350 550 I 3350 545 I 3354 545 I C 
+3354 562 M 3354 566 I 3350 566 I 3350 562 I 3354 562 I C 
+3354 579 M 3354 583 I 3350 583 I 3350 579 I 3354 579 I C 
+3354 595 M 3354 599 I 3350 599 I 3350 595 I 3354 595 I C 
+3354 612 M 3354 613 I 3350 613 I 3350 612 I 3354 612 I C 
+:  L ; : 0.207 0.207 +S K 
+; N 3539 179 M 3539 183 I 3535 183 I 3535 179 I 3539 179 I C 
+3539 196 M 3539 200 I 3535 200 I 3535 196 I 3539 196 I C 
+3539 212 M 3539 217 I 3535 217 I 3535 212 I 3539 212 I C 
+3539 229 M 3539 233 I 3535 233 I 3535 229 I 3539 229 I C 
+3539 246 M 3539 250 I 3535 250 I 3535 246 I 3539 246 I C 
+3539 262 M 3539 267 I 3535 267 I 3535 262 I 3539 262 I C 
+3539 279 M 3539 283 I 3535 283 I 3535 279 I 3539 279 I C 
+3539 296 M 3539 300 I 3535 300 I 3535 296 I 3539 296 I C 
+3539 312 M 3539 317 I 3535 317 I 3535 312 I 3539 312 I C 
+3539 329 M 3539 333 I 3535 333 I 3535 329 I 3539 329 I C 
+3539 346 M 3539 350 I 3535 350 I 3535 346 I 3539 346 I C 
+3539 362 M 3539 366 I 3535 366 I 3535 362 I 3539 362 I C 
+3539 379 M 3539 383 I 3535 383 I 3535 379 I 3539 379 I C 
+3539 396 M 3539 400 I 3535 400 I 3535 396 I 3539 396 I C 
+3539 412 M 3539 416 I 3535 416 I 3535 412 I 3539 412 I C 
+3539 429 M 3539 433 I 3535 433 I 3535 429 I 3539 429 I C 
+3539 445 M 3539 450 I 3535 450 I 3535 445 I 3539 445 I C 
+3539 462 M 3539 466 I 3535 466 I 3535 462 I 3539 462 I C 
+3539 479 M 3539 483 I 3535 483 I 3535 479 I 3539 479 I C 
+3539 495 M 3539 500 I 3535 500 I 3535 495 I 3539 495 I C 
+3539 512 M 3539 516 I 3535 516 I 3535 512 I 3539 512 I C 
+3539 529 M 3539 533 I 3535 533 I 3535 529 I 3539 529 I C 
+3539 545 M 3539 550 I 3535 550 I 3535 545 I 3539 545 I C 
+3539 562 M 3539 566 I 3535 566 I 3535 562 I 3539 562 I C 
+3539 579 M 3539 583 I 3535 583 I 3535 579 I 3539 579 I C 
+3539 595 M 3539 599 I 3535 599 I 3535 595 I 3539 595 I C 
+3539 612 M 3539 613 I 3535 613 I 3535 612 I 3539 612 I C 
+:  L ; : 0.207 0.207 +S K 
+; N 3725 179 M 3725 183 I 3721 183 I 3721 179 I 3725 179 I C 
+3725 196 M 3725 200 I 3721 200 I 3721 196 I 3725 196 I C 
+3725 212 M 3725 217 I 3721 217 I 3721 212 I 3725 212 I C 
+3725 229 M 3725 233 I 3721 233 I 3721 229 I 3725 229 I C 
+3725 246 M 3725 250 I 3721 250 I 3721 246 I 3725 246 I C 
+3725 262 M 3725 267 I 3721 267 I 3721 262 I 3725 262 I C 
+3725 279 M 3725 283 I 3721 283 I 3721 279 I 3725 279 I C 
+3725 296 M 3725 300 I 3721 300 I 3721 296 I 3725 296 I C 
+3725 312 M 3725 317 I 3721 317 I 3721 312 I 3725 312 I C 
+3725 329 M 3725 333 I 3721 333 I 3721 329 I 3725 329 I C 
+3725 346 M 3725 350 I 3721 350 I 3721 346 I 3725 346 I C 
+3725 362 M 3725 366 I 3721 366 I 3721 362 I 3725 362 I C 
+3725 379 M 3725 383 I 3721 383 I 3721 379 I 3725 379 I C 
+3725 396 M 3725 400 I 3721 400 I 3721 396 I 3725 396 I C 
+3725 412 M 3725 416 I 3721 416 I 3721 412 I 3725 412 I C 
+3725 429 M 3725 433 I 3721 433 I 3721 429 I 3725 429 I C 
+3725 445 M 3725 450 I 3721 450 I 3721 445 I 3725 445 I C 
+3725 462 M 3725 466 I 3721 466 I 3721 462 I 3725 462 I C 
+3725 479 M 3725 483 I 3721 483 I 3721 479 I 3725 479 I C 
+3725 495 M 3725 500 I 3721 500 I 3721 495 I 3725 495 I C 
+3725 512 M 3725 516 I 3721 516 I 3721 512 I 3725 512 I C 
+3725 529 M 3725 533 I 3721 533 I 3721 529 I 3725 529 I C 
+3725 545 M 3725 550 I 3721 550 I 3721 545 I 3725 545 I C 
+3725 562 M 3725 566 I 3721 566 I 3721 562 I 3725 562 I C 
+3725 579 M 3725 583 I 3721 583 I 3721 579 I 3725 579 I C 
+3725 595 M 3725 599 I 3721 599 I 3721 595 I 3725 595 I C 
+3725 612 M 3725 613 I 3721 613 I 3721 612 I 3725 612 I C 
+:  L ; : 0.207 0.207 +S K 
+; N 3911 179 M 3911 183 I 3907 183 I 3907 179 I 3911 179 I C 
+3911 196 M 3911 200 I 3907 200 I 3907 196 I 3911 196 I C 
+3911 212 M 3911 217 I 3907 217 I 3907 212 I 3911 212 I C 
+3911 229 M 3911 233 I 3907 233 I 3907 229 I 3911 229 I C 
+3911 246 M 3911 250 I 3907 250 I 3907 246 I 3911 246 I C 
+3911 262 M 3911 267 I 3907 267 I 3907 262 I 3911 262 I C 
+3911 279 M 3911 283 I 3907 283 I 3907 279 I 3911 279 I C 
+3911 296 M 3911 300 I 3907 300 I 3907 296 I 3911 296 I C 
+3911 312 M 3911 317 I 3907 317 I 3907 312 I 3911 312 I C 
+3911 329 M 3911 333 I 3907 333 I 3907 329 I 3911 329 I C 
+3911 346 M 3911 350 I 3907 350 I 3907 346 I 3911 346 I C 
+3911 362 M 3911 366 I 3907 366 I 3907 362 I 3911 362 I C 
+3911 379 M 3911 383 I 3907 383 I 3907 379 I 3911 379 I C 
+3911 396 M 3911 400 I 3907 400 I 3907 396 I 3911 396 I C 
+3911 412 M 3911 416 I 3907 416 I 3907 412 I 3911 412 I C 
+3911 429 M 3911 433 I 3907 433 I 3907 429 I 3911 429 I C 
+3911 445 M 3911 450 I 3907 450 I 3907 445 I 3911 445 I C 
+3911 462 M 3911 466 I 3907 466 I 3907 462 I 3911 462 I C 
+3911 479 M 3911 483 I 3907 483 I 3907 479 I 3911 479 I C 
+3911 495 M 3911 500 I 3907 500 I 3907 495 I 3911 495 I C 
+3911 512 M 3911 516 I 3907 516 I 3907 512 I 3911 512 I C 
+3911 529 M 3911 533 I 3907 533 I 3907 529 I 3911 529 I C 
+3911 545 M 3911 550 I 3907 550 I 3907 545 I 3911 545 I C 
+3911 562 M 3911 566 I 3907 566 I 3907 562 I 3911 562 I C 
+3911 579 M 3911 583 I 3907 583 I 3907 579 I 3911 579 I C 
+3911 595 M 3911 599 I 3907 599 I 3907 595 I 3911 595 I C 
+3911 612 M 3911 613 I 3907 613 I 3907 612 I 3911 612 I C 
+:  L ; : 0.207 0.207 +S K 
+; N 4097 179 M 4097 183 I 4093 183 I 4093 179 I 4097 179 I C 
+4097 196 M 4097 200 I 4093 200 I 4093 196 I 4097 196 I C 
+4097 212 M 4097 217 I 4093 217 I 4093 212 I 4097 212 I C 
+4097 229 M 4097 233 I 4093 233 I 4093 229 I 4097 229 I C 
+4097 246 M 4097 250 I 4093 250 I 4093 246 I 4097 246 I C 
+4097 262 M 4097 267 I 4093 267 I 4093 262 I 4097 262 I C 
+4097 279 M 4097 283 I 4093 283 I 4093 279 I 4097 279 I C 
+4097 296 M 4097 300 I 4093 300 I 4093 296 I 4097 296 I C 
+4097 312 M 4097 317 I 4093 317 I 4093 312 I 4097 312 I C 
+4097 329 M 4097 333 I 4093 333 I 4093 329 I 4097 329 I C 
+4097 346 M 4097 350 I 4093 350 I 4093 346 I 4097 346 I C 
+4097 362 M 4097 366 I 4093 366 I 4093 362 I 4097 362 I C 
+4097 379 M 4097 383 I 4093 383 I 4093 379 I 4097 379 I C 
+4097 396 M 4097 400 I 4093 400 I 4093 396 I 4097 396 I C 
+4097 412 M 4097 416 I 4093 416 I 4093 412 I 4097 412 I C 
+4097 429 M 4097 433 I 4093 433 I 4093 429 I 4097 429 I C 
+4097 445 M 4097 450 I 4093 450 I 4093 445 I 4097 445 I C 
+4097 462 M 4097 466 I 4093 466 I 4093 462 I 4097 462 I C 
+4097 479 M 4097 483 I 4093 483 I 4093 479 I 4097 479 I C 
+4097 495 M 4097 500 I 4093 500 I 4093 495 I 4097 495 I C 
+4097 512 M 4097 516 I 4093 516 I 4093 512 I 4097 512 I C 
+4097 529 M 4097 533 I 4093 533 I 4093 529 I 4097 529 I C 
+4097 545 M 4097 550 I 4093 550 I 4093 545 I 4097 545 I C 
+4097 562 M 4097 566 I 4093 566 I 4093 562 I 4097 562 I C 
+4097 579 M 4097 583 I 4093 583 I 4093 579 I 4097 579 I C 
+4097 595 M 4097 599 I 4093 599 I 4093 595 I 4097 595 I C 
+4097 612 M 4097 613 I 4093 613 I 4093 612 I 4097 612 I C 
+:  L ; : 0.207 0.207 +S K 
+; N 4283 179 M 4283 183 I 4279 183 I 4279 179 I 4283 179 I C 
+4283 196 M 4283 200 I 4279 200 I 4279 196 I 4283 196 I C 
+4283 212 M 4283 217 I 4279 217 I 4279 212 I 4283 212 I C 
+4283 229 M 4283 233 I 4279 233 I 4279 229 I 4283 229 I C 
+4283 246 M 4283 250 I 4279 250 I 4279 246 I 4283 246 I C 
+4283 262 M 4283 267 I 4279 267 I 4279 262 I 4283 262 I C 
+4283 279 M 4283 283 I 4279 283 I 4279 279 I 4283 279 I C 
+4283 296 M 4283 300 I 4279 300 I 4279 296 I 4283 296 I C 
+4283 312 M 4283 317 I 4279 317 I 4279 312 I 4283 312 I C 
+4283 329 M 4283 333 I 4279 333 I 4279 329 I 4283 329 I C 
+4283 346 M 4283 350 I 4279 350 I 4279 346 I 4283 346 I C 
+4283 362 M 4283 366 I 4279 366 I 4279 362 I 4283 362 I C 
+4283 379 M 4283 383 I 4279 383 I 4279 379 I 4283 379 I C 
+4283 396 M 4283 400 I 4279 400 I 4279 396 I 4283 396 I C 
+4283 412 M 4283 416 I 4279 416 I 4279 412 I 4283 412 I C 
+4283 429 M 4283 433 I 4279 433 I 4279 429 I 4283 429 I C 
+4283 445 M 4283 450 I 4279 450 I 4279 445 I 4283 445 I C 
+4283 462 M 4283 466 I 4279 466 I 4279 462 I 4283 462 I C 
+4283 479 M 4283 483 I 4279 483 I 4279 479 I 4283 479 I C 
+4283 495 M 4283 500 I 4279 500 I 4279 495 I 4283 495 I C 
+4283 512 M 4283 516 I 4279 516 I 4279 512 I 4283 512 I C 
+4283 529 M 4283 533 I 4279 533 I 4279 529 I 4283 529 I C 
+4283 545 M 4283 550 I 4279 550 I 4279 545 I 4283 545 I C 
+4283 562 M 4283 566 I 4279 566 I 4279 562 I 4283 562 I C 
+4283 579 M 4283 583 I 4279 583 I 4279 579 I 4283 579 I C 
+4283 595 M 4283 599 I 4279 599 I 4279 595 I 4283 595 I C 
+4283 612 M 4283 613 I 4279 613 I 4279 612 I 4283 612 I C 
+:  L ; : 0.207 0.207 +S K 
+; N 4469 179 M 4469 183 I 4465 183 I 4465 179 I 4469 179 I C 
+4469 196 M 4469 200 I 4465 200 I 4465 196 I 4469 196 I C 
+4469 212 M 4469 217 I 4465 217 I 4465 212 I 4469 212 I C 
+4469 229 M 4469 233 I 4465 233 I 4465 229 I 4469 229 I C 
+4469 246 M 4469 250 I 4465 250 I 4465 246 I 4469 246 I C 
+4469 262 M 4469 267 I 4465 267 I 4465 262 I 4469 262 I C 
+4469 279 M 4469 283 I 4465 283 I 4465 279 I 4469 279 I C 
+4469 296 M 4469 300 I 4465 300 I 4465 296 I 4469 296 I C 
+4469 312 M 4469 317 I 4465 317 I 4465 312 I 4469 312 I C 
+4469 329 M 4469 333 I 4465 333 I 4465 329 I 4469 329 I C 
+4469 346 M 4469 350 I 4465 350 I 4465 346 I 4469 346 I C 
+4469 362 M 4469 366 I 4465 366 I 4465 362 I 4469 362 I C 
+4469 379 M 4469 383 I 4465 383 I 4465 379 I 4469 379 I C 
+4469 396 M 4469 400 I 4465 400 I 4465 396 I 4469 396 I C 
+4469 412 M 4469 416 I 4465 416 I 4465 412 I 4469 412 I C 
+4469 429 M 4469 433 I 4465 433 I 4465 429 I 4469 429 I C 
+4469 445 M 4469 450 I 4465 450 I 4465 445 I 4469 445 I C 
+4469 462 M 4469 466 I 4465 466 I 4465 462 I 4469 462 I C 
+4469 479 M 4469 483 I 4465 483 I 4465 479 I 4469 479 I C 
+4469 495 M 4469 500 I 4465 500 I 4465 495 I 4469 495 I C 
+4469 512 M 4469 516 I 4465 516 I 4465 512 I 4469 512 I C 
+4469 529 M 4469 533 I 4465 533 I 4465 529 I 4469 529 I C 
+4469 545 M 4469 550 I 4465 550 I 4465 545 I 4469 545 I C 
+4469 562 M 4469 566 I 4465 566 I 4465 562 I 4469 562 I C 
+4469 579 M 4469 583 I 4465 583 I 4465 579 I 4469 579 I C 
+4469 595 M 4469 599 I 4465 599 I 4465 595 I 4469 595 I C 
+4469 612 M 4469 613 I 4465 613 I 4465 612 I 4469 612 I C 
+:  L ; : 0.207 0.207 +S K 
+; N 4842 179 M 4842 183 I 4838 183 I 4838 179 I 4842 179 I C 
+4842 196 M 4842 200 I 4838 200 I 4838 196 I 4842 196 I C 
+4842 212 M 4842 217 I 4838 217 I 4838 212 I 4842 212 I C 
+4842 229 M 4842 233 I 4838 233 I 4838 229 I 4842 229 I C 
+4842 246 M 4842 250 I 4838 250 I 4838 246 I 4842 246 I C 
+4842 262 M 4842 267 I 4838 267 I 4838 262 I 4842 262 I C 
+4842 279 M 4842 283 I 4838 283 I 4838 279 I 4842 279 I C 
+4842 296 M 4842 300 I 4838 300 I 4838 296 I 4842 296 I C 
+4842 312 M 4842 317 I 4838 317 I 4838 312 I 4842 312 I C 
+4842 329 M 4842 333 I 4838 333 I 4838 329 I 4842 329 I C 
+4842 346 M 4842 350 I 4838 350 I 4838 346 I 4842 346 I C 
+4842 362 M 4842 366 I 4838 366 I 4838 362 I 4842 362 I C 
+4842 379 M 4842 383 I 4838 383 I 4838 379 I 4842 379 I C 
+4842 396 M 4842 400 I 4838 400 I 4838 396 I 4842 396 I C 
+4842 412 M 4842 416 I 4838 416 I 4838 412 I 4842 412 I C 
+4842 429 M 4842 433 I 4838 433 I 4838 429 I 4842 429 I C 
+4842 445 M 4842 450 I 4838 450 I 4838 445 I 4842 445 I C 
+4842 462 M 4842 466 I 4838 466 I 4838 462 I 4842 462 I C 
+4842 479 M 4842 483 I 4838 483 I 4838 479 I 4842 479 I C 
+4842 495 M 4842 500 I 4838 500 I 4838 495 I 4842 495 I C 
+4842 512 M 4842 516 I 4838 516 I 4838 512 I 4842 512 I C 
+4842 529 M 4842 533 I 4838 533 I 4838 529 I 4842 529 I C 
+4842 545 M 4842 550 I 4838 550 I 4838 545 I 4842 545 I C 
+4842 562 M 4842 566 I 4838 566 I 4838 562 I 4842 562 I C 
+4842 579 M 4842 583 I 4838 583 I 4838 579 I 4842 579 I C 
+4842 595 M 4842 599 I 4838 599 I 4838 595 I 4842 595 I C 
+4842 612 M 4842 613 I 4838 613 I 4838 612 I 4842 612 I C 
+:  L ; : 0.207 0.207 +S K 
+; N 5029 179 M 5029 183 I 5025 183 I 5025 179 I 5029 179 I C 
+5029 196 M 5029 200 I 5025 200 I 5025 196 I 5029 196 I C 
+5029 212 M 5029 217 I 5025 217 I 5025 212 I 5029 212 I C 
+5029 229 M 5029 233 I 5025 233 I 5025 229 I 5029 229 I C 
+5029 246 M 5029 250 I 5025 250 I 5025 246 I 5029 246 I C 
+5029 262 M 5029 267 I 5025 267 I 5025 262 I 5029 262 I C 
+5029 279 M 5029 283 I 5025 283 I 5025 279 I 5029 279 I C 
+5029 296 M 5029 300 I 5025 300 I 5025 296 I 5029 296 I C 
+5029 312 M 5029 317 I 5025 317 I 5025 312 I 5029 312 I C 
+5029 329 M 5029 333 I 5025 333 I 5025 329 I 5029 329 I C 
+5029 346 M 5029 350 I 5025 350 I 5025 346 I 5029 346 I C 
+5029 362 M 5029 366 I 5025 366 I 5025 362 I 5029 362 I C 
+5029 379 M 5029 383 I 5025 383 I 5025 379 I 5029 379 I C 
+5029 396 M 5029 400 I 5025 400 I 5025 396 I 5029 396 I C 
+5029 412 M 5029 416 I 5025 416 I 5025 412 I 5029 412 I C 
+5029 429 M 5029 433 I 5025 433 I 5025 429 I 5029 429 I C 
+5029 445 M 5029 450 I 5025 450 I 5025 445 I 5029 445 I C 
+5029 462 M 5029 466 I 5025 466 I 5025 462 I 5029 462 I C 
+5029 479 M 5029 483 I 5025 483 I 5025 479 I 5029 479 I C 
+5029 495 M 5029 500 I 5025 500 I 5025 495 I 5029 495 I C 
+5029 512 M 5029 516 I 5025 516 I 5025 512 I 5029 512 I C 
+5029 529 M 5029 533 I 5025 533 I 5025 529 I 5029 529 I C 
+5029 545 M 5029 550 I 5025 550 I 5025 545 I 5029 545 I C 
+5029 562 M 5029 566 I 5025 566 I 5025 562 I 5029 562 I C 
+5029 579 M 5029 583 I 5025 583 I 5025 579 I 5029 579 I C 
+5029 595 M 5029 599 I 5025 599 I 5025 595 I 5029 595 I C 
+5029 612 M 5029 613 I 5025 613 I 5025 612 I 5029 612 I C 
+:  L ; : 0.207 0.207 +S K 
+; N 5216 179 M 5216 183 I 5212 183 I 5212 179 I 5216 179 I C 
+5216 196 M 5216 200 I 5212 200 I 5212 196 I 5216 196 I C 
+5216 212 M 5216 217 I 5212 217 I 5212 212 I 5216 212 I C 
+5216 229 M 5216 233 I 5212 233 I 5212 229 I 5216 229 I C 
+5216 246 M 5216 250 I 5212 250 I 5212 246 I 5216 246 I C 
+5216 262 M 5216 267 I 5212 267 I 5212 262 I 5216 262 I C 
+5216 279 M 5216 283 I 5212 283 I 5212 279 I 5216 279 I C 
+5216 296 M 5216 300 I 5212 300 I 5212 296 I 5216 296 I C 
+5216 312 M 5216 317 I 5212 317 I 5212 312 I 5216 312 I C 
+5216 329 M 5216 333 I 5212 333 I 5212 329 I 5216 329 I C 
+5216 346 M 5216 350 I 5212 350 I 5212 346 I 5216 346 I C 
+5216 362 M 5216 366 I 5212 366 I 5212 362 I 5216 362 I C 
+5216 379 M 5216 383 I 5212 383 I 5212 379 I 5216 379 I C 
+5216 396 M 5216 400 I 5212 400 I 5212 396 I 5216 396 I C 
+5216 412 M 5216 416 I 5212 416 I 5212 412 I 5216 412 I C 
+5216 429 M 5216 433 I 5212 433 I 5212 429 I 5216 429 I C 
+5216 445 M 5216 450 I 5212 450 I 5212 445 I 5216 445 I C 
+5216 462 M 5216 466 I 5212 466 I 5212 462 I 5216 462 I C 
+5216 479 M 5216 483 I 5212 483 I 5212 479 I 5216 479 I C 
+5216 495 M 5216 500 I 5212 500 I 5212 495 I 5216 495 I C 
+5216 512 M 5216 516 I 5212 516 I 5212 512 I 5216 512 I C 
+5216 529 M 5216 533 I 5212 533 I 5212 529 I 5216 529 I C 
+5216 545 M 5216 550 I 5212 550 I 5212 545 I 5216 545 I C 
+5216 562 M 5216 566 I 5212 566 I 5212 562 I 5216 562 I C 
+5216 579 M 5216 583 I 5212 583 I 5212 579 I 5216 579 I C 
+5216 595 M 5216 599 I 5212 599 I 5212 595 I 5216 595 I C 
+5216 612 M 5216 613 I 5212 613 I 5212 612 I 5216 612 I C 
+:  L ; : 0.207 0.207 +S K 
+; N 5403 179 M 5403 183 I 5399 183 I 5399 179 I 5403 179 I C 
+5403 196 M 5403 200 I 5399 200 I 5399 196 I 5403 196 I C 
+5403 212 M 5403 217 I 5399 217 I 5399 212 I 5403 212 I C 
+5403 229 M 5403 233 I 5399 233 I 5399 229 I 5403 229 I C 
+5403 246 M 5403 250 I 5399 250 I 5399 246 I 5403 246 I C 
+5403 262 M 5403 267 I 5399 267 I 5399 262 I 5403 262 I C 
+5403 279 M 5403 283 I 5399 283 I 5399 279 I 5403 279 I C 
+5403 296 M 5403 300 I 5399 300 I 5399 296 I 5403 296 I C 
+5403 312 M 5403 317 I 5399 317 I 5399 312 I 5403 312 I C 
+5403 329 M 5403 333 I 5399 333 I 5399 329 I 5403 329 I C 
+5403 346 M 5403 350 I 5399 350 I 5399 346 I 5403 346 I C 
+5403 362 M 5403 366 I 5399 366 I 5399 362 I 5403 362 I C 
+5403 379 M 5403 383 I 5399 383 I 5399 379 I 5403 379 I C 
+5403 396 M 5403 400 I 5399 400 I 5399 396 I 5403 396 I C 
+5403 412 M 5403 416 I 5399 416 I 5399 412 I 5403 412 I C 
+5403 429 M 5403 433 I 5399 433 I 5399 429 I 5403 429 I C 
+5403 445 M 5403 450 I 5399 450 I 5399 445 I 5403 445 I C 
+5403 462 M 5403 466 I 5399 466 I 5399 462 I 5403 462 I C 
+5403 479 M 5403 483 I 5399 483 I 5399 479 I 5403 479 I C 
+5403 495 M 5403 500 I 5399 500 I 5399 495 I 5403 495 I C 
+5403 512 M 5403 516 I 5399 516 I 5399 512 I 5403 512 I C 
+5403 529 M 5403 533 I 5399 533 I 5399 529 I 5403 529 I C 
+5403 545 M 5403 550 I 5399 550 I 5399 545 I 5403 545 I C 
+5403 562 M 5403 566 I 5399 566 I 5399 562 I 5403 562 I C 
+5403 579 M 5403 583 I 5399 583 I 5399 579 I 5403 579 I C 
+5403 595 M 5403 599 I 5399 599 I 5399 595 I 5403 595 I C 
+5403 612 M 5403 613 I 5399 613 I 5399 612 I 5403 612 I C 
+:  L ; : 0.207 0.207 +S K 
+; N 3 179 M 7 179 I 7 183 I 3 183 I 3 179 I C 
+19 179 M 24 179 I 24 183 I 19 183 I 19 179 I C 
+36 179 M 40 179 I 40 183 I 36 183 I 36 179 I C 
+53 179 M 57 179 I 57 183 I 53 183 I 53 179 I C 
+69 179 M 74 179 I 74 183 I 69 183 I 69 179 I C 
+86 179 M 90 179 I 90 183 I 86 183 I 86 179 I C 
+103 179 M 107 179 I 107 183 I 103 183 I 103 179 I C 
+119 179 M 124 179 I 124 183 I 119 183 I 119 179 I C 
+136 179 M 140 179 I 140 183 I 136 183 I 136 179 I C 
+153 179 M 157 179 I 157 183 I 153 183 I 153 179 I C 
+169 179 M 173 179 I 173 183 I 169 183 I 169 179 I C 
+186 179 M 190 179 I 190 183 I 186 183 I 186 179 I C 
+203 179 M 207 179 I 207 183 I 203 183 I 203 179 I C 
+219 179 M 223 179 I 223 183 I 219 183 I 219 179 I C 
+236 179 M 240 179 I 240 183 I 236 183 I 236 179 I C 
+253 179 M 257 179 I 257 183 I 253 183 I 253 179 I C 
+269 179 M 273 179 I 273 183 I 269 183 I 269 179 I C 
+286 179 M 290 179 I 290 183 I 286 183 I 286 179 I C 
+303 179 M 307 179 I 307 183 I 303 183 I 303 179 I C 
+319 179 M 323 179 I 323 183 I 319 183 I 319 179 I C 
+336 179 M 340 179 I 340 183 I 336 183 I 336 179 I C 
+353 179 M 357 179 I 357 183 I 353 183 I 353 179 I C 
+369 179 M 373 179 I 373 183 I 369 183 I 369 179 I C 
+386 179 M 390 179 I 390 183 I 386 183 I 386 179 I C 
+403 179 M 407 179 I 407 183 I 403 183 I 403 179 I C 
+419 179 M 423 179 I 423 183 I 419 183 I 419 179 I C 
+436 179 M 440 179 I 440 183 I 436 183 I 436 179 I C 
+453 179 M 457 179 I 457 183 I 453 183 I 453 179 I C 
+469 179 M 473 179 I 473 183 I 469 183 I 469 179 I C 
+486 179 M 490 179 I 490 183 I 486 183 I 486 179 I C 
+503 179 M 507 179 I 507 183 I 503 183 I 503 179 I C 
+519 179 M 523 179 I 523 183 I 519 183 I 519 179 I C 
+536 179 M 540 179 I 540 183 I 536 183 I 536 179 I C 
+552 179 M 557 179 I 557 183 I 552 183 I 552 179 I C 
+569 179 M 573 179 I 573 183 I 569 183 I 569 179 I C 
+586 179 M 590 179 I 590 183 I 586 183 I 586 179 I C 
+602 179 M 607 179 I 607 183 I 602 183 I 602 179 I C 
+619 179 M 623 179 I 623 183 I 619 183 I 619 179 I C 
+636 179 M 640 179 I 640 183 I 636 183 I 636 179 I C 
+652 179 M 657 179 I 657 183 I 652 183 I 652 179 I C 
+669 179 M 673 179 I 673 183 I 669 183 I 669 179 I C 
+686 179 M 690 179 I 690 183 I 686 183 I 686 179 I C 
+702 179 M 707 179 I 707 183 I 702 183 I 702 179 I C 
+719 179 M 723 179 I 723 183 I 719 183 I 719 179 I C 
+736 179 M 740 179 I 740 183 I 736 183 I 736 179 I C 
+752 179 M 757 179 I 757 183 I 752 183 I 752 179 I C 
+769 179 M 773 179 I 773 183 I 769 183 I 769 179 I C 
+786 179 M 790 179 I 790 183 I 786 183 I 786 179 I C 
+802 179 M 807 179 I 807 183 I 802 183 I 802 179 I C 
+819 179 M 823 179 I 823 183 I 819 183 I 819 179 I C 
+836 179 M 840 179 I 840 183 I 836 183 I 836 179 I C 
+852 179 M 857 179 I 857 183 I 852 183 I 852 179 I C 
+869 179 M 873 179 I 873 183 I 869 183 I 869 179 I C 
+886 179 M 890 179 I 890 183 I 886 183 I 886 179 I C 
+902 179 M 906 179 I 906 183 I 902 183 I 902 179 I C 
+919 179 M 923 179 I 923 183 I 919 183 I 919 179 I C 
+936 179 M 940 179 I 940 183 I 936 183 I 936 179 I C 
+952 179 M 956 179 I 956 183 I 952 183 I 952 179 I C 
+969 179 M 973 179 I 973 183 I 969 183 I 969 179 I C 
+986 179 M 990 179 I 990 183 I 986 183 I 986 179 I C 
+1002 179 M 1006 179 I 1006 183 I 1002 183 I 1002 179 I C 
+1019 179 M 1023 179 I 1023 183 I 1019 183 I 1019 179 I C 
+1036 179 M 1040 179 I 1040 183 I 1036 183 I 1036 179 I C 
+1052 179 M 1056 179 I 1056 183 I 1052 183 I 1052 179 I C 
+1069 179 M 1073 179 I 1073 183 I 1069 183 I 1069 179 I C 
+1086 179 M 1090 179 I 1090 183 I 1086 183 I 1086 179 I C 
+1102 179 M 1106 179 I 1106 183 I 1102 183 I 1102 179 I C 
+1119 179 M 1123 179 I 1123 183 I 1119 183 I 1119 179 I C 
+1136 179 M 1140 179 I 1140 183 I 1136 183 I 1136 179 I C 
+1152 179 M 1156 179 I 1156 183 I 1152 183 I 1152 179 I C 
+1169 179 M 1173 179 I 1173 183 I 1169 183 I 1169 179 I C 
+1186 179 M 1190 179 I 1190 183 I 1186 183 I 1186 179 I C 
+1202 179 M 1206 179 I 1206 183 I 1202 183 I 1202 179 I C 
+1219 179 M 1223 179 I 1223 183 I 1219 183 I 1219 179 I C 
+1236 179 M 1240 179 I 1240 183 I 1236 183 I 1236 179 I C 
+1252 179 M 1256 179 I 1256 183 I 1252 183 I 1252 179 I C 
+1269 179 M 1273 179 I 1273 183 I 1269 183 I 1269 179 I C 
+1285 179 M 1290 179 I 1290 183 I 1285 183 I 1285 179 I C 
+1302 179 M 1306 179 I 1306 183 I 1302 183 I 1302 179 I C 
+1319 179 M 1323 179 I 1323 183 I 1319 183 I 1319 179 I C 
+1335 179 M 1340 179 I 1340 183 I 1335 183 I 1335 179 I C 
+1352 179 M 1356 179 I 1356 183 I 1352 183 I 1352 179 I C 
+1369 179 M 1373 179 I 1373 183 I 1369 183 I 1369 179 I C 
+1385 179 M 1390 179 I 1390 183 I 1385 183 I 1385 179 I C 
+1402 179 M 1406 179 I 1406 183 I 1402 183 I 1402 179 I C 
+1419 179 M 1423 179 I 1423 183 I 1419 183 I 1419 179 I C 
+1435 179 M 1440 179 I 1440 183 I 1435 183 I 1435 179 I C 
+1452 179 M 1456 179 I 1456 183 I 1452 183 I 1452 179 I C 
+1469 179 M 1473 179 I 1473 183 I 1469 183 I 1469 179 I C 
+1485 179 M 1490 179 I 1490 183 I 1485 183 I 1485 179 I C 
+1502 179 M 1506 179 I 1506 183 I 1502 183 I 1502 179 I C 
+1519 179 M 1523 179 I 1523 183 I 1519 183 I 1519 179 I C 
+1535 179 M 1540 179 I 1540 183 I 1535 183 I 1535 179 I C 
+1552 179 M 1556 179 I 1556 183 I 1552 183 I 1552 179 I C 
+1569 179 M 1573 179 I 1573 183 I 1569 183 I 1569 179 I C 
+1585 179 M 1590 179 I 1590 183 I 1585 183 I 1585 179 I C 
+1602 179 M 1606 179 I 1606 183 I 1602 183 I 1602 179 I C 
+1619 179 M 1623 179 I 1623 183 I 1619 183 I 1619 179 I C 
+1635 179 M 1640 179 I 1640 183 I 1635 183 I 1635 179 I C 
+1652 179 M 1656 179 I 1656 183 I 1652 183 I 1652 179 I C 
+1669 179 M 1673 179 I 1673 183 I 1669 183 I 1669 179 I C 
+1685 179 M 1689 179 I 1689 183 I 1685 183 I 1685 179 I C 
+1702 179 M 1706 179 I 1706 183 I 1702 183 I 1702 179 I C 
+1719 179 M 1723 179 I 1723 183 I 1719 183 I 1719 179 I C 
+1735 179 M 1739 179 I 1739 183 I 1735 183 I 1735 179 I C 
+1752 179 M 1756 179 I 1756 183 I 1752 183 I 1752 179 I C 
+1769 179 M 1773 179 I 1773 183 I 1769 183 I 1769 179 I C 
+1785 179 M 1789 179 I 1789 183 I 1785 183 I 1785 179 I C 
+1802 179 M 1806 179 I 1806 183 I 1802 183 I 1802 179 I C 
+1819 179 M 1823 179 I 1823 183 I 1819 183 I 1819 179 I C 
+1835 179 M 1839 179 I 1839 183 I 1835 183 I 1835 179 I C 
+1852 179 M 1856 179 I 1856 183 I 1852 183 I 1852 179 I C 
+1869 179 M 1873 179 I 1873 183 I 1869 183 I 1869 179 I C 
+1885 179 M 1889 179 I 1889 183 I 1885 183 I 1885 179 I C 
+1902 179 M 1906 179 I 1906 183 I 1902 183 I 1902 179 I C 
+1919 179 M 1923 179 I 1923 183 I 1919 183 I 1919 179 I C 
+1935 179 M 1939 179 I 1939 183 I 1935 183 I 1935 179 I C 
+1952 179 M 1956 179 I 1956 183 I 1952 183 I 1952 179 I C 
+1969 179 M 1973 179 I 1973 183 I 1969 183 I 1969 179 I C 
+1985 179 M 1989 179 I 1989 183 I 1985 183 I 1985 179 I C 
+2002 179 M 2006 179 I 2006 183 I 2002 183 I 2002 179 I C 
+2018 179 M 2023 179 I 2023 183 I 2018 183 I 2018 179 I C 
+2035 179 M 2039 179 I 2039 183 I 2035 183 I 2035 179 I C 
+2052 179 M 2056 179 I 2056 183 I 2052 183 I 2052 179 I C 
+2068 179 M 2073 179 I 2073 183 I 2068 183 I 2068 179 I C 
+2085 179 M 2089 179 I 2089 183 I 2085 183 I 2085 179 I C 
+2102 179 M 2106 179 I 2106 183 I 2102 183 I 2102 179 I C 
+2118 179 M 2123 179 I 2123 183 I 2118 183 I 2118 179 I C 
+2135 179 M 2139 179 I 2139 183 I 2135 183 I 2135 179 I C 
+2152 179 M 2156 179 I 2156 183 I 2152 183 I 2152 179 I C 
+2168 179 M 2173 179 I 2173 183 I 2168 183 I 2168 179 I C 
+2185 179 M 2189 179 I 2189 183 I 2185 183 I 2185 179 I C 
+2202 179 M 2206 179 I 2206 183 I 2202 183 I 2202 179 I C 
+2218 179 M 2223 179 I 2223 183 I 2218 183 I 2218 179 I C 
+2235 179 M 2239 179 I 2239 183 I 2235 183 I 2235 179 I C 
+2252 179 M 2256 179 I 2256 183 I 2252 183 I 2252 179 I C 
+2268 179 M 2273 179 I 2273 183 I 2268 183 I 2268 179 I C 
+2285 179 M 2289 179 I 2289 183 I 2285 183 I 2285 179 I C 
+2302 179 M 2306 179 I 2306 183 I 2302 183 I 2302 179 I C 
+2318 179 M 2323 179 I 2323 183 I 2318 183 I 2318 179 I C 
+2335 179 M 2339 179 I 2339 183 I 2335 183 I 2335 179 I C 
+2352 179 M 2356 179 I 2356 183 I 2352 183 I 2352 179 I C 
+2368 179 M 2373 179 I 2373 183 I 2368 183 I 2368 179 I C 
+2385 179 M 2389 179 I 2389 183 I 2385 183 I 2385 179 I C 
+2402 179 M 2406 179 I 2406 183 I 2402 183 I 2402 179 I C 
+2418 179 M 2422 179 I 2422 183 I 2418 183 I 2418 179 I C 
+2435 179 M 2439 179 I 2439 183 I 2435 183 I 2435 179 I C 
+2452 179 M 2456 179 I 2456 183 I 2452 183 I 2452 179 I C 
+2468 179 M 2472 179 I 2472 183 I 2468 183 I 2468 179 I C 
+2485 179 M 2489 179 I 2489 183 I 2485 183 I 2485 179 I C 
+2502 179 M 2506 179 I 2506 183 I 2502 183 I 2502 179 I C 
+2518 179 M 2522 179 I 2522 183 I 2518 183 I 2518 179 I C 
+2535 179 M 2539 179 I 2539 183 I 2535 183 I 2535 179 I C 
+2552 179 M 2556 179 I 2556 183 I 2552 183 I 2552 179 I C 
+2568 179 M 2572 179 I 2572 183 I 2568 183 I 2568 179 I C 
+2585 179 M 2589 179 I 2589 183 I 2585 183 I 2585 179 I C 
+2602 179 M 2606 179 I 2606 183 I 2602 183 I 2602 179 I C 
+2618 179 M 2622 179 I 2622 183 I 2618 183 I 2618 179 I C 
+2635 179 M 2639 179 I 2639 183 I 2635 183 I 2635 179 I C 
+2652 179 M 2656 179 I 2656 183 I 2652 183 I 2652 179 I C 
+2668 179 M 2672 179 I 2672 183 I 2668 183 I 2668 179 I C 
+2685 179 M 2689 179 I 2689 183 I 2685 183 I 2685 179 I C 
+2702 179 M 2706 179 I 2706 183 I 2702 183 I 2702 179 I C 
+2718 179 M 2722 179 I 2722 183 I 2718 183 I 2718 179 I C 
+2735 179 M 2739 179 I 2739 183 I 2735 183 I 2735 179 I C 
+2751 179 M 2756 179 I 2756 183 I 2751 183 I 2751 179 I C 
+2768 179 M 2772 179 I 2772 183 I 2768 183 I 2768 179 I C 
+2785 179 M 2789 179 I 2789 183 I 2785 183 I 2785 179 I C 
+2801 179 M 2806 179 I 2806 183 I 2801 183 I 2801 179 I C 
+2818 179 M 2822 179 I 2822 183 I 2818 183 I 2818 179 I C 
+2835 179 M 2839 179 I 2839 183 I 2835 183 I 2835 179 I C 
+2851 179 M 2856 179 I 2856 183 I 2851 183 I 2851 179 I C 
+2868 179 M 2872 179 I 2872 183 I 2868 183 I 2868 179 I C 
+2885 179 M 2889 179 I 2889 183 I 2885 183 I 2885 179 I C 
+2901 179 M 2906 179 I 2906 183 I 2901 183 I 2901 179 I C 
+2918 179 M 2922 179 I 2922 183 I 2918 183 I 2918 179 I C 
+2935 179 M 2939 179 I 2939 183 I 2935 183 I 2935 179 I C 
+2951 179 M 2956 179 I 2956 183 I 2951 183 I 2951 179 I C 
+2968 179 M 2972 179 I 2972 183 I 2968 183 I 2968 179 I C 
+2985 179 M 2989 179 I 2989 183 I 2985 183 I 2985 179 I C 
+3001 179 M 3006 179 I 3006 183 I 3001 183 I 3001 179 I C 
+3018 179 M 3022 179 I 3022 183 I 3018 183 I 3018 179 I C 
+3035 179 M 3039 179 I 3039 183 I 3035 183 I 3035 179 I C 
+3051 179 M 3056 179 I 3056 183 I 3051 183 I 3051 179 I C 
+3068 179 M 3072 179 I 3072 183 I 3068 183 I 3068 179 I C 
+3085 179 M 3089 179 I 3089 183 I 3085 183 I 3085 179 I C 
+3101 179 M 3106 179 I 3106 183 I 3101 183 I 3101 179 I C 
+3118 179 M 3122 179 I 3122 183 I 3118 183 I 3118 179 I C 
+3135 179 M 3139 179 I 3139 183 I 3135 183 I 3135 179 I C 
+3151 179 M 3155 179 I 3155 183 I 3151 183 I 3151 179 I C 
+3168 179 M 3172 179 I 3172 183 I 3168 183 I 3168 179 I C 
+3185 179 M 3189 179 I 3189 183 I 3185 183 I 3185 179 I C 
+3201 179 M 3205 179 I 3205 183 I 3201 183 I 3201 179 I C 
+3218 179 M 3222 179 I 3222 183 I 3218 183 I 3218 179 I C 
+3235 179 M 3239 179 I 3239 183 I 3235 183 I 3235 179 I C 
+3251 179 M 3255 179 I 3255 183 I 3251 183 I 3251 179 I C 
+3268 179 M 3272 179 I 3272 183 I 3268 183 I 3268 179 I C 
+3285 179 M 3289 179 I 3289 183 I 3285 183 I 3285 179 I C 
+3301 179 M 3305 179 I 3305 183 I 3301 183 I 3301 179 I C 
+3318 179 M 3322 179 I 3322 183 I 3318 183 I 3318 179 I C 
+3335 179 M 3339 179 I 3339 183 I 3335 183 I 3335 179 I C 
+3351 179 M 3355 179 I 3355 183 I 3351 183 I 3351 179 I C 
+3368 179 M 3372 179 I 3372 183 I 3368 183 I 3368 179 I C 
+3385 179 M 3389 179 I 3389 183 I 3385 183 I 3385 179 I C 
+3401 179 M 3405 179 I 3405 183 I 3401 183 I 3401 179 I C 
+3418 179 M 3422 179 I 3422 183 I 3418 183 I 3418 179 I C 
+3435 179 M 3439 179 I 3439 183 I 3435 183 I 3435 179 I C 
+3451 179 M 3455 179 I 3455 183 I 3451 183 I 3451 179 I C 
+3468 179 M 3472 179 I 3472 183 I 3468 183 I 3468 179 I C 
+3485 179 M 3489 179 I 3489 183 I 3485 183 I 3485 179 I C 
+3501 179 M 3505 179 I 3505 183 I 3501 183 I 3501 179 I C 
+3518 179 M 3522 179 I 3522 183 I 3518 183 I 3518 179 I C 
+3534 179 M 3539 179 I 3539 183 I 3534 183 I 3534 179 I C 
+3551 179 M 3555 179 I 3555 183 I 3551 183 I 3551 179 I C 
+3568 179 M 3572 179 I 3572 183 I 3568 183 I 3568 179 I C 
+3584 179 M 3589 179 I 3589 183 I 3584 183 I 3584 179 I C 
+3601 179 M 3605 179 I 3605 183 I 3601 183 I 3601 179 I C 
+3618 179 M 3622 179 I 3622 183 I 3618 183 I 3618 179 I C 
+3634 179 M 3639 179 I 3639 183 I 3634 183 I 3634 179 I C 
+3651 179 M 3655 179 I 3655 183 I 3651 183 I 3651 179 I C 
+3668 179 M 3672 179 I 3672 183 I 3668 183 I 3668 179 I C 
+3684 179 M 3689 179 I 3689 183 I 3684 183 I 3684 179 I C 
+3701 179 M 3705 179 I 3705 183 I 3701 183 I 3701 179 I C 
+3718 179 M 3722 179 I 3722 183 I 3718 183 I 3718 179 I C 
+3734 179 M 3739 179 I 3739 183 I 3734 183 I 3734 179 I C 
+3751 179 M 3755 179 I 3755 183 I 3751 183 I 3751 179 I C 
+3768 179 M 3772 179 I 3772 183 I 3768 183 I 3768 179 I C 
+3784 179 M 3789 179 I 3789 183 I 3784 183 I 3784 179 I C 
+3801 179 M 3805 179 I 3805 183 I 3801 183 I 3801 179 I C 
+3818 179 M 3822 179 I 3822 183 I 3818 183 I 3818 179 I C 
+3834 179 M 3839 179 I 3839 183 I 3834 183 I 3834 179 I C 
+3851 179 M 3855 179 I 3855 183 I 3851 183 I 3851 179 I C 
+3868 179 M 3872 179 I 3872 183 I 3868 183 I 3868 179 I C 
+3884 179 M 3888 179 I 3888 183 I 3884 183 I 3884 179 I C 
+3901 179 M 3905 179 I 3905 183 I 3901 183 I 3901 179 I C 
+3918 179 M 3922 179 I 3922 183 I 3918 183 I 3918 179 I C 
+3934 179 M 3938 179 I 3938 183 I 3934 183 I 3934 179 I C 
+3951 179 M 3955 179 I 3955 183 I 3951 183 I 3951 179 I C 
+3968 179 M 3972 179 I 3972 183 I 3968 183 I 3968 179 I C 
+3984 179 M 3988 179 I 3988 183 I 3984 183 I 3984 179 I C 
+4001 179 M 4005 179 I 4005 183 I 4001 183 I 4001 179 I C 
+4018 179 M 4022 179 I 4022 183 I 4018 183 I 4018 179 I C 
+4034 179 M 4038 179 I 4038 183 I 4034 183 I 4034 179 I C 
+4051 179 M 4055 179 I 4055 183 I 4051 183 I 4051 179 I C 
+4068 179 M 4072 179 I 4072 183 I 4068 183 I 4068 179 I C 
+4084 179 M 4088 179 I 4088 183 I 4084 183 I 4084 179 I C 
+4101 179 M 4105 179 I 4105 183 I 4101 183 I 4101 179 I C 
+4118 179 M 4122 179 I 4122 183 I 4118 183 I 4118 179 I C 
+4134 179 M 4138 179 I 4138 183 I 4134 183 I 4134 179 I C 
+4151 179 M 4155 179 I 4155 183 I 4151 183 I 4151 179 I C 
+4168 179 M 4172 179 I 4172 183 I 4168 183 I 4168 179 I C 
+4184 179 M 4188 179 I 4188 183 I 4184 183 I 4184 179 I C 
+4201 179 M 4205 179 I 4205 183 I 4201 183 I 4201 179 I C 
+4218 179 M 4222 179 I 4222 183 I 4218 183 I 4218 179 I C 
+4234 179 M 4238 179 I 4238 183 I 4234 183 I 4234 179 I C 
+4251 179 M 4255 179 I 4255 183 I 4251 183 I 4251 179 I C 
+4267 179 M 4272 179 I 4272 183 I 4267 183 I 4267 179 I C 
+4284 179 M 4288 179 I 4288 183 I 4284 183 I 4284 179 I C 
+4301 179 M 4305 179 I 4305 183 I 4301 183 I 4301 179 I C 
+4317 179 M 4322 179 I 4322 183 I 4317 183 I 4317 179 I C 
+4334 179 M 4338 179 I 4338 183 I 4334 183 I 4334 179 I C 
+4351 179 M 4355 179 I 4355 183 I 4351 183 I 4351 179 I C 
+4367 179 M 4372 179 I 4372 183 I 4367 183 I 4367 179 I C 
+4384 179 M 4388 179 I 4388 183 I 4384 183 I 4384 179 I C 
+4401 179 M 4405 179 I 4405 183 I 4401 183 I 4401 179 I C 
+4417 179 M 4422 179 I 4422 183 I 4417 183 I 4417 179 I C 
+4434 179 M 4438 179 I 4438 183 I 4434 183 I 4434 179 I C 
+4451 179 M 4455 179 I 4455 183 I 4451 183 I 4451 179 I C 
+4467 179 M 4472 179 I 4472 183 I 4467 183 I 4467 179 I C 
+4484 179 M 4488 179 I 4488 183 I 4484 183 I 4484 179 I C 
+4501 179 M 4505 179 I 4505 183 I 4501 183 I 4501 179 I C 
+4517 179 M 4522 179 I 4522 183 I 4517 183 I 4517 179 I C 
+4534 179 M 4538 179 I 4538 183 I 4534 183 I 4534 179 I C 
+4551 179 M 4555 179 I 4555 183 I 4551 183 I 4551 179 I C 
+4567 179 M 4572 179 I 4572 183 I 4567 183 I 4567 179 I C 
+4584 179 M 4588 179 I 4588 183 I 4584 183 I 4584 179 I C 
+4601 179 M 4605 179 I 4605 183 I 4601 183 I 4601 179 I C 
+4617 179 M 4621 179 I 4621 183 I 4617 183 I 4617 179 I C 
+4634 179 M 4638 179 I 4638 183 I 4634 183 I 4634 179 I C 
+4651 179 M 4655 179 I 4655 183 I 4651 183 I 4651 179 I C 
+4667 179 M 4671 179 I 4671 183 I 4667 183 I 4667 179 I C 
+4684 179 M 4688 179 I 4688 183 I 4684 183 I 4684 179 I C 
+4701 179 M 4705 179 I 4705 183 I 4701 183 I 4701 179 I C 
+4717 179 M 4721 179 I 4721 183 I 4717 183 I 4717 179 I C 
+4734 179 M 4738 179 I 4738 183 I 4734 183 I 4734 179 I C 
+4751 179 M 4755 179 I 4755 183 I 4751 183 I 4751 179 I C 
+4767 179 M 4771 179 I 4771 183 I 4767 183 I 4767 179 I C 
+4784 179 M 4788 179 I 4788 183 I 4784 183 I 4784 179 I C 
+4801 179 M 4805 179 I 4805 183 I 4801 183 I 4801 179 I C 
+4817 179 M 4821 179 I 4821 183 I 4817 183 I 4817 179 I C 
+4834 179 M 4838 179 I 4838 183 I 4834 183 I 4834 179 I C 
+4851 179 M 4855 179 I 4855 183 I 4851 183 I 4851 179 I C 
+4867 179 M 4871 179 I 4871 183 I 4867 183 I 4867 179 I C 
+4884 179 M 4888 179 I 4888 183 I 4884 183 I 4884 179 I C 
+4901 179 M 4905 179 I 4905 183 I 4901 183 I 4901 179 I C 
+4917 179 M 4921 179 I 4921 183 I 4917 183 I 4917 179 I C 
+4934 179 M 4938 179 I 4938 183 I 4934 183 I 4934 179 I C 
+4951 179 M 4955 179 I 4955 183 I 4951 183 I 4951 179 I C 
+4967 179 M 4971 179 I 4971 183 I 4967 183 I 4967 179 I C 
+4984 179 M 4988 179 I 4988 183 I 4984 183 I 4984 179 I C 
+5000 179 M 5005 179 I 5005 183 I 5000 183 I 5000 179 I C 
+5017 179 M 5021 179 I 5021 183 I 5017 183 I 5017 179 I C 
+5034 179 M 5038 179 I 5038 183 I 5034 183 I 5034 179 I C 
+5050 179 M 5055 179 I 5055 183 I 5050 183 I 5050 179 I C 
+5067 179 M 5071 179 I 5071 183 I 5067 183 I 5067 179 I C 
+5084 179 M 5088 179 I 5088 183 I 5084 183 I 5084 179 I C 
+5100 179 M 5105 179 I 5105 183 I 5100 183 I 5100 179 I C 
+5117 179 M 5121 179 I 5121 183 I 5117 183 I 5117 179 I C 
+5134 179 M 5138 179 I 5138 183 I 5134 183 I 5134 179 I C 
+5150 179 M 5155 179 I 5155 183 I 5150 183 I 5150 179 I C 
+5167 179 M 5171 179 I 5171 183 I 5167 183 I 5167 179 I C 
+5184 179 M 5188 179 I 5188 183 I 5184 183 I 5184 179 I C 
+5200 179 M 5205 179 I 5205 183 I 5200 183 I 5200 179 I C 
+5217 179 M 5221 179 I 5221 183 I 5217 183 I 5217 179 I C 
+5234 179 M 5238 179 I 5238 183 I 5234 183 I 5234 179 I C 
+5250 179 M 5255 179 I 5255 183 I 5250 183 I 5250 179 I C 
+5267 179 M 5271 179 I 5271 183 I 5267 183 I 5267 179 I C 
+5284 179 M 5288 179 I 5288 183 I 5284 183 I 5284 179 I C 
+5300 179 M 5305 179 I 5305 183 I 5300 183 I 5300 179 I C 
+5317 179 M 5321 179 I 5321 183 I 5317 183 I 5317 179 I C 
+5334 179 M 5338 179 I 5338 183 I 5334 183 I 5334 179 I C 
+5350 179 M 5354 179 I 5354 183 I 5350 183 I 5350 179 I C 
+5367 179 M 5371 179 I 5371 183 I 5367 183 I 5367 179 I C 
+5384 179 M 5388 179 I 5388 183 I 5384 183 I 5384 179 I C 
+5400 179 M 5404 179 I 5404 183 I 5400 183 I 5400 179 I C 
+5417 179 M 5421 179 I 5421 183 I 5417 183 I 5417 179 I C 
+5434 179 M 5438 179 I 5438 183 I 5434 183 I 5434 179 I C 
+5450 179 M 5454 179 I 5454 183 I 5450 183 I 5450 179 I C 
+5467 179 M 5471 179 I 5471 183 I 5467 183 I 5467 179 I C 
+5484 179 M 5488 179 I 5488 183 I 5484 183 I 5484 179 I C 
+5500 179 M 5504 179 I 5504 183 I 5500 183 I 5500 179 I C 
+5517 179 M 5521 179 I 5521 183 I 5517 183 I 5517 179 I C 
+5534 179 M 5538 179 I 5538 183 I 5534 183 I 5534 179 I C 
+5550 179 M 5554 179 I 5554 183 I 5550 183 I 5550 179 I C 
+5567 179 M 5571 179 I 5571 183 I 5567 183 I 5567 179 I C 
+5584 179 M 5588 179 I 5588 183 I 5584 183 I 5584 179 I C 
+:  L ; : 0.207 0.207 +S K 
+; N 7 179 M 7 183 I 3 183 I 3 179 I 7 179 I C 
+7 196 M 7 200 I 3 200 I 3 196 I 7 196 I C 
+7 212 M 7 217 I 3 217 I 3 212 I 7 212 I C 
+7 229 M 7 233 I 3 233 I 3 229 I 7 229 I C 
+7 246 M 7 250 I 3 250 I 3 246 I 7 246 I C 
+7 262 M 7 266 I 3 266 I 3 262 I 7 262 I C 
+7 279 M 7 283 I 3 283 I 3 279 I 7 279 I C 
+7 296 M 7 300 I 3 300 I 3 296 I 7 296 I C 
+7 312 M 7 316 I 3 316 I 3 312 I 7 312 I C 
+7 329 M 7 333 I 3 333 I 3 329 I 7 329 I C 
+7 346 M 7 350 I 3 350 I 3 346 I 7 346 I C 
+7 362 M 7 366 I 3 366 I 3 362 I 7 362 I C 
+7 379 M 7 383 I 3 383 I 3 379 I 7 379 I C 
+7 395 M 7 400 I 3 400 I 3 395 I 7 395 I C 
+7 412 M 7 416 I 3 416 I 3 412 I 7 412 I C 
+7 429 M 7 433 I 3 433 I 3 429 I 7 429 I C 
+7 445 M 7 450 I 3 450 I 3 445 I 7 445 I C 
+7 462 M 7 466 I 3 466 I 3 462 I 7 462 I C 
+7 479 M 7 483 I 3 483 I 3 479 I 7 479 I C 
+7 495 M 7 499 I 3 499 I 3 495 I 7 495 I C 
+7 512 M 7 516 I 3 516 I 3 512 I 7 512 I C 
+7 529 M 7 533 I 3 533 I 3 529 I 7 529 I C 
+7 545 M 7 549 I 3 549 I 3 545 I 7 545 I C 
+7 562 M 7 566 I 3 566 I 3 562 I 7 562 I C 
+7 579 M 7 583 I 3 583 I 3 579 I 7 579 I C 
+7 595 M 7 599 I 3 599 I 3 595 I 7 595 I C 
+7 612 M 7 613 I 3 613 I 3 612 I 7 612 I C 
+:  L ; : 0.102 0.102 +S K 
+; N 5590 179 M 5590 183 I 5586 183 I 5586 179 I 5590 179 I C 
+5590 196 M 5590 200 I 5586 200 I 5586 196 I 5590 196 I C 
+5590 212 M 5590 217 I 5586 217 I 5586 212 I 5590 212 I C 
+5590 229 M 5590 233 I 5586 233 I 5586 229 I 5590 229 I C 
+5590 246 M 5590 250 I 5586 250 I 5586 246 I 5590 246 I C 
+5590 262 M 5590 267 I 5586 267 I 5586 262 I 5590 262 I C 
+5590 279 M 5590 283 I 5586 283 I 5586 279 I 5590 279 I C 
+5590 296 M 5590 300 I 5586 300 I 5586 296 I 5590 296 I C 
+5590 312 M 5590 317 I 5586 317 I 5586 312 I 5590 312 I C 
+5590 329 M 5590 333 I 5586 333 I 5586 329 I 5590 329 I C 
+5590 346 M 5590 350 I 5586 350 I 5586 346 I 5590 346 I C 
+5590 362 M 5590 366 I 5586 366 I 5586 362 I 5590 362 I C 
+5590 379 M 5590 383 I 5586 383 I 5586 379 I 5590 379 I C 
+5590 396 M 5590 400 I 5586 400 I 5586 396 I 5590 396 I C 
+5590 412 M 5590 416 I 5586 416 I 5586 412 I 5590 412 I C 
+5590 429 M 5590 433 I 5586 433 I 5586 429 I 5590 429 I C 
+5590 445 M 5590 450 I 5586 450 I 5586 445 I 5590 445 I C 
+5590 462 M 5590 466 I 5586 466 I 5586 462 I 5590 462 I C 
+5590 479 M 5590 483 I 5586 483 I 5586 479 I 5590 479 I C 
+5590 495 M 5590 500 I 5586 500 I 5586 495 I 5590 495 I C 
+5590 512 M 5590 516 I 5586 516 I 5586 512 I 5590 512 I C 
+5590 529 M 5590 533 I 5586 533 I 5586 529 I 5590 529 I C 
+5590 545 M 5590 550 I 5586 550 I 5586 545 I 5590 545 I C 
+5590 562 M 5590 566 I 5586 566 I 5586 562 I 5590 562 I C 
+5590 579 M 5590 583 I 5586 583 I 5586 579 I 5590 579 I C 
+5590 595 M 5590 599 I 5586 599 I 5586 595 I 5590 595 I C 
+5590 612 M 5590 613 I 5586 613 I 5586 612 I 5590 612 I C 
+:  L ; : 0.207 0.207 +S K 
+; N 3 609 M 7 609 I 7 613 I 3 613 I 3 609 I C 
+19 609 M 24 609 I 24 613 I 19 613 I 19 609 I C 
+36 609 M 40 609 I 40 613 I 36 613 I 36 609 I C 
+53 609 M 57 609 I 57 613 I 53 613 I 53 609 I C 
+69 609 M 74 609 I 74 613 I 69 613 I 69 609 I C 
+86 609 M 90 609 I 90 613 I 86 613 I 86 609 I C 
+103 609 M 107 609 I 107 613 I 103 613 I 103 609 I C 
+119 609 M 124 609 I 124 613 I 119 613 I 119 609 I C 
+136 609 M 140 609 I 140 613 I 136 613 I 136 609 I C 
+153 609 M 157 609 I 157 613 I 153 613 I 153 609 I C 
+169 609 M 173 609 I 173 613 I 169 613 I 169 609 I C 
+186 609 M 190 609 I 190 613 I 186 613 I 186 609 I C 
+203 609 M 207 609 I 207 613 I 203 613 I 203 609 I C 
+219 609 M 223 609 I 223 613 I 219 613 I 219 609 I C 
+236 609 M 240 609 I 240 613 I 236 613 I 236 609 I C 
+253 609 M 257 609 I 257 613 I 253 613 I 253 609 I C 
+269 609 M 273 609 I 273 613 I 269 613 I 269 609 I C 
+286 609 M 290 609 I 290 613 I 286 613 I 286 609 I C 
+303 609 M 307 609 I 307 613 I 303 613 I 303 609 I C 
+319 609 M 323 609 I 323 613 I 319 613 I 319 609 I C 
+336 609 M 340 609 I 340 613 I 336 613 I 336 609 I C 
+353 609 M 357 609 I 357 613 I 353 613 I 353 609 I C 
+369 609 M 373 609 I 373 613 I 369 613 I 369 609 I C 
+386 609 M 390 609 I 390 613 I 386 613 I 386 609 I C 
+403 609 M 407 609 I 407 613 I 403 613 I 403 609 I C 
+419 609 M 423 609 I 423 613 I 419 613 I 419 609 I C 
+436 609 M 440 609 I 440 613 I 436 613 I 436 609 I C 
+453 609 M 457 609 I 457 613 I 453 613 I 453 609 I C 
+469 609 M 473 609 I 473 613 I 469 613 I 469 609 I C 
+486 609 M 490 609 I 490 613 I 486 613 I 486 609 I C 
+503 609 M 507 609 I 507 613 I 503 613 I 503 609 I C 
+519 609 M 523 609 I 523 613 I 519 613 I 519 609 I C 
+536 609 M 540 609 I 540 613 I 536 613 I 536 609 I C 
+552 609 M 557 609 I 557 613 I 552 613 I 552 609 I C 
+569 609 M 573 609 I 573 613 I 569 613 I 569 609 I C 
+586 609 M 590 609 I 590 613 I 586 613 I 586 609 I C 
+602 609 M 607 609 I 607 613 I 602 613 I 602 609 I C 
+619 609 M 623 609 I 623 613 I 619 613 I 619 609 I C 
+636 609 M 640 609 I 640 613 I 636 613 I 636 609 I C 
+652 609 M 657 609 I 657 613 I 652 613 I 652 609 I C 
+669 609 M 673 609 I 673 613 I 669 613 I 669 609 I C 
+686 609 M 690 609 I 690 613 I 686 613 I 686 609 I C 
+702 609 M 707 609 I 707 613 I 702 613 I 702 609 I C 
+719 609 M 723 609 I 723 613 I 719 613 I 719 609 I C 
+736 609 M 740 609 I 740 613 I 736 613 I 736 609 I C 
+752 609 M 757 609 I 757 613 I 752 613 I 752 609 I C 
+769 609 M 773 609 I 773 613 I 769 613 I 769 609 I C 
+786 609 M 790 609 I 790 613 I 786 613 I 786 609 I C 
+802 609 M 807 609 I 807 613 I 802 613 I 802 609 I C 
+819 609 M 823 609 I 823 613 I 819 613 I 819 609 I C 
+836 609 M 840 609 I 840 613 I 836 613 I 836 609 I C 
+852 609 M 857 609 I 857 613 I 852 613 I 852 609 I C 
+869 609 M 873 609 I 873 613 I 869 613 I 869 609 I C 
+886 609 M 890 609 I 890 613 I 886 613 I 886 609 I C 
+902 609 M 906 609 I 906 613 I 902 613 I 902 609 I C 
+919 609 M 923 609 I 923 613 I 919 613 I 919 609 I C 
+936 609 M 940 609 I 940 613 I 936 613 I 936 609 I C 
+952 609 M 956 609 I 956 613 I 952 613 I 952 609 I C 
+969 609 M 973 609 I 973 613 I 969 613 I 969 609 I C 
+986 609 M 990 609 I 990 613 I 986 613 I 986 609 I C 
+1002 609 M 1006 609 I 1006 613 I 1002 613 I 1002 609 I C 
+1019 609 M 1023 609 I 1023 613 I 1019 613 I 1019 609 I C 
+1036 609 M 1040 609 I 1040 613 I 1036 613 I 1036 609 I C 
+1052 609 M 1056 609 I 1056 613 I 1052 613 I 1052 609 I C 
+1069 609 M 1073 609 I 1073 613 I 1069 613 I 1069 609 I C 
+1086 609 M 1090 609 I 1090 613 I 1086 613 I 1086 609 I C 
+1102 609 M 1106 609 I 1106 613 I 1102 613 I 1102 609 I C 
+1119 609 M 1123 609 I 1123 613 I 1119 613 I 1119 609 I C 
+1136 609 M 1140 609 I 1140 613 I 1136 613 I 1136 609 I C 
+1152 609 M 1156 609 I 1156 613 I 1152 613 I 1152 609 I C 
+1169 609 M 1173 609 I 1173 613 I 1169 613 I 1169 609 I C 
+1186 609 M 1190 609 I 1190 613 I 1186 613 I 1186 609 I C 
+1202 609 M 1206 609 I 1206 613 I 1202 613 I 1202 609 I C 
+1219 609 M 1223 609 I 1223 613 I 1219 613 I 1219 609 I C 
+1236 609 M 1240 609 I 1240 613 I 1236 613 I 1236 609 I C 
+1252 609 M 1256 609 I 1256 613 I 1252 613 I 1252 609 I C 
+1269 609 M 1273 609 I 1273 613 I 1269 613 I 1269 609 I C 
+1285 609 M 1290 609 I 1290 613 I 1285 613 I 1285 609 I C 
+1302 609 M 1306 609 I 1306 613 I 1302 613 I 1302 609 I C 
+1319 609 M 1323 609 I 1323 613 I 1319 613 I 1319 609 I C 
+1335 609 M 1340 609 I 1340 613 I 1335 613 I 1335 609 I C 
+1352 609 M 1356 609 I 1356 613 I 1352 613 I 1352 609 I C 
+1369 609 M 1373 609 I 1373 613 I 1369 613 I 1369 609 I C 
+1385 609 M 1390 609 I 1390 613 I 1385 613 I 1385 609 I C 
+1402 609 M 1406 609 I 1406 613 I 1402 613 I 1402 609 I C 
+1419 609 M 1423 609 I 1423 613 I 1419 613 I 1419 609 I C 
+1435 609 M 1440 609 I 1440 613 I 1435 613 I 1435 609 I C 
+1452 609 M 1456 609 I 1456 613 I 1452 613 I 1452 609 I C 
+1469 609 M 1473 609 I 1473 613 I 1469 613 I 1469 609 I C 
+1485 609 M 1490 609 I 1490 613 I 1485 613 I 1485 609 I C 
+1502 609 M 1506 609 I 1506 613 I 1502 613 I 1502 609 I C 
+1519 609 M 1523 609 I 1523 613 I 1519 613 I 1519 609 I C 
+1535 609 M 1540 609 I 1540 613 I 1535 613 I 1535 609 I C 
+1552 609 M 1556 609 I 1556 613 I 1552 613 I 1552 609 I C 
+1569 609 M 1573 609 I 1573 613 I 1569 613 I 1569 609 I C 
+1585 609 M 1590 609 I 1590 613 I 1585 613 I 1585 609 I C 
+1602 609 M 1606 609 I 1606 613 I 1602 613 I 1602 609 I C 
+1619 609 M 1623 609 I 1623 613 I 1619 613 I 1619 609 I C 
+1635 609 M 1640 609 I 1640 613 I 1635 613 I 1635 609 I C 
+1652 609 M 1656 609 I 1656 613 I 1652 613 I 1652 609 I C 
+1669 609 M 1673 609 I 1673 613 I 1669 613 I 1669 609 I C 
+1685 609 M 1689 609 I 1689 613 I 1685 613 I 1685 609 I C 
+1702 609 M 1706 609 I 1706 613 I 1702 613 I 1702 609 I C 
+1719 609 M 1723 609 I 1723 613 I 1719 613 I 1719 609 I C 
+1735 609 M 1739 609 I 1739 613 I 1735 613 I 1735 609 I C 
+1752 609 M 1756 609 I 1756 613 I 1752 613 I 1752 609 I C 
+1769 609 M 1773 609 I 1773 613 I 1769 613 I 1769 609 I C 
+1785 609 M 1789 609 I 1789 613 I 1785 613 I 1785 609 I C 
+1802 609 M 1806 609 I 1806 613 I 1802 613 I 1802 609 I C 
+1819 609 M 1823 609 I 1823 613 I 1819 613 I 1819 609 I C 
+1835 609 M 1839 609 I 1839 613 I 1835 613 I 1835 609 I C 
+1852 609 M 1856 609 I 1856 613 I 1852 613 I 1852 609 I C 
+1869 609 M 1873 609 I 1873 613 I 1869 613 I 1869 609 I C 
+1885 609 M 1889 609 I 1889 613 I 1885 613 I 1885 609 I C 
+1902 609 M 1906 609 I 1906 613 I 1902 613 I 1902 609 I C 
+1919 609 M 1923 609 I 1923 613 I 1919 613 I 1919 609 I C 
+1935 609 M 1939 609 I 1939 613 I 1935 613 I 1935 609 I C 
+1952 609 M 1956 609 I 1956 613 I 1952 613 I 1952 609 I C 
+1969 609 M 1973 609 I 1973 613 I 1969 613 I 1969 609 I C 
+1985 609 M 1989 609 I 1989 613 I 1985 613 I 1985 609 I C 
+2002 609 M 2006 609 I 2006 613 I 2002 613 I 2002 609 I C 
+2018 609 M 2023 609 I 2023 613 I 2018 613 I 2018 609 I C 
+2035 609 M 2039 609 I 2039 613 I 2035 613 I 2035 609 I C 
+2052 609 M 2056 609 I 2056 613 I 2052 613 I 2052 609 I C 
+2068 609 M 2073 609 I 2073 613 I 2068 613 I 2068 609 I C 
+2085 609 M 2089 609 I 2089 613 I 2085 613 I 2085 609 I C 
+2102 609 M 2106 609 I 2106 613 I 2102 613 I 2102 609 I C 
+2118 609 M 2123 609 I 2123 613 I 2118 613 I 2118 609 I C 
+2135 609 M 2139 609 I 2139 613 I 2135 613 I 2135 609 I C 
+2152 609 M 2156 609 I 2156 613 I 2152 613 I 2152 609 I C 
+2168 609 M 2173 609 I 2173 613 I 2168 613 I 2168 609 I C 
+2185 609 M 2189 609 I 2189 613 I 2185 613 I 2185 609 I C 
+2202 609 M 2206 609 I 2206 613 I 2202 613 I 2202 609 I C 
+2218 609 M 2223 609 I 2223 613 I 2218 613 I 2218 609 I C 
+2235 609 M 2239 609 I 2239 613 I 2235 613 I 2235 609 I C 
+2252 609 M 2256 609 I 2256 613 I 2252 613 I 2252 609 I C 
+2268 609 M 2273 609 I 2273 613 I 2268 613 I 2268 609 I C 
+2285 609 M 2289 609 I 2289 613 I 2285 613 I 2285 609 I C 
+2302 609 M 2306 609 I 2306 613 I 2302 613 I 2302 609 I C 
+2318 609 M 2323 609 I 2323 613 I 2318 613 I 2318 609 I C 
+2335 609 M 2339 609 I 2339 613 I 2335 613 I 2335 609 I C 
+2352 609 M 2356 609 I 2356 613 I 2352 613 I 2352 609 I C 
+2368 609 M 2373 609 I 2373 613 I 2368 613 I 2368 609 I C 
+2385 609 M 2389 609 I 2389 613 I 2385 613 I 2385 609 I C 
+2402 609 M 2406 609 I 2406 613 I 2402 613 I 2402 609 I C 
+2418 609 M 2422 609 I 2422 613 I 2418 613 I 2418 609 I C 
+2435 609 M 2439 609 I 2439 613 I 2435 613 I 2435 609 I C 
+2452 609 M 2456 609 I 2456 613 I 2452 613 I 2452 609 I C 
+2468 609 M 2472 609 I 2472 613 I 2468 613 I 2468 609 I C 
+2485 609 M 2489 609 I 2489 613 I 2485 613 I 2485 609 I C 
+2502 609 M 2506 609 I 2506 613 I 2502 613 I 2502 609 I C 
+2518 609 M 2522 609 I 2522 613 I 2518 613 I 2518 609 I C 
+2535 609 M 2539 609 I 2539 613 I 2535 613 I 2535 609 I C 
+2552 609 M 2556 609 I 2556 613 I 2552 613 I 2552 609 I C 
+2568 609 M 2572 609 I 2572 613 I 2568 613 I 2568 609 I C 
+2585 609 M 2589 609 I 2589 613 I 2585 613 I 2585 609 I C 
+2602 609 M 2606 609 I 2606 613 I 2602 613 I 2602 609 I C 
+2618 609 M 2622 609 I 2622 613 I 2618 613 I 2618 609 I C 
+2635 609 M 2639 609 I 2639 613 I 2635 613 I 2635 609 I C 
+2652 609 M 2656 609 I 2656 613 I 2652 613 I 2652 609 I C 
+2668 609 M 2672 609 I 2672 613 I 2668 613 I 2668 609 I C 
+2685 609 M 2689 609 I 2689 613 I 2685 613 I 2685 609 I C 
+2702 609 M 2706 609 I 2706 613 I 2702 613 I 2702 609 I C 
+2718 609 M 2722 609 I 2722 613 I 2718 613 I 2718 609 I C 
+2735 609 M 2739 609 I 2739 613 I 2735 613 I 2735 609 I C 
+2751 609 M 2756 609 I 2756 613 I 2751 613 I 2751 609 I C 
+2768 609 M 2772 609 I 2772 613 I 2768 613 I 2768 609 I C 
+2785 609 M 2789 609 I 2789 613 I 2785 613 I 2785 609 I C 
+2801 609 M 2806 609 I 2806 613 I 2801 613 I 2801 609 I C 
+2818 609 M 2822 609 I 2822 613 I 2818 613 I 2818 609 I C 
+2835 609 M 2839 609 I 2839 613 I 2835 613 I 2835 609 I C 
+2851 609 M 2856 609 I 2856 613 I 2851 613 I 2851 609 I C 
+2868 609 M 2872 609 I 2872 613 I 2868 613 I 2868 609 I C 
+2885 609 M 2889 609 I 2889 613 I 2885 613 I 2885 609 I C 
+2901 609 M 2906 609 I 2906 613 I 2901 613 I 2901 609 I C 
+2918 609 M 2922 609 I 2922 613 I 2918 613 I 2918 609 I C 
+2935 609 M 2939 609 I 2939 613 I 2935 613 I 2935 609 I C 
+2951 609 M 2956 609 I 2956 613 I 2951 613 I 2951 609 I C 
+2968 609 M 2972 609 I 2972 613 I 2968 613 I 2968 609 I C 
+2985 609 M 2989 609 I 2989 613 I 2985 613 I 2985 609 I C 
+3001 609 M 3006 609 I 3006 613 I 3001 613 I 3001 609 I C 
+3018 609 M 3022 609 I 3022 613 I 3018 613 I 3018 609 I C 
+3035 609 M 3039 609 I 3039 613 I 3035 613 I 3035 609 I C 
+3051 609 M 3056 609 I 3056 613 I 3051 613 I 3051 609 I C 
+3068 609 M 3072 609 I 3072 613 I 3068 613 I 3068 609 I C 
+3085 609 M 3089 609 I 3089 613 I 3085 613 I 3085 609 I C 
+3101 609 M 3106 609 I 3106 613 I 3101 613 I 3101 609 I C 
+3118 609 M 3122 609 I 3122 613 I 3118 613 I 3118 609 I C 
+3135 609 M 3139 609 I 3139 613 I 3135 613 I 3135 609 I C 
+3151 609 M 3155 609 I 3155 613 I 3151 613 I 3151 609 I C 
+3168 609 M 3172 609 I 3172 613 I 3168 613 I 3168 609 I C 
+3185 609 M 3189 609 I 3189 613 I 3185 613 I 3185 609 I C 
+3201 609 M 3205 609 I 3205 613 I 3201 613 I 3201 609 I C 
+3218 609 M 3222 609 I 3222 613 I 3218 613 I 3218 609 I C 
+3235 609 M 3239 609 I 3239 613 I 3235 613 I 3235 609 I C 
+3251 609 M 3255 609 I 3255 613 I 3251 613 I 3251 609 I C 
+3268 609 M 3272 609 I 3272 613 I 3268 613 I 3268 609 I C 
+3285 609 M 3289 609 I 3289 613 I 3285 613 I 3285 609 I C 
+3301 609 M 3305 609 I 3305 613 I 3301 613 I 3301 609 I C 
+3318 609 M 3322 609 I 3322 613 I 3318 613 I 3318 609 I C 
+3335 609 M 3339 609 I 3339 613 I 3335 613 I 3335 609 I C 
+3351 609 M 3355 609 I 3355 613 I 3351 613 I 3351 609 I C 
+3368 609 M 3372 609 I 3372 613 I 3368 613 I 3368 609 I C 
+3385 609 M 3389 609 I 3389 613 I 3385 613 I 3385 609 I C 
+3401 609 M 3405 609 I 3405 613 I 3401 613 I 3401 609 I C 
+3418 609 M 3422 609 I 3422 613 I 3418 613 I 3418 609 I C 
+3435 609 M 3439 609 I 3439 613 I 3435 613 I 3435 609 I C 
+3451 609 M 3455 609 I 3455 613 I 3451 613 I 3451 609 I C 
+3468 609 M 3472 609 I 3472 613 I 3468 613 I 3468 609 I C 
+3485 609 M 3489 609 I 3489 613 I 3485 613 I 3485 609 I C 
+3501 609 M 3505 609 I 3505 613 I 3501 613 I 3501 609 I C 
+3518 609 M 3522 609 I 3522 613 I 3518 613 I 3518 609 I C 
+3534 609 M 3539 609 I 3539 613 I 3534 613 I 3534 609 I C 
+3551 609 M 3555 609 I 3555 613 I 3551 613 I 3551 609 I C 
+3568 609 M 3572 609 I 3572 613 I 3568 613 I 3568 609 I C 
+3584 609 M 3589 609 I 3589 613 I 3584 613 I 3584 609 I C 
+3601 609 M 3605 609 I 3605 613 I 3601 613 I 3601 609 I C 
+3618 609 M 3622 609 I 3622 613 I 3618 613 I 3618 609 I C 
+3634 609 M 3639 609 I 3639 613 I 3634 613 I 3634 609 I C 
+3651 609 M 3655 609 I 3655 613 I 3651 613 I 3651 609 I C 
+3668 609 M 3672 609 I 3672 613 I 3668 613 I 3668 609 I C 
+3684 609 M 3689 609 I 3689 613 I 3684 613 I 3684 609 I C 
+3701 609 M 3705 609 I 3705 613 I 3701 613 I 3701 609 I C 
+3718 609 M 3722 609 I 3722 613 I 3718 613 I 3718 609 I C 
+3734 609 M 3739 609 I 3739 613 I 3734 613 I 3734 609 I C 
+3751 609 M 3755 609 I 3755 613 I 3751 613 I 3751 609 I C 
+3768 609 M 3772 609 I 3772 613 I 3768 613 I 3768 609 I C 
+3784 609 M 3789 609 I 3789 613 I 3784 613 I 3784 609 I C 
+3801 609 M 3805 609 I 3805 613 I 3801 613 I 3801 609 I C 
+3818 609 M 3822 609 I 3822 613 I 3818 613 I 3818 609 I C 
+3834 609 M 3839 609 I 3839 613 I 3834 613 I 3834 609 I C 
+3851 609 M 3855 609 I 3855 613 I 3851 613 I 3851 609 I C 
+3868 609 M 3872 609 I 3872 613 I 3868 613 I 3868 609 I C 
+3884 609 M 3888 609 I 3888 613 I 3884 613 I 3884 609 I C 
+3901 609 M 3905 609 I 3905 613 I 3901 613 I 3901 609 I C 
+3918 609 M 3922 609 I 3922 613 I 3918 613 I 3918 609 I C 
+3934 609 M 3938 609 I 3938 613 I 3934 613 I 3934 609 I C 
+3951 609 M 3955 609 I 3955 613 I 3951 613 I 3951 609 I C 
+3968 609 M 3972 609 I 3972 613 I 3968 613 I 3968 609 I C 
+3984 609 M 3988 609 I 3988 613 I 3984 613 I 3984 609 I C 
+4001 609 M 4005 609 I 4005 613 I 4001 613 I 4001 609 I C 
+4018 609 M 4022 609 I 4022 613 I 4018 613 I 4018 609 I C 
+4034 609 M 4038 609 I 4038 613 I 4034 613 I 4034 609 I C 
+4051 609 M 4055 609 I 4055 613 I 4051 613 I 4051 609 I C 
+4068 609 M 4072 609 I 4072 613 I 4068 613 I 4068 609 I C 
+4084 609 M 4088 609 I 4088 613 I 4084 613 I 4084 609 I C 
+4101 609 M 4105 609 I 4105 613 I 4101 613 I 4101 609 I C 
+4118 609 M 4122 609 I 4122 613 I 4118 613 I 4118 609 I C 
+4134 609 M 4138 609 I 4138 613 I 4134 613 I 4134 609 I C 
+4151 609 M 4155 609 I 4155 613 I 4151 613 I 4151 609 I C 
+4168 609 M 4172 609 I 4172 613 I 4168 613 I 4168 609 I C 
+4184 609 M 4188 609 I 4188 613 I 4184 613 I 4184 609 I C 
+4201 609 M 4205 609 I 4205 613 I 4201 613 I 4201 609 I C 
+4218 609 M 4222 609 I 4222 613 I 4218 613 I 4218 609 I C 
+4234 609 M 4238 609 I 4238 613 I 4234 613 I 4234 609 I C 
+4251 609 M 4255 609 I 4255 613 I 4251 613 I 4251 609 I C 
+4267 609 M 4272 609 I 4272 613 I 4267 613 I 4267 609 I C 
+4284 609 M 4288 609 I 4288 613 I 4284 613 I 4284 609 I C 
+4301 609 M 4305 609 I 4305 613 I 4301 613 I 4301 609 I C 
+4317 609 M 4322 609 I 4322 613 I 4317 613 I 4317 609 I C 
+4334 609 M 4338 609 I 4338 613 I 4334 613 I 4334 609 I C 
+4351 609 M 4355 609 I 4355 613 I 4351 613 I 4351 609 I C 
+4367 609 M 4372 609 I 4372 613 I 4367 613 I 4367 609 I C 
+4384 609 M 4388 609 I 4388 613 I 4384 613 I 4384 609 I C 
+4401 609 M 4405 609 I 4405 613 I 4401 613 I 4401 609 I C 
+4417 609 M 4422 609 I 4422 613 I 4417 613 I 4417 609 I C 
+4434 609 M 4438 609 I 4438 613 I 4434 613 I 4434 609 I C 
+4451 609 M 4455 609 I 4455 613 I 4451 613 I 4451 609 I C 
+4467 609 M 4472 609 I 4472 613 I 4467 613 I 4467 609 I C 
+4484 609 M 4488 609 I 4488 613 I 4484 613 I 4484 609 I C 
+4501 609 M 4505 609 I 4505 613 I 4501 613 I 4501 609 I C 
+4517 609 M 4522 609 I 4522 613 I 4517 613 I 4517 609 I C 
+4534 609 M 4538 609 I 4538 613 I 4534 613 I 4534 609 I C 
+4551 609 M 4555 609 I 4555 613 I 4551 613 I 4551 609 I C 
+4567 609 M 4572 609 I 4572 613 I 4567 613 I 4567 609 I C 
+4584 609 M 4588 609 I 4588 613 I 4584 613 I 4584 609 I C 
+4601 609 M 4605 609 I 4605 613 I 4601 613 I 4601 609 I C 
+4617 609 M 4621 609 I 4621 613 I 4617 613 I 4617 609 I C 
+4634 609 M 4638 609 I 4638 613 I 4634 613 I 4634 609 I C 
+4651 609 M 4655 609 I 4655 613 I 4651 613 I 4651 609 I C 
+4667 609 M 4671 609 I 4671 613 I 4667 613 I 4667 609 I C 
+4684 609 M 4688 609 I 4688 613 I 4684 613 I 4684 609 I C 
+4701 609 M 4705 609 I 4705 613 I 4701 613 I 4701 609 I C 
+4717 609 M 4721 609 I 4721 613 I 4717 613 I 4717 609 I C 
+4734 609 M 4738 609 I 4738 613 I 4734 613 I 4734 609 I C 
+4751 609 M 4755 609 I 4755 613 I 4751 613 I 4751 609 I C 
+4767 609 M 4771 609 I 4771 613 I 4767 613 I 4767 609 I C 
+4784 609 M 4788 609 I 4788 613 I 4784 613 I 4784 609 I C 
+4801 609 M 4805 609 I 4805 613 I 4801 613 I 4801 609 I C 
+4817 609 M 4821 609 I 4821 613 I 4817 613 I 4817 609 I C 
+4834 609 M 4838 609 I 4838 613 I 4834 613 I 4834 609 I C 
+4851 609 M 4855 609 I 4855 613 I 4851 613 I 4851 609 I C 
+4867 609 M 4871 609 I 4871 613 I 4867 613 I 4867 609 I C 
+4884 609 M 4888 609 I 4888 613 I 4884 613 I 4884 609 I C 
+4901 609 M 4905 609 I 4905 613 I 4901 613 I 4901 609 I C 
+4917 609 M 4921 609 I 4921 613 I 4917 613 I 4917 609 I C 
+4934 609 M 4938 609 I 4938 613 I 4934 613 I 4934 609 I C 
+4951 609 M 4955 609 I 4955 613 I 4951 613 I 4951 609 I C 
+4967 609 M 4971 609 I 4971 613 I 4967 613 I 4967 609 I C 
+4984 609 M 4988 609 I 4988 613 I 4984 613 I 4984 609 I C 
+5000 609 M 5005 609 I 5005 613 I 5000 613 I 5000 609 I C 
+5017 609 M 5021 609 I 5021 613 I 5017 613 I 5017 609 I C 
+5034 609 M 5038 609 I 5038 613 I 5034 613 I 5034 609 I C 
+5050 609 M 5055 609 I 5055 613 I 5050 613 I 5050 609 I C 
+5067 609 M 5071 609 I 5071 613 I 5067 613 I 5067 609 I C 
+5084 609 M 5088 609 I 5088 613 I 5084 613 I 5084 609 I C 
+5100 609 M 5105 609 I 5105 613 I 5100 613 I 5100 609 I C 
+5117 609 M 5121 609 I 5121 613 I 5117 613 I 5117 609 I C 
+5134 609 M 5138 609 I 5138 613 I 5134 613 I 5134 609 I C 
+5150 609 M 5155 609 I 5155 613 I 5150 613 I 5150 609 I C 
+5167 609 M 5171 609 I 5171 613 I 5167 613 I 5167 609 I C 
+5184 609 M 5188 609 I 5188 613 I 5184 613 I 5184 609 I C 
+5200 609 M 5205 609 I 5205 613 I 5200 613 I 5200 609 I C 
+5217 609 M 5221 609 I 5221 613 I 5217 613 I 5217 609 I C 
+5234 609 M 5238 609 I 5238 613 I 5234 613 I 5234 609 I C 
+5250 609 M 5255 609 I 5255 613 I 5250 613 I 5250 609 I C 
+5267 609 M 5271 609 I 5271 613 I 5267 613 I 5267 609 I C 
+5284 609 M 5288 609 I 5288 613 I 5284 613 I 5284 609 I C 
+5300 609 M 5305 609 I 5305 613 I 5300 613 I 5300 609 I C 
+5317 609 M 5321 609 I 5321 613 I 5317 613 I 5317 609 I C 
+5334 609 M 5338 609 I 5338 613 I 5334 613 I 5334 609 I C 
+5350 609 M 5354 609 I 5354 613 I 5350 613 I 5350 609 I C 
+5367 609 M 5371 609 I 5371 613 I 5367 613 I 5367 609 I C 
+5384 609 M 5388 609 I 5388 613 I 5384 613 I 5384 609 I C 
+5400 609 M 5404 609 I 5404 613 I 5400 613 I 5400 609 I C 
+5417 609 M 5421 609 I 5421 613 I 5417 613 I 5417 609 I C 
+5434 609 M 5438 609 I 5438 613 I 5434 613 I 5434 609 I C 
+5450 609 M 5454 609 I 5454 613 I 5450 613 I 5450 609 I C 
+5467 609 M 5471 609 I 5471 613 I 5467 613 I 5467 609 I C 
+5484 609 M 5488 609 I 5488 613 I 5484 613 I 5484 609 I C 
+5500 609 M 5504 609 I 5504 613 I 5500 613 I 5500 609 I C 
+5517 609 M 5521 609 I 5521 613 I 5517 613 I 5517 609 I C 
+5534 609 M 5538 609 I 5538 613 I 5534 613 I 5534 609 I C 
+5550 609 M 5554 609 I 5554 613 I 5550 613 I 5550 609 I C 
+5567 609 M 5571 609 I 5571 613 I 5567 613 I 5567 609 I C 
+5584 609 M 5588 609 I 5588 613 I 5584 613 I 5584 609 I C 
+:  L ; : 0.207 0.207 +S K 
+; Pscript_WinNT_Incr begin
+%%BeginResource: file Pscript_T3Hdr 5.0 0
+{version cvi 2016 ge{32/FontType resourcestatus{pop pop true}{false}ifelse}
+{false}ifelse}exec/Is2016andT32? exch def/T32DefSBCMap{/CIDInit/ProcSet
+findresource begin 10 dict begin begincmap/CIDSystemInfo 3 dict dup begin
+/Registry(Adobe)def/Ordering(Identity1)def/Supplement 0 def end def/CMapType 0
+def/WMode 0 def 1 begincodespacerange<00><ff>endcodespacerange 1 begincidrange
+<00><ff>0 endcidrange endcmap/DrvSBCMap currentdict/CMap defineresource pop end
+end}bind def Is2016andT32?{T32DefSBCMap}def/T32RsrcBegin{Is2016andT32?{
+/BitmapFontInit/ProcSet findresource begin}if}bind def/T32RsrcEnd{Is2016andT32?
+{end}if}bind def/AddT32Char{6 1 roll 0 get 7 1 roll pop pop 5 1 roll pop
+findfont/TT32R get addglyph}bind def/AddT3Char{findfont dup 5 2 roll 1 index
+length 0 gt{cvx 1 index exch 4 exch put dup(imagemask)cvx cvn 5 exch put cvx}
+{pop cvx}ifelse 3 -1 roll/CharProcs get 3 1 roll put dup/Encoding get 5 -1 roll
+4 index put/Metrics get 3 1 roll put}bind def/AddT3T32Char Is2016andT32?{
+/AddT32Char}{/AddT3Char}ifelse load def/GreNewFontT32{5 dict begin exch
+/FontMatrix exch def exch/FontBBox exch def exch pop exch pop/CIDFontType 4 def
+dup currentdict end/CIDFont defineresource 3 -1 roll dup/DrvSBCMap dup/CMap
+resourcestatus{pop pop}{T32DefSBCMap}ifelse 5 -1 roll[exch]composefont dup
+length dict copy dup/FID undef begin exch/TT32R exch def currentdict end
+definefont/BitmapFontInit/ProcSet findresource begin/TT32R get[14 0 0 0 0 0]<>0
+4 -1 roll addglyph end}bind def/GreNewFontT3{11 dict begin pop/FontType 3 def
+/FontMatrix exch def/FontBBox exch def/Encoding exch def/CharProcs 257 dict def
+CharProcs/.notdef{}put/Metrics 257 dict def Metrics/.notdef 3 -1 roll put
+AddFontInfoBegin AddFontInfo AddFontInfoEnd/BuildChar{userdict begin/char exch
+def dup/charname exch/Encoding get char get def dup/Metrics get charname 2 copy
+known{get aload pop}{pop/.notdef get aload pop}ifelse setcachedevice begin
+Encoding char get CharProcs exch 2 copy known{get}{pop/.notdef get}ifelse end
+exec end}def currentdict end definefont pop}bind def/GreNewFont{Is2016andT32?
+{GreNewFontT32}{GreNewFontT3}ifelse}bind def/UDF3{Is2016andT32?{/BitmapFontInit
+/ProcSet findresource begin dup/CIDFont findresource removeall/CIDFont
+undefineresource undefinefont end}{pop UDF}ifelse}bind def
+%%EndResource
+end reinitialize
+/TT114b00
+[58 0 0 0 0 0 ] 
+ 256 array 0 1 255 {1 index exch /.notdef put} for 
+[0 0 0 0 ] 
+[1 58 div 0 0 -1 58 div 0 0 ]
+/__TT114b00
+GreNewFont
+T32RsrcBegin
+
+1
+/g1006 [30 0 2 -37 27 0 ] 
+/g1006 [25 37 true [1 0 0 1 -2 37 ]  0 0]
+[<01ff8000
+0ffff000
+3ffff800
+7ffffc00
+7ffffc00
+7ffffe00
+7f9ffe00
+7807fe00
+7003ff00
+0001ff00
+0001ff00
+0001fe00
+0001fe00
+0003fe00
+0003fe00
+0003fc00
+0007fc00
+0007f800
+000ff800
+001ff000
+003fe000
+007fc000
+00ffc000
+00ff8000
+01ff0000
+03fe0000
+07fc0000
+0ff80000
+1ff00000
+3fe00000
+7fc00000
+7fffff80
+7fffff80
+7fffff80
+7fffff80
+7fffff80
+7fffff80
+>
+ ]
+/TT114b00 AddT3T32Char
+
+2
+/g1004 [30 0 2 -37 28 1 ] 
+/g1004 [26 38 true [1 0 0 1 -2 37 ]  0 0]
+[<00ffc000
+03fff000
+07fff800
+0ffffc00
+1ffffe00
+3fffff00
+3fc0ff00
+7f807f00
+7f007f80
+7f007f80
+ff003f80
+ff003f80
+fe003fc0
+fe003fc0
+fe003fc0
+fe003fc0
+fe003fc0
+fe003fc0
+fe003fc0
+fe003fc0
+fe003fc0
+fe003fc0
+fe003fc0
+fe003fc0
+fe003f80
+ff003f80
+ff003f80
+ff007f80
+7f007f80
+7f807f00
+7f80ff00
+3fe3fe00
+3ffffe00
+1ffffc00
+0ffff800
+07fff000
+03ffc000
+003e0000
+>
+ ]
+/TT114b00 AddT3T32Char
+T32RsrcEnd
+Pscript_WinNT_Incr begin
+%%BeginResource: file Pscript_Text 5.0 0
+/TextInit{TextInitialised? not{/Pscript_Windows_Font & d/TextInitialised? T d
+/fM[1 0 0 1 0 0]d/mFM matrix d/iMat[1 0 0.212557 1 0 0]d}if}b/copyfont{1 ^
+length add dict `{1 ^/FID ne{d}{! !}?}forall & E}b/EncodeDict 11 dict d/bullets
+{{/bullet}repeat}b/rF{3 copyfont @ ` ~ EncodeDict ~ get/Encoding ~ 3 ^/0 eq{&
+/CharStrings known{CharStrings/Eth known not{! EncodeDict/ANSIEncodingOld get}
+if}if}if d E}b/mF{@ 7 1 $ findfont ~{@/Encoding get @ StandardEncoding eq{! T}{
+{ISOLatin1Encoding}stopped{! F}{eq}?{T}{@ ` T 32 1 127{Encoding 1 ^ get
+StandardEncoding 3 -1 $ get eq and}for E}?}?}{F}?{1 ^ ~ rF}{0 copyfont}? 6 -2 $
+! ! ~ !/pd_charset @ where{~ get 128 eq{@ FDV 2 copy get @ length array copy
+put pd_CoverFCRange}if}{!}? 2 ^ ~ definefont fM 5 4 -1 $ put fM 4 0 put fM
+makefont Pscript_Windows_Font 3 1 $ put}b/sLT{: Lw -M currentpoint snap M 0 - 0
+Lc K ;}b/xUP null d/yUP null d/uW null d/xSP null d/ySP null d/sW null d/sSU{N
+/uW ~ d/yUP ~ d/xUP ~ d}b/sU{xUP yUP uW sLT}b/sST{N/sW ~ d/ySP ~ d/xSP ~ d}b/sT
+{xSP ySP sW sLT}b/sR{: + R 0 0 M}b/sRxy{: matrix astore concat 0 0 M}b/eR/; , d
+/AddOrigFP{{&/FontInfo known{&/FontInfo get length 6 add}{6}? dict `
+/WinPitchAndFamily ~ d/WinCharSet ~ d/OrigFontType ~ d/OrigFontStyle ~ d
+/OrigFontName ~ d & E/FontInfo ~ d}{! ! ! ! !}?}b/mFS{makefont
+Pscript_Windows_Font 3 1 $ put}b/mF42D{0 copyfont `/FontName ~ d 2 copy ~ sub 1
+add dict `/.notdef 0 d 2 copy 1 ~{@ 3 ^ sub Encoding ~ get ~ d}for & E
+/CharStrings ~ d ! ! & @ E/FontName get ~ definefont}b/mF42{15 dict ` @ 4 1 $
+FontName ~ d/FontType 0 d/FMapType 2 d/FontMatrix[1 0 0 1 0 0]d 1 ^ 254 add 255
+idiv @ array/Encoding ~ d 0 1 3 -1 $ 1 sub{@ Encoding 3 1 $ put}for/FDepVector
+Encoding length array d/CharStrings 2 dict `/.notdef 0 d & E d 0 1 Encoding
+length 1 sub{@ @ 10 lt{! FontName length 1 add string}{100 lt{FontName length 2
+add string}{FontName length 3 add string}?}? @ 0 FontName @ length string cvs
+putinterval @ 3 -1 $ @ 4 1 $ 3 string cvs FontName length ~ putinterval cvn 1 ^
+256 mul @ 255 add 3 -1 $ 4 ^ findfont mF42D FDepVector 3 1 $ put}for & @ E
+/FontName get ~ definefont ! ! ! mF}b/mF_OTF_V{~ ! ~ ! 4 -1 $ ! findfont 2 ^ ~
+definefont fM @ @ 4 6 -1 $ neg put 5 0 put 90 matrix R matrix concatmatrix
+makefont Pscript_Windows_Font 3 1 $ put}b/mF_TTF_V{3{~ !}repeat 3 -1 $ !
+findfont 1 ^ ~ definefont Pscript_Windows_Font 3 1 $ put}b/UmF{L2?
+{Pscript_Windows_Font ~ undef}{!}?}b/UmF42{@ findfont/FDepVector get{/FontName
+get undefinefont}forall undefinefont}b
+%%EndResource
+end reinitialize
+F /F0 0 /0 F /TT114b00 mF 
+/F0S3A F0 [58.332 0 0 -58.332 0 0 ] mFS
+F0S3A Ji 
+38 77 M <01>S 
+68 77 M <02>S  98 77 M <01>S  128 77 M <02>S  
+T32RsrcBegin
+
+3
+/g1005 [30 0 4 -37 27 0 ] 
+/g1005 [23 37 true [1 0 0 1 -4 37 ]  0 0]
+[<007e00
+01ff00
+03ff00
+0fff00
+1fff00
+7fff00
+ffff00
+ffff00
+fcff00
+f0ff00
+e0ff00
+00ff00
+00ff00
+00ff00
+00ff00
+00ff00
+00ff00
+00ff00
+00ff00
+00ff00
+00ff00
+00ff00
+00ff00
+00ff00
+00ff00
+00ff00
+00ff00
+00ff00
+00ff00
+00ff00
+00ff00
+7ffffc
+fffffe
+fffffe
+fffffe
+fffffe
+7ffffc
+>
+ ]
+/TT114b00 AddT3T32Char
+T32RsrcEnd
+1618 77 M <01>S 
+1648 77 M <02>S  1678 77 M <01>S  1708 77 M <03>S  
+3477 77 M <01>S 
+3507 77 M <02>S  3537 77 M <01>S  3567 77 M <01>S  
+/TT124b00
+[58 0 0 0 0 0 ] 
+ 256 array 0 1 255 {1 index exch /.notdef put} for 
+[0 0 0 0 ] 
+[1 58 div 0 0 -1 58 div 0 0 ]
+/__TT124b00
+GreNewFont
+T32RsrcBegin
+
+1
+/g24 [36 0 5 -37 33 0 ] 
+/g24 [28 37 true [1 0 0 1 -5 37 ]  0 0]
+[<7ff80000
+ffffc000
+fffff000
+fffffc00
+f80ffe00
+f800ff00
+f8003f80
+f8001f80
+f8000fc0
+f80007c0
+f80007e0
+f80003e0
+f80003e0
+f80003f0
+f80001f0
+f80001f0
+f80001f0
+f80001f0
+f80001f0
+f80001f0
+f80001f0
+f80001f0
+f80001f0
+f80003f0
+f80003e0
+f80003e0
+f80003e0
+f80007c0
+f8000fc0
+f8000f80
+f8003f80
+f8007f00
+f803fe00
+fffffc00
+fffff000
+ffffc000
+fffe0000
+>
+ ]
+/TT124b00 AddT3T32Char
+
+2
+/g286 [29 0 3 -27 26 1 ] 
+/g286 [23 28 true [1 0 0 1 -3 27 ]  0 0]
+[<01ff80
+07ffe0
+0ffff0
+1f83f8
+3f00f8
+7e007c
+7c003c
+78003e
+f8003e
+f8003e
+f8003e
+fffffe
+fffffe
+fffffe
+f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+7c0000
+7e0000
+3f001c
+3fc0fc
+1ffffc
+07fff8
+03ffe0
+001c00
+>
+ ]
+/TT124b00 AddT3T32Char
+
+3
+/g460 [23 0 3 -27 21 0 ] 
+/g460 [18 27 true [1 0 0 1 -3 27 ]  0 0]
+[<ffff80
+ffff80
+ffff80
+ffff80
+001f00
+001f00
+003e00
+003e00
+007c00
+00f800
+00f800
+01f000
+03e000
+03e000
+07c000
+0f8000
+0f8000
+1f0000
+3f0000
+3e0000
+7c0000
+7c0000
+f80000
+ffff80
+ffffc0
+ffffc0
+ffff80
+>
+ ]
+/TT124b00 AddT3T32Char
+T32RsrcEnd
+F /F1 0 /0 F /TT124b00 mF 
+/F1S3A F1 [58.332 0 0 -58.332 0 0 ] mFS
+F1S3A Ji 
+55 161 M <01>S 
+91 161 M <02>S  120 161 M <03>S  
+T32RsrcBegin
+
+4
+/g58 [19 0 0 -37 14 1 ] 
+/g58 [14 38 true [1 0 0 1 0 37 ]  0 0]
+[<0078
+007c
+007c
+007c
+007c
+007c
+007c
+007c
+007c
+007c
+007c
+007c
+007c
+007c
+007c
+007c
+007c
+007c
+007c
+007c
+007c
+007c
+007c
+007c
+007c
+007c
+007c
+007c
+007c
+007c
+007c
+00f8
+c0f8
+fff8
+fff0
+ffe0
+7fc0
+0400
+>
+ ]
+/TT124b00 AddT3T32Char
+
+5
+/g258 [28 0 3 -27 24 1 ] 
+/g258 [21 28 true [1 0 0 1 -3 27 ]  0 0]
+[<07ff00
+1fffc0
+7fffe0
+7f0fe0
+7803f0
+6001f0
+0000f0
+0000f0
+0000f8
+0000f8
+0000f8
+007ff8
+07fff8
+1ffff8
+3ffff8
+7e00f8
+fc00f8
+f800f8
+f000f8
+f000f8
+f000f8
+f801f8
+f807f8
+fe1ff8
+7fff78
+3ffe78
+0ff878
+018000
+>
+ ]
+/TT124b00 AddT3T32Char
+
+6
+/g374 [31 0 4 -27 26 0 ] 
+/g374 [22 27 true [1 0 0 1 -4 27 ]  0 0]
+[<f07fc0
+f9ffe0
+fbfff0
+fffff8
+ff81f8
+ff00fc
+fe007c
+fc007c
+f8007c
+f8003c
+f8003c
+f8003c
+f8003c
+f8003c
+f8003c
+f8003c
+f8003c
+f8003c
+f8003c
+f8003c
+f8003c
+f8003c
+f8003c
+f8003c
+f8003c
+f8003c
+f8003c
+>
+ ]
+/TT124b00 AddT3T32Char
+T32RsrcEnd
+245 161 M <04>S 
+264 161 M <05>S  292 161 M <06>S  
+T32RsrcBegin
+
+7
+/g38 [27 0 5 -37 24 0 ] 
+/g38 [19 37 true [1 0 0 1 -5 37 ]  0 0]
+[<7fffe0
+ffffe0
+ffffe0
+ffffe0
+f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+ffffc0
+ffffc0
+ffffc0
+ffffc0
+f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+>
+ ]
+/TT124b00 AddT3T32Char
+
+8
+/g271 [31 0 4 -39 28 1 ] 
+/g271 [24 40 true [1 0 0 1 -4 39 ]  0 0]
+[<f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+f87fc0
+f8fff0
+fbfff8
+fffff8
+ff80fc
+ff007c
+fe007e
+fc003e
+f8003e
+f8003f
+f8001f
+f8001f
+f8001f
+f8001f
+f8001f
+f8001f
+f8001f
+f8003e
+f8003e
+fc003e
+fe007e
+ff007c
+ff80fc
+f7f7f8
+f3fff0
+f1ffe0
+f07fc0
+000c00
+>
+ ]
+/TT124b00 AddT3T32Char
+T32RsrcEnd
+428 161 M <07>S 
+455 161 M <02>S  483 161 M <08>S  
+T32RsrcBegin
+
+9
+/g68 [50 0 5 -37 45 0 ] 
+/g68 [40 37 true [1 0 0 1 -5 37 ]  0 0]
+[<7c0000007e
+ff000000ff
+ff800001ff
+ff800001ff
+ffc00003ff
+ffc00003df
+ffc00003df
+fbe00007df
+fbe000079f
+f9f0000f9f
+f9f0000f1f
+f9f0001f1f
+f8f8001f1f
+f8f8001e1f
+f87c003e1f
+f87c003c1f
+f87c007c1f
+f83e007c1f
+f83e00781f
+f81f00f81f
+f81f00f01f
+f81f01f01f
+f80f81f01f
+f80f83e01f
+f80fc3e01f
+f807c3c01f
+f807c7c01f
+f803e7c01f
+f803ef801f
+f803ff801f
+f801ff001f
+f801ff001f
+f800fe001f
+f800fe001f
+f800fe001f
+f8007c001f
+f8007c001f
+>
+ ]
+/TT124b00 AddT3T32Char
+
+10
+/g396 [20 0 4 -27 19 0 ] 
+/g396 [15 27 true [1 0 0 1 -4 27 ]  0 0]
+[<f0fe
+f9fe
+fbfe
+fffe
+ff82
+ff00
+fe00
+fc00
+fc00
+f800
+f800
+f800
+f800
+f800
+f800
+f800
+f800
+f800
+f800
+f800
+f800
+f800
+f800
+f800
+f800
+f800
+f800
+>
+ ]
+/TT124b00 AddT3T32Char
+T32RsrcEnd
+607 161 M <09>S 
+657 161 M <05>S  686 161 M <0A>S  
+T32RsrcBegin
+
+11
+/g4 [34 0 1 -37 33 0 ] 
+/g4 [32 37 true [1 0 0 1 -1 37 ]  0 0]
+[<0007c000
+000fe000
+000fe000
+000ff000
+001ff000
+001ef800
+001ef800
+003ef800
+003c7c00
+003c7c00
+007c7c00
+00783e00
+00f83e00
+00f83e00
+00f01f00
+01f01f00
+01f01f80
+01e00f80
+03e00f80
+03e007c0
+03c007c0
+07c007c0
+07c003e0
+0fffffe0
+0fffffe0
+0ffffff0
+1ffffff0
+1f0001f8
+1f0000f8
+3e0000f8
+3e0000fc
+3e00007c
+7c00007c
+7c00007e
+7c00003e
+f800003e
+f800003f
+>
+ ]
+/TT124b00 AddT3T32Char
+
+12
+/g393 [31 0 4 -27 28 10 ] 
+/g393 [24 37 true [1 0 0 1 -4 27 ]  0 0]
+[<f07fc0
+f0fff0
+f3fff8
+f7fff8
+ff80fc
+ff007c
+fe007e
+fc003e
+f8003e
+f8003f
+f8001f
+f8001f
+f8001f
+f8001f
+f8001f
+f8001f
+f8001f
+f8003e
+f8003e
+fc003e
+fe007e
+ff007c
+ff80fc
+fff7f8
+fbfff0
+f9ffe0
+f87fc0
+f80c00
+f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+>
+ ]
+/TT124b00 AddT3T32Char
+T32RsrcEnd
+800 161 M <0B>S 
+833 161 M <0C>S  863 161 M <0A>S  
+T32RsrcBegin
+
+13
+/g349 [13 0 4 -38 10 0 ] 
+/g349 [6 38 true [1 0 0 1 -4 38 ]  0 0]
+[<30
+f8
+fc
+fc
+f8
+f8
+00
+00
+00
+00
+00
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+>
+ ]
+/TT124b00 AddT3T32Char
+T32RsrcEnd
+982 161 M <09>S 
+1032 161 M <05>S  1061 161 M <0D>S  
+T32RsrcBegin
+
+14
+/g437 [31 0 4 -27 26 1 ] 
+/g437 [22 28 true [1 0 0 1 -4 27 ]  0 0]
+[<f8003c
+f8007c
+f8007c
+f8007c
+f8007c
+f8007c
+f8007c
+f8007c
+f8007c
+f8007c
+f8007c
+f8007c
+f8007c
+f8007c
+f8007c
+f8007c
+f8007c
+f8007c
+f8007c
+f8007c
+7c00fc
+7c01fc
+7e07fc
+3fdfbc
+3fff3c
+1ffe3c
+07f83c
+00c000
+>
+ ]
+/TT124b00 AddT3T32Char
+T32RsrcEnd
+1175 161 M <04>S 
+1193 161 M <0E>S  1223 161 M <06>S  
+T32RsrcBegin
+
+15
+/g367 [13 0 4 -39 9 0 ] 
+/g367 [5 39 true [1 0 0 1 -4 39 ]  0 0]
+[<f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+>
+ ]
+/TT124b00 AddT3T32Char
+T32RsrcEnd
+1369 161 M <04>S 
+1387 161 M <0E>S  1417 161 M <0F>S  
+T32RsrcBegin
+
+16
+/g336 [27 0 1 -27 26 10 ] 
+/g336 [25 37 true [1 0 0 1 -1 27 ]  0 0]
+[<01ffff00
+07ffff80
+0fffff80
+0fc3ff00
+1f00f800
+1e007800
+3e007c00
+3e007c00
+3c007c00
+3e007c00
+3e007c00
+3e007800
+1f00f800
+1f81f800
+0ffff000
+1fffe000
+3fffc000
+3c7e0000
+3c000000
+7c000000
+3c000000
+3fe00000
+3ffff000
+1ffffc00
+0ffffe00
+1f00ff00
+3e001f00
+7c001f00
+78000f00
+78000f00
+78001f00
+78001f00
+7c003e00
+7f81fe00
+3ffffc00
+1ffff000
+03ffc000
+>
+ ]
+/TT124b00 AddT3T32Char
+T32RsrcEnd
+1540 161 M <0B>S 
+1573 161 M <0E>S  1603 161 M <10>S  
+T32RsrcBegin
+
+17
+/g94 [27 0 2 -37 25 1 ] 
+/g94 [23 38 true [1 0 0 1 -2 37 ]  0 0]
+[<01ff80
+07ffe0
+0ffff0
+1ffff0
+3f80f0
+3e0030
+7c0000
+7c0000
+7c0000
+7c0000
+7c0000
+7e0000
+7e0000
+3f0000
+3fc000
+1ff000
+0ffc00
+07ff00
+01ffc0
+007fe0
+001ff0
+0007f8
+0001fc
+0000fc
+00007c
+00007c
+00007e
+00007e
+00007c
+00007c
+c0007c
+e000fc
+f803f8
+fffff0
+ffffe0
+3fffc0
+0fff00
+006000
+>
+ ]
+/TT124b00 AddT3T32Char
+T32RsrcEnd
+1729 161 M <11>S 
+1756 161 M <02>S  1784 161 M <0C>S  
+T32RsrcBegin
+
+18
+/g75 [39 0 3 -37 36 1 ] 
+/g75 [33 38 true [1 0 0 1 -3 37 ]  0 0]
+[<001ffc0000
+00ffff8000
+01ffffc000
+07fffff000
+0ff80ff800
+0fc003f800
+1f8000fc00
+3f00007e00
+3e00007e00
+7e00003e00
+7c00003f00
+7c00001f00
+fc00001f00
+f800001f00
+f800001f00
+f800001f00
+f800001f80
+f800001f80
+f800001f80
+f800001f80
+f800001f80
+f800001f00
+f800001f00
+f800001f00
+fc00001f00
+fc00001f00
+7c00003e00
+7c00003e00
+7e00007e00
+3f00007c00
+3f0000fc00
+1fc003f800
+0fe007f000
+0fffffe000
+03ffffc000
+01ffff8000
+007ffc0000
+0001800000
+>
+ ]
+/TT124b00 AddT3T32Char
+
+19
+/g364 [27 0 4 -39 25 0 ] 
+/g364 [21 39 true [1 0 0 1 -4 39 ]  0 0]
+[<f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+f80000
+f801f0
+f803f0
+f807e0
+f80fc0
+f81f80
+f83f00
+f83e00
+f87c00
+f8f800
+f9f000
+fbe000
+ffc000
+ffe000
+fbf000
+f9f800
+f8f800
+f8fc00
+f87e00
+f83f00
+f81f00
+f81f80
+f80fc0
+f807e0
+f803e0
+f803f0
+f801f8
+f800f8
+>
+ ]
+/TT124b00 AddT3T32Char
+
+20
+/g410 [20 0 1 -34 18 0 ] 
+/g410 [17 34 true [1 0 0 1 -1 34 ]  0 0]
+[<078000
+0f8000
+0f8000
+0f8000
+0f8000
+0f8000
+0f8000
+ffff00
+ffff80
+ffff80
+ffff00
+0f8000
+0f8000
+0f8000
+0f8000
+0f8000
+0f8000
+0f8000
+0f8000
+0f8000
+0f8000
+0f8000
+0f8000
+0f8000
+0f8000
+0f8000
+0f8000
+078000
+07c000
+07c000
+07ff80
+03ff80
+03ff80
+00ff00
+>
+ ]
+/TT124b00 AddT3T32Char
+T32RsrcEnd
+1915 161 M <12>S 
+1953 161 M <13>S  1980 161 M <14>S  
+T32RsrcBegin
+
+21
+/g69 [38 0 5 -37 33 0 ] 
+/g69 [28 37 true [1 0 0 1 -5 37 ]  0 0]
+[<7c0001e0
+fe0001f0
+ff0001f0
+ff0001f0
+ff8001f0
+ff8001f0
+f7c001f0
+f7e001f0
+f3e001f0
+f3f001f0
+f1f001f0
+f1f801f0
+f0f801f0
+f0fc01f0
+f07c01f0
+f03e01f0
+f03f01f0
+f01f01f0
+f01f81f0
+f00f81f0
+f00fc1f0
+f007c1f0
+f007e1f0
+f003e1f0
+f001f1f0
+f001f1f0
+f000f9f0
+f000fdf0
+f0007df0
+f0007ff0
+f0003ff0
+f0003ff0
+f0001ff0
+f0000ff0
+f0000ff0
+f00007f0
+f00003e0
+>
+ ]
+/TT124b00 AddT3T32Char
+
+22
+/g381 [31 0 3 -27 28 1 ] 
+/g381 [25 28 true [1 0 0 1 -3 27 ]  0 0]
+[<01ffc000
+07fff000
+0ffff800
+1fe3fc00
+3f007e00
+7e003e00
+7c001f00
+7c001f00
+f8001f80
+f8000f80
+f8000f80
+f8000f80
+f0000f80
+f0000f80
+f0000f80
+f8000f80
+f8000f80
+f8000f80
+f8001f00
+fc001f00
+7c003f00
+7e003e00
+3f00fe00
+3fe3fc00
+1ffff800
+0fffe000
+03ffc000
+00180000
+>
+ ]
+/TT124b00 AddT3T32Char
+
+23
+/g448 [26 0 1 -27 25 0 ] 
+/g448 [24 27 true [1 0 0 1 -1 27 ]  0 0]
+[<f8000f
+f8001f
+fc001f
+7c001e
+7c003e
+3e003e
+3e003c
+3e007c
+1f007c
+1f0078
+1f00f8
+0f80f8
+0f80f0
+0f81f0
+07c1e0
+07c1e0
+07c3e0
+03e3c0
+03e3c0
+01e7c0
+01f780
+01ff80
+00ff80
+00ff00
+00ff00
+007f00
+007e00
+>
+ ]
+/TT124b00 AddT3T32Char
+T32RsrcEnd
+2096 161 M <15>S 
+2134 161 M <16>S  2164 161 M <17>S  
+2285 161 M <01>S 
+2322 161 M <02>S  2350 161 M <03>S  
+2476 161 M <04>S 
+2494 161 M <05>S  2523 161 M <06>S  
+2658 161 M <07>S 
+2685 161 M <02>S  2713 161 M <08>S  
+2838 161 M <09>S 
+2888 161 M <05>S  2916 161 M <0A>S  
+3032 161 M <0B>S 
+3065 161 M <0C>S  3095 161 M <0A>S  
+3214 161 M <09>S 
+3264 161 M <05>S  3292 161 M <0D>S  
+3406 161 M <04>S 
+3425 161 M <0E>S  3455 161 M <06>S  
+3601 161 M <04>S 
+3619 161 M <0E>S  3649 161 M <0F>S  
+3772 161 M <0B>S 
+3805 161 M <0E>S  3835 161 M <10>S  
+3951 161 M <11>S 
+3977 161 M <02>S  4006 161 M <0C>S  4036 161 M <14>S  
+4147 161 M <12>S 
+4185 161 M <13>S  4212 161 M <14>S  
+4327 161 M <15>S 
+4366 161 M <16>S  4396 161 M <17>S  
+4517 161 M <01>S 
+4553 161 M <02>S  4582 161 M <03>S  
+4709 161 M <04>S 
+4728 161 M <05>S  4756 161 M <06>S  
+4891 161 M <07>S 
+4918 161 M <02>S  4946 161 M <08>S  
+5072 161 M <09>S 
+5122 161 M <05>S  5150 161 M <0A>S  
+5267 161 M <0B>S 
+5300 161 M <0C>S  5330 161 M <0A>S  
+5449 161 M <09>S 
+5499 161 M <05>S  5527 161 M <0D>S  
+1 1 1 1 scol T32RsrcBegin
+
+24
+/g47 [15 0 5 -37 10 0 ] 
+/g47 [5 37 true [1 0 0 1 -5 37 ]  0 0]
+[<f0
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+f8
+>
+ ]
+/TT124b00 AddT3T32Char
+
+25
+/g100 [28 0 0 -37 28 0 ] 
+/g100 [28 37 true [1 0 0 1 0 37 ]  0 0]
+[<7fffffe0
+fffffff0
+fffffff0
+7ffffff0
+000f8000
+000f8000
+000f8000
+000f8000
+000f8000
+000f8000
+000f8000
+000f8000
+000f8000
+000f8000
+000f8000
+000f8000
+000f8000
+000f8000
+000f8000
+000f8000
+000f8000
+000f8000
+000f8000
+000f8000
+000f8000
+000f8000
+000f8000
+000f8000
+000f8000
+000f8000
+000f8000
+000f8000
+000f8000
+000f8000
+000f8000
+000f8000
+000f8000
+>
+ ]
+/TT124b00 AddT3T32Char
+
+26
+/g1008 [30 0 1 -37 28 0 ] 
+/g1008 [27 37 true [1 0 0 1 -1 37 ]  0 0]
+[<0001f800
+0003fc00
+0007fc00
+0007fc00
+000ffc00
+000f7c00
+001f7c00
+003e7c00
+003c7c00
+007c7c00
+00787c00
+00f87c00
+01f07c00
+01e07c00
+03e07c00
+03c07c00
+07c07c00
+07807c00
+0f007c00
+1f007c00
+1e007c00
+3e007c00
+3c007c00
+78007c00
+78007c00
+ffffffe0
+ffffffe0
+ffffffe0
+7fffffc0
+00007c00
+00007c00
+00007c00
+00007c00
+00007c00
+00007c00
+00007c00
+00007800
+>
+ ]
+/TT124b00 AddT3T32Char
+T32RsrcEnd
+986 418 M <18>S 
+1001 418 M <19>S  1029 418 M <1A>S  
+T32RsrcBegin
+
+27
+/g1009 [30 0 3 -37 26 1 ] 
+/g1009 [23 38 true [1 0 0 1 -3 37 ]  0 0]
+[<1ffff0
+3ffff8
+3ffff8
+3ffff8
+3ffff0
+3c0000
+3c0000
+3c0000
+3c0000
+3c0000
+3c0000
+3c0000
+3c0000
+3c0000
+3c0000
+3fff00
+3fffc0
+3ffff0
+3ffff8
+0003f8
+0000fc
+00007c
+00007e
+00003e
+00003e
+00003e
+00003e
+00003e
+00007e
+00007c
+0000fc
+8000f8
+f003f8
+ff3ff0
+ffffe0
+ffffc0
+1ffe00
+00c000
+>
+ ]
+/TT124b00 AddT3T32Char
+T32RsrcEnd
+2106 418 M <18>S 
+2121 418 M <19>S  2149 418 M <1B>S  
+T32RsrcBegin
+
+28
+/g104 [37 0 5 -37 32 1 ] 
+/g104 [27 38 true [1 0 0 1 -5 37 ]  0 0]
+[<f00001e0
+f80001e0
+f80001e0
+f80001e0
+f80001e0
+f80001e0
+f80001e0
+f80001e0
+f80001e0
+f80001e0
+f80001e0
+f80001e0
+f80001e0
+f80001e0
+f80001e0
+f80001e0
+f80001e0
+f80001e0
+f80001e0
+f80001e0
+f80001e0
+f80001e0
+f80001e0
+f80001e0
+f80001e0
+f80003e0
+f80003e0
+f80003e0
+fc0003e0
+7c0007c0
+7e0007c0
+3f000f80
+3f803f80
+1fffff00
+0ffffe00
+07fffc00
+01fff000
+000e0000
+>
+ ]
+/TT124b00 AddT3T32Char
+
+29
+/g1005 [30 0 5 -37 26 0 ] 
+/g1005 [21 37 true [1 0 0 1 -5 37 ]  0 0]
+[<007800
+00fc00
+03fc00
+0ffc00
+1ffc00
+7f7c00
+fe7c00
+f87c00
+e07c00
+c07c00
+007c00
+007c00
+007c00
+007c00
+007c00
+007c00
+007c00
+007c00
+007c00
+007c00
+007c00
+007c00
+007c00
+007c00
+007c00
+007c00
+007c00
+007c00
+007c00
+007c00
+007c00
+007c00
+007c00
+fffff8
+fffff8
+fffff8
+fffff8
+>
+ ]
+/TT124b00 AddT3T32Char
+T32RsrcEnd
+2823 418 M <1C>S 
+2859 418 M <0B>S  2893 418 M <19>S  2921 418 M <1D>S  
+3196 383 M <1C>S 
+3232 383 M <0B>S  3266 383 M <19>S  3294 383 M <1D>S  
+T32RsrcBegin
+
+30
+/g90 [32 0 5 -37 29 0 ] 
+/g90 [24 37 true [1 0 0 1 -5 37 ]  0 0]
+[<7ff800
+ffff80
+ffffc0
+fffff0
+f80ff8
+f801f8
+f800fc
+f800fc
+f8007c
+f8007c
+f8007c
+f8007c
+f8007c
+f800fc
+f800f8
+f803f0
+f80ff0
+ffffc0
+ffff80
+ffff00
+ffff80
+f80fc0
+f807e0
+f803e0
+f803f0
+f801f0
+f801f8
+f800f8
+f800f8
+f8007c
+f8007c
+f8007e
+f8003e
+f8003e
+f8003f
+f8001f
+f8001f
+>
+ ]
+/TT124b00 AddT3T32Char
+
+31
+/g400 [23 0 2 -27 20 1 ] 
+/g400 [18 28 true [1 0 0 1 -2 27 ]  0 0]
+[<07fe00
+0fff80
+1fff80
+3f0780
+7c0180
+7c0000
+780000
+780000
+7c0000
+7e0000
+3f0000
+3fe000
+1ff800
+07fe00
+01ff00
+007f80
+000fc0
+0007c0
+0003c0
+0003c0
+0003c0
+4007c0
+e007c0
+fc1f80
+ffff80
+7ffe00
+1ffc00
+018000
+>
+ ]
+/TT124b00 AddT3T32Char
+T32RsrcEnd
+3177 452 M <1E>S 
+3209 452 M <02>S  3237 452 M <14>S  3257 452 M <02>S  3286 452 M <1F>S  3309 452 M <14>S  
+T32RsrcBegin
+
+32
+/g1006 [30 0 3 -37 26 0 ] 
+/g1006 [23 37 true [1 0 0 1 -3 37 ]  0 0]
+[<03fe00
+0fff80
+3fffe0
+7ffff0
+7e0ff0
+7803f8
+6001f8
+0000f8
+0000f8
+0000f8
+0000f8
+0000f8
+0000f8
+0000f8
+0001f8
+0001f0
+0003f0
+0003e0
+0007e0
+000fc0
+000f80
+001f80
+003f00
+007e00
+00fc00
+01f800
+03f000
+07e000
+0fc000
+0f8000
+1f0000
+3e0000
+7c0000
+fffffe
+fffffe
+fffffe
+7ffffe
+>
+ ]
+/TT124b00 AddT3T32Char
+T32RsrcEnd
+3747 418 M <1C>S 
+3783 418 M <0B>S  3816 418 M <19>S  3845 418 M ( )S  
+1 0.754 0 1 scol 0 Lj 8 Lm 240 Lw : 3168 0 418 821 rc N 3376 155 M 3376 611 I : 0.207 0.207 +S K 
+; ; Pscript_WinNT_Incr begin
+%%BeginResource: file Pscript_Encoding256 5.0 0
+/CharCol256Encoding[/.notdef/breve/caron/dotaccent/dotlessi/fi/fl/fraction
+/hungarumlaut/Lslash/lslash/minus/ogonek/ring/Zcaron/zcaron/.notdef/.notdef
+/.notdef/.notdef/.notdef/.notdef/.notdef/.notdef/.notdef/.notdef/.notdef
+/.notdef/.notdef/.notdef/.notdef/.notdef/space/exclam/quotedbl/numbersign
+/dollar/percent/ampersand/quotesingle/parenleft/parenright/asterisk/plus/comma
+/hyphen/period/slash/zero/one/two/three/four/five/six/seven/eight/nine/colon
+/semicolon/less/equal/greater/question/at/A/B/C/D/E/F/G/H/I/J/K/L/M/N/O/P/Q/R/S
+/T/U/V/W/X/Y/Z/bracketleft/backslash/bracketright/asciicircum/underscore/grave
+/a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p/q/r/s/t/u/v/w/x/y/z/braceleft/bar/braceright
+/asciitilde/.notdef/Euro/.notdef/quotesinglbase/florin/quotedblbase/ellipsis
+/dagger/daggerdbl/circumflex/perthousand/Scaron/guilsinglleft/OE/.notdef
+/.notdef/.notdef/.notdef/quoteleft/quoteright/quotedblleft/quotedblright/bullet
+/endash/emdash/tilde/trademark/scaron/guilsinglright/oe/.notdef/.notdef
+/Ydieresis/.notdef/exclamdown/cent/sterling/currency/yen/brokenbar/section
+/dieresis/copyright/ordfeminine/guillemotleft/logicalnot/.notdef/registered
+/macron/degree/plusminus/twosuperior/threesuperior/acute/mu/paragraph
+/periodcentered/cedilla/onesuperior/ordmasculine/guillemotright/onequarter
+/onehalf/threequarters/questiondown/Agrave/Aacute/Acircumflex/Atilde/Adieresis
+/Aring/AE/Ccedilla/Egrave/Eacute/Ecircumflex/Edieresis/Igrave/Iacute
+/Icircumflex/Idieresis/Eth/Ntilde/Ograve/Oacute/Ocircumflex/Otilde/Odieresis
+/multiply/Oslash/Ugrave/Uacute/Ucircumflex/Udieresis/Yacute/Thorn/germandbls
+/agrave/aacute/acircumflex/atilde/adieresis/aring/ae/ccedilla/egrave/eacute
+/ecircumflex/edieresis/igrave/iacute/icircumflex/idieresis/eth/ntilde/ograve
+/oacute/ocircumflex/otilde/odieresis/divide/oslash/ugrave/uacute/ucircumflex
+/udieresis/yacute/thorn/ydieresis]def EncodeDict/256 CharCol256Encoding put
+%%EndResource
+end reinitialize
+
+%%IncludeResource: font Helvetica-Bold
+F /F2 0 /256 T /Helvetica-Bold mF 
+/F2S00I4AY4A F2 [0 74.895 74.965 0 0 0 ] mFS
+F2S00I4AY4A Ji 
+3420 210 M (E)S 
+3420 260 M (n)S  3420 305 M (t)S  3420 330 M (s)S  3420 372 M (c)S  3420 414 M (h)S  3420 458 M (e)S  3420 500 M (i)S  3420 520 M (d)S  
+1 0 0 1 scol /F2S00I58Y58 F2 [0 88.207 88.293 0 0 0 ] mFS
+F2S00I58Y58 Ji 
+4721 221 M (G)S 
+4721 289 M (o)S  
+4721 343 M (-)S 
+4721 373 M (L)S 
+4721 426 M (i)S  4721 451 M (v)S  4721 499 M (e)S  
+: 4469 0 418 821 rc N 4677 157 M 4677 611 I : 0.207 0.207 +S K 
+; ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 725 M 2210 728 I 2920 728 I 2920 725 I 2210 725 I C 
+0.973 0.723 0.762 1 scol  O ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 728 M 2210 733 I 2920 733 I 2920 728 I 2210 728 I C 
+0.973 0.719 0.758 1 scol  O ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 733 M 2210 738 I 2920 738 I 2920 733 I 2210 733 I C 
+0.973 0.715 0.754 1 scol  O ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 738 M 2210 742 I 2920 742 I 2920 738 I 2210 738 I C 
+0.973 0.711 0.754 1 scol  O ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 742 M 2210 745 I 2920 745 I 2920 742 I 2210 742 I C 
+0.973 0.711 0.75 1 scol  O ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 745 M 2210 750 I 2920 750 I 2920 745 I 2210 745 I C 
+0.973 0.707 0.75 1 scol  O ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 750 M 2210 753 I 2920 753 I 2920 750 I 2210 750 I C 
+0.973 0.703 0.746 1 scol  O ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 753 M 2210 757 I 2920 757 I 2920 753 I 2210 753 I C 
+0.969 0.703 0.746 1 scol  O ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 757 M 2210 765 I 2920 765 I 2920 757 I 2210 757 I C 
+0.969 0.699 0.742 1 scol  O ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 765 M 2210 773 I 2920 773 I 2920 765 I 2210 765 I C 
+0.969 0.695 0.738 1 scol  O ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 773 M 2210 778 I 2920 778 I 2920 773 I 2210 773 I C 
+0.969 0.691 0.734 1 scol  O ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 778 M 2210 783 I 2920 783 I 2920 778 I 2210 778 I C 
+0.969 0.688 0.73 1 scol  O ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 783 M 2210 790 I 2920 790 I 2920 783 I 2210 783 I C 
+0.969 0.684 0.727 1 scol  O ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 790 M 2210 795 I 2920 795 I 2920 790 I 2210 790 I C 
+0.969 0.68 0.723 1 scol  O ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 795 M 2210 798 I 2920 798 I 2920 795 I 2210 795 I C 
+0.969 0.676 0.723 1 scol  O ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 798 M 2210 802 I 2920 802 I 2920 798 I 2210 798 I C 
+0.965 0.676 0.719 1 scol  O ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 802 M 2210 807 I 2920 807 I 2920 802 I 2210 802 I C 
+0.965 0.672 0.719 1 scol  O ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 807 M 2210 812 I 2920 812 I 2920 807 I 2210 807 I C 
+0.965 0.668 0.715 1 scol  O ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 812 M 2210 818 I 2920 818 I 2920 812 I 2210 812 I C 
+0.965 0.664 0.711 1 scol  O ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 818 M 2210 823 I 2920 823 I 2920 818 I 2210 818 I C 
+0.965 0.66 0.707 1 scol  O ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 823 M 2210 828 I 2920 828 I 2920 823 I 2210 823 I C 
+0.965 0.656 0.703 1 scol  O ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 828 M 2210 832 I 2920 832 I 2920 828 I 2210 828 I C 
+0.965 0.652 0.703 1 scol  O ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 832 M 2210 835 I 2920 835 I 2920 832 I 2210 832 I C 
+0.969 0.652 0.699 1 scol  O ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 835 M 2210 840 I 2920 840 I 2920 835 I 2210 835 I C 
+0.969 0.648 0.699 1 scol  O ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 840 M 2210 847 I 2920 847 I 2920 840 I 2210 840 I C 
+0.969 0.645 0.695 1 scol  O ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 847 M 2210 855 I 2920 855 I 2920 847 I 2210 847 I C 
+0.969 0.641 0.691 1 scol  O ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 855 M 2210 863 I 2920 863 I 2920 855 I 2210 855 I C 
+0.969 0.637 0.688 1 scol  O ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 863 M 2210 868 I 2920 868 I 2920 863 I 2210 863 I C 
+0.969 0.633 0.684 1 scol  O ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 868 M 2210 873 I 2920 873 I 2920 868 I 2210 868 I C 
+0.969 0.629 0.68 1 scol  O ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 873 M 2210 877 I 2920 877 I 2920 873 I 2210 873 I C 
+0.969 0.625 0.676 1 scol  O ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 877 M 2210 880 I 2920 880 I 2920 877 I 2210 877 I C 
+0.973 0.625 0.676 1 scol  O ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 880 M 2210 885 I 2920 885 I 2920 880 I 2210 880 I C 
+0.973 0.621 0.672 1 scol  O ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 885 M 2210 888 I 2920 888 I 2920 885 I 2210 885 I C 
+0.973 0.617 0.672 1 scol  O ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 888 M 2210 892 I 2920 892 I 2920 888 I 2210 888 I C 
+0.973 0.617 0.668 1 scol  O ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 892 M 2210 897 I 2920 897 I 2920 892 I 2210 892 I C 
+0.973 0.613 0.668 1 scol  O ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 897 M 2210 902 I 2920 902 I 2920 897 I 2210 897 I C 
+0.973 0.609 0.664 1 scol  O ; : N 2829 726 M 2829 771 I 2211 771 I 2211 861 I 2829 861 I 2829 906 I 2918 817 I 2919 815 I 2830 726 I C 
+eoclip N 2210 902 M 2210 907 I 2920 907 I 2920 902 I 2210 902 I C 
+0.973 0.605 0.66 1 scol  O ; 0.938 0.398 0.5 1 scol 48 Lw N 2210 770 M 2828 770 I 2828 725 I 2918 815 I 2828 905 I 2828 860 I 2210 860 I C 
+: 0.102 0.102 +S K 
+; 0 0 0 1 scol 
+%%IncludeResource: font Helvetica
+F /F3 0 /256 T /Helvetica mF 
+/F3S58YFFFFFFA7 F3 [88.293 0 0 -88.207 0 0 ] mFS
+F3S58YFFFFFFA7 Ji 
+2296 848 M (F)S 
+2350 848 M (i)S  2368 848 M (n)S  2415 848 M (a)S  2463 848 M (l)S  2481 848 M (i)S  2500 848 M (s)S  2545 848 M (i)S  2563 848 M (e)S  2611 848 M (r)S  2643 848 M (u)S  2691 848 M (n)S  2738 848 M (g)S  
+: N 3854 720 M 3854 770 I 2943 770 I 2943 872 I 3854 872 I 3854 922 I 3954 822 I 3955 820 I 3855 720 I C 
+eoclip N 2942 718 M 2942 725 I 3956 725 I 3956 718 I 2942 718 I C 
+0.668 0.672 0.676 1 scol  O ; : N 3854 720 M 3854 770 I 2943 770 I 2943 872 I 3854 872 I 3854 922 I 3954 822 I 3955 820 I 3855 720 I C 
+eoclip N 2942 725 M 2942 735 I 3956 735 I 3956 725 I 2942 725 I C 
+0.664 0.668 0.672 1 scol  O ; : N 3854 720 M 3854 770 I 2943 770 I 2943 872 I 3854 872 I 3854 922 I 3954 822 I 3955 820 I 3855 720 I C 
+eoclip N 2942 735 M 2942 740 I 3956 740 I 3956 735 I 2942 735 I C 
+0.66 0.664 0.668 1 scol  O ; : N 3854 720 M 3854 770 I 2943 770 I 2943 872 I 3854 872 I 3854 922 I 3954 822 I 3955 820 I 3855 720 I C 
+eoclip N 2942 740 M 2942 750 I 3956 750 I 3956 740 I 2942 740 I C 
+0.656 0.66 0.664 1 scol  O ; : N 3854 720 M 3854 770 I 2943 770 I 2943 872 I 3854 872 I 3854 922 I 3954 822 I 3955 820 I 3855 720 I C 
+eoclip N 2942 750 M 2942 760 I 3956 760 I 3956 750 I 2942 750 I C 
+0.652 0.656 0.66 1 scol  O ; : N 3854 720 M 3854 770 I 2943 770 I 2943 872 I 3854 872 I 3854 922 I 3954 822 I 3955 820 I 3855 720 I C 
+eoclip N 2942 760 M 2942 767 I 3956 767 I 3956 760 I 2942 760 I C 
+0.648 0.652 0.656 1 scol  O ; : N 3854 720 M 3854 770 I 2943 770 I 2943 872 I 3854 872 I 3854 922 I 3954 822 I 3955 820 I 3855 720 I C 
+eoclip N 2942 767 M 2942 775 I 3956 775 I 3956 767 I 2942 767 I C 
+0.645 0.648 0.652 1 scol  O ; : N 3854 720 M 3854 770 I 2943 770 I 2943 872 I 3854 872 I 3854 922 I 3954 822 I 3955 820 I 3855 720 I C 
+eoclip N 2942 775 M 2942 785 I 3956 785 I 3956 775 I 2942 775 I C 
+0.641 0.645 0.648 1 scol  O ; : N 3854 720 M 3854 770 I 2943 770 I 2943 872 I 3854 872 I 3854 922 I 3954 822 I 3955 820 I 3855 720 I C 
+eoclip N 2942 785 M 2942 792 I 3956 792 I 3956 785 I 2942 785 I C 
+0.637 0.641 0.645 1 scol  O ; : N 3854 720 M 3854 770 I 2943 770 I 2943 872 I 3854 872 I 3854 922 I 3954 822 I 3955 820 I 3855 720 I C 
+eoclip N 2942 792 M 2942 802 I 3956 802 I 3956 792 I 2942 792 I C 
+0.633 0.637 0.641 1 scol  O ; : N 3854 720 M 3854 770 I 2943 770 I 2943 872 I 3854 872 I 3854 922 I 3954 822 I 3955 820 I 3855 720 I C 
+eoclip N 2942 802 M 2942 810 I 3956 810 I 3956 802 I 2942 802 I C 
+0.629 0.633 0.637 1 scol  O ; : N 3854 720 M 3854 770 I 2943 770 I 2943 872 I 3854 872 I 3854 922 I 3954 822 I 3955 820 I 3855 720 I C 
+eoclip N 2942 810 M 2942 817 I 3956 817 I 3956 810 I 2942 810 I C 
+0.625 0.629 0.633 1 scol  O ; : N 3854 720 M 3854 770 I 2943 770 I 2943 872 I 3854 872 I 3854 922 I 3954 822 I 3955 820 I 3855 720 I C 
+eoclip N 2942 817 M 2942 823 I 3956 823 I 3956 817 I 2942 817 I C 
+0.621 0.625 0.629 1 scol  O ; : N 3854 720 M 3854 770 I 2943 770 I 2943 872 I 3854 872 I 3854 922 I 3954 822 I 3955 820 I 3855 720 I C 
+eoclip N 2942 823 M 2942 830 I 3956 830 I 3956 823 I 2942 823 I C 
+0.617 0.621 0.625 1 scol  O ; : N 3854 720 M 3854 770 I 2943 770 I 2943 872 I 3854 872 I 3854 922 I 3954 822 I 3955 820 I 3855 720 I C 
+eoclip N 2942 830 M 2942 837 I 3956 837 I 3956 830 I 2942 830 I C 
+0.613 0.617 0.621 1 scol  O ; : N 3854 720 M 3854 770 I 2943 770 I 2943 872 I 3854 872 I 3854 922 I 3954 822 I 3955 820 I 3855 720 I C 
+eoclip N 2942 837 M 2942 842 I 3956 842 I 3956 837 I 2942 837 I C 
+0.609 0.613 0.617 1 scol  O ; : N 3854 720 M 3854 770 I 2943 770 I 2943 872 I 3854 872 I 3854 922 I 3954 822 I 3955 820 I 3855 720 I C 
+eoclip N 2942 842 M 2942 848 I 3956 848 I 3956 842 I 2942 842 I C 
+0.605 0.609 0.613 1 scol  O ; : N 3854 720 M 3854 770 I 2943 770 I 2943 872 I 3854 872 I 3854 922 I 3954 822 I 3955 820 I 3855 720 I C 
+eoclip N 2942 848 M 2942 855 I 3956 855 I 3956 848 I 2942 848 I C 
+0.602 0.605 0.609 1 scol  O ; : N 3854 720 M 3854 770 I 2943 770 I 2943 872 I 3854 872 I 3854 922 I 3954 822 I 3955 820 I 3855 720 I C 
+eoclip N 2942 855 M 2942 862 I 3956 862 I 3956 855 I 2942 855 I C 
+0.598 0.602 0.605 1 scol  O ; : N 3854 720 M 3854 770 I 2943 770 I 2943 872 I 3854 872 I 3854 922 I 3954 822 I 3955 820 I 3855 720 I C 
+eoclip N 2942 862 M 2942 865 I 3956 865 I 3956 862 I 2942 862 I C 
+0.594 0.598 0.605 1 scol  O ; : N 3854 720 M 3854 770 I 2943 770 I 2943 872 I 3854 872 I 3854 922 I 3954 822 I 3955 820 I 3855 720 I C 
+eoclip N 2942 865 M 2942 868 I 3956 868 I 3956 865 I 2942 865 I C 
+0.594 0.598 0.602 1 scol  O ; : N 3854 720 M 3854 770 I 2943 770 I 2943 872 I 3854 872 I 3854 922 I 3954 822 I 3955 820 I 3855 720 I C 
+eoclip N 2942 868 M 2942 873 I 3956 873 I 3956 868 I 2942 868 I C 
+0.59 0.594 0.602 1 scol  O ; : N 3854 720 M 3854 770 I 2943 770 I 2943 872 I 3854 872 I 3854 922 I 3954 822 I 3955 820 I 3855 720 I C 
+eoclip N 2942 873 M 2942 877 I 3956 877 I 3956 873 I 2942 873 I C 
+0.586 0.59 0.598 1 scol  O ; : N 3854 720 M 3854 770 I 2943 770 I 2943 872 I 3854 872 I 3854 922 I 3954 822 I 3955 820 I 3855 720 I C 
+eoclip N 2942 877 M 2942 880 I 3956 880 I 3956 877 I 2942 877 I C 
+0.582 0.59 0.598 1 scol  O ; : N 3854 720 M 3854 770 I 2943 770 I 2943 872 I 3854 872 I 3854 922 I 3954 822 I 3955 820 I 3855 720 I C 
+eoclip N 2942 880 M 2942 882 I 3956 882 I 3956 880 I 2942 880 I C 
+0.582 0.586 0.594 1 scol  O ; : N 3854 720 M 3854 770 I 2943 770 I 2943 872 I 3854 872 I 3854 922 I 3954 822 I 3955 820 I 3855 720 I C 
+eoclip N 2942 882 M 2942 887 I 3956 887 I 3956 882 I 2942 882 I C 
+0.578 0.586 0.594 1 scol  O ; : N 3854 720 M 3854 770 I 2943 770 I 2943 872 I 3854 872 I 3854 922 I 3954 822 I 3955 820 I 3855 720 I C 
+eoclip N 2942 887 M 2942 893 I 3956 893 I 3956 887 I 2942 887 I C 
+0.574 0.582 0.59 1 scol  O ; : N 3854 720 M 3854 770 I 2943 770 I 2943 872 I 3854 872 I 3854 922 I 3954 822 I 3955 820 I 3855 720 I C 
+eoclip N 2942 893 M 2942 900 I 3956 900 I 3956 893 I 2942 893 I C 
+0.57 0.578 0.586 1 scol  O ; : N 3854 720 M 3854 770 I 2943 770 I 2943 872 I 3854 872 I 3854 922 I 3954 822 I 3955 820 I 3855 720 I C 
+eoclip N 2942 900 M 2942 905 I 3956 905 I 3956 900 I 2942 900 I C 
+0.566 0.574 0.582 1 scol  O ; : N 3854 720 M 3854 770 I 2943 770 I 2943 872 I 3854 872 I 3854 922 I 3954 822 I 3955 820 I 3855 720 I C 
+eoclip N 2942 905 M 2942 912 I 3956 912 I 3956 905 I 2942 905 I C 
+0.563 0.57 0.578 1 scol  O ; : N 3854 720 M 3854 770 I 2943 770 I 2943 872 I 3854 872 I 3854 922 I 3954 822 I 3955 820 I 3855 720 I C 
+eoclip N 2942 912 M 2942 918 I 3956 918 I 3956 912 I 2942 912 I C 
+0.559 0.566 0.574 1 scol  O ; : N 3854 720 M 3854 770 I 2943 770 I 2943 872 I 3854 872 I 3854 922 I 3954 822 I 3955 820 I 3855 720 I C 
+eoclip N 2942 918 M 2942 923 I 3956 923 I 3956 918 I 2942 918 I C 
+0.555 0.563 0.57 1 scol  O ; 0.324 0.336 0.352 1 scol 24 Lw N 2942 769 M 3853 769 I 3853 718 I 3954 820 I 3853 921 I 3853 871 I 2942 871 I C 
+: 0.207 0.207 +S K 
+; 0 0 0 1 scol /F3S51YFFFFFFAE F3 [81.629 0 0 -81.551 0 0 ] mFS
+F3S51YFFFFFFAE Ji 
+3024 850 M (T)S 
+3074 850 M (e)S  3119 850 M (s)S  3160 850 M (t)S  3184 850 M (i)S  3200 850 M (n)S  3245 850 M (g)S  
+3312 850 M (&)S 
+3367 850 M ( )S  3388 850 M (S)S  3443 850 M (t)S  3467 850 M (a)S  3512 850 M (b)S  3557 850 M (i)S  3573 850 M (l)S  3590 850 M (i)S  3607 850 M (s)S  3648 850 M (a)S  3693 850 M (t)S  3717 850 M (i)S  3733 850 M (o)S  3778 850 M (n)S  
+: N 4558 726 M 4558 771 I 3965 771 I 3965 861 I 4558 861 I 4558 906 I 4647 817 I 4648 815 I 4559 726 I C 
+eoclip N 3964 725 M 3964 730 I 4649 730 I 4649 725 I 3964 725 I C 
+0.957 0.957 0.953 1 scol  O ; : N 4558 726 M 4558 771 I 3965 771 I 3965 861 I 4558 861 I 4558 906 I 4647 817 I 4648 815 I 4559 726 I C 
+eoclip N 3964 730 M 3964 742 I 4649 742 I 4649 730 I 3964 730 I C 
+0.953 0.953 0.949 1 scol  O ; : N 4558 726 M 4558 771 I 3965 771 I 3965 861 I 4558 861 I 4558 906 I 4647 817 I 4648 815 I 4559 726 I C 
+eoclip N 3964 742 M 3964 753 I 4649 753 I 4649 742 I 3964 742 I C 
+0.949 0.949 0.945 1 scol  O ; : N 4558 726 M 4558 771 I 3965 771 I 3965 861 I 4558 861 I 4558 906 I 4647 817 I 4648 815 I 4559 726 I C 
+eoclip N 3964 753 M 3964 765 I 4649 765 I 4649 753 I 3964 753 I C 
+0.945 0.945 0.941 1 scol  O ; : N 4558 726 M 4558 771 I 3965 771 I 3965 861 I 4558 861 I 4558 906 I 4647 817 I 4648 815 I 4559 726 I C 
+eoclip N 3964 765 M 3964 773 I 4649 773 I 4649 765 I 3964 765 I C 
+0.941 0.941 0.938 1 scol  O ; : N 4558 726 M 4558 771 I 3965 771 I 3965 861 I 4558 861 I 4558 906 I 4647 817 I 4648 815 I 4559 726 I C 
+eoclip N 3964 773 M 3964 778 I 4649 778 I 4649 773 I 3964 773 I C 
+0.938 0.938 0.934 1 scol  O ; : N 4558 726 M 4558 771 I 3965 771 I 3965 861 I 4558 861 I 4558 906 I 4647 817 I 4648 815 I 4559 726 I C 
+eoclip N 3964 778 M 3964 787 I 4649 787 I 4649 778 I 3964 778 I C 
+0.934 0.934 0.93 1 scol  O ; : N 4558 726 M 4558 771 I 3965 771 I 3965 861 I 4558 861 I 4558 906 I 4647 817 I 4648 815 I 4559 726 I C 
+eoclip N 3964 787 M 3964 798 I 4649 798 I 4649 787 I 3964 787 I C 
+0.93 0.93 0.926 1 scol  O ; : N 4558 726 M 4558 771 I 3965 771 I 3965 861 I 4558 861 I 4558 906 I 4647 817 I 4648 815 I 4559 726 I C 
+eoclip N 3964 798 M 3964 810 I 4649 810 I 4649 798 I 3964 798 I C 
+0.926 0.926 0.922 1 scol  O ; : N 4558 726 M 4558 771 I 3965 771 I 3965 861 I 4558 861 I 4558 906 I 4647 817 I 4648 815 I 4559 726 I C 
+eoclip N 3964 810 M 3964 832 I 4649 832 I 4649 810 I 3964 810 I C 
+0.922 0.922 0.918 1 scol  O ; : N 4558 726 M 4558 771 I 3965 771 I 3965 861 I 4558 861 I 4558 906 I 4647 817 I 4648 815 I 4559 726 I C 
+eoclip N 3964 832 M 3964 843 I 4649 843 I 4649 832 I 3964 832 I C 
+0.922 0.922 0.914 1 scol  O ; : N 4558 726 M 4558 771 I 3965 771 I 3965 861 I 4558 861 I 4558 906 I 4647 817 I 4648 815 I 4559 726 I C 
+eoclip N 3964 843 M 3964 865 I 4649 865 I 4649 843 I 3964 843 I C 
+0.918 0.918 0.914 1 scol  O ; : N 4558 726 M 4558 771 I 3965 771 I 3965 861 I 4558 861 I 4558 906 I 4647 817 I 4648 815 I 4559 726 I C 
+eoclip N 3964 865 M 3964 888 I 4649 888 I 4649 865 I 3964 865 I C 
+0.918 0.918 0.91 1 scol  O ; : N 4558 726 M 4558 771 I 3965 771 I 3965 861 I 4558 861 I 4558 906 I 4647 817 I 4648 815 I 4559 726 I C 
+eoclip N 3964 888 M 3964 907 I 4649 907 I 4649 888 I 3964 888 I C 
+0.914 0.914 0.906 1 scol  O ; 0.852 0.852 0.84 1 scol N 3964 770 M 4558 770 I 4558 725 I 4648 815 I 4558 905 I 4558 860 I 3964 860 I C 
+: 0.207 0.207 +S K 
+; 0 0 0 1 scol F3S58YFFFFFFA7 Ji 
+4025 848 M (G)S 
+4093 848 M (o)S  
+4141 848 M (-)S 
+4171 848 M (L)S 
+4220 848 M (i)S  4238 848 M (v)S  4283 848 M (e)S  4331 848 M ( )S  
+4356 848 M (P)S 
+4415 848 M (r)S  4445 848 M (e)S  4493 848 M (p)S  
+: N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 6 725 M 6 907 I 1281 907 I 1281 725 I 6 725 I C 
+1 1 1 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1281 725 M 1281 907 I 1291 907 I 1291 725 I 1281 725 I C 
+0.992 0.992 0.996 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1291 725 M 1291 907 I 1301 907 I 1301 725 I 1291 725 I C 
+0.984 0.988 0.992 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1301 725 M 1301 907 I 1312 907 I 1312 725 I 1301 725 I C 
+0.977 0.98 0.988 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1312 725 M 1312 907 I 1324 907 I 1324 725 I 1312 725 I C 
+0.969 0.977 0.988 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1324 725 M 1324 907 I 1334 907 I 1334 725 I 1324 725 I C 
+0.961 0.969 0.98 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1334 725 M 1334 907 I 1347 907 I 1347 725 I 1334 725 I C 
+0.953 0.961 0.98 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1347 725 M 1347 907 I 1356 907 I 1356 725 I 1347 725 I C 
+0.945 0.957 0.977 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1356 725 M 1356 907 I 1364 907 I 1364 725 I 1356 725 I C 
+0.941 0.949 0.973 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1364 725 M 1364 907 I 1372 907 I 1372 725 I 1364 725 I C 
+0.934 0.945 0.969 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1372 725 M 1372 907 I 1381 907 I 1381 725 I 1372 725 I C 
+0.926 0.941 0.969 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1381 725 M 1381 907 I 1389 907 I 1389 725 I 1381 725 I C 
+0.922 0.934 0.965 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1389 725 M 1389 907 I 1401 907 I 1401 725 I 1389 725 I C 
+0.914 0.93 0.961 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1401 725 M 1401 907 I 1411 907 I 1411 725 I 1401 725 I C 
+0.906 0.922 0.957 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1411 725 M 1411 907 I 1419 907 I 1419 725 I 1411 725 I C 
+0.898 0.918 0.953 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1419 725 M 1419 907 I 1427 907 I 1427 725 I 1419 725 I C 
+0.895 0.91 0.949 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1427 725 M 1427 907 I 1436 907 I 1436 725 I 1427 725 I C 
+0.887 0.906 0.949 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1436 725 M 1436 907 I 1446 907 I 1446 725 I 1436 725 I C 
+0.879 0.902 0.945 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1446 725 M 1446 907 I 1454 907 I 1454 725 I 1446 725 I C 
+0.875 0.895 0.941 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1454 725 M 1454 907 I 1466 907 I 1466 725 I 1454 725 I C 
+0.867 0.891 0.938 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1466 725 M 1466 907 I 1474 907 I 1474 725 I 1466 725 I C 
+0.859 0.887 0.938 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1474 725 M 1474 907 I 1484 907 I 1484 725 I 1474 725 I C 
+0.855 0.879 0.934 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1484 725 M 1484 907 I 1494 907 I 1494 725 I 1484 725 I C 
+0.848 0.875 0.93 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1494 725 M 1494 907 I 1504 907 I 1504 725 I 1494 725 I C 
+0.84 0.867 0.926 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1504 725 M 1504 907 I 1512 907 I 1512 725 I 1504 725 I C 
+0.832 0.859 0.922 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1512 725 M 1512 907 I 1526 907 I 1526 725 I 1512 725 I C 
+0.824 0.855 0.918 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1526 725 M 1526 907 I 1537 907 I 1537 725 I 1526 725 I C 
+0.816 0.848 0.918 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1537 725 M 1537 907 I 1547 907 I 1547 725 I 1537 725 I C 
+0.809 0.84 0.91 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1547 725 M 1547 907 I 1561 907 I 1561 725 I 1547 725 I C 
+0.801 0.836 0.906 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1561 725 M 1561 907 I 1571 907 I 1571 725 I 1561 725 I C 
+0.793 0.828 0.906 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1571 725 M 1571 907 I 1581 907 I 1581 725 I 1571 725 I C 
+0.785 0.82 0.898 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1581 725 M 1581 907 I 1591 907 I 1591 725 I 1581 725 I C 
+0.777 0.816 0.895 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1591 725 M 1591 907 I 1602 907 I 1602 725 I 1591 725 I C 
+0.77 0.809 0.895 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1602 725 M 1602 907 I 1611 907 I 1611 725 I 1602 725 I C 
+0.762 0.805 0.891 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1611 725 M 1611 907 I 1619 907 I 1619 725 I 1611 725 I C 
+0.758 0.797 0.887 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1619 725 M 1619 907 I 1631 907 I 1631 725 I 1619 725 I C 
+0.75 0.793 0.887 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1631 725 M 1631 907 I 1641 907 I 1641 725 I 1631 725 I C 
+0.742 0.785 0.879 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1641 725 M 1641 907 I 1649 907 I 1649 725 I 1641 725 I C 
+0.734 0.781 0.875 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1649 725 M 1649 907 I 1662 907 I 1662 725 I 1649 725 I C 
+0.727 0.773 0.875 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1662 725 M 1662 907 I 1671 907 I 1671 725 I 1662 725 I C 
+0.719 0.77 0.871 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1671 725 M 1671 907 I 1679 907 I 1679 725 I 1671 725 I C 
+0.715 0.762 0.867 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1679 725 M 1679 907 I 1691 907 I 1691 725 I 1679 725 I C 
+0.707 0.758 0.863 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1691 725 M 1691 907 I 1701 907 I 1701 725 I 1691 725 I C 
+0.699 0.75 0.859 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1701 725 M 1701 907 I 1709 907 I 1709 725 I 1701 725 I C 
+0.691 0.746 0.855 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1709 725 M 1709 907 I 1717 907 I 1717 725 I 1709 725 I C 
+0.688 0.738 0.852 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1717 725 M 1717 907 I 1726 907 I 1726 725 I 1717 725 I C 
+0.68 0.734 0.852 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1726 725 M 1726 907 I 1735 907 I 1735 725 I 1726 725 I C 
+0.672 0.73 0.848 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1735 725 M 1735 907 I 1744 907 I 1744 725 I 1735 725 I C 
+0.668 0.723 0.844 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1744 725 M 1744 907 I 1767 907 I 1767 725 I 1744 725 I C 
+0.66 0.719 0.844 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1767 725 M 1767 907 I 1809 907 I 1809 725 I 1767 725 I C 
+0.652 0.715 0.84 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1809 725 M 1809 907 I 1852 907 I 1852 725 I 1809 725 I C 
+0.648 0.707 0.84 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1852 725 M 1852 907 I 1912 907 I 1912 725 I 1852 725 I C 
+0.641 0.703 0.836 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1912 725 M 1912 907 I 1972 907 I 1972 725 I 1912 725 I C 
+0.633 0.699 0.836 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 1972 725 M 1972 907 I 2030 907 I 2030 725 I 1972 725 I C 
+0.625 0.691 0.832 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 2030 725 M 2030 907 I 2090 907 I 2090 725 I 2030 725 I C 
+0.617 0.688 0.832 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 2090 725 M 2090 907 I 2142 907 I 2142 725 I 2090 725 I C 
+0.609 0.68 0.832 1 scol  O ; : N 2100 727 M 2100 771 I 7 771 I 7 861 I 2100 861 I 2100 905 I 2188 817 I 2189 815 I 2101 727 I C 
+eoclip N 2142 725 M 2142 907 I 2190 907 I 2190 725 I 2142 725 I C 
+0.598 0.672 0.828 1 scol  O ; 0.398 0.527 0.75 1 scol 48 Lw : 0 697 2219 238 rc N 6 770 M 2099 770 I 2099 725 I 2189 815 I 2099 905 I 2099 860 I 6 860 I C 
+: 0.102 0.102 +S K 
+; ; 0 0 0 1 scol 759 848 M (V)S 
+818 848 M (o)S  866 848 M (l)S  884 848 M (l)S  903 848 M (e)S  951 848 M ( )S  979 848 M (I)S  1004 848 M (n)S  1051 848 M (t)S  1076 848 M (e)S  1124 848 M (g)S  1174 848 M (r)S  1204 848 M (a)S  1253 848 M (t)S  1278 848 M (i)S  1296 848 M (o)S  1344 848 M (n)S 
+
+N 3331 1037 M 4557 1037 I 4557 991 I 4648 1082 I 4557 1173 I 4557 1127 I 3331 1127 I C 
+1 0.754 0 1 scol  O 0.324 0.336 0.352 1 scol 24 Lw : 3303 963 1374 228 rc N 3331 1037 M 4557 1037 I 4557 991 I 4648 1082 I 4557 1173 I 4557 1127 I 3331 1127 I C 
+: 0.207 0.207 +S K 
+; ; 0 0 0 1 scol 3480 1115 M (P)S 
+3538 1115 M (a)S  3587 1115 M (r)S  3617 1115 M (t)S  3642 1115 M (n)S  3688 1115 M (e)S  3736 1115 M (r)S  3766 1115 M ( )S  
+3791 1115 M (T)S 
+3846 1115 M (e)S  3895 1115 M (s)S  3940 1115 M (t)S  3965 1115 M (i)S  3983 1115 M (n)S  4030 1115 M (g)S  
+4103 1115 M (&)S 
+4161 1115 M ( )S  4185 1115 M (R)S  4248 1115 M (o)S  4296 1115 M (l)S  4315 1115 M (l)S  4333 1115 M (o)S  4381 1115 M (u)S  4428 1115 M (t)S  
+: N 5320 720 M 5320 770 I 4702 770 I 4702 872 I 5320 872 I 5320 922 I 5420 822 I 5421 820 I 5321 720 I C 
+eoclip N 4701 718 M 4701 725 I 5422 725 I 5422 718 I 4701 718 I C 
+0.668 0.672 0.676 1 scol  O ; : N 5320 720 M 5320 770 I 4702 770 I 4702 872 I 5320 872 I 5320 922 I 5420 822 I 5421 820 I 5321 720 I C 
+eoclip N 4701 725 M 4701 735 I 5422 735 I 5422 725 I 4701 725 I C 
+0.664 0.668 0.672 1 scol  O ; : N 5320 720 M 5320 770 I 4702 770 I 4702 872 I 5320 872 I 5320 922 I 5420 822 I 5421 820 I 5321 720 I C 
+eoclip N 4701 735 M 4701 740 I 5422 740 I 5422 735 I 4701 735 I C 
+0.66 0.664 0.668 1 scol  O ; : N 5320 720 M 5320 770 I 4702 770 I 4702 872 I 5320 872 I 5320 922 I 5420 822 I 5421 820 I 5321 720 I C 
+eoclip N 4701 740 M 4701 750 I 5422 750 I 5422 740 I 4701 740 I C 
+0.656 0.66 0.664 1 scol  O ; : N 5320 720 M 5320 770 I 4702 770 I 4702 872 I 5320 872 I 5320 922 I 5420 822 I 5421 820 I 5321 720 I C 
+eoclip N 4701 750 M 4701 760 I 5422 760 I 5422 750 I 4701 750 I C 
+0.652 0.656 0.66 1 scol  O ; : N 5320 720 M 5320 770 I 4702 770 I 4702 872 I 5320 872 I 5320 922 I 5420 822 I 5421 820 I 5321 720 I C 
+eoclip N 4701 760 M 4701 767 I 5422 767 I 5422 760 I 4701 760 I C 
+0.648 0.652 0.656 1 scol  O ; : N 5320 720 M 5320 770 I 4702 770 I 4702 872 I 5320 872 I 5320 922 I 5420 822 I 5421 820 I 5321 720 I C 
+eoclip N 4701 767 M 4701 775 I 5422 775 I 5422 767 I 4701 767 I C 
+0.645 0.648 0.652 1 scol  O ; : N 5320 720 M 5320 770 I 4702 770 I 4702 872 I 5320 872 I 5320 922 I 5420 822 I 5421 820 I 5321 720 I C 
+eoclip N 4701 775 M 4701 785 I 5422 785 I 5422 775 I 4701 775 I C 
+0.641 0.645 0.648 1 scol  O ; : N 5320 720 M 5320 770 I 4702 770 I 4702 872 I 5320 872 I 5320 922 I 5420 822 I 5421 820 I 5321 720 I C 
+eoclip N 4701 785 M 4701 792 I 5422 792 I 5422 785 I 4701 785 I C 
+0.637 0.641 0.645 1 scol  O ; : N 5320 720 M 5320 770 I 4702 770 I 4702 872 I 5320 872 I 5320 922 I 5420 822 I 5421 820 I 5321 720 I C 
+eoclip N 4701 792 M 4701 802 I 5422 802 I 5422 792 I 4701 792 I C 
+0.633 0.637 0.641 1 scol  O ; : N 5320 720 M 5320 770 I 4702 770 I 4702 872 I 5320 872 I 5320 922 I 5420 822 I 5421 820 I 5321 720 I C 
+eoclip N 4701 802 M 4701 810 I 5422 810 I 5422 802 I 4701 802 I C 
+0.629 0.633 0.637 1 scol  O ; : N 5320 720 M 5320 770 I 4702 770 I 4702 872 I 5320 872 I 5320 922 I 5420 822 I 5421 820 I 5321 720 I C 
+eoclip N 4701 810 M 4701 817 I 5422 817 I 5422 810 I 4701 810 I C 
+0.625 0.629 0.633 1 scol  O ; : N 5320 720 M 5320 770 I 4702 770 I 4702 872 I 5320 872 I 5320 922 I 5420 822 I 5421 820 I 5321 720 I C 
+eoclip N 4701 817 M 4701 823 I 5422 823 I 5422 817 I 4701 817 I C 
+0.621 0.625 0.629 1 scol  O ; : N 5320 720 M 5320 770 I 4702 770 I 4702 872 I 5320 872 I 5320 922 I 5420 822 I 5421 820 I 5321 720 I C 
+eoclip N 4701 823 M 4701 830 I 5422 830 I 5422 823 I 4701 823 I C 
+0.617 0.621 0.625 1 scol  O ; : N 5320 720 M 5320 770 I 4702 770 I 4702 872 I 5320 872 I 5320 922 I 5420 822 I 5421 820 I 5321 720 I C 
+eoclip N 4701 830 M 4701 837 I 5422 837 I 5422 830 I 4701 830 I C 
+0.613 0.617 0.621 1 scol  O ; : N 5320 720 M 5320 770 I 4702 770 I 4702 872 I 5320 872 I 5320 922 I 5420 822 I 5421 820 I 5321 720 I C 
+eoclip N 4701 837 M 4701 842 I 5422 842 I 5422 837 I 4701 837 I C 
+0.609 0.613 0.617 1 scol  O ; : N 5320 720 M 5320 770 I 4702 770 I 4702 872 I 5320 872 I 5320 922 I 5420 822 I 5421 820 I 5321 720 I C 
+eoclip N 4701 842 M 4701 848 I 5422 848 I 5422 842 I 4701 842 I C 
+0.605 0.609 0.613 1 scol  O ; : N 5320 720 M 5320 770 I 4702 770 I 4702 872 I 5320 872 I 5320 922 I 5420 822 I 5421 820 I 5321 720 I C 
+eoclip N 4701 848 M 4701 855 I 5422 855 I 5422 848 I 4701 848 I C 
+0.602 0.605 0.609 1 scol  O ; : N 5320 720 M 5320 770 I 4702 770 I 4702 872 I 5320 872 I 5320 922 I 5420 822 I 5421 820 I 5321 720 I C 
+eoclip N 4701 855 M 4701 862 I 5422 862 I 5422 855 I 4701 855 I C 
+0.598 0.602 0.605 1 scol  O ; : N 5320 720 M 5320 770 I 4702 770 I 4702 872 I 5320 872 I 5320 922 I 5420 822 I 5421 820 I 5321 720 I C 
+eoclip N 4701 862 M 4701 865 I 5422 865 I 5422 862 I 4701 862 I C 
+0.594 0.598 0.605 1 scol  O ; : N 5320 720 M 5320 770 I 4702 770 I 4702 872 I 5320 872 I 5320 922 I 5420 822 I 5421 820 I 5321 720 I C 
+eoclip N 4701 865 M 4701 868 I 5422 868 I 5422 865 I 4701 865 I C 
+0.594 0.598 0.602 1 scol  O ; : N 5320 720 M 5320 770 I 4702 770 I 4702 872 I 5320 872 I 5320 922 I 5420 822 I 5421 820 I 5321 720 I C 
+eoclip N 4701 868 M 4701 873 I 5422 873 I 5422 868 I 4701 868 I C 
+0.59 0.594 0.602 1 scol  O ; : N 5320 720 M 5320 770 I 4702 770 I 4702 872 I 5320 872 I 5320 922 I 5420 822 I 5421 820 I 5321 720 I C 
+eoclip N 4701 873 M 4701 877 I 5422 877 I 5422 873 I 4701 873 I C 
+0.586 0.59 0.598 1 scol  O ; : N 5320 720 M 5320 770 I 4702 770 I 4702 872 I 5320 872 I 5320 922 I 5420 822 I 5421 820 I 5321 720 I C 
+eoclip N 4701 877 M 4701 880 I 5422 880 I 5422 877 I 4701 877 I C 
+0.582 0.59 0.598 1 scol  O ; : N 5320 720 M 5320 770 I 4702 770 I 4702 872 I 5320 872 I 5320 922 I 5420 822 I 5421 820 I 5321 720 I C 
+eoclip N 4701 880 M 4701 882 I 5422 882 I 5422 880 I 4701 880 I C 
+0.582 0.586 0.594 1 scol  O ; : N 5320 720 M 5320 770 I 4702 770 I 4702 872 I 5320 872 I 5320 922 I 5420 822 I 5421 820 I 5321 720 I C 
+eoclip N 4701 882 M 4701 887 I 5422 887 I 5422 882 I 4701 882 I C 
+0.578 0.586 0.594 1 scol  O ; : N 5320 720 M 5320 770 I 4702 770 I 4702 872 I 5320 872 I 5320 922 I 5420 822 I 5421 820 I 5321 720 I C 
+eoclip N 4701 887 M 4701 893 I 5422 893 I 5422 887 I 4701 887 I C 
+0.574 0.582 0.59 1 scol  O ; : N 5320 720 M 5320 770 I 4702 770 I 4702 872 I 5320 872 I 5320 922 I 5420 822 I 5421 820 I 5321 720 I C 
+eoclip N 4701 893 M 4701 900 I 5422 900 I 5422 893 I 4701 893 I C 
+0.57 0.578 0.586 1 scol  O ; : N 5320 720 M 5320 770 I 4702 770 I 4702 872 I 5320 872 I 5320 922 I 5420 822 I 5421 820 I 5321 720 I C 
+eoclip N 4701 900 M 4701 905 I 5422 905 I 5422 900 I 4701 900 I C 
+0.566 0.574 0.582 1 scol  O ; : N 5320 720 M 5320 770 I 4702 770 I 4702 872 I 5320 872 I 5320 922 I 5420 822 I 5421 820 I 5321 720 I C 
+eoclip N 4701 905 M 4701 912 I 5422 912 I 5422 905 I 4701 905 I C 
+0.563 0.57 0.578 1 scol  O ; : N 5320 720 M 5320 770 I 4702 770 I 4702 872 I 5320 872 I 5320 922 I 5420 822 I 5421 820 I 5321 720 I C 
+eoclip N 4701 912 M 4701 918 I 5422 918 I 5422 912 I 4701 912 I C 
+0.559 0.566 0.574 1 scol  O ; : N 5320 720 M 5320 770 I 4702 770 I 4702 872 I 5320 872 I 5320 922 I 5420 822 I 5421 820 I 5321 720 I C 
+eoclip N 4701 918 M 4701 923 I 5422 923 I 5422 918 I 4701 918 I C 
+0.555 0.563 0.57 1 scol  O ; 0.324 0.336 0.352 1 scol N 4701 769 M 5319 769 I 5319 718 I 5421 820 I 5319 921 I 5319 871 I 4701 871 I C 
+: 0.207 0.207 +S K 
+; 0 0 0 1 scol F3S51YFFFFFFAE Ji 
+4851 850 M (H)S 
+4909 850 M (y)S  4947 850 M (p)S  4992 850 M (e)S  5037 850 M (r)S  5064 850 M (c)S  5106 850 M (a)S  5151 850 M (r)S  5177 850 M (e)S  
+LH
+%%PageTrailer
+
+%%Trailer
+%%DocumentNeededResources: 
+%%+ font Helvetica-Bold
+%%+ font Helvetica
+%%DocumentSuppliedResources: 
+%%+ procset Pscript_WinNT_VMErrorHandler 5.0 0
+%%+ procset Pscript_FatalError 5.0 0
+%%+ procset Pscript_Win_Basic 5.0 0
+%%+ procset Pscript_Win_Utils_L1 5.0 0
+%%+ procset Pscript_Win_GdiObject 5.0 0
+%%+ procset Pscript_Win_GdiObject_L1 5.0 0
+%%+ procset Pscript_T3Hdr 5.0 0
+%%+ procset Pscript_Text 5.0 0
+%%+ procset Pscript_Encoding256 5.0 0
+Pscript_WinNT_Incr dup /terminate get exec
+%%EOF

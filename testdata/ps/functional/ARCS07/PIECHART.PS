@@ -1,0 +1,23 @@
+%!PS
+
+%	This example appears in section "Pie Charts"
+%	in Chapter 7 - "Arcs and Curves".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+4.25 inch 5.5 inch moveto		%  Iguana Pie
+4.25 inch 5.5 inch 4 inch 5 50 arc
+closepath 0.50 setgray fill
+4.25 inch 5.5 inch moveto		%  Camel Pie
+4.25 inch 5.5 inch 4 inch 50 100 arc
+closepath 0.60 setgray fill
+4.25 inch 5.5 inch moveto		%  Alligator Pie
+4.25 inch 5.5 inch 4 inch 100 200 arc
+closepath 0.70 setgray fill
+4.25 inch 5.5 inch moveto		%  Wombat Pie
+4.25 inch 5.5 inch 4 inch 200 300 arc
+closepath 0.80 setgray fill
+4.25 inch 16 add 5.5 inch 8 sub moveto	%  Yak Pie
+4.25 inch 16 add 5.5 inch 8 sub 4 inch 300 365 arc
+closepath 0.90 setgray fill
+showpage				%  display page

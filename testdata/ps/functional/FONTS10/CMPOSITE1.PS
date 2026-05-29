@@ -1,0 +1,17 @@
+%!PS
+
+%	This example appears in section "Composite Characters"
+%	in Chapter 10 - "Fonts".
+%
+
+/inch { 36 mul } def			%  define inch procedure
+/DesignSize 1000 def			%  character design space
+/PointSize 10 inch def			%  size for character
+/ScaleFactor PointSize DesignSize div def
+/Optima findfont			%  find required font
+PointSize scalefont			%  scale to required size
+setfont					%  make current font
+1 inch 1 inch translate			%  position origin
+0 360 moveto				%  set current point
+(AB) show				%  show "A" character
+showpage				%  display page

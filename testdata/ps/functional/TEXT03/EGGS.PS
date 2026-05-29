@@ -1,0 +1,43 @@
+%!PS
+
+%	This example appears in section "Underlining Text"
+%	in Chapter 3 - "Text".
+%
+
+/UnderLineString {			%  define underlining procedure
+	currentfont dup			%  get current font dictionary
+	/FontMatrix get			%  get current font matrix
+	exch				%  font dictionary on top
+	/FontInfo get dup		%  get font information dictionary
+	/UnderlinePosition get		%  get underline position
+	exch				%  font info dictionary on top
+	/UnderlineThickness get		%  get stroke width
+	3 -1 roll dtransform		%  scale position and thickness
+	/UnderThick exch def		%  define for later
+	/UnderPos exch def		%  define for later
+	currentpoint			%  get current point
+	pop				%  don't need y coordinate
+	/Start_x exch def		%  remember x coordinate
+	show				%  show string to be underlined
+	currentpoint			%  get current point
+	/End_y exch def			%  remember x coordinate
+	/End_x exch def			%  remember x coordinate
+	0 UnderPos rmoveto		%  set start of line
+	Start_x End_x sub 0 rlineto	%  draw line
+	currentlinewidth		%  remember current line width
+	UnderThick setlinewidth		%  set line width for underlining
+	stroke				%  stroke the line
+	setlinewidth			%  restore previous line width
+	End_x End_y moveto		%  position for rest of string
+} def
+
+/inch { 72 mul } def			%  define inch procedure
+/Palatino-Roman findfont		%  find required font
+1.125 inch scalefont			%  scale font to required size
+setfont					%  make it current font
+52 rotate				%  rotate for angled text
+96 0 moveto				%  set initial point
+(Buy ) show				%  show first part of string
+(special eggs) UnderLineString		%  show string to be underlined
+( Today) show				%  show rest of text
+showpage				%  display page

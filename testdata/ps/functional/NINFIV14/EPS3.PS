@@ -1,0 +1,20 @@
+%!PS
+
+%	This example appears in section "Including Encapsulated PostScript
+%	Illustrations" in Chapter 14 - "PostScript Nine to Five".
+%
+
+0 setgray				%  gray scale = black
+0 setlinecap				%  butt line cap
+1 setlinewidth				%  one point lines
+0 setlinejoin				%  mitered line join
+10 setmiterlimit
+[] 0 setdash				%  no dash patterns
+/languagelevel where {			%  see if language level defined
+	pop				%  get rid of dictionary
+	languagelevel 2 ge {		%  see if Level 2 or greater
+		false setoverprint	%  no overprinting
+		false setstrokeadjust	%  no stroke adjust
+	} if
+} if
+newpath					%  start new path

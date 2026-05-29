@@ -1,0 +1,42 @@
+%!PS
+
+%	This example appears in the introductory section
+%	of Chapter 8 - "Clipping".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+/outer_rad 4.125 inch def
+/inner_rad 1.375 inch def
+/pentagram {
+	newpath
+	outer_rad  18 cos mul outer_rad  18 sin mul moveto
+	inner_rad  54 cos mul inner_rad  54 sin mul lineto
+	outer_rad  90 cos mul outer_rad  90 sin mul lineto
+	inner_rad 126 cos mul inner_rad 126 sin mul lineto
+	outer_rad 162 cos mul outer_rad 162 sin mul lineto
+	inner_rad 198 cos mul inner_rad 198 sin mul lineto
+	outer_rad 234 cos mul outer_rad 234 sin mul lineto
+	inner_rad 270 cos mul inner_rad 270 sin mul lineto
+	outer_rad 306 cos mul outer_rad 306 sin mul lineto
+	inner_rad 342 cos mul inner_rad 342 sin mul lineto
+	closepath
+} def
+
+/middle_rad 2.75 inch def
+/pentagon {
+	newpath
+	middle_rad  18 cos mul middle_rad  18 sin mul moveto
+	middle_rad  90 cos mul middle_rad  90 sin mul lineto
+	middle_rad 162 cos mul middle_rad 162 sin mul lineto
+	middle_rad 234 cos mul middle_rad 234 sin mul lineto
+	middle_rad 306 cos mul middle_rad 306 sin mul lineto
+	closepath
+} def
+
+4.25 inch 5.5 inch translate		%  move to middle of page
+pentagram 0.0 setgray fill		%  draw black pentagram
+pentagon 0.9 setgray fill		%  draw light gray pentagon
+pentagon clip				%  make pentagon clipping region
+pentagram 0.5 setgray fill		%  draw darker gray pentagram
+pentagon 0.0 setgray stroke		%  draw borders of pentagon
+showpage				%  display page

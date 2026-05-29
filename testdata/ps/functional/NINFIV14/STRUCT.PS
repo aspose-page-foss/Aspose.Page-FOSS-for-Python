@@ -1,0 +1,32 @@
+%	This example appears in section "Structure of a PostScript Program"
+%	in Chapter 14 - "PostScript Nine to Five".
+%
+
+%!PS-Adobe-3.0
+%%Pages: 1				%  number of pages in document
+%%EndComments				%  end of comments section
+%%BeginProlog				%  start prolog section
+/inch { 72 mul } def			%  define inch procedure
+%%EndProlog				%  end prolog section
+%%Page: one 1				%  start of page
+%%BeginPageSetup			%  start page setup section
+/pageSave save def			%  save state of VM
+%%EndPageSetup				%  end page setup section
+4.25 inch 5.5 inch translate		%  origin to center of page
+0.75 1 scale				%  scale for diamond shape
+45 rotate				%  rotate to get diamond
+-3 inch -3 inch moveto			%  set current point
+3 inch -3 inch lineto			%  add line segment
+3 inch 3 inch lineto			%  add another line segment
+-3 inch 3 inch lineto			%  add another line segment
+closepath				%  finish the shape
+gsave					%  remember graphics state
+	0.50 setgray 			%  medium gray
+	fill				%  fill
+grestore				%  restore graphics state
+0.5 inch setlinewidth			%  fat line
+0.0 setgray				%  black
+stroke					%  paint outline of path
+pageSave restore			%  restore state of VM
+showpage				%  display page
+%%EOF					%  end of entire document

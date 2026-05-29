@@ -1,0 +1,18 @@
+%!PS
+
+%	This example appears in section "Remove Top Element From Stack"
+%	in Chapter 5 - "PostScript Language".
+%
+
+/inch { 72 mul } def		%  define inch procedure
+2 inch 8 inch moveto		%  set current point
+8 inch 5.5 inch			%  corner point
+4 inch 2 inch			%  end point
+2 inch arcto			%  radius and draw arc
+gsave				%  push graphics state
+	0.50 setgray		%  medium gray color
+	fill			%  fill shape
+grestore			%  recall graphics state
+0.125 inch setlinewidth		%  fat line width
+stroke				%  paint the outline
+showpage			%  display page

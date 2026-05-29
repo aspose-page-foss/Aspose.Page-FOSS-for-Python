@@ -1,0 +1,23 @@
+%!PS
+
+%	This example appears in section "Extending the Playing Cards Font
+%	to a Composite Font" in Chapter 10 - "Fonts".
+%
+
+9 dict					%  create nine-element dictionary
+dup					%  make copy on stack
+begin					%  push on dictionary stack
+	/FontName /EmptyFont def	%  name of font
+	/FontType 3 def			%  3 = user-defined font
+	/FontMatrix [ 0 0 0 0 0 0 ] def	%  dummy matrix
+	/FontBBox [ 0 0 0 0 ] def	%  dummy bounding box
+	/Encoding 256 array def		%  define encoding
+	0 1 255 {			%  fill with null character names
+		Encoding exch /.notdef put
+	} for
+	/BuildGlyph { 			%  minimal BuildGlyph
+		pop pop			%  get rid of name and dictionary
+	} def
+	/UniqueID 1 def			%  dummy unique ID
+end					%  remove dictionary
+/EmptyFont exch definefont pop		%  define the font

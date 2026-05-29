@@ -1,0 +1,30 @@
+%!PS
+
+%	This example appears in section "Shear Transformations"
+%	in Chapter 4 - "Transformations".
+%
+
+/inch { 72 mul } def		%  define inch procedure
+
+/xtilt {			%  stack = angle
+	[ 1 0			%  push mark, 1, 0
+	4 -1 roll		%  angle to top of stack
+	sin			%  take sine of angle
+	1 0 0 ]			%  add rest of matrix
+	concat			%  concatenate with CTM
+} def				%  end of definition
+
+/square {			%  stack = side
+	0 0 moveto		%  set current point
+	dup 0 rlineto		%  bottom of square
+	dup 0 exch rlineto	%  right side of square
+	neg 0 rlineto		%  top of square
+	closepath		%  finish the shape
+} def				%  define procedure
+
+0.5 inch 3.5 inch translate	%  set origin
+1 0.75 scale			%  scale in y only
+45 xtilt			%  shear in x only
+4 inch square
+0.5 setgray fill		%  fill with medium gray
+showpage			%  display page

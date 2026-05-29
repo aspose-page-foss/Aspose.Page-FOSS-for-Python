@@ -1,0 +1,41 @@
+%!PS
+
+%	This example appears in section "Selecting and Painting with
+%	a Pattern" in Chapter 11 - "Patterns".
+%
+%	Caveats:	Requires PostScript Level 2.
+
+/OneHeartProto 8 dict def			%  define dict for pattern
+OneHeartProto begin				%  push onto dictionary stack
+	/PatternType 1 def			%  required--must be 1
+	/PaintType 1 def			%  colored pattern
+	/TilingType 1 def			%  device grid adjustment
+	/BBox [ -253 0 253 545 ] def		%  bounding box
+	/XStep 1000 def				%  size of cell in x dimension
+	/YStep 1000 def				%  size of cell in y dimension
+	/PaintProc { 				%  define the paint procedure
+		pop				%  remove pattern dictionary
+		0 0 moveto			%  set current point
+		500 500  125 625 0 500  curveto	%  right side of heart
+		-125 625 -500 500  0 0  curveto	%  left side of heart
+		0.50 setgray fill		%  fill with medium gray
+	} def
+end						%  pop from dictionary stack
+
+OneHeartProto					%  pattern dict to operand stack
+[ 0.04 0 0 0.04 0 0 ]				%  transformation matrix
+makepattern					%  make instance of pattern
+/SmallHeart exch def				%  stash instantiated pattern
+
+/Palatino-Bold findfont				%  get required font
+720 scalefont					%  scale to required size
+setfont						%  make current font
+20 240 moveto					%  set current point
+SmallHeart setpattern				%  use the instantiated pattern
+(Q) show					%  image letter full of hearts
+20 240 moveto
+0.0 setgray					%  set black color
+(Q) false charpath				%  get character outline
+4 setlinewidth					%  fatter line width
+stroke						%  stroke the outline
+showpage					%  display page

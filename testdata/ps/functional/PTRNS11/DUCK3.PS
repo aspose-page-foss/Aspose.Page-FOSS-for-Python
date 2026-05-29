@@ -1,0 +1,74 @@
+%!PS
+
+%	This example appears in section "Painting with an Uncolored
+%	Pattern" in Chapter 11 - "Patterns".
+%
+%	Caveats:	Requires PostScript Level 2.
+
+/OneDuckProto 12 dict def		%  define dictionary for pattern
+OneDuckProto begin			%  push onto dictionary stack
+	/PatternType 1 def		%  required--must be 1
+	/PaintType 2 def		%  uncolored pattern
+	/TilingType 1 def		%  controls grid adjustment
+	/BBox [ 30 87 933 713 ] def	%  bounding box for shape
+	/XStep 1000 def			%  increment in x dimension
+	/YStep 1000 def			%  increment in y dimension
+	/ProtoDuck {			%  start definition
+		677 505 moveto
+		673 538 762 498 819 500 curveto
+		871 504 876 544 933 557 curveto
+		933 560 lineto
+		832 569 706 704 567 704 curveto
+		507 704 410 633 341 633 curveto
+		278 633 226 713 187 713 curveto
+		122 713 108 617 38 628 curveto
+		27 629 27 613 38 612 curveto
+		99 600 75 602 125 600 curveto
+		165 600 194 633 215 633 curveto
+		248 633 276 609 302 583 curveto
+		342 543 403 522 403 494 curveto
+		403 258 lineto
+		403 204 380 140 347 87 curveto
+		410 117 524 187 550 266 curveto
+		567 316 642 448 671 448 curveto
+		761 448 722 431 772 431 curveto
+		788 431 803 429 819 426 curveto
+		811 436 796 440 784 442 curveto
+		781 455 779 465 767 465 curveto
+		745 465 712 460 680 469 curveto
+		closepath
+	} def				%  end of shape definition
+	/PaintProc { 			%  pattern dictionary on stack
+		begin			%  push onto dictionary stack
+			ProtoDuck  fill	%  draw the outline and fill it
+		end			%  pop off dictionary stack
+	} def				%  end of paint procedure
+end					%  pop off dictionary stack
+
+OneDuckProto				%  pattern dictionary to operand stack
+[ 0.1 0 0 0.1 0 0 ]			%  transformation matrix
+makepattern				%  make an instance of the pattern
+/SmallDuck exch def			%  stash the instantiated pattern
+
+/inch { 72 mul } def			%  define inch procedure
+4.25 inch 7.5 inch 3 inch 0 360 arc
+closepath				%  finish circle
+gsave					%  push graphics state
+	0.0 0.5 0.0 setrgbcolor		%  medium green color
+	fill				%  fill circle
+grestore				%  pop graphics state
+[
+	/Pattern
+	/DeviceRGB
+] setcolorspace				%  color space is pattern
+0.0 0.0 0.5 SmallDuck setcolor		%  medium blue and ducks pattern
+fill					%  fill with medium blue ducks
+4.25 inch 3.5 inch 3 inch 0 360 arc
+closepath				%  finish circle
+gsave					%  push graphics state
+	0.0 0.0 0.5 setrgbcolor		%  medium blue color
+	fill				%  fill circle
+grestore				%  pop graphics state
+0.0 0.5 0.0 SmallDuck setcolor		%  medium green and ducks pattern
+fill					%  fill with medium green ducks
+showpage				%  display page

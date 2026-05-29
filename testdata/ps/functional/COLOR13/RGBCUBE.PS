@@ -1,0 +1,101 @@
+%!PS
+
+%	This example appears in section "CMYK Color Model"
+%	in Chapter 13 - "RGB Color Model".
+%
+%	Caveats:	Requires PostScript Level 2.
+
+/inch { 72 mul } def			%  define inch procedure
+/side 4 inch def			%  size of side of cube
+/x_squash { 30 cos } def
+/y_shear { 30 sin } def
+
+/right_show {				%  stack = x  y  (string)
+	dup				%  make copy of string
+	stringwidth pop			%  compute string width
+	4 -1 roll exch sub		%  decrement x position
+	3 -1 roll moveto		%  set current point
+	show				%  display the string
+} def
+
+/center_show {				%  stack = x y (string)
+	dup				%  make copy of string
+	stringwidth pop 2 div		%  half string width
+	4 -1 roll exch sub		%  decrement x position
+	3 -1 roll moveto		%  set current point
+	show				%  image string
+} def
+
+/square {				%  stack = side
+	0 0 moveto
+	dup 0 rlineto
+	dup 0 exch rlineto
+	neg 0 rlineto
+	closepath
+} def
+
+/bluefill {
+	1 1 100 {			%  red --> 0 to 1 (up)
+		/red exch def
+		100 -1 1 {		%  green --> 1 to 0 (left to right)
+			/green exch def
+			red 0.01 mul green 0.01 mul 1.0 setrgbcolor
+			0 0 side 100 div dup rectfill
+			side 100 div 0 translate
+			} for
+		side neg side 100 div translate
+	} for
+} def
+
+/greenfill {
+	1 1 100 {			% red --> 0 to 1 (up)
+		/red exch def
+		100 -1 1 {		% blue --> 1 to 0 (up)
+			/blue exch def
+			red 0.01 mul 1.0 blue 0.01 mul setrgbcolor
+			0 0 side 100 div dup rectfill
+			side 100 div 0 translate
+		} for
+		side neg side 100 div translate
+	} for
+} def
+
+/redfill {
+	100 -1 1 {			% green --> 1 to 0
+		/blue exch def
+		100 -1 1 {		% blue --> 1 to 0
+			/green exch def
+			1.0 green 0.01 mul blue 0.01 mul setrgbcolor
+			0 0 side 100 div dup rectfill
+			side 100 div 0 translate
+		} for
+		side neg side 100 div translate
+	} for
+} def
+
+gsave
+	4.25 inch 1 inch translate
+	gsave				%  front side of cube
+		[ x_squash  y_shear  0  1  0  0 ] concat
+		side square bluefill
+	grestore
+	gsave				%  left side of cube
+		[ x_squash neg  y_shear  0  1  0  0 ] concat
+		side square greenfill
+	grestore
+	gsave				%  top side of cube
+		0 side translate
+		[ x_squash  y_shear  x_squash neg  y_shear  0  0 ] concat
+		side square redfill
+	grestore
+grestore
+
+/Palatino-Italic findfont
+48 scalefont setfont			%  choose font
+4.25 inch 9.2 inch
+(Red) center_show			%  show label
+8.5 inch 2.0 inch
+(Blue) right_show			%  show label
+0 inch 2.0 inch moveto
+(Green) show				%  show label
+showpage				%  display page

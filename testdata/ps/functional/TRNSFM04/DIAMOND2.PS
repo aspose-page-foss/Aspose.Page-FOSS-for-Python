@@ -1,0 +1,25 @@
+%!PS
+
+%	This example appears in section "Combined Transformations"
+%	in Chapter 4 - "Transformations".
+%
+
+/draw_diamond {				%  define diamond drawing procedure
+	gsave				%  save graphics state
+		0.625 1 scale		%  shrink five eighths in x
+		45 rotate		%  rotate 45 degrees
+		0 0 moveto		%  set initial point
+		4 inch 0 rlineto	%  draw bottom of square
+		0 4 inch rlineto	%  draw right side of square
+		-4 inch 0 rlineto	%  draw top of square
+		closepath		%  finish the shape
+		0.0 setgray fill	%  set black color
+	grestore			%  restore graphics state
+} def					%  end diamond drawing procedure
+
+/inch { 72 mul } def			%  define inch procedure
+3.25 inch 2.5 inch translate		%  translate to correct position
+draw_diamond				%  draw a diamond
+2.0 inch 0 inch translate		%  translate so to overlap
+draw_diamond				%  draw another diamond
+showpage				%  display page

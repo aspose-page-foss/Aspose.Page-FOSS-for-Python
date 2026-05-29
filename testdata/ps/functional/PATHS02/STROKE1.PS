@@ -1,0 +1,17 @@
+%!PS
+
+%	This example appears in section "Stroking the Outline of a Path" in
+%	Chapter 2 - "Paths and Painting".
+%
+
+/inch { 72 mul } def		%  define inch procedure
+1.25 inch 2.5 inch moveto	%  set current point
+6 inch 0 rlineto		%  bottom of square
+0 6 inch rlineto		%  right side of square
+-6 inch 0 rlineto		%  top of square
+closepath			%  finish the square
+1.0 inch setlinewidth		%  fat line width
+2 setlinejoin			%  beveled line joins
+0.5 setgray			%  medium gray shade
+stroke				%  paint the square outline
+showpage			%  display page

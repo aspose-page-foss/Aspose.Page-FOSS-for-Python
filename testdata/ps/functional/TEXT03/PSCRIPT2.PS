@@ -1,0 +1,15 @@
+%!PS
+
+%	This example appears in section "Basic Notions of show" in
+%	Chapter 3 - "Text".
+%
+
+/inch { 72 mul } def		%  define inch procedure
+/Palatino-Roman findfont	%  find required font
+2.25 inch scalefont		%  scale font to required size
+setfont				%  set as current font
+1.5 inch 0.5 inch moveto	%  set current point
+52 rotate			%  rotate coordinate system
+(Post) show			%  image half of title
+(Script!) show			%  image other half of title
+showpage			%  display page

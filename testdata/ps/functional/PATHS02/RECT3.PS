@@ -1,0 +1,15 @@
+%!PS
+
+%	This example appears in section "Stroking Rectangles"
+%	in Chapter 2 - "Paths and Painting".
+%
+%	Caveats:	Requires PostScript Level 2.
+
+/inch { 72 mul } def			%  define inch procedure
+[ 1  0  12 sin  1  0  0 ] concat	%  shear transformation
+0.5 inch setlinewidth			%  fat line width
+1 setlinejoin				%  round line join
+1 inch 1 inch				%  lower-left corner
+5 inch 8 inch				%  width and height
+rectstroke				%  draw and stroke rectangle
+showpage				%  display page

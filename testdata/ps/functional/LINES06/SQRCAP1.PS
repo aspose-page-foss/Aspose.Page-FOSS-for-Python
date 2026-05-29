@@ -1,0 +1,21 @@
+%!PS
+
+%	This example appears in section "Square Line Caps"
+%	in Chapter 6 - "Line Weights and Line Styles".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+4.25 inch 3.0 inch moveto		%  move to initial point
+4.25 inch 9.0 inch lineto		%  draw a line segment
+gsave					%  remember graphics state
+	2 inch setlinewidth		%  make line fat
+	2 setlinecap			%  square caps
+	0.50 setgray			%  50% gray color
+	stroke				%  stroke the path
+grestore				%  restore graphics state
+gsave					%  remember graphics state
+	0.125 inch setlinewidth		%  thinner line to show path
+	1.0 setgray			%  draw it in white
+	stroke				%  stroke the path
+grestore				%  restore graphics state
+showpage				%  display page

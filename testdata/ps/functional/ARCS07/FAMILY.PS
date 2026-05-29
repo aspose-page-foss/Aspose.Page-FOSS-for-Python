@@ -1,0 +1,24 @@
+%!PS
+
+%	This example appears in section "Joining Bezier Curve Segments"
+%	in Chapter 7 - "Arcs and Curves".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+/P0 { 0.5 inch 0.5 inch } def		%  initial control points
+/P1 { 0.5 inch 6.5 inch } def
+/P2 { 8.0 inch 10.0 inch } def
+/P3 { 7.5 inch 1.0 inch } def
+0 1 8 {					%  start for loop
+	0.5 inch mul dup		%  compute delta x and  delta y
+	P0 moveto			%  set current point
+	P1 4 1 roll add 3 1 roll add	%  add delta x and  delta y
+	2 copy				%  copy for later
+	P2 P3 curveto			%  add Bezier segment
+	stroke				%  paint the path
+	8 0 360 arc fill		%  show variable control point
+} for					%  end for loop
+P0 8 0 360 arc closepath fill		%  show initial point
+P2 8 0 360 arc closepath fill		%  show fixed control point
+P3 8 0 360 arc closepath fill		%  show final point
+showpage				%  display page

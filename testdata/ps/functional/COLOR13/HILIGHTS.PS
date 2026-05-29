@@ -1,0 +1,64 @@
+%!PS
+
+%	This example appears in section "Choosing a Spot Function"
+%	in Chapter 13 - "Color and Halftones".
+%
+%	Caveats:	Requires PostScript Level 2.
+
+/inch { 72 mul } def				%  define inch procedure
+/Palatino-Italic 24 selectfont			%  set current font
+/center_show {					%  x y (string)
+	dup stringwidth pop 2 div
+	4 -1 roll exch sub
+	3 -1 roll moveto show
+} def
+4.25 inch 2 inch (Very light grays) center_show	%  show label
+
+/Palatino-Italic 16 selectfont			%  choose different font
+/Y 0.75 inch def				%  define starting Y position
+
+10 45 {						%  establish round dot screen
+	dup mul exch dup mul add 1 exch sub
+} setscreen
+
+0.97 setgray					%  set very light gray
+1.25 inch Y 1 inch 1 inch rectfill		%  fill a rectangle
+0 setgray					%  set black color
+1.25 inch Y 1 inch 1 inch rectstroke		%  do edge of rectangle
+1.75 inch Y 0.25 inch sub
+(Round Dot) center_show				%  show label
+
+10 45 {						%  establish elliptical screen
+	dup mul exch dup mul .7 mul add 1 exch sub
+} setscreen
+
+0.97 setgray
+2.75 inch Y 1 inch 1 inch rectfill		%  fill a rectangle
+0 setgray					%  set black color
+2.75 inch Y 1 inch 1 inch rectstroke		%  do edge of rectangle
+3.25 inch Y 0.25 inch sub
+(Elliptical Dot) center_show			%  show label
+
+10 45 {						%  establish line screen
+	pop
+} setscreen
+
+0.97 setgray					%  set very light gray
+4.25 inch Y 1 inch 1 inch rectfill		%  fill a rectangle
+0 setgray					%  set black color
+4.25 inch Y 1 inch 1 inch rectstroke		%  do edge of rectangle
+4.75 inch Y 0.25 inch sub
+(Line Screen) center_show			%  show label
+
+10 45 {						%  establish rhombus screen
+	abs .7 mul exch abs add 2 div
+} setscreen
+
+0.97 setgray					%  set very light gray
+5.75 inch Y 1 inch 1 inch rectfill		%  fill a rectangle
+0 setgray					%  set black color
+5.75 inch Y 1 inch 1 inch rectstroke		%  do edge of rectangle
+6.25 inch Y 0.25 inch sub
+(Rhombus) center_show				%  show label
+
+showpage					%  display page

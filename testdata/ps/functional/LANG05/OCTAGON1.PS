@@ -1,0 +1,31 @@
+%!PS
+
+%	This example appears in section "Composite Data Types"
+%	in Chapter 5 - "PostScript Language".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+/radius 3.5 inch def			%  radius of octagon
+/coordinates [ 				%  define coordinates array
+    [  45 cos radius mul   45 sin radius mul ]
+    [  90 cos radius mul   90 sin radius mul ]
+    [ 135 cos radius mul  135 sin radius mul ]
+    [ 180 cos radius mul  180 sin radius mul ]
+    [ 225 cos radius mul  225 sin radius mul ]
+    [ 270 cos radius mul  270 sin radius mul ]
+    [ 315 cos radius mul  315 sin radius mul ]
+    [ 360 cos radius mul  360 sin radius mul ]
+] def					%  end of coordinates definition
+4.25 inch 5.5 inch translate		%  origin to center of page
+coordinates 0 get aload pop moveto	%  set current point
+coordinates 1 get aload pop lineto	%  add line segments
+coordinates 2 get aload pop lineto
+coordinates 3 get aload pop lineto
+coordinates 4 get aload pop lineto
+coordinates 5 get aload pop lineto
+coordinates 6 get aload pop lineto
+coordinates 7 get aload pop lineto
+closepath				%  finish shape
+1 inch setlinewidth			%  fat line width
+stroke					%  paint outline
+showpage				%  display page

@@ -1,0 +1,23 @@
+%!PS
+
+%	This example appears in section "Getting a Substring from a String"
+%	in Chapter 5 - "PostScript Language".
+%
+
+
+/inch { 72 mul } def			%  define inch procedure
+/Palatino-Italic findfont		%  choose font
+48 scalefont setfont
+/top 9 inch def				%  y location for first string
+/junk 256 string def			%  place holder
+11 inch 0 translate			%  landscape page
+90 rotate
+(%font%Times*) {			%  match all Times fonts
+	0.25 inch top moveto		%  set current point
+	dup				%  copy string
+	6 exch length 6 sub		%  compute interval
+	getinterval			%  get substring
+	show				%  show it
+	/top top 1.5 inch sub def	%  move y position
+} junk filenameforall			%  loop on all files
+showpage				%  display page

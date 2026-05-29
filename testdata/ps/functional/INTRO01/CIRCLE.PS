@@ -1,0 +1,13 @@
+%!PS
+
+%	This example appears in section "Translating the Origin of the
+%	Coordinate System" in Chapter 1 - "Introducing PostScript".
+%
+
+/inch { 72 mul } def		%  define inch procedure
+4.25 inch 5.5 inch translate	%  origin to center of page
+0 0 2 inch 0 360 arc		%  draw a circle
+closepath			%  finish the shape
+0.5 inch setlinewidth		%  set a fat line
+stroke				%  stroke the path
+showpage			%  display page

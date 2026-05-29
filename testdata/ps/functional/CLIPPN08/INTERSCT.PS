@@ -1,0 +1,30 @@
+%!PS
+
+%	This example appears in section "Intersecting Paths"
+%	in Chapter 8 - "Clipping".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+3 inch 1 inch moveto			%  set current point
+5 inch 0 inch rlineto			%  bottom of rectangle
+0 inch 9 inch rlineto			%  right side of rectangle
+-5 inch 0 inch rlineto			%  top of rectangle
+closepath				%  finish the shape
+clip					%  make it the clipping path
+newpath					%  clear current path
+3.25 inch 5.5 inch 3 inch 0 360 arc	%  add circle to path
+closepath				%  finish the shape
+clip					%  make smaller clipping path
+newpath					%  clear current path
+9 inch setlinewidth			%  very fat line width
+0 0 moveto				%  set current point
+8.5 inch 11 inch lineto			%  draw line across page
+[ 0.25 inch 0.25 inch ] 0 setdash	%  set dashed pattern
+0.00 setgray				%  black color
+stroke					%  paint the path
+0 0 moveto				%  set current point
+8.5 inch 11 inch lineto			%  draw line across page
+[ 0.25 inch 0.25 inch ] 0.25 inch setdash
+0.50 setgray				%  medium gray color
+stroke					%  paint the path
+showpage				%  display page

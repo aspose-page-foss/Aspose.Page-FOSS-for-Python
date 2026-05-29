@@ -1,0 +1,35 @@
+%!PS
+
+%	This example appears in section "Image the Form"
+%	in Chapter 12 - "Forms".
+%
+%	Caveats:	Requires PostScript Level 2.
+
+/inch { 72 mul } def				%  the dreaded inch
+/LoughranForm 6 dict def			%  define dictionary for form
+LoughranForm begin				%  push onto dictionary stack
+	/FormType 1 def				%  Required--must be 1
+	/BBox [0 0 8.3 inch 5.5 inch] def	%  bounding box
+	/Matrix [1 0 0 1 0 0] def		%  transformation matrix
+	/ellipse {				%  stack = rotation angle
+	gsave
+		rotate				%  rotate user space
+		1.0 0.4 scale			%  scale y axis
+		0 0 4.0 inch 0 360 arc stroke	%  draw ellipse
+		grestore
+	} def
+	/PaintProc {				%  define paint procedure
+	begin					%  push form dictionary
+	gsave					%  save graphics state
+		20 setlinewidth			%  fat line width
+		4.25 inch 3.25 inch translate	%  translate to center
+		20 ellipse 160 ellipse		%  two ellipses
+	grestore				%  undo translate
+	/Palatino-Roman 64 selectfont		%  choose font
+	0.5 inch 0.3 inch moveto		%  set current point
+	(Loughran Labs, Inc.) show		%  show name
+	end
+	} def
+end
+LoughranForm execform				%  execute the form
+showpage					%  display page

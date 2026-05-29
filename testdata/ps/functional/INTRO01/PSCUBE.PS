@@ -1,0 +1,54 @@
+%!PS
+
+%	This example appears in section "Transformations" in
+%	Chapter 1 - "Introducing PostScript".
+%
+
+/inch { 72 mul } def				%  define inch procedure
+/side 4 inch def				%  length of side of cube
+/x_squash { 30 cos } def
+/y_shear { 30 sin } def
+
+/square {					%  stack = side
+	0 0 moveto
+	dup 0 rlineto
+	dup 0 exch rlineto
+	neg 0 rlineto
+	closepath
+} def
+
+5.5 inch 3 inch translate			%  translate coordinate system
+20 rotate					%  rotate coordinate system
+gsave						%  save graphics state
+    [x_squash y_shear 0 1 0 0] concat		%  modify CTM
+    side square 0.50 setgray fill		%  fill edge of cube
+    side 2 div side 2 div 1.875 inch 0 360 arc	%  make a circle
+    0.0 setgray fill				%  paint it black
+    /Palatino-Bold findfont
+    4.5 inch scalefont setfont			%  choose a font
+    side 16 div 3 mul side 16 div 2 mul moveto	%  set current point
+    (S) 0.90 setgray show			%  show the "S"
+grestore					%  restore graphics state
+gsave						%  save graphics state
+    [x_squash neg y_shear 0 1 0 0] concat	%  modify CTM
+    side square 0.00 setgray fill		%  fill edge of cube	
+    side 2 div side 2 div 1.875 inch 0 360 arc	%  make a circle
+    0.90 setgray fill				%  paint it light gray
+    /Palatino-Bold findfont
+    4.5 inch scalefont setfont			%  choose a font
+    side 16 div 5 mul side 16 div 2 mul moveto	%  set current point
+    (!) 0.00 setgray show			%  show black "!"
+grestore					%  restore graphics state
+gsave						%  save graphics state
+    0 side translate				%  translate coordinate sytem
+    						%  modify CTM
+    [x_squash y_shear x_squash neg y_shear 0 0] concat
+    side square 0.90 setgray fill		%  fill edge of cube
+    side 2 div side 2 div 1.875 inch 0 360 arc	%  make a circle
+    0.0 setgray fill				%  paint it black
+    /Palatino-Bold findfont
+    4.5 inch scalefont setfont			%  chose font
+    side 16 div 3 mul side 16 div 2 mul moveto	%  set current point
+    (P) 0.90 setgray show			%  show light gray "P"
+grestore					%  restore graphics state
+showpage					%  display page

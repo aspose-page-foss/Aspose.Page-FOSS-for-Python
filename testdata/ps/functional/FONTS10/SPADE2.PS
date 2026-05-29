@@ -1,0 +1,55 @@
+%!PS
+
+%	This example appears in section "Extending the Playing Cards Font
+%	to a Composite Font" in Chapter 10 - "Fonts".
+%
+%	Notes:		This font is used by other fonts: "deck1.ps"
+%			and "deck2.ps".
+
+12 dict						%  dictionary for base font
+dup						%  make copy for later
+begin						%  place on dictionary stack
+	/FontName /Spades-Suit def		%  define name
+	/FontType 3 def				%  user-defined font
+	/FontMatrix [ 0.001 0 0 0.001 0 0 ] def	%  1000-unit system
+	/FontBBox [ 0 0 0 0 ] def		%  overall font bounding box
+	/Encoding 256 array def			%  encoding
+	0 1 255 {				%  fill with /.notdef
+		Encoding exch /.notdef put
+	} for
+	(0) 0 get				%  get position of char "0"
+	Encoding exch				%  get encoding
+	[					%  ten characters
+		/Ten /.notdef /Two /Three /Four
+		/Five /Six /Seven /Eight /Nine
+	] putinterval				%  fill in character codes
+	(A) 0 get				%  get position of "A"
+	Encoding exch				%  get encoding
+	/Ace put				%  put name for /Ace
+	/Metrics 10 dict def			%  define Metrics dictionary
+	/UniqueID 1 def				%  ensure unique ID
+	/CardShape {
+            0 425 moveto
+            -20 235 -340 45 -340 -75 curveto
+            -340 -175 -260 -235 -180 -235 curveto
+            -130 -235 -60 -205 -10 -125 curveto
+            -10 -345 -150 -385 -270 -395 curveto
+            -280 -425 lineto
+            -230 -425 lineto
+            -90 -395 90 -395 240 -425 curveto
+            280 -425 lineto
+            280 -395 lineto
+            50 -375 20 -245 20 -125 curveto
+            50 -205 120 -235 180 -235 curveto
+            260 -235 340 -175 340 -85 curveto
+            340 65 50 195 0 425 curveto
+            closepath
+	} def
+	/BuildChar {				%  interface procedure
+		rootfont /RootBuildChar get	%  get root font proc
+		exec				%  execute it
+	} def					%  end of interface procedure
+end						%  remove from dict stack
+/Spades-Suit exch				%  name of font
+definefont					%  define this base font
+pop						%  remove extraneous dict

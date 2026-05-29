@@ -1,0 +1,50 @@
+%!PS
+
+%	This example appears in section "Trapping"
+%	in Chapter 13 - "Color and Halftones".
+%
+%	Caveats:	Requires PostScript Level 2.
+
+/inch { 72 mul } def				%  define inch procedure
+
+/Heart {					%  define heart procedure
+	170 415 moveto
+	90 415 0 365 -20 255 curveto
+	-50 365 -140 415 -220 415 curveto
+	-320 415 -420 315 -400 175 curveto
+	-380 45 -130 -165 -30 -455 curveto
+	60 -175 290 -35 350 175 curveto
+	380 315 270 415 170 415 curveto
+	closepath
+} def
+
+/DrawRect {					%  stack = x y width height
+	4 2 roll moveto				%  move to x, y 
+	1 index 0 rlineto			%  bottom edge
+	0 exch rlineto				%  right edge
+	neg 0 rlineto				%  top edge
+	closepath				%  close rectangle
+} def
+
+1.0 0.0 0.0 0.0 setcmykcolor			%  cyan background
+0.5 inch 1.0 inch 7.5 inch 9.0 inch DrawRect fill
+gsave
+	4.25 inch 5.5 inch translate		%  heartshaped hole
+	0.46 0.46 scale	%  spread trap
+	0.0 0.0 0.0 0.0 setcmykcolor
+	Heart fill
+grestore
+gsave
+	4.25 inch 5.5 inch translate		%  yellow heart
+	0.5 0.5 scale
+	0.0 0.0 1.0 0.0 setcmykcolor
+	Heart fill
+grestore
+gsave
+	4.25 inch 5.5 inch translate		%  magenta outline
+	0.5 0.5 scale
+	0.0 1.0 0.0 0.0 setcmykcolor
+	16.0 setlinewidth			%  choke trap
+	Heart stroke
+grestore
+showpage					%  display page

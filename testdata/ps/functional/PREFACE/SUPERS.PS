@@ -1,0 +1,58 @@
+%!PS
+
+%	This example appears in section "Collection 1 -- the Basics"
+%	in the Preface.
+%
+
+/inch { 72 mul } def				%  define inch procedure
+
+/pentagon {					%  stack = radius
+	dup dup 18 cos mul exch 18 sin mul moveto
+	dup dup 90 cos mul exch 90 sin mul lineto
+	dup dup 162 cos mul exch 162 sin mul lineto
+	dup dup 234 cos mul exch 234 sin mul lineto
+	dup 306 cos mul exch 306 sin mul lineto
+	closepath
+} def
+
+4.875 inch -0.25 inch translate			%  translate coordinate system
+0.875 dup scale 45 rotate			%  rotate coordinate system
+gsave						%  save graphics state
+	4.25 inch 5.5 inch translate		%  translate coordinate system
+	4 inch pentagon 2.5 inch pentagon	%  add pentagon to path
+	eofill					%  fill it
+grestore					%  restore graphics state
+
+/Palatino-Bold findfont
+12 inch scalefont setfont			%  select current font
+1 inch 1.5 inch moveto				%  set current point
+(S) 0.5 setgray show				%  show light gray "S"
+0 setgray					%  back to black
+gsave						%  save graphics state
+	newpath					%  establish new path
+	5 inch 0 inch moveto			%  set current point
+	3.5 inch 0 inch rlineto			%  draw box
+	0 inch 6 inch rlineto
+	-3.5 inch 0 inch rlineto
+	closepath				%  finish box
+	clip					%  clip to box
+	4.25 inch 5.5 inch translate		%  translate coordinate system
+	newpath					%  establish new path
+	4 inch pentagon 2.5 inch pentagon	%  add pentagon to path
+	eofill					%  fill it
+grestore					%  restore graphics state
+gsave						%  save graphics state
+	newpath					%  establish new path
+	6 inch 6 inch moveto			%  set current point
+	2 inch 0 inch rlineto			%  draw box
+	0 inch 2 inch rlineto
+	-2 inch 0 inch rlineto
+	closepath				%  finish box
+	clip					%  clip to new box
+	4.25 inch 5.5 inch translate		%  translate coordinate system
+	newpath					%  establish new path
+	4 inch pentagon 2.5 inch pentagon	%  add pentagon to path
+	eofill					%  fill it
+grestore					%  restore graphics state
+
+showpage					%  display page

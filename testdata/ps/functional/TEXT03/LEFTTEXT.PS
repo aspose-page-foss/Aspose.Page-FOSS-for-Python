@@ -1,0 +1,13 @@
+%!PS
+
+%	This example appears in section "Justification Operations"
+%	in Chapter 3 - "Text".
+%
+
+/inch { 72 mul } def		%  define inch procedure
+/Palatino-Roman findfont	%  obtain font
+1 inch scalefont		%  scale font to required size
+setfont				%  set into graphics state
+0.5 inch 5.5 inch moveto	%  set current point
+(Left Text) show		%  show the string
+showpage			%  display page

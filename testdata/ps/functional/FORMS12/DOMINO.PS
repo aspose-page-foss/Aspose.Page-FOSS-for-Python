@@ -1,0 +1,70 @@
+%!PS
+
+%	This example appears in section "Emulating Forms in PostScript
+%	Level 1" in Chapter 12 - "Forms".
+%
+
+/inch { 72 mul } def				%  the dreaded inch
+
+/execform {
+	gsave					%  save graphics state
+		dup /Matrix get concat		%  concatenate matrix with CTM
+		dup /BBox get aload pop
+		exch 3 index sub
+		exch 2 index sub
+		rectclip			%  clip to bounding box
+		dup /PaintProc get
+		exec				%  execute paint procedure
+		grestore			%  restore graphics state
+} def
+
+/DominoForm 12 dict def				%  define form dictionary
+DominoForm begin				%  push form dictionary
+	/FormType 1 def				%  form type = 1
+	/BBox [-18  -18  518  1018] def		%  bounding box
+	/Matrix [0.001 0 0 0.001 0 0] def	%  transformation matrix
+	/DrawBox {				%  stack = width height
+		/height exch def		%  define height
+		/width exch def			%  define width
+		150 0 moveto			%  set current point
+		width 0 width height 85 arcto	%  draw four rounded corners
+		width height 0 height 85 arcto
+		0 height 0 0 85 arcto
+		0 0 height 0 85 arcto
+		closepath			%  finish the shape
+		16 { pop } repeat		%  garbage collect
+	} def
+	/topBaseline 500 def
+	/center 250 def
+	/adj 125 def
+	/PlaceSpot {				%  stack = delta x, delta y
+		adj mul center add		%  calculate y position
+		exch				%  x on top
+		adj mul center add		%  calculate x position
+		exch				%  y on top
+		25 0 360 arc closepath fill	%  draw spot
+	} def
+	/PaintProc {
+		begin				%  push form dictionary
+		0.5 inch setlinewidth		%  fat line width
+		500 500 DrawBox stroke		%  draw bottom half
+		gsave				%  save graphics state
+			0 500 translate		%  position for top half
+			500 500 DrawBox stroke	%  draw top half
+		grestore			%  restore graphics state
+		end				%  pop form dictionary
+	} def
+end						%  end forms dictionary
+
+2 inch 0.5 inch translate			%  position for huge domino
+10 inch 10 inch scale				%  scale for 10 inch domino
+DominoForm execform				%  image the form
+DominoForm begin				%  push form dictionary
+	Matrix concat				%  get into form space
+	0 0 PlaceSpot				%  center spot
+	-1 -1 PlaceSpot				%  lower spot
+	1 1 PlaceSpot				%  upper spot
+	0 topBaseline translate			%  position for upper half
+	0 0 PlaceSpot				%  center spot
+end						%  push form dictionary
+showpage					%  display page

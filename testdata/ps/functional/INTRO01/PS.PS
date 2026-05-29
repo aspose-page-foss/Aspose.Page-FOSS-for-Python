@@ -1,0 +1,52 @@
+%!PS
+
+%	This example appears in section "Fonts" in
+%	Chapter 1 - "Introducing PostScript".
+%
+
+/inch { 72 mul } def				%  define inch procedure
+/x_squash { 30 cos } def			%  perspective factor
+/y_shear { 30 sin } def				%  perspective factor
+
+3.75 inch 2.5 inch translate			%  translate coordinate system
+0.625 dup scale					%  scale coordinate system
+20 rotate					%  rotate coordinate system
+/m matrix currentmatrix def			%  remember current CTM
+	-0.75 inch 3 inch translate		%  translate coordinate system
+	[1.0 neg y_shear 0 1 0 0] concat	%  modify CTM
+	/Palatino-Bold findfont
+	[12 inch neg 0 0 12 inch 0 0] makefont
+	setfont					%  establish sheared font
+	newpath					%  ensure empty path
+	0 0 moveto				%  set current point
+	(S) 0.33 setgray show			%  show gray "S"
+m setmatrix					%  restore CTM
+/m matrix currentmatrix def			%  remember CTM
+	[1 y_shear 0 1.0625 0.125 inch 0] concat%  modify CTM
+	/Optima-Bold findfont
+	12 inch scalefont setfont		%  establish scaled font
+	newpath					%  ensure empty path
+	0 0 moveto				%  set current point
+	(P) 0.0 setgray show 			%  show black "P"
+m setmatrix					%  restore CTM
+0 0 moveto					%  set current point
+8 inch 0 rlineto				%  draw box
+0 4 inch rlineto
+-8 inch 0 rlineto
+closepath					%  finish box
+4 inch 6 inch moveto				%  set current point
+4 inch 0 rlineto				%  draw another box
+0 4 inch rlineto
+-4 inch 0 rlineto
+closepath clip					%  clip to two boxes
+/m matrix currentmatrix def			%  remember CTM
+	-0.75 inch 3 inch translate		%  translate coordinate system
+	[1.0 neg y_shear 0 1 0 0] concat	%  modify CTM
+	/Palatino-Bold findfont
+	[ 12 inch neg 0 0 12 inch 0 0 ]
+	makefont setfont			%  establish scaled font
+	newpath					%  ensure empty path
+	0 0 moveto				%  set current point
+	(S) 0.33 setgray show 			%  show gray "S"
+m setmatrix					%  restore CTM
+showpage					%  display page

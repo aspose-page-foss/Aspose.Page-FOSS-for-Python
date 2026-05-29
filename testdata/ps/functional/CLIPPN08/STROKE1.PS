@@ -1,0 +1,13 @@
+%!PS
+
+%	This example appears in section "Stroking a Path"
+%	in Chapter 8 - "Clipping".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+4.25 inch 1 inch moveto			%  set current point
+4.25 inch 10 inch lineto		%  add line segment to path
+4 inch setlinewidth			%  set fat line width
+0.50 setgray				%  set gray shade
+stroke					%  stroke the path
+showpage				%  display page

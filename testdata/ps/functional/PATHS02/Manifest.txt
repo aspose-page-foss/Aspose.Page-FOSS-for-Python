@@ -1,0 +1,83 @@
+
+EXAMPLES FOR CHAPTER 2 - "Paths and Painting".
+
+The examples for this chapter require 56 KB.
+			
+Files contained in this folder:				
+	Manifest
+	cube.ps
+	fill1.ps
+	fill2.ps
+	fill3.ps
+	fill4.ps
+	fill5.ps
+	fill6.ps (1)
+	fill7.ps (1)
+	fill8.ps
+	fllrule1.ps
+	fllrule2.ps
+	fllrule3.ps
+	fllrule4.ps
+	hitdetct.ps (2) (*)
+	order1.ps
+	order2.ps
+	rect1.ps (*)
+	rect2.ps (*)
+	rect3.ps (*)
+	rect4.ps (*)
+	rect5.ps (*)
+	rect6.ps (3) (*)
+	rect7.ps (*)
+	rectem1.ps
+	rectem2.ps
+	rectem3.ps
+	rectem4.ps
+	rectfll1.ps (*)
+	rectfll2.ps (*)
+	rectfll3.ps (*)
+	rectfll4.ps (*)
+	rectfll5.ps (*)
+	square.ps
+	stroke1.ps
+	triangl1.ps
+	triangl2.ps
+	triangl3.ps
+	usrpath1.ps
+	usrpath2.ps (*)
+	usrpath3.ps (*)
+	usrpath4.ps (4) (*)
+	usrpath5.ps (4) (*)
+	usrpath6.ps (*)
+	usrpath7.ps (*)
+	usrpath8.ps (*)
+
+(*)	Requires PostScript Level 2.
+
+(1)	In both of these examples, the line reading
+		width 0 rlineto			%  bottom
+	in the book had an error. This line was modified in these files
+	to read:
+		width neg 0 rlineto		%  bottom
+
+(2)	In the book the code for hitdetct.ps did not choose a font. The
+	following was added to this example to make it work
+		/Palatino-Italic findfont	%  choose font
+		48 scalefont			%  set font size
+		setfont				%  establish current font
+
+	Also, as listed in the book, this example gave different answers
+	on different devices. This was because the point chosen to test
+	was right on the edge of the circle and some systems consider it
+	to be within the current path, and some consider the point outside
+	the current path.
+	
+(3)	The line reading
+		2 inch 1 inch			%  lower-left corner
+	in the book was changed to read
+		1 inch 1 inch			%  lower-left corner
+	This gives a truer image to that pictured.
+	
+(4)	The listing in the book for these examples accidentally omitted
+	the definition for the inch procedure. These examples were modified
+	to contain that definition so they'd work.
+	

@@ -1,0 +1,26 @@
+%!PS
+
+%	This example appears in section "Passing Values to Procedures"
+%	in Chapter 5 - "PostScript Language".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+
+/triangle {				%  stack = llx lly
+	moveto				%  set current point
+	6 inch 0 rlineto		%  first side
+	120 rotate 6 inch 0 rlineto	%  second side
+	closepath			%  finish shape
+} def					%  define triangle procedure
+
+4.25 inch 5.5 inch translate		%  move to center of page
+0.4 0.4 scale				%  smaller size
+8 {					%  8 triangles
+	0.25 inch setlinewidth		%  set line width
+	gsave				%  save graphics state
+		1.25 inch 3.5 inch	%  operands for triangle
+		triangle stroke		%  draw the triangle
+	grestore			%  restore graphics state
+	45 rotate			%  rotate a bit
+} repeat				%  keep going
+showpage				%  display page

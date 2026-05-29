@@ -1,0 +1,109 @@
+%!PS
+
+%	This example appears in section "Clipping Outside Clipping Region"
+%	in Chapter 8 - "Clipping".
+%
+%	Caveats:	Requires PostScript Level 2.
+
+/AstroidLeafProto 12 dict def		%  define dictionary for pattern
+AstroidLeafProto begin			%  push onto dictionary stack
+    /PatternType 1 def			%  required--must be 1
+    /PaintType 1 def			%  colored pattern
+    /TilingType 1 def			%  controls grid adjustment
+    /BBox [ 0 0 1000 1000 ] def		%  bounding box for shape
+    /XStep 600 def			%  increment in x dimension
+    /YStep 600 def			%  increment in y dimension
+
+    /OneLeaf {
+	10 0 rlineto
+	10 110 110 100 110 220 rcurveto
+	0 70 -60 120 -130 120 rcurveto
+	-70 0 -130 -50 -130 -120 rcurveto
+	0 -110 110 -120 120 -220 rcurveto
+	closepath
+	-20 -10 rmoveto
+    } def
+    /CloverLeaf {
+	400 400 moveto
+	OneLeaf
+	90 rotate OneLeaf
+	90 rotate OneLeaf
+	90 rotate OneLeaf
+    } def
+
+    /Astroid {
+	410 10 moveto
+	0 220 180 390 380 380 rcurveto
+	20 10 20 10 0 20 rcurveto
+	90 rotate
+	0 220 180 390 380 380 rcurveto
+	20 10 20 10 0 20 rcurveto
+	90 rotate
+	0 220 180 390 380 380 rcurveto
+	20 10 20 10 0 20 rcurveto
+	90 rotate
+	0 220 180 390 380 380 rcurveto
+	20 10 20 10 0 20 rcurveto
+    } def
+
+    /AstroidLeafProc {			%  start definition of cell
+	    gsave			%  remember graphics state
+		0 0 moveto		%  set current point
+		1000 0 rlineto		%  bottom of cell
+		0 1000 rlineto		%  right side of cell
+		-1000 0 rlineto		%  top of cell
+		closepath		%  finish shape
+		1.00 setgray fill	%  fill with white
+	    grestore			%  restore graphics state
+	    gsave			%  remember graphics state
+		0 8 translate		%  lower-left portion
+		0.4 dup scale		%  scale to required size
+		CloverLeaf		%  draw cloverleaf shape
+		0.25 setgray fill	%  fill with dark gray shade
+	    grestore			%  restore graphics state
+	    gsave			%  remember graphics state
+		306 8 translate		%  lower-right portion
+		0.4 dup scale		%  scale to required size
+		Astroid			%  draw astroid shape
+		0.50 setgray fill	%  fill with medium gray shade
+	    grestore			%  restore graphics state
+	    gsave			%  remember graphics state
+		0 306 8 add translate	%  upper-left portion
+		0.4 dup scale		%  scale to required size
+		Astroid			%  draw astroid shape
+		0.50 setgray fill	%  fill with medium gray shade
+	    grestore			%  restore graphics state
+	    gsave			%  remember graphics state
+		306 306 8 add translate	%  upper-right portion
+		0.4 dup scale		%  scale to required size
+		CloverLeaf		%  draw cloverleaf shape
+		0.25 setgray fill	%  fill with dark gray shade
+	    grestore			%  restore graphics state
+    } def				%  end of definition
+
+    /PaintProc {			%  pattern dictionary on stack
+	begin				%  push onto dictionary stack
+	    AstroidLeafProc		%  draw the outline and fill it
+	end				%  pop off dictionary stack
+    } def				%  end of paint procedure
+end					%  pop off dictionary stack
+
+AstroidLeafProto			%  pattern dictionary to operand stack
+[ 0.1 0 0 0.1 0 0 ]			%  transformation matrix
+makepattern				%  make an instance of the pattern
+/AstroidLeaf exch def			%  stash the instantiated pattern
+
+/inch { 72 mul } def			%  define inch procedure
+
+/DrawEllipse {				%  stack = x y xr yr
+	matrix currentmatrix		%  remember CTM
+	5 3 roll translate		%  translate coordinate system
+	3 1 roll scale			%  scale coordinate system
+	0 0 1 0 360 arc closepath	%  draw circle
+	setmatrix			%  restore CTM
+} def
+
+4.25 inch 5.5 inch 4 inch 5 inch DrawEllipse
+AstroidLeaf setpattern			%  fancy pattern
+fill					%  fill the shape
+showpage				%  display page

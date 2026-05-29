@@ -1,0 +1,15 @@
+%!PS
+
+%	This example appears in section "Filling Paths" in
+%	Chapter 1 - "Introducing PostScript".
+%
+
+/inch { 72 mul } def	%  define inch procedure
+1 inch 1 inch moveto	%  set current point
+7.5 inch 1 inch lineto	%  bottom of rectangle
+7.5 inch 10 inch lineto	%  right side of rectangle
+1 inch 10 inch lineto	%  top of rectangle
+closepath		%  finish the shape
+0.50 setgray		%  medium gray color
+fill			%  paint the shape
+showpage		%  display page

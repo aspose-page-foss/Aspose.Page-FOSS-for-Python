@@ -1,0 +1,28 @@
+%!PS
+
+%	This example appears in the introductory section
+%	of Chapter 8 - "Clipping".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+
+/DrawEllipse {				%  stack = x y xr yr
+	matrix currentmatrix		%  remember CTM
+	5 3 roll translate		%  translate coordinate system
+	3 1 roll scale			%  scale coordinate system
+	0 0 1 0 360 arc closepath	%  draw circle
+	setmatrix			%  restore CTM
+} def
+
+4.25 inch 5.5 inch 4 inch 2 inch DrawEllipse
+4.25 inch 5.5 inch 2 inch 4 inch DrawEllipse
+clip					%  add to clipping path
+newpath					%  start a new path
+4.25 inch 5.5 inch translate		%  origin to center of page
+0 1 72 {				%  start for loop
+	1 inch 0 moveto			%  set current point
+	3.125 inch 0 rlineto		%  add line segment to path
+	5 rotate			%  rotate coordinate system
+} for					%  end for loop
+stroke					%  stroke the lines
+showpage				%  display page

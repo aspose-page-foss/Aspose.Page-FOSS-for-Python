@@ -1,0 +1,53 @@
+%!PS
+
+%	This example appears in section "Re-encoding a Font"
+%	in Chapter 10 - "Fonts".
+%
+
+/ReencodeFont {					%  font  newfont  array
+	3 2 roll				%  font name to top of stack
+	findfont				%  find old font
+	dup					%  need copy of font dictionary
+	length dict				%  create new dictionary
+	begin					%  push onto dictionary stack
+		{				%  begin forall loop
+			1 index /FID ne {	%  if not FID
+				def		%  define in new dictionary
+			} {
+				pop pop		%  remove  name and value
+			} ifelse
+		} forall			%  end forall loop
+		/Encoding exch def		%  define new encoding
+		/FontName exch def		%  define new font name
+		FontName			%  get new font name
+		currentdict			%  get new font dictionary
+	end					%  remove from dictionary stack
+	definefont				%  define new font
+	pop					%  remove font dictionary
+} def						%  end of definition
+
+StandardEncoding				%  get standard encoding vector
+256 array					%  create new array
+copy						%  copy old encoding into it
+/ReverseEncoding exch def			%  define in current dictionary
+ReverseEncoding 65				%  starting at letter "A"
+[
+	/Z /Y /X /W /V /U /T /S /R /Q /P /O /N
+	/M /L /K /J /I /H /G /F /E /D /C /B /A
+] putinterval					%  put reverse alphabet
+ReverseEncoding 97				%  starting at letter "a"
+[
+	/z /y /x /w /v /u /t /s /r /q /p /o /n
+	/m /l /k /j /i /h /g /f /e /d /c /b /a
+] putinterval					%  put reverse alphabet
+/Palatino-Roman					%  old font name
+/Palatino-Roman-Reverse				%  new font name
+ReverseEncoding					%  new encoding vector
+ReencodeFont					%  re-encode the font
+/Palatino-Roman-Reverse findfont		%  find reversed font
+145 scalefont					%  scale to required size
+setfont						%  make current font
+100 40 moveto					%  set current point
+52 rotate					%  rotate coordinate system
+(PostScript!) show				%  show reversed string
+showpage					%  display page

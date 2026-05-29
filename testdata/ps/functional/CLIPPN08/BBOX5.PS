@@ -1,0 +1,25 @@
+%!PS
+
+%	This example appears in section "Obtaining Path Bounding Box"
+%	in Chapter 8 - "Clipping".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+1 inch 1 inch moveto			%  set current point
+2 inch 8 inch				%  first control point
+8 inch 7 inch				%  second control point
+6 inch 3 inch curveto			%  draw Bezier
+gsave					%  push graphics state
+	4 setlinewidth			%  set fatter line width
+	stroke				%  stroke the path
+grestore				%  pop graphics state
+pathbbox				%  get path bounding box
+newpath					%  start a new path
+4 2 roll 2 copy moveto			%  set current point
+dup 4 index exch lineto			%  bottom of box
+4 2 roll dup 3 1 roll lineto		%  right side of box
+2 index exch lineto			%  top of box
+pop pop					%  discard unwanted stack values
+closepath				%  close the path medium gray
+stroke 					%  stroke the box
+showpage				%  display page

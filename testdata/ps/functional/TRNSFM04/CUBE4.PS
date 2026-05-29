@@ -1,0 +1,36 @@
+%!PS
+
+%	This example appears in section "Parallel Projections"
+%	in Chapter 4 - "Transformations".
+%
+
+/square {				%  stack = side
+	0 0 moveto			%  set current point
+	dup 0 rlineto			%  bottom of square
+	dup 0 exch rlineto		%  right side of square
+	neg 0 rlineto			%  top of square
+	closepath			%  finish the shape
+} def					%  define procedure
+
+/inch { 72 mul } def			%  define inch procedure
+/side 4 inch def			%  size of side
+/x_squash { 10 cos } def		%  different tilt angle
+/y_shear { 10 sin } def			%  different tilt angle
+4.25 inch 1 inch translate		%  set origin
+gsave					%  remember graphics state
+	[ x_squash y_shear 0 1 0 0 ] concat
+	side square 0.50 setgray fill	%  medium gray right side
+grestore				%  restore graphics state
+gsave					%  remember graphics state
+	[ x_squash neg y_shear 0 1 0 0 ] concat
+	side square 0.00 setgray fill	%  black left side
+grestore				%  restore graphics state
+gsave					%  remember graphics state
+	0 side translate
+	[ x_squash y_shear x_squash neg y_shear 0 0 ] concat
+	side square 0.90 setgray fill	%  light gray top
+	side 2 div side 2 div 1.5 inch 0 360 arc
+	closepath
+	0.0 setgray fill
+grestore				%  restore graphics state
+showpage				%  display page

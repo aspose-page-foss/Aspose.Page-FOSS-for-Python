@@ -1,0 +1,19 @@
+%!PS
+
+%	This example appears in section "A Walk Through an Image"
+%	in Chapter 9 - "Images".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+/sigma <
+    F07F C71F CF9F 8F8F
+    9FCF 9FCF 9FCF 9FCF
+    9FCF 8F8F CF9F C701 F001
+> def					%  hexadecimal image string
+1.25 inch 2.5 inch translate		%  set origin
+6 inch 6 inch scale			%  scale image large
+16  13  1				%  width, height, depth
+[ 16  0  0  13  0  0 ]			%  image matrix
+{ sigma }				%  image procedure
+image					%  image operation
+showpage				%  display page

@@ -1,0 +1,29 @@
+%!PS
+
+%	This example appears in section "Clipping With Rectangles"
+%	in Chapter 8 - "Clipping".
+%
+%	Caveats:	Requires PostScript Level 2.
+
+/inch { 72 mul } def			%  define inch procedure
+[					%  list of rectangles
+	0.625 inch 8.8 inch 2.25 inch 2 inch
+	3.25 inch 6.6 inch 2.25 inch 3 inch
+	5.875 inch 8.8 inch 2.25 inch 2 inch
+	0.625 inch 4.4 inch 2.25 inch 3 inch
+	5.875 inch 4.4 inch 2.25 inch 3 inch
+	3.25 inch 2.2 inch 2.25 inch 3 inch
+	0.625 inch 0.1 inch 2.25 inch 3 inch
+	5.875 inch 0.1 inch 2.25 inch 3 inch
+] rectclip				%  clip to rectangles
+newpath					%  ensure new path
+4.25 inch 5.5 inch translate		%  origin to center of page
+10 -1 1 {				%  start for loop
+	dup				%  save copy for later
+	1 inch mul 			%  radius of circle
+	0 0 3 2 roll 0 360 arc		%  draw circle
+	closepath 			%  finish circle
+	1 sub 0.1 mul setgray		%  set gray shade
+	fill				%  fill circle
+} bind for				%  end for loop
+showpage				%  display page

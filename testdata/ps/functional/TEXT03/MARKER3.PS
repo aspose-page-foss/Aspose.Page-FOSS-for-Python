@@ -1,0 +1,43 @@
+%!PS
+
+%	This example appears in section "Precise Widths and Heights of
+%	Strings" in Chapter 3 - "Text".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+
+/charheight {				%  string of one character
+	gsave				%  push graphics state
+		newpath			%  clear current path
+		0 0 moveto		%  set current point
+		false charpath		%  get path
+		flattenpath		%  flatten path
+		pathbbox		%  stack=ll(x) ll(y) ur(x) ur(y)
+		exch pop		%  stack = ll(x) ll(y) ur(y)
+		3 -1 roll pop		%  stack = ll(y) ur(y)
+	grestore			%  push graphics state
+} def
+
+/center_show {				%  stack =  x  y  (string)
+	dup				%  make copy of string
+	stringwidth pop 2 div		%  compute half string width
+	4 -1 roll exch sub		%  decrement x position
+	3 -1 roll moveto		%  set current point
+	show				%  image string
+} def
+
+4.25 inch 0 moveto			%  vertical cross hair
+0 11 inch rlineto
+0 5.5 inch moveto			%  horizontal cross hair
+8.5 inch 0 rlineto
+stroke					%  stroke the cross hairs
+/ZapfDingbats findfont			%  obtain font
+2 inch scalefont			%  scale font to required size
+setfont					%  set into graphics state
+					%  compute x position
+(\140) dup stringwidth pop 2 div 4.25 inch exch sub
+					%  compute y position
+5.5 inch 2 index charheight exch pop 2 div sub
+moveto					%  set current point
+show					%  show the character
+showpage				%  display page

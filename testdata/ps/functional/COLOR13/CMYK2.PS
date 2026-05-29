@@ -1,0 +1,47 @@
+%!PS
+
+%	This example appears in section "CMYK Device Space"
+%	in Chapter 13 - "Color and Halftones".
+%
+%	Caveats:	Requires PostScript Level 2.
+
+/inch { 72 mul } def			%  define inch procedure
+0.25 inch setlinewidth
+/DeviceCMYK setcolorspace		%  set color space
+
+    %  draw upper left portion of top rings from right to left
+    %  draw upper right portion of bottom rings from right to left
+newpath
+0.0 1.0 1.0 0.0 setcolor		%  current color = red
+6.5 inch 5.5 inch 1.0 inch 45 225 arc stroke
+newpath
+1.0 0.0 1.0 0.0 setcolor		%  current color = green
+5.25 inch 4.5 inch 1.0 inch -45 135 arc stroke
+newpath
+0.0 0.0 0.0 1.0 setcolor		%  current color = black
+4 inch 5.5 inch 1.0 inch 45 225 arc stroke
+newpath
+0.0 0.0 1.0 0.0 setcolor		%  current color = yellow
+2.75 inch 4.5 inch 1.0 inch -45 135 arc stroke
+newpath
+1.0 1.0 0.0 0.0 setcolor		%  current color = blue
+1.5 inch 5.5 inch 1.0 inch 45 225 arc stroke
+
+    %  draw lower-right portion of top rings from left to right
+    %  draw lower-left portion of bottom rings from left to right
+newpath
+1.0 1.0 0.0 0.0 setcolor		%  current color = blue
+1.5 inch 5.5 inch 1.0 inch 225 45 arc stroke
+newpath
+0.0 0.0 1.0 0.0 setcolor		%  current color = yellow
+2.75 inch 4.5 inch 1.0 inch 135 -45 arc stroke
+newpath
+0.0 0.0 0.0 1.0 setcolor		%  current color = black
+4.0 inch 5.5 inch 1.0 inch 225 45 arc stroke
+newpath
+1.0 0.0 1.0 0.0 setcolor		%  current color = green
+5.25 inch 4.5 inch 1.0 inch 135 -45 arc stroke
+newpath
+0.0 1.0 1.0 0.0 setcolor		%  current color = red
+6.5 inch 5.5 inch 1.0 inch 225 45 arc stroke
+showpage				%  display page

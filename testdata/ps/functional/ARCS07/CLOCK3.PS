@@ -1,0 +1,14 @@
+%!PS
+
+%	This example appears in section "Clockwise Circles and Arcs"
+%	in Chapter 7 - "Arcs and Curves".
+%
+
+/inch { 72 mul } def		%  define inch procedure
+newpath				%  initialize path
+4.25 inch 5.5 inch		%  x y coordinates of center of arc
+3.5 inch			%  radius of arc
+0 90 arcn			%  start and end angle and draw
+1.0 inch setlinewidth		%  fat line width
+stroke				%  fill the arc
+showpage			%  display page

@@ -1,0 +1,14 @@
+%!PS
+
+%	This example appears in section "Accurate Positioning"
+%	in Chapter 4 - "Transformations".
+%
+%	Notes:		Replace x below with the appropriate value for your
+%			device.
+
+/inch { 72 mul } def			%  define inch procedure
+4.25 inch 2 inch moveto			%  set current point
+0 4.5 inch rlineto			%  add line segment
+1 setlinewidth				%  one pixel line width
+stroke					%  paint the path
+showpage				%  display page

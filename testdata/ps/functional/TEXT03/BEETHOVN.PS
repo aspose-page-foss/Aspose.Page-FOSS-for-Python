@@ -1,0 +1,46 @@
+%!PS
+
+%	This example appears in section "Show String Under Procedural Control"
+%	in Chapter 3 - "Text".
+%
+%	Caveats:	Requires PostScript Level 2.
+
+12 dict					%  create font dictionary
+begin					%  put on dictionary stack
+	/FontName /Super-Palatino def	%  name of font
+	/FontType 0 def			%  0 = composite font
+	/WMode 0 def			%  0 = horizontal writing mode
+	/FontMatrix matrix def		%  dummy matrix
+	/Encoding [ 0 1 2 3 4 ] def	%  simple encoding--five fonts
+	/FMapType 3 def			%  3 = escape mapping
+	/EscChar 255 def		%  use 255 as escape character
+	/FDepVector [			%  define descendant fonts
+		/Palatino-Roman findfont
+		/Palatino-Italic findfont
+		/Palatino-Bold findfont
+		/Palatino-BoldItalic findfont
+		/Sonata findfont
+	] def				%  descendant fonts
+	FontName			%  name of font on stack
+	currentdict			%  current dictionary on stack
+end					%  pop font from dictionary stack
+definefont				%  define the font
+pop					%  remove font dictionary
+
+/inch { 72 mul } def			%  define inch procedure
+/Super-Palatino 0.75 inch selectfont	%  choose composite font
+/top 9.5 inch def			%  y position
+{   pop pop				%  pop displacements
+	/char exch def			%  define character
+	0.5 inch top moveto		%  set current point
+	( ) dup 0 char put show		%  show character
+	currentfont			%  remember current font
+		dup /Encoding get	%  get encoding array
+		char get 100 string cvs	%  get name of character
+		/Palatino-Roman 0.75 inch selectfont
+		1.75 inch top moveto	%  set current point
+		show			%  show character name
+	setfont				%  restore font
+	/top top 1.0 inch sub def	%  update y position
+} (\377\004Beethoven) cshow		%  cshow Beethoven
+showpage				%  display page

@@ -1,0 +1,16 @@
+
+EXAMPLES FOR CHAPTER 12 - "Forms".
+
+The examples for this chapter require 16 KB.
+			
+Files contained in this folder:				
+	Manifest
+	domino.ps
+	llabs1.ps
+	llabs2.ps (*)
+	llabs3.ps (*)
+	llabs4.ps (*)
+	rolodex.ps (*)
+
+(*)	Requires PostScript Level 2.
+

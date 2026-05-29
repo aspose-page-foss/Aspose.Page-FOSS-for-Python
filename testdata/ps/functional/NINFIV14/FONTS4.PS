@@ -1,0 +1,43 @@
+%!PS
+
+%	This example appears in section "Listing Fonts on the Printer's Hard
+%	Disk" in Chapter 14 - "PostScript Nine to Five".
+%
+%	Caveats:	Requires PostScript Level 2.
+
+/inch { 72 mul } def				%  define inch procedure
+/PrintSize 12 def				%  point size for list
+/Leading 14 def					%  baseline leading
+/TopMargin 10.5 inch def			%  initial top margin
+/BottomTopMargin 0.5 inch def			%  final bottom margin
+/LeftMargin 0.5 inch def			%  initial left margin
+
+/Template (fonts/*) def				%  template string for matching
+
+/Courier-Bold findfont				%  find required font
+PrintSize scalefont				%  scale to required size
+setfont						%  make it current font
+/whichSide 0 def				%  left or middle
+/BaseLine TopMargin def				%  set initial baseline position
+
+/ShowFontName {	%  stack = name string
+	(fonts/) search { pop pop } if		%  extract font name
+
+  						%  set current point
+	LeftMargin whichSide 4.25 inch mul add BaseLine moveto
+	show					%  image name of font
+	/whichSide 1 whichSide sub def		%  switch side or middle
+	whichSide 0 eq {			%  if starting a new line
+		/BaseLine BaseLine Leading sub def
+		BaseLine BottomTopMargin lt {	%  if baseline below bottom
+			showpage		%  display page
+			/BaseLine TopMargin def	%  reset baseline
+		} if
+	} if
+} def
+
+Template					%  template string
+{ ShowFontName }				%  procedure to execute
+256 string					%  scratch string
+filenameforall					%  traverse through file system
+showpage					%  display page

@@ -1,0 +1,26 @@
+%!PS
+
+%	This example appears in section "Initial Clipping Area"
+%	in Chapter 8 - "Clipping".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+clippath				%  get clipping path
+0.9 setgray				%  light gray fill color
+fill					%  fill the path
+clippath				%  get clipping path again
+8 setlinewidth				%  set nice fat line width
+0.0 setgray				%  black color
+stroke					%  stroke the path
+clippath				%  get clipping path again
+pathbbox				%  get path bounding box
+/Palatino-Roman findfont 48 scalefont setfont
+4.25 inch 4.00 inch moveto		%  display upper right y
+(ury = ) show (          ) cvs show
+0.50 inch 4.00 inch moveto		%  display upper right x
+(urx = ) show (          ) cvs show
+4.25 inch 6.00 inch moveto		%  display lower right y
+(lly = ) show (          ) cvs show
+0.50 inch 6.00 inch moveto		%  display lower right x
+(llx = ) show (          ) cvs show
+showpage				%  display page

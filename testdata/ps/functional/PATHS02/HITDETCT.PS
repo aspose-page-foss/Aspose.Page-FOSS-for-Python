@@ -1,0 +1,27 @@
+%!PS
+
+%	This example appears in section "Hit Detection" in
+%	Chapter 2 - "Paths and Painting".
+%
+%	Caveats:	Requires PostScript Level 2.
+
+/inch { 72 mul } def		%  define inch procedure
+/Palatino-Italic findfont	%  choose font
+48 scalefont			%  set font size
+setfont				%  establish current font
+4.25 inch 5.5 inch		%  center of circle
+3.5 inch 0 360 arc		%  draw circle
+closepath			%  finish the shape
+0.50 setgray			%  medium gray
+fill				%  fill the outline
+4.25 inch 5.5 inch		%  center of circle
+3.5 inch 0 360 arc		%  draw circle again
+closepath			%  finish the shape
+0.00 setgray			%  back to black
+4.25 inch 2.5 inch infill {	%  test point in circle
+	4.00 inch 5.5 inch moveto (YES) show
+}
+{
+	4.00 inch 5.5 inch moveto (NO) show
+} ifelse
+showpage			%  display page

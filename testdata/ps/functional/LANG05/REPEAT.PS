@@ -1,0 +1,38 @@
+%!PS
+
+%	This example appears in section "Repeat Loop" in
+%	Chapter 5 - "PostScript Language".
+%
+
+/DrawCard {				%  grayscale   width   height
+	2 dict begin			%  temporary dictionary
+	/height exch def		%  remember height
+	/width exch def			%  remember width
+	newpath				%  clear current path
+	width 2 div 0 moveto		%  set current point
+	width 0 width height 0.25 inch arcto
+	width height 0 height 0.25 inch arcto
+	0 height 0 0 0.25 inch arcto
+	0 0 width 0 0.25 inch arcto
+	closepath			%  finish the shape
+	16 { pop } repeat		%  clear debris from stack
+	gsave				%  remember graphics state
+		setgray			%  gray value off stack
+		fill			%  fill with gray value
+	grestore			%  recall graphics state
+	4 setlinewidth stroke		%  paint the path
+	end				%  pop temporary dictionary
+} def
+
+/inch { 72 mul } def			%  define inch procedure
+1.25 inch 0.75 inch translate		%  position origin
+0.1					%  initial value for gray
+10 {					%  start loop
+    dup					%  need copy of gray value
+    6 inch 0.75 inch			%  width and height
+    DrawCard				%  draw card
+    0.1 add				%  increment gray value
+    0 1 inch translate			%  translate origin again
+} repeat				%  end loop
+pop					%  remove extraneous gray value
+showpage				%  display page

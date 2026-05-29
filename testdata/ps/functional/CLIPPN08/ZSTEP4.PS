@@ -1,0 +1,48 @@
+%!PS
+
+%	This example appears in the introductory section
+%	of Chapter 8 - "Clipping".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+
+/EllipticalArc {			%  x, y, angle, width, ht, start, end
+	matrix currentmatrix		%  remember current transformation
+	8 1 roll			%  put matrix on bottom
+	7 5 roll translate		%  set origin
+	5 4 roll rotate			%  rotate coordinate system
+	4 2 roll scale			%  scale for width and height
+	0 0 1 5 3 roll arc		%  draw arc
+	closepath			%  finish the shape
+	setmatrix			%  restore previous transformation
+} def
+
+/EllipseCenter { 4.25 inch 5.5 inch } def
+/EllipseRotation 15 def
+/EllipseWidth 3.75 inch def
+/EllipseHeight 5.375 inch def
+/CharacterOrigin { -0.84 inch 1.75 inch } def
+/CharacterScale 13.75 inch def
+
+/ZapfChancery-MediumItalic findfont	%  find the required font
+CharacterScale scalefont		%  scale to required size
+setfont					%  make it the current font
+0.0 setgray				%  set color black
+CharacterOrigin moveto			%  set current point
+(Z) show				%  image large character
+newpath					%  start new path
+EllipseCenter EllipseRotation		%  center and angle
+EllipseWidth EllipseHeight		%  width and height
+0 360 EllipticalArc			%  elliptical arc
+0.90 setgray fill			%  fill with medium gray
+gsave					%  remember graphics state
+	EllipseCenter EllipseRotation	%  center and angle
+	EllipseWidth EllipseHeight	%  width and height
+	90 270 EllipticalArc		%  left 180 degree arc
+	clip				%  make clipping region
+	newpath				%  start new path
+	0.0 setgray			%  set color black
+	CharacterOrigin moveto		%  set current point
+	(Z) show			%  image large character
+grestore				%  restore graphics state
+showpage				%  display page

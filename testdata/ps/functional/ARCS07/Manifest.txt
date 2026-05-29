@@ -1,0 +1,71 @@
+
+EXAMPLES FOR CHAPTER 7 - "Arcs and Curves".
+
+The examples for this chapter require 51 KB.
+			
+Files contained in this folder:				
+	Manifest
+	arc.ps
+	arct.ps (*)
+	arcto1.ps
+	arcto2.ps
+	arcto3.ps
+	arcto4.ps
+	arcto5.ps
+	bigarcs1.ps
+	bigarcs2.ps (1)
+	bigarcs3.ps
+	circle1.ps
+	circle2.ps
+	clock1.ps
+	clock2.ps
+	clock3.ps
+	clock4.ps
+	clock5.ps (*)
+	clock6.ps (*)
+	curveto1.ps
+	curveto2.ps
+	curveto3.ps
+	curveto4.ps
+	cusp1.ps
+	cusp2.ps
+	cusp3.ps
+	family.ps
+	heart1.ps
+	heart2.ps
+	hull.ps (2)
+	pacman.ps
+	piechart.ps
+	rcurveto.ps
+	spots1.ps
+	spots2.ps
+	spots3.ps
+	vary1.ps
+	vary2.ps
+	vary3.ps
+	vary4.ps
+	vary5.ps
+	vary6.ps
+
+(*)	Requires PostScript Level 2.
+
+(1)	The lines reading
+		4.25 inch 5.5			%  coordinates of center
+		inch 3				%  radius
+	in the book, should have read
+		4.25 inch 5.5 inch		%  coordinates of center
+		3 inch				%  radius
+	This has been fixed on this disk.
+
+(2)	The points listed in the book are incorrect. They are:
+		/P0 { 3.0 inch 2.0 inch } def		%  first end point
+		/P1 { 7.5 inch 6.0 inch } def		%  first control point
+		/P2 { 1.0 inch 7.0 inch } def		%  2nd control point
+		/P3 { 7.0 inch 2.0 inch } def		%  2nd end point
+
+	The example contains the correct points which are
+		/P0 { 2.0 inch 1.0 inch } def		%  first end point
+		/P1 { 1.0 inch 7.0 inch } def		%  first control point
+		/P2 { 7.5 inch 7.0 inch } def		%  2nd control point
+		/P3 { 6.5 inch 2.0 inch } def		%  2nd end point
+

@@ -1,0 +1,13 @@
+%!PS
+
+%	This example appears in section "Showing Characters by Name" in
+%	Chapter 3 - "Text".
+%
+
+/inch { 72 mul } def		%  define inch procedure
+/Sonata findfont		%  find required font
+8 inch scalefont		%  scale font to required size
+setfont				%  set as current font
+2.25 inch 1.5 inch moveto	%  set current point
+($) show			%  image serpent character
+showpage			%  display page

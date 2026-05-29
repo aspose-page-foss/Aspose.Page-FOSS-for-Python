@@ -1,0 +1,13 @@
+%!PS
+
+%	This example appears in section "Miter Limits"
+%	in Chapter 6 - "Line Weights and Line Styles".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+1 inch 2 inch moveto			%  set initial point
+4.25 inch 8 inch lineto			%  left leg of path
+7.5 inch 2 inch lineto			%  right leg of path
+1.5 inch setlinewidth			%  set fat line width
+0.75 setgray stroke			%  paint the path
+showpage				%  display page

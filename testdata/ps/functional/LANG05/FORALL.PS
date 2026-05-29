@@ -1,0 +1,34 @@
+%!PS
+
+%	This example appears in section "Using forall to Traverse Strings"
+%	in Chapter 5 - "PostScript Language".
+%
+
+
+/inch { 72 mul } def			%  define inch procedure
+/Palatino-Roman findfont 48 scalefont setfont
+/top 10 inch def			%  position of top line
+/left 1 inch def			%  position of left margin
+/switch true def			%  for switching margin
+(abcdefghijklmnopqrstuvwxyz)		%  lowercase alphabet on stack
+{					%  start forall loop
+	dup				%  need copy of value
+	1 string			%  need one-character string
+	dup				%  need copy for later
+	0 4 -1 roll			%  get parameters in right order
+	put				%  put integer value in string
+	left top moveto			%  set current point
+	show				%  image character
+	( = ) show			%  image equals sign
+	10 string cvs			%  convert integer value to string
+	show				%  show integer value
+	switch {			%  decide where to place margin
+		/left 5 inch def	%  move margin to middle of page
+		/switch false def	%  set up for next time
+	} {
+		/left 1 inch def	%  restore margin
+		/top top 56 sub def	%  decrement line position
+		/switch true def	%  set up for next time
+	} ifelse
+} forall				%  end forall loop
+showpage				%  display page

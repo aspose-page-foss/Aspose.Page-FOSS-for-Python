@@ -1,0 +1,72 @@
+%!PS
+
+%	This example appears in section "Emulating Level 2 Rectangle
+%	Operators" in Chapter 2 - "Paths and Painting".
+%
+
+/DrawRect {					%  stack = x y width height
+	4 2 roll moveto				%  move to x, y 
+	1 index 0 rlineto			%  bottom edge
+	0 exch rlineto				%  right edge
+	neg 0 rlineto				%  top edge
+	closepath				%  close rectangle
+} def
+
+/DoNumArray {					%  stack = numarray procedure
+	/proc exch def				%  remember procedure
+	/numarray exch def			%  remember numarray
+	0					%  start with first element
+	4					%  increment by four elements
+	numarray length 1 sub			%  until no more elements
+	{
+		numarray exch 4 getinterval	%  get x, y, width, height
+		aload pop
+		{ proc } exec			%  execute the procedure
+	} for					%  loop through numarray
+} def
+
+/rectstroke {					%  define rectstroke procedure
+gsave						%  save graphics state
+	newpath					%  start new path
+	dup					%  copy top of stack
+	type /arraytype eq {			%  if it's an array
+		dup				%  make a copy
+		length 6 eq {			%  and if it's six elements
+			1 index			%  get the element below
+			type /arraytype eq {	%  if it's an array
+						%  multiple rects with matrix
+				exch
+				{ gsave DrawRect dup concat stroke grestore }
+				DoNumArray pop
+						%  one rect with matrix
+			} {
+				gsave
+				5 1 roll DrawRect concat stroke
+				grestore
+			} ifelse
+		} {				%  multiple rects, no matrix
+			{ gsave DrawRect stroke grestore } DoNumArray
+		} ifelse
+	} {					%  one rect, no matrix
+	DrawRect stroke
+	} ifelse
+grestore					%  restore graphics state
+} def
+
+/inch { 72 mul } def				%  define inch procedure
+0.1 setgray					%  new color
+1.5 inch 1.5 inch 2 inch 2 inch			%  x, y, width, height
+[ 20 0 0 5 0 0 ] rectstroke			%  stroke it
+0.3 setgray					%  new color
+2.5 inch 3.0 inch 2 inch 2 inch			%  x, y, width, height
+[ 20 0 0 5 0 0 ] rectstroke			%  stroke it
+0.5 setgray					%  new color
+3.5 inch 4.5 inch 2 inch 2 inch			%  x, y, width, height
+[ 20 0 0 5 0 0 ] rectstroke			%  stroke it
+0.7 setgray					%  new color
+4.5 inch 6.0 inch 2 inch 2 inch			%  x, y, width, height
+[ 20 0 0 5 0 0 ] rectstroke			%  stroke it
+0.9 setgray					%  new color
+5.5 inch 7.5 inch 2 inch 2 inch			%  x, y, width, height
+[ 20 0 0 5 0 0 ] rectstroke			%  stroke it
+showpage					%  display page

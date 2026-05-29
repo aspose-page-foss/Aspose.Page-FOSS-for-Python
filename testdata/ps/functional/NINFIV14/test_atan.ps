@@ -1,0 +1,25 @@
+%!PS
+
+%	This example appears in section "Listing Characters Metrics
+%	from a Font" in Chapter 14 - "PostScript Nine to Five".
+%
+
+/inch { 72 mul } def				%  define inch procedure
+/WhatFont  /Palatino-Roman def
+/AtanCharacter  (Atan = ) def
+/AtanTempStr 16 string def
+
+/num -198.24 def
+/den -235.2 def
+num den atan
+/AtanVar 1 index def
+pop
+/AtanStr AtanVar AtanTempStr cvs def
+
+WhatFont findfont 14 scalefont setfont
+
+10 150 moveto
+0.0 setgray
+AtanStr AtanCharacter show	show	
+
+showpage					%  display page

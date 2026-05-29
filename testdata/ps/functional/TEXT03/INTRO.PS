@@ -1,0 +1,44 @@
+%!PS
+
+%	This example appears in the introductory section
+%	of Chapter 3 - "Text".
+%
+
+/Symbol findfont 360 scalefont setfont		%  set current font
+newpath						%  ensure empty path
+36 792 2 div 72 add moveto			%  set current point
+(\144) show					%  show delta character
+
+newpath						%  ensure empty path
+36 612 2 div add 792 2 div 72 add moveto	%  set current point
+gsave						%  save graphics state
+	30 rotate				%  rotate coordinate system
+	1.25 0.75 scale				%  scale coordinate system
+	(y) show				%  show greek symbol
+grestore					%  restore graphics state
+
+newpath						%  ensure empty path
+36 72 36 add moveto				%  set current point
+(\160) false charpath stroke			%  show pi
+
+gsave						%  save graphics state
+	newpath					%  ensure empty path
+	612 2 div 72 36 add moveto		%  set curren point
+	(&) false charpath clip			%  clip to ampersand
+	newpath					%  ensure empty path
+	612 4 div 3 mul 792 4 div translate	%  move coordinate system
+	0 5 360 {				%  begin for loop
+		0 0 moveto			%  set current point
+		dup cos 1000 mul		%  calculate x
+		exch sin 1000 mul		%  calculate y
+		lineto				%  draw line
+	} for					%  end for loop
+	stroke					%  stroke lines
+grestore					%  restore graphics state
+newpath						%  ensure empty path
+/Palatino-Roman findfont 40 scalefont setfont	%  set font
+newpath 36 792 2 div moveto (Character) show	%  show labels
+newpath 18 612 2 div add 792 2 div moveto (Rotated, Scaled) show
+newpath 18 36 moveto (Stroked Outline) show
+newpath 36 612 2 div add 36 moveto (Clip to Outline) show
+showpage					%  display page

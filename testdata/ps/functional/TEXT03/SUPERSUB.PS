@@ -1,0 +1,29 @@
+%!PS
+
+%	This example appears in section "Superscripts and Subscripts"
+%	in Chapter 3 - "Text".
+%
+
+/Palatino-Italic findfont	%  find italic font
+300 scalefont			%  scale to required size
+setfont				%  scale to required size
+200 500 moveto			%  set current point
+(a) show			%  show italic character
+/Palatino-Roman findfont	%  find Roman font
+				%  transform
+[ 300 0.65 mul 0 0 300 0.6 mul 0 0 ] makefont
+setfont				%  make current font
+0 120 rmoveto			%  adjust baseline for superscript
+(2) show			%  show superscript
+/Palatino-Italic findfont	%  find italic font
+300 scalefont			%  scale to required size
+setfont				%  scale to required size
+200 200 moveto			%  set current point
+(a) show			%  show italic character
+/Palatino-Roman findfont	%  find Roman font
+				%  transform
+[ 300 0.65 mul 0 0 300 0.6 mul 0 0 ] makefont
+setfont				%  make current font
+0 -75 rmoveto			%  adjust baseline for subscript
+(2) show			%  show subscript
+showpage			%  display page

@@ -1,0 +1,15 @@
+%!PS
+
+%	This example appears in section "Round Line Joins"
+%	in Chapter 6 - "Line Weights and Line Styles".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+1 inch 2 inch moveto			%  set current point
+4.25 inch 9 inch lineto			%  add line segment
+7.5 inch 2 inch lineto			%  add another line segment
+closepath				%  finish the shape
+1 setlinejoin				%  set round line joins
+1 inch setlinewidth			%  fat line width
+stroke					%  paint the path
+showpage				%  display page

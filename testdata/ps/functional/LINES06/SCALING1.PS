@@ -1,0 +1,16 @@
+%!PS
+
+%	This example appears in section "Non-uniform Scaling of Thick Lines"
+%	in Chapter 6 - "Line Weights and Line Styles".
+%
+
+/inch { 72 mul } def	%  define inch procedure
+1 inch 1 inch moveto	%  set current point
+6 inch 0 rlineto	%  bottom of square
+0 6 inch rlineto	%  right side of square
+-6 inch 0 rlineto	%  top of square
+closepath		%  complete the path
+0.25 inch setlinewidth	%  set fat line width
+4 1 scale		%  scale coordinate system
+stroke			%  paint the outline the page
+showpage		%  display page

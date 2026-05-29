@@ -1,0 +1,79 @@
+%!PS
+
+%	This example appears in section "Precise Widths and Heights of
+%	Strings" in Chapter 3 - "Text".
+%
+
+/charheight {				%  string of one character
+	gsave				%  push graphics state
+		newpath			%  clear current path
+		0 0 moveto		%  set current point
+		false charpath		%  get path
+		flattenpath		%  flatten path
+		pathbbox		%  stack=ll(x) ll(y) ur(x) ur(y)
+		exch pop		%  stack = ll(x) ll(y) ur(y)
+		3 -1 roll pop		%  stack = ll(y) ur(y)
+	grestore			%  push graphics state
+} def
+
+/stringheight {				%  string
+	/lly 0.0 def			%  initial value of height(min)
+	/ury 0.0 def			%  initial value of height(max)
+	{				%  work through string
+		( ) dup 0 4 -1 roll put	%  create one-character string
+		charheight		%  measure its height
+		dup ury gt {		%  if ur(y) > height(max)
+			/ury exch def	%  update with new value
+		} {
+			pop		%  else discard ur(y)
+		} ifelse
+		dup lly lt {		%  if ll(y) < height(min)
+			/lly exch def	%  update with new value
+		} {
+			pop		%  else discard ll(y)
+		} ifelse
+	} forall			%  work through string
+	ury lly sub			%  return height
+} def
+
+/center_show {				%  stack =  x  y  (string)
+	dup				%  make copy of string
+	stringwidth pop 2 div		%  compute half string width
+	4 -1 roll exch sub		%  decrement x position
+	3 -1 roll moveto		%  set current point
+	show				%  image string
+} def
+
+/descender {				%  stack = string
+    /lly 0.0 def			%  initial value of height(min)
+    /ury 0.0 def			%  initial value of height(max)
+    {					%  work through string
+        ( ) dup 0 4 -1 roll put		%  create one-character string
+        charheight			%  measure its height
+        pop				%  remove ur(y)
+        dup lly lt {			%  if ll(y) < height(min)
+            /lly exch def		%  update with new value
+        } {
+            pop				%  else discard ll(y)
+        } ifelse
+    } forall				%  work through string
+    lly					%  return lowest descender
+} def
+
+/inch { 72 mul } def			%  define inch procedure
+/Palatino-Roman findfont		%  choose font
+2 inch scalefont setfont
+/str (Gutenberg) def			%  define string
+/w str stringwidth pop def		%  define width
+/h str stringheight def			%  define height
+0.75 inch				%  x position
+6.0 inch str descender add		%  adjust y
+moveto					%  set current point
+0 h rlineto				%  draw rectangle
+w 0 rlineto
+0 h neg rlineto
+closepath fill				%  fill rectangle
+1 setgray				%  choose gray tone
+0.75 inch 6.0 inch moveto		%  set current point
+str show				%  show string
+showpage				%  display page

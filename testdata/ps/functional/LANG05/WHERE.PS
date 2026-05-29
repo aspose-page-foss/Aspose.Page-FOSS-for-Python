@@ -1,0 +1,18 @@
+%!PS
+
+%	This example appears in section "Test Name on Dictionary Stack"
+%	in Chapter 5 - "PostScript Language".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+/Palatino-Italic findfont		%  choose font
+1 inch scalefont setfont
+2.0 inch 5.5 inch moveto		%  set current point
+/execform where				%  look for execform
+{					%  true part
+	(It's there) show		%  tell the world
+	pop				%  remove dictionary
+} {					%  false part
+	(It's not there) show		%  tell the world
+} ifelse				%  end if statement
+showpage				%  display page

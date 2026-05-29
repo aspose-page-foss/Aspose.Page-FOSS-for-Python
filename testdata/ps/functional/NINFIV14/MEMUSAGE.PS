@@ -1,0 +1,19 @@
+%!PS
+
+%	This example appears in section "Determining Printer Memory Usage"
+%	in Chapter 14 - "PostScript Nine to Five".
+%
+
+/inch { 72 mul } def				%  define inch procedure
+/Courier-Bold findfont 24 scalefont setfont
+vmstatus					%  obtain VM status
+1 inch 3 inch moveto				%  set current point
+(Maximum = ) show				%  maximum available caption
+16 string cvs show				%  convert and show maximum
+1 inch 5 inch moveto				%  set current point
+(Used = ) show					%  memory used caption
+16 string cvs show				%  convert and show used
+1 inch 7 inch moveto				%  set current point
+(Level = ) show					%  save level caption
+16 string cvs show				%  convert and show save level
+showpage					%  display page

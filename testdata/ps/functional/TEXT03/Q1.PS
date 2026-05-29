@@ -1,0 +1,13 @@
+%!PS
+
+%	This example appears in section "Transforming a Font Using a Matrix"
+%	in Chapter 3 - "Text".
+%
+
+/inch { 72 mul } def			%  define inch procedure
+/ZapfChancery-MediumItalic findfont	%  find desired font
+[ 10 inch 0 0 10 inch 0 0 ] makefont	%  scale it large
+setfont					%  set font in graphics state
+-0.5 3 inch moveto			%  set current point
+(Q) show				%  image the character
+showpage				%  display page
