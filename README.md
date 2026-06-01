@@ -163,4 +163,4 @@ make build
 
 ## License
 
-MIT. See `LICENSE` for the full text.
+![MIT](LICENSE.txt)MIT.
