@@ -99,17 +99,17 @@ with open("output.jpg", "wb") as f:
 
 ## Example Results
 
-### XPS mb03 rendered via xps2pdf (PDF page rendered to PNG)
+### XPS document converted to PDF (that is converted than to PNG)
 
-![mb03 xps2pdf result](test-out/xps/xps2pdf/integration/mb03.png)
+![mb03 xps2pdf result](readme.resources/mb03.png)
 
-### XPS mb03 rendered via xps2image
+### PS file converted to PDF (that is converted than to PNG)
 
-![mb03 xps2image result](test-out/xps/xps2image/integration/mb03.png)
+![ps2pdf result](readme.resources/TestImages.png)
 
-### PS/EPS image conversion sample
+### PS/EPS to image conversion sample
 
-![PS to image sample](test-out/ps/ps2image/functional/COLOR13/RGB1.png)
+![PS to image sample](readme.resources/RGB10.png)
 
 ## MCP Server
 
