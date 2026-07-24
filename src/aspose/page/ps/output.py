@@ -47,6 +47,7 @@ class ImageSaveOptions:
     dpi: int = 96
     raster_writer: RasterWriter | None = None
     additional_fonts_folder: str | None = None
+    opaque_background: bool = False
     # Internal plumbing: reuse interpreter font resolver (with embedded Type42
     # registrations) during rasterization.
     font_resolver: FontResolver | None = None

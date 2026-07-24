@@ -22,6 +22,7 @@ def subset_ttf(
     data: bytes,
     used_codes: set[int],
     code_remap: dict[int, int] | None = None,
+    explicit_code_to_gid: dict[int, int] | None = None,
 ) -> tuple[bytes, dict[int, int]]:
     if not data:
         raise PsTypeError("empty TrueType data")
@@ -54,7 +55,10 @@ def subset_ttf(
     offsets = _read_loca(data, loca.offset, index_to_loc_format, num_glyphs)
     cmap_map = _parse_cmap_table(data, cmap.offset)
 
-    if code_remap:
+    if explicit_code_to_gid is not None:
+        codes = sorted(code for code in explicit_code_to_gid.keys() if 0 <= code <= 0xFFFF)
+        code_to_gid = {code: int(explicit_code_to_gid.get(code, 0)) for code in codes}
+    elif code_remap:
         codes = sorted(code for code in code_remap.keys() if 0 <= code <= 0xFFFF)
         code_to_gid = {}
         for code in codes:

@@ -134,6 +134,12 @@ class XpsDocument:
 
         return to_image(self, options)
 
+    def to_images(self, options: "ImageSaveOptions") -> list[bytes]:
+        """Convert the document to one raster image per fixed page."""
+        from .output import to_images
+
+        return to_images(self, options)
+
 
 def _parse_fixed_page(xml: bytes) -> XpsFixedPage:
     root = ET.fromstring(xml)

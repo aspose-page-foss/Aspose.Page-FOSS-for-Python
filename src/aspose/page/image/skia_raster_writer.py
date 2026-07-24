@@ -68,18 +68,20 @@ class SkiaRasterWriter:
 
         page = _get_page(document)
         scale = options.dpi / 72.0
-        width_px, height_px = _page_pixel_size(page.width, page.height, scale)
+        preserve_fractional_page_size = bool(getattr(options, "preserve_fractional_page_size", False))
+        width_px, height_px = _page_pixel_size(page.width, page.height, scale, preserve_fractional=preserve_fractional_page_size)
 
         if fmt == "png":
+            use_opaque_background = bool(getattr(options, "opaque_background", False))
             info = skia.ImageInfo.Make(
                 width_px,
                 height_px,
                 skia.ColorType.kRGBA_8888_ColorType,
-                skia.AlphaType.kPremul_AlphaType,
+                skia.AlphaType.kOpaque_AlphaType if use_opaque_background else skia.AlphaType.kPremul_AlphaType,
             )
             surface = skia.Surface(info)
             canvas = surface.getCanvas()
-            canvas.clear(skia.ColorTRANSPARENT)
+            canvas.clear(skia.ColorWHITE if use_opaque_background else skia.ColorTRANSPARENT)
         else:
             info = skia.ImageInfo.Make(
                 width_px,
@@ -231,25 +233,81 @@ def _draw_path(
         if command.fill.kind == "Pattern" and isinstance(command.fill.value, PatternPaint):
             pattern = document.resources.patterns.get(command.fill.value.pattern_id)
             if isinstance(pattern, TilingPattern):
-                _fill_path_pattern(
-                    canvas,
-                    path,
-                    document,
-                    command.fill.value,
-                    scale,
-                    pattern_cache,
-                    font_resolver,
-                    font_cache,
-                )
+                if _tiling_pattern_is_image_only(pattern):
+                    tile = _pattern_tile(
+                        pattern,
+                        command.fill.value,
+                        document,
+                        scale,
+                        pattern_cache,
+                        font_resolver,
+                        font_cache,
+                    )
+                    if tile is not None and _fill_path_pattern_with_shader(
+                        canvas,
+                        path,
+                        tile,
+                        pattern,
+                        opacity=command.fill_opacity,
+                    ):
+                        pass
+                    else:
+                        canvas.save()
+                        if command.fill_opacity < 0.9999:
+                            layer_paint = skia.Paint(Alphaf=max(0.0, min(1.0, command.fill_opacity)))
+                            canvas.saveLayer(None, layer_paint)
+                        _fill_path_pattern(
+                            canvas,
+                            path,
+                            document,
+                            command.fill.value,
+                            scale,
+                            pattern_cache,
+                            font_resolver,
+                            font_cache,
+                        )
+                        if command.fill_opacity < 0.9999:
+                            canvas.restore()
+                        canvas.restore()
+                else:
+                    canvas.save()
+                    if command.fill_opacity < 0.9999:
+                        layer_paint = skia.Paint(Alphaf=max(0.0, min(1.0, command.fill_opacity)))
+                        canvas.saveLayer(None, layer_paint)
+                    _fill_path_pattern(
+                        canvas,
+                        path,
+                        document,
+                        command.fill.value,
+                        scale,
+                        pattern_cache,
+                        font_resolver,
+                        font_cache,
+                    )
+                    if command.fill_opacity < 0.9999:
+                        canvas.restore()
+                    canvas.restore()
             elif isinstance(pattern, ShadingPattern):
+                canvas.save()
+                if command.fill_opacity < 0.9999:
+                    layer_paint = skia.Paint(Alphaf=max(0.0, min(1.0, command.fill_opacity)))
+                    canvas.saveLayer(None, layer_paint)
                 _fill_path_shading(canvas, path, pattern)
+                if command.fill_opacity < 0.9999:
+                    canvas.restore()
+                canvas.restore()
         else:
             rgba = _paint_to_rgba(command.fill)
             if rgba is not None:
                 paint = skia.Paint(
                     AntiAlias=not _is_axis_aligned_rect_path(command.path.segments),
                     Style=skia.Paint.kFill_Style,
-                    Color=skia.Color4f(rgba[0] / 255.0, rgba[1] / 255.0, rgba[2] / 255.0, 1.0),
+                    Color=skia.Color4f(
+                        rgba[0] / 255.0,
+                        rgba[1] / 255.0,
+                        rgba[2] / 255.0,
+                        max(0.0, min(1.0, command.fill_opacity)),
+                    ),
                 )
                 canvas.drawPath(path, paint)
     if command.stroke is not None:
@@ -259,20 +317,90 @@ def _draw_path(
             "off",
         )
         stroke_paint = command.stroke_paint or command.fill
-        stroke_color = _paint_to_rgba(stroke_paint) or (0, 0, 0, 255)
-        paint = skia.Paint(
-            AntiAlias=stroke_antialias,
-            Style=skia.Paint.kStroke_Style,
-            Color=skia.Color4f(
-                stroke_color[0] / 255.0,
-                stroke_color[1] / 255.0,
-                stroke_color[2] / 255.0,
-                1.0,
-            ),
-            StrokeWidth=command.stroke.line_width,
-        )
-        _apply_stroke_style(paint, command.stroke)
-        canvas.drawPath(path, paint)
+        pattern = None
+        if stroke_paint is not None and stroke_paint.kind == "Pattern" and isinstance(stroke_paint.value, PatternPaint):
+            pattern = document.resources.patterns.get(stroke_paint.value.pattern_id)
+        if isinstance(pattern, TilingPattern):
+            tile = _pattern_tile(
+                pattern,
+                stroke_paint.value,
+                document,
+                scale,
+                pattern_cache,
+                font_resolver,
+                font_cache,
+            )
+            if tile is not None and _tiling_pattern_is_image_only(pattern):
+                if _stroke_path_pattern_with_shader(
+                    canvas,
+                    path,
+                    tile,
+                    pattern,
+                    command.stroke,
+                    command.stroke_opacity,
+                    stroke_antialias,
+                ):
+                    return
+            stroke_path = _stroke_fill_path(path, command.stroke, stroke_antialias)
+            if stroke_path is not None:
+                canvas.save()
+                if command.stroke_opacity < 0.9999:
+                    layer_paint = skia.Paint(Alphaf=max(0.0, min(1.0, command.stroke_opacity)))
+                    canvas.saveLayer(None, layer_paint)
+                _fill_path_pattern(
+                    canvas,
+                    stroke_path,
+                    document,
+                    stroke_paint.value,
+                    scale,
+                    pattern_cache,
+                    font_resolver,
+                    font_cache,
+                )
+                if command.stroke_opacity < 0.9999:
+                    canvas.restore()
+                canvas.restore()
+        elif isinstance(pattern, ShadingPattern):
+            stroke_path = _stroke_fill_path(path, command.stroke, stroke_antialias)
+            if stroke_path is not None:
+                canvas.save()
+                if command.stroke_opacity < 0.9999:
+                    layer_paint = skia.Paint(Alphaf=max(0.0, min(1.0, command.stroke_opacity)))
+                    canvas.saveLayer(None, layer_paint)
+                _fill_path_shading(canvas, stroke_path, pattern)
+                if command.stroke_opacity < 0.9999:
+                    canvas.restore()
+                canvas.restore()
+        else:
+            stroke_color = _paint_to_rgba(stroke_paint) or (0, 0, 0, 255)
+            paint = skia.Paint(
+                AntiAlias=stroke_antialias,
+                Style=skia.Paint.kStroke_Style,
+                Color=skia.Color4f(
+                    stroke_color[0] / 255.0,
+                    stroke_color[1] / 255.0,
+                    stroke_color[2] / 255.0,
+                    max(0.0, min(1.0, command.stroke_opacity)),
+                ),
+                StrokeWidth=command.stroke.line_width,
+            )
+            _apply_stroke_style(paint, command.stroke)
+            canvas.drawPath(path, paint)
+
+
+def _stroke_fill_path(path, stroke, stroke_antialias: bool):
+    import skia  # type: ignore
+
+    stroke_paint = skia.Paint(
+        AntiAlias=stroke_antialias,
+        Style=skia.Paint.kStroke_Style,
+        StrokeWidth=stroke.line_width,
+    )
+    _apply_stroke_style(stroke_paint, stroke)
+    stroked = skia.Path()
+    if not stroke_paint.getFillPath(path, stroked):
+        return None
+    return stroked
 
 
 def _apply_stroke_style(paint, stroke) -> None:
@@ -349,18 +477,11 @@ def _draw_text_fallback(
         Style=skia.Paint.kFill_Style,
         Color=skia.Color4f(rgba[0] / 255.0, rgba[1] / 255.0, rgba[2] / 255.0, rgba[3] / 255.0),
     )
-    font = skia.Font(typeface, command.font_size or 1.0)
+    effective_size, matrix = _normalize_text_matrix_for_font_size(command, command.font_size or 1.0)
+    font = skia.Font(typeface, effective_size)
     _configure_skia_text_font(font)
-    a, b, c, d, e, f = (
-        command.matrix.a,
-        command.matrix.b,
-        command.matrix.c,
-        command.matrix.d,
-        command.matrix.e,
-        command.matrix.f,
-    )
     canvas.save()
-    canvas.concat(_skia_matrix_from_affine((a, b, c, d, e, f)))
+    canvas.concat(_skia_matrix_from_affine(matrix))
     canvas.scale(1.0, -1.0)
     _draw_text_without_kerning(
         canvas,
@@ -394,18 +515,11 @@ def _draw_text_with_font(
         Color=skia.Color4f(rgba[0] / 255.0, rgba[1] / 255.0, rgba[2] / 255.0, rgba[3] / 255.0),
     )
     effective_font_size = (command.font_size or 1.0) * font_scale
+    effective_font_size, matrix = _normalize_text_matrix_for_font_size(command, effective_font_size)
     font = skia.Font(typeface, effective_font_size)
     _configure_skia_text_font(font)
-    a, b, c, d, e, f = (
-        command.matrix.a,
-        command.matrix.b,
-        command.matrix.c,
-        command.matrix.d,
-        command.matrix.e,
-        command.matrix.f,
-    )
     canvas.save()
-    canvas.concat(_skia_matrix_from_affine((a, b, c, d, e, f)))
+    canvas.concat(_skia_matrix_from_affine(matrix))
     # Canvas is already flipped for PS (y-up). Flip text space back so glyphs are upright.
     canvas.scale(1.0, -1.0)
     baseline_shift = _palatino_baseline_shift(command.font_ref, effective_font_size)
@@ -485,12 +599,64 @@ def _palatino_baseline_shift(font_ref: str, font_size: float) -> float:
     return font_size * factor
 
 
-def _page_pixel_size(width_pt: float, height_pt: float, scale: float) -> tuple[int, int]:
+
+
+def _normalize_text_matrix_for_font_size(
+    command: TextCommand,
+    font_size: float,
+) -> tuple[float, tuple[float, float, float, float, float, float]]:
+    a, b, c, d, e, f = (
+        command.matrix.a,
+        command.matrix.b,
+        command.matrix.c,
+        command.matrix.d,
+        command.matrix.e,
+        command.matrix.f,
+    )
+    if abs(b) > 1.0e-9 or abs(c) > 1.0e-9:
+        return font_size, (a, b, c, d, e, f)
+    sx = abs(a)
+    sy = abs(d)
+    if sx <= 1.0e-9 or sy <= 1.0e-9:
+        return font_size, (a, b, c, d, e, f)
+    if abs(sx - sy) > 1.0e-6:
+        return font_size, (a, b, c, d, e, f)
+    normalized = (1.0 if a >= 0 else -1.0, 0.0, 0.0, 1.0 if d >= 0 else -1.0, e, f)
+    return font_size * sx, normalized
+def _page_pixel_size(
+    width_pt: float,
+    height_pt: float,
+    scale: float,
+    preserve_fractional: bool = False,
+) -> tuple[int, int]:
     # Keep raster page dimensions aligned with legacy baselines: when a page
     # size uses fractional PostScript points (eg 595.29998779), truncate to an
-    # integer point before DPI scaling.
-    width_px = max(1, int(round(_normalize_page_points(width_pt) * scale)))
-    height_px = max(1, int(round(_normalize_page_points(height_pt) * scale)))
+    # integer point before DPI scaling unless the caller explicitly preserves
+    # fractional page sizes (used by XPS image output print-ticket fitting).
+    page_width = width_pt if preserve_fractional else _normalize_page_points(width_pt)
+    page_height = height_pt if preserve_fractional else _normalize_page_points(height_pt)
+    if preserve_fractional:
+        # For fractional-point page sizes, legacy XPS baselines were generated
+        # by truncating the scaled pixel size. For integer-point page sizes,
+        # preserve exact integer pixel counts and only suppress floating-point
+        # spillover such as 3300.0000000000005.
+        width_value = page_width * scale
+        height_value = page_height * scale
+        width_point_is_integer = abs(page_width - round(page_width)) < 1e-6
+        height_point_is_integer = abs(page_height - round(page_height)) < 1e-6
+        width_rounded = round(width_value)
+        height_rounded = round(height_value)
+        if width_point_is_integer and abs(width_value - width_rounded) < 1e-6:
+            width_px = max(1, int(width_rounded))
+        else:
+            width_px = max(1, int(width_value - 1e-6))
+        if height_point_is_integer and abs(height_value - height_rounded) < 1e-6:
+            height_px = max(1, int(height_rounded))
+        else:
+            height_px = max(1, int(height_value - 1e-6))
+    else:
+        width_px = max(1, int(round(page_width * scale)))
+        height_px = max(1, int(round(page_height * scale)))
     return width_px, height_px
 
 
@@ -509,23 +675,31 @@ def _draw_text_without_kerning(
     font_ref: str | None = None,
     font_size: float | None = None,
     font_resolver: FontResolver | None = None,
+    glyph_id_override: int | None = None,
 ) -> None:
     """Draw text using explicit advances to avoid implicit engine kerning for PS `show`."""
     if not text:
         return
+    base_font_ref, font_ref_glyph_id, glyph_overrides = _split_font_ref(font_ref or "")
     advances = None
     resource = None
     symbolic_mode = False
     draw_text = text
     glyphs_from_code_map: list[int] | None = None
-    if font_resolver is not None and font_ref:
+    outline_font: TrueTypeFont | None = None
+    effective_glyph_id_override = glyph_id_override if glyph_id_override is not None else font_ref_glyph_id
+    if font_resolver is not None and base_font_ref:
         try:
-            resource = font_resolver.resolve(font_ref)
+            try:
+                resource = font_resolver.resolve(font_ref or base_font_ref)
+            except Exception:
+                resource = font_resolver.resolve(base_font_ref)
             code_map = resource.code_map or {}
             units = float(resource.units_per_em or 1000)
+            outline_font = _resolve_outline_font(font_ref or base_font_ref, font_resolver, {})
             resolved_size = float(font_size or 1.0)
             symbolic_mode = (
-                font_ref in ("Symbol", "ZapfDingbats", "Webdings", "Wingdings")
+                base_font_ref in ("Symbol", "ZapfDingbats", "Webdings", "Wingdings")
                 or resource.name in ("Symbol", "ZapfDingbats", "Webdings", "Wingdings")
             )
             if symbolic_mode:
@@ -576,7 +750,21 @@ def _draw_text_without_kerning(
             # For normal text fonts, render-model text is already unicode-normalized
             # and forcing code-map ids can remap punctuation/math to wrong glyphs.
             should_use_code_map = symbolic_mode
-            if code_map and should_use_code_map:
+            if effective_glyph_id_override is not None and len(text) == 1:
+                glyphs_from_code_map = [int(effective_glyph_id_override)]
+            elif outline_font is not None:
+                mapped: list[int] = []
+                for idx, source_char in enumerate(text):
+                    if idx == 0 and effective_glyph_id_override is not None:
+                        gid = int(effective_glyph_id_override)
+                    else:
+                        gid = glyph_overrides.get(ord(source_char))
+                        if gid is None:
+                            gid = int(outline_font.glyph_id_for_code(ord(source_char)))
+                    mapped.append(max(0, int(gid)))
+                if mapped and any(gid != 0 for gid in mapped):
+                    glyphs_from_code_map = mapped
+            if code_map and should_use_code_map and glyphs_from_code_map is None:
                 mapped: list[int] = []
                 for source_char, drawn_char in zip(text, draw_text):
                     source_code = ord(source_char)
@@ -594,16 +782,32 @@ def _draw_text_without_kerning(
             computed: list[float] = []
             for source_char, drawn_char in zip(text, draw_text):
                 source_code = ord(source_char)
-                width = (
-                    resource.code_widths.get(source_code) if resource.code_widths is not None else None
-                )
-                if width is None and source_code > 0xFF and resource.code_widths is not None:
-                    width = resource.code_widths.get(source_code & 0xFF)
+                gid = None
+                if glyphs_from_code_map is not None and len(glyphs_from_code_map) > len(computed):
+                    gid = glyphs_from_code_map[len(computed)]
+                elif effective_glyph_id_override is not None and len(text) == 1:
+                    gid = effective_glyph_id_override
+                elif glyph_overrides:
+                    gid = glyph_overrides.get(source_code)
+                width = None
+                if gid is not None and outline_font is not None and int(gid) >= 0:
+                    width = float(outline_font.glyph_advance(int(gid)))
+                if width is None:
+                    width = (
+                        resource.code_widths.get(source_code) if resource.code_widths is not None else None
+                    )
+                    if width is None and source_code > 0xFF and resource.code_widths is not None:
+                        width = resource.code_widths.get(source_code & 0xFF)
                 if width is None:
                     glyph_name = resource.encoding.get(source_code)
                     if glyph_name is None and source_code > 0xFF:
                         glyph_name = resource.encoding.get(source_code & 0xFF)
                     width = font_resolver.get_glyph_width(resource, glyph_name or ".notdef")
+                if width in (None, 0.0) and outline_font is not None:
+                    if gid is None:
+                        gid = outline_font.glyph_id_for_code(source_code)
+                    if gid is not None and int(gid) >= 0:
+                        width = float(outline_font.glyph_advance(int(gid)))
                 if width in (None, 0.0):
                     measured = float(font.measureText(drawn_char))
                     if measured > 0.0:
@@ -622,7 +826,7 @@ def _draw_text_without_kerning(
         import skia  # type: ignore
 
         glyphs = glyphs_from_code_map or list(font.textToGlyphs(draw_text))
-        if font_ref == "Webdings" and len(glyphs) == len(text):
+        if base_font_ref == "Webdings" and len(glyphs) == len(text):
             # Webdings often travels via private-use code points in PS input.
             # Keep private-use mapping when it resolves; only remap if the
             # initial conversion produced missing glyphs.
@@ -702,6 +906,7 @@ def _draw_image(
                 image_height,
                 color_space,
                 bits_per_component,
+                getattr(resource, "soft_mask", None),
                 getattr(resource, "decode", None),
             )
     except Exception:
@@ -744,6 +949,7 @@ def _skia_image_from_resource_data(
     height: int,
     color_space: str,
     bits_per_component: int,
+    soft_mask: bytes | None = None,
     decode: tuple[float, ...] | None = None,
 ):
     import skia  # type: ignore
@@ -770,8 +976,10 @@ def _skia_image_from_resource_data(
             width,
             height,
             skia.ColorType.kRGBA_8888_ColorType,
-            skia.AlphaType.kOpaque_AlphaType,
+            skia.AlphaType.kPremul_AlphaType if soft_mask is not None else skia.AlphaType.kOpaque_AlphaType,
         )
+        if soft_mask is not None and len(soft_mask) >= width * height:
+            rgba = _apply_soft_mask_to_rgba(rgba, soft_mask, width, height)
         # Use MakeWithCopy to avoid lifetime issues with temporary Python bytes.
         sk_data = skia.Data.MakeWithCopy(bytes(rgba))
         return skia.Image.MakeRasterData(info, sk_data, width * 4)
@@ -817,8 +1025,10 @@ def _skia_image_from_resource_data(
             width,
             height,
             skia.ColorType.kRGBA_8888_ColorType,
-            skia.AlphaType.kOpaque_AlphaType,
+            skia.AlphaType.kPremul_AlphaType if soft_mask is not None else skia.AlphaType.kOpaque_AlphaType,
         )
+        if soft_mask is not None and len(soft_mask) >= width * height:
+            rgba = _apply_soft_mask_to_rgba(rgba, soft_mask, width, height)
         # Use MakeWithCopy to avoid lifetime issues with temporary Python bytes.
         sk_data = skia.Data.MakeWithCopy(bytes(rgba))
         return skia.Image.MakeRasterData(info, sk_data, width * 4)
@@ -916,6 +1126,28 @@ def _skia_mask_image_from_resource_data(
     return skia.Image.MakeRasterData(info, sk_data, width * 4)
 
 
+def _apply_soft_mask_to_rgba(rgba: bytearray, soft_mask: bytes, width: int, height: int) -> bytearray:
+    """Apply an 8-bit soft mask to an RGBA buffer."""
+    total = width * height
+    if len(rgba) < total * 4 or len(soft_mask) < total:
+        return rgba
+    dst = 0
+    for idx in range(total):
+        alpha = soft_mask[idx]
+        if alpha <= 0:
+            rgba[dst] = 0
+            rgba[dst + 1] = 0
+            rgba[dst + 2] = 0
+            rgba[dst + 3] = 0
+        elif alpha < 255:
+            rgba[dst] = (rgba[dst] * alpha + 127) // 255
+            rgba[dst + 1] = (rgba[dst + 1] * alpha + 127) // 255
+            rgba[dst + 2] = (rgba[dst + 2] * alpha + 127) // 255
+            rgba[dst + 3] = alpha
+        dst += 4
+    return rgba
+
+
 def _materialize_image_resource_skia(resource) -> tuple[bytes, int, int, str, int]:
     filter_name = getattr(resource, "filter", None)
     if filter_name != "DCTDecode":
@@ -1001,11 +1233,12 @@ def _resolve_text_typeface(
     if embedded is not None:
         return embedded
 
-    candidates: list[str] = [font_ref]
-    if font_ref in _STANDARD_FONTS:
-        candidates.append(_standard_font_fallback(font_ref))
+    base_font_ref, _, _ = _split_font_ref(font_ref)
+    candidates: list[str] = [base_font_ref]
+    if base_font_ref in _STANDARD_FONTS:
+        candidates.append(_standard_font_fallback(base_font_ref))
     try:
-        resolved = resolver.resolve(font_ref)
+        resolved = resolver.resolve(base_font_ref)
         candidates.append(resolved.name)
         if resolved.name in _STANDARD_FONTS:
             candidates.append(_standard_font_fallback(resolved.name))
@@ -1035,6 +1268,36 @@ def _resolve_text_typeface(
     return skia.Typeface.MakeDefault()
 
 
+
+
+def _glyph_overrides_from_font_ref(font_ref: str) -> dict[int, int]:
+    _, _, glyph_map = _split_font_ref(font_ref)
+    return glyph_map
+
+
+def _split_font_ref(font_ref: str) -> tuple[str, int | None, dict[int, int]]:
+    base = font_ref
+    glyph_map: dict[int, int] = {}
+    if '#gmap=' in base:
+        base, _, suffix = base.partition('#gmap=')
+        for item in suffix.split(','):
+            if ':' not in item:
+                continue
+            code_text, gid_text = item.split(':', 1)
+            try:
+                glyph_map[int(code_text, 16)] = int(gid_text)
+            except ValueError:
+                continue
+    glyph_id: int | None = None
+    if '#gid=' in base:
+        base, _, suffix = base.partition('#gid=')
+        try:
+            glyph_id = int(suffix)
+        except ValueError:
+            glyph_id = None
+    return base, glyph_id, glyph_map
+
+
 def _resolve_embedded_typeface(
     font_ref: str,
     resolver: FontResolver,
@@ -1042,15 +1305,22 @@ def _resolve_embedded_typeface(
 ):
     import skia  # type: ignore
 
-    try:
-        resource = resolver.resolve(font_ref)
-    except Exception:
-        resource = None
+    base_font_ref, _, _ = _split_font_ref(font_ref)
+    resource = None
+    for candidate in (font_ref, base_font_ref):
+        try:
+            resource = resolver.resolve(candidate)
+        except Exception:
+            resource = None
+        if resource is not None and resource.font_program:
+            break
     data = resource.font_program if resource is not None else None
     if data is None:
-        embedded = resolver.get_embedded_type42(font_ref)
-        if embedded is not None:
-            data = embedded.data
+        for candidate in (font_ref, base_font_ref):
+            embedded = resolver.get_embedded_type42(candidate)
+            if embedded is not None:
+                data = embedded.data
+                break
     if not data:
         return None
     cache_key = f"embedded:{font_ref}"
@@ -1080,15 +1350,22 @@ def _resolve_outline_font(
     resolver: FontResolver,
     cache: dict[str, object],
 ) -> TrueTypeFont | None:
-    try:
-        resource = resolver.resolve(font_ref)
-    except Exception:
-        resource = None
+    base_font_ref, _, _ = _split_font_ref(font_ref)
+    resource = None
+    for candidate in (font_ref, base_font_ref):
+        try:
+            resource = resolver.resolve(candidate)
+        except Exception:
+            resource = None
+        if resource is not None and resource.font_program:
+            break
     embedded_data = resource.font_program if resource is not None else None
     if not embedded_data:
-        embedded = resolver.get_embedded_type42(font_ref)
-        if embedded is not None:
-            embedded_data = embedded.data
+        for candidate in (font_ref, base_font_ref):
+            embedded = resolver.get_embedded_type42(candidate)
+            if embedded is not None:
+                embedded_data = embedded.data
+                break
     if embedded_data:
         key = f"embedded-ttf:{font_ref}"
         cached = cache.get(key)
@@ -1101,7 +1378,7 @@ def _resolve_outline_font(
         if font is not None:
             cache[key] = font
         return font
-    path = resolver.resolve_ttf_path(font_ref)
+    path = resolver.resolve_ttf_path(base_font_ref)
     if path is None and resource is not None:
         if resource.name == "Symbol" and hasattr(resolver, "_resolve_symbol_path"):
             path = resolver._resolve_symbol_path()  # type: ignore[attr-defined]
@@ -1227,8 +1504,13 @@ def _fill_path_pattern(
     if tile is None:
         return
     if _tiling_pattern_is_image_only(pattern):
-        if _fill_path_pattern_with_shader(canvas, path, tile, pattern):
+        use_shader = not (
+            getattr(pattern, "tiling_type", 1) == 0
+            and _tiling_pattern_uses_soft_mask_image(pattern, document)
+        )
+        if use_shader and _fill_path_pattern_with_shader(canvas, path, tile, pattern, opacity=1.0):
             return
+    non_tiling = getattr(pattern, "tiling_type", 1) == 0
     bounds = path.getBounds()
     if bounds.isEmpty():
         return
@@ -1251,18 +1533,22 @@ def _fill_path_pattern(
     tile_h = tile.height
     if step_x <= 1e-6 or step_y <= 1e-6:
         return
-    start_x = math.floor((min_x - tile.x_min) / step_x) - 1
-    end_x = math.ceil((max_x - tile.x_min) / step_x) + 1
-    start_y = math.floor((min_y - tile.y_min) / step_y) - 1
-    end_y = math.ceil((max_y - tile.y_min) / step_y) + 1
-    tile_count = (end_x - start_x + 1) * (end_y - start_y + 1)
-    if tile_count > 4096:
-        # Guardrail for pathological brush transforms: prefer bounded runtime
-        # over exhaustive tiling when the pattern domain explodes.
-        center_x = (min_x + max_x) * 0.5
-        center_y = (min_y + max_y) * 0.5
-        start_x = end_x = int(round((center_x - tile.x_min) / step_x))
-        start_y = end_y = int(round((center_y - tile.y_min) / step_y))
+    if non_tiling:
+        start_x = end_x = 0
+        start_y = end_y = 0
+    else:
+        start_x = math.floor((min_x - tile.x_min) / step_x) - 1
+        end_x = math.ceil((max_x - tile.x_min) / step_x) + 1
+        start_y = math.floor((min_y - tile.y_min) / step_y) - 1
+        end_y = math.ceil((max_y - tile.y_min) / step_y) + 1
+        tile_count = (end_x - start_x + 1) * (end_y - start_y + 1)
+        if tile_count > 4096:
+            # Guardrail for pathological brush transforms: prefer bounded runtime
+            # over exhaustive tiling when the pattern domain explodes.
+            center_x = (min_x + max_x) * 0.5
+            center_y = (min_y + max_y) * 0.5
+            start_x = end_x = int(round((center_x - tile.x_min) / step_x))
+            start_y = end_y = int(round((center_y - tile.y_min) / step_y))
 
     canvas.save()
     canvas.clipPath(path, doAntiAlias=True)
@@ -1287,7 +1573,13 @@ def _fill_path_pattern(
     canvas.restore()
 
 
-def _fill_path_pattern_with_shader(canvas, path, tile: _PatternTile, pattern: TilingPattern) -> bool:
+def _fill_path_pattern_with_shader(
+    canvas,
+    path,
+    tile: _PatternTile,
+    pattern: TilingPattern,
+    opacity: float = 1.0,
+) -> bool:
     import skia  # type: ignore
 
     sx = float(tile.width_px) / max(tile.width, 1e-6)
@@ -1333,10 +1625,89 @@ def _fill_path_pattern_with_shader(canvas, path, tile: _PatternTile, pattern: Ti
     paint = skia.Paint(
         AntiAlias=True,
         Style=skia.Paint.kFill_Style,
+        Alphaf=max(0.0, min(1.0, opacity)),
     )
     paint.setShader(shader)
     if non_tiling:
         # Restrict sampling strictly to the first viewport tile bounds.
+        p0 = _apply_matrix(tile.matrix, tile.x_min, tile.y_min)
+        p1 = _apply_matrix(tile.matrix, tile.x_min + tile.width, tile.y_min)
+        p2 = _apply_matrix(tile.matrix, tile.x_min + tile.width, tile.y_min + tile.height)
+        p3 = _apply_matrix(tile.matrix, tile.x_min, tile.y_min + tile.height)
+        clip_path = skia.Path()
+        clip_path.moveTo(p0[0], p0[1])
+        clip_path.lineTo(p1[0], p1[1])
+        clip_path.lineTo(p2[0], p2[1])
+        clip_path.lineTo(p3[0], p3[1])
+        clip_path.close()
+        canvas.save()
+        canvas.clipPath(clip_path, doAntiAlias=True)
+        canvas.drawPath(path, paint)
+        canvas.restore()
+        return True
+    canvas.drawPath(path, paint)
+    return True
+
+
+def _stroke_path_pattern_with_shader(
+    canvas,
+    path,
+    tile: _PatternTile,
+    pattern: TilingPattern,
+    stroke,
+    stroke_opacity: float,
+    stroke_antialias: bool,
+) -> bool:
+    import skia  # type: ignore
+
+    sx = float(tile.width_px) / max(tile.width, 1e-6)
+    sy = float(tile.height_px) / max(tile.height, 1e-6)
+    non_tiling = getattr(pattern, "tiling_type", 1) == 0
+    if non_tiling:
+        pattern_to_image = (
+            sx,
+            0.0,
+            0.0,
+            sy,
+            -tile.x_min * sx,
+            -tile.y_min * sy,
+        )
+    else:
+        pattern_to_image = (
+            sx,
+            0.0,
+            0.0,
+            -sy,
+            -tile.x_min * sx,
+            (tile.y_min + tile.height) * sy,
+        )
+    if tile.inv_matrix is not None:
+        user_to_pattern = tile.inv_matrix
+    else:
+        user_to_pattern = (1.0, 0.0, 0.0, 1.0, 0.0, 0.0)
+    user_to_image = _mul_affine(pattern_to_image, user_to_pattern)
+    image_to_user = _invert_matrix(user_to_image)
+    if image_to_user is None:
+        return False
+    local_matrix = _skia_matrix_from_affine(image_to_user)
+    sampling = skia.SamplingOptions(skia.FilterMode.kLinear, skia.MipmapMode.kNone)
+    tile_mode_x = skia.TileMode.kRepeat
+    tile_mode_y = skia.TileMode.kRepeat
+    try:
+        shader = tile.image.makeShader(tile_mode_x, tile_mode_y, sampling, local_matrix)
+    except Exception:
+        return False
+    if shader is None:
+        return False
+    paint = skia.Paint(
+        AntiAlias=stroke_antialias,
+        Style=skia.Paint.kStroke_Style,
+        StrokeWidth=stroke.line_width,
+        Alphaf=max(0.0, min(1.0, stroke_opacity)),
+    )
+    _apply_stroke_style(paint, stroke)
+    paint.setShader(shader)
+    if non_tiling:
         p0 = _apply_matrix(tile.matrix, tile.x_min, tile.y_min)
         p1 = _apply_matrix(tile.matrix, tile.x_min + tile.width, tile.y_min)
         p2 = _apply_matrix(tile.matrix, tile.x_min + tile.width, tile.y_min + tile.height)
@@ -1370,6 +1741,25 @@ def _draw_text_pattern(
     if isinstance(pattern, ShadingPattern):
         if _draw_text_shading(canvas, command, pattern, font_resolver):
             return
+    if isinstance(pattern, TilingPattern):
+        # Image-only text patterns can be phase-sensitive under Skia shaders.
+        # Prefer the explicit geometric tile fill only for masked image tiles
+        # (eg VisualBrush content with a soft mask). Plain image tiles keep the
+        # shader path so their phase/color matches the earlier rendering.
+        if _tiling_pattern_uses_soft_mask_image(pattern, document):
+            text_path = _build_text_path_for_pattern(command, font_resolver, {})
+            if text_path is not None:
+                _fill_path_pattern(
+                    canvas,
+                    text_path,
+                    document,
+                    paint,
+                    scale,
+                    pattern_cache,
+                    font_resolver,
+                    font_cache,
+                )
+                return
     if _draw_text_pattern_with_shader(
         canvas,
         command,
@@ -1497,7 +1887,8 @@ def _build_shading_shader(
         if user_to_geom is not None:
             c0_local = _apply_matrix(user_to_geom, c0[0], c0[1])
             c1_local = _apply_matrix(user_to_geom, c1[0], c1[1])
-            # Approximate radial scale in local space by mapping the radius endpoint.
+            # Approximate the transformed radii in local space by mapping
+            # a point on the outer circle through the same transform.
             p0_edge_user = (c0[0] + rr0, c0[1])
             p1_edge_user = (c1[0] + rr1, c1[1])
             p0_edge_local = _apply_matrix(user_to_geom, p0_edge_user[0], p0_edge_user[1])
@@ -1687,6 +2078,16 @@ def _tiling_pattern_is_image_only(pattern: TilingPattern) -> bool:
     if len(pattern.commands) != 1:
         return False
     return isinstance(pattern.commands[0], ImageCommand)
+
+
+def _tiling_pattern_uses_soft_mask_image(pattern: TilingPattern, document: "RenderDocument") -> bool:
+    if not _tiling_pattern_is_image_only(pattern):
+        return False
+    command = pattern.commands[0]
+    if not isinstance(command, ImageCommand):
+        return False
+    image = document.resources.images.get(command.image_id)
+    return bool(getattr(image, "soft_mask", None))
 
 
 def _text_local_to_user_matrix(command: TextCommand) -> tuple[float, float, float, float, float, float]:

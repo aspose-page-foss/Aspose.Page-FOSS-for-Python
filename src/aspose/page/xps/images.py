@@ -26,6 +26,7 @@ class XpsImageResource:
     filter: str | None
     x_dpi: float = 96.0
     y_dpi: float = 96.0
+    soft_mask: bytes | None = None
 
 
 class XpsImageStore:
@@ -46,6 +47,9 @@ class XpsImageStore:
                 bits_per_component=resource.bits_per_component,
                 color_space=resource.color_space,
                 filter=resource.filter,
+                x_dpi=resource.x_dpi,
+                y_dpi=resource.y_dpi,
+                soft_mask=resource.soft_mask,
             )
         self._images[image_id] = resource
         return image_id
@@ -58,12 +62,14 @@ class XpsImageStore:
 
 
 def decode_png(data: bytes) -> XpsImageResource:
-    """Decode an 8-bit RGB/RGBA PNG into a raw image resource."""
+    """Decode a PNG into a raw RGB image resource with optional soft mask."""
     if not data.startswith(b"\x89PNG\r\n\x1a\n"):
         raise ValueError("invalid PNG signature")
     width = height = 0
     bit_depth = color_type = None
     idat = bytearray()
+    palette: bytes | None = None
+    transparency: bytes | None = None
     offset = 8
     while offset + 8 <= len(data):
         length = struct.unpack(">I", data[offset:offset + 4])[0]
@@ -74,14 +80,23 @@ def decode_png(data: bytes) -> XpsImageResource:
             width, height, bit_depth, color_type = struct.unpack(">IIBB", chunk_data[:10])
         elif chunk_type == b"IDAT":
             idat.extend(chunk_data)
+        elif chunk_type == b"PLTE":
+            palette = bytes(chunk_data)
+        elif chunk_type == b"tRNS":
+            transparency = bytes(chunk_data)
         elif chunk_type == b"IEND":
             break
-    if bit_depth != 8 or color_type not in (2, 6):
+    if color_type not in (2, 3, 6):
+        raise ValueError("unsupported PNG format")
+    if color_type in (2, 6) and bit_depth != 8:
+        raise ValueError("unsupported PNG format")
+    if color_type == 3 and bit_depth not in (1, 2, 4, 8):
         raise ValueError("unsupported PNG format")
     decompressed = zlib.decompress(bytes(idat))
-    bytes_per_pixel = 3 if color_type == 2 else 4
-    stride = width * bytes_per_pixel
+    bytes_per_pixel = 3 if color_type == 2 else 4 if color_type == 6 else 1
+    stride = _png_row_bytes(width, bit_depth, color_type)
     raw = bytearray()
+    alpha = bytearray() if color_type in (3, 6) else None
     idx = 0
     prev = bytearray(stride)
     for _ in range(height):
@@ -93,8 +108,21 @@ def decode_png(data: bytes) -> XpsImageResource:
         if color_type == 6:
             for i in range(0, len(line), 4):
                 raw.extend(line[i:i + 3])
-        else:
+                alpha.extend(line[i + 3:i + 4])
+        elif color_type == 2:
             raw.extend(line)
+        else:
+            if palette is None:
+                raise ValueError("palette PNG missing PLTE chunk")
+            for sample in _unpack_png_samples(line, width, bit_depth):
+                base = sample * 3
+                if base + 3 > len(palette):
+                    raise ValueError("palette PNG index out of range")
+                raw.extend(palette[base:base + 3])
+                alpha_value = 255
+                if transparency is not None and sample < len(transparency):
+                    alpha_value = transparency[sample]
+                alpha.extend((alpha_value,))
         prev = line
     return XpsImageResource(
         image_id="",
@@ -106,7 +134,28 @@ def decode_png(data: bytes) -> XpsImageResource:
         filter=None,
         x_dpi=_png_dpi(data) or 96.0,
         y_dpi=_png_dpi(data, vertical=True) or 96.0,
+        soft_mask=bytes(alpha) if alpha is not None else None,
     )
+
+
+def _png_row_bytes(width: int, bit_depth: int, color_type: int) -> int:
+    channels = 1 if color_type == 3 else 3 if color_type == 2 else 4
+    return (width * channels * bit_depth + 7) // 8
+
+
+def _unpack_png_samples(line: bytes, width: int, bit_depth: int) -> list[int]:
+    if bit_depth == 8:
+        return list(line[:width])
+    samples: list[int] = []
+    mask = (1 << bit_depth) - 1
+    for byte in line:
+        bits_remaining = 8
+        while bits_remaining >= bit_depth and len(samples) < width:
+            bits_remaining -= bit_depth
+            samples.append((byte >> bits_remaining) & mask)
+        if len(samples) >= width:
+            break
+    return samples
 
 
 def decode_jpeg(data: bytes) -> XpsImageResource:

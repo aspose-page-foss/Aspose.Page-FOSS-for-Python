@@ -147,6 +147,8 @@ class TextCommand:
     matrix: Matrix
     fill: Paint | None
     fill_opacity: float = 1.0
+    glyph_id: int | None = None
+    pdf_text_adjustments: tuple[float, ...] | None = None
 
 
 @dataclass(frozen=True)
@@ -255,6 +257,7 @@ class RenderImageResource:
     decode: tuple[float, ...] | None = None
     mask: bool = False
     mask_polarity: bool = True
+    soft_mask: bytes | None = None
 
 
 def rect_path(rect: Rect) -> Path:
@@ -360,11 +363,23 @@ class RenderModelBuilder:
         font_size: float,
         matrix: Matrix,
         fill: Paint | None,
+        fill_opacity: float = 1.0,
+        glyph_id: int | None = None,
+        pdf_text_adjustments: tuple[float, ...] | None = None,
     ) -> None:
         """Add a text render command to the current page."""
         self._ensure_page()
         self._active_page.commands.append(
-            TextCommand(text=text, font_ref=font_ref, font_size=font_size, matrix=matrix, fill=fill)
+            TextCommand(
+                text=text,
+                font_ref=font_ref,
+                font_size=font_size,
+                matrix=matrix,
+                fill=fill,
+                fill_opacity=fill_opacity,
+                glyph_id=glyph_id,
+                pdf_text_adjustments=pdf_text_adjustments,
+            )
         )
 
     def add_image(

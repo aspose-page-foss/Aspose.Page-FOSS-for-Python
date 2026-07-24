@@ -10,6 +10,7 @@ from typing import Iterable
 
 from .fonts import FontResolver
 from .ttf_subset import ensure_ttf_cmap, has_ttf_table, subset_ttf
+from .ttf_outline import TrueTypeFont
 from .objects import PsArray, PsDict, PsName
 from ..pdf.fonts import PdfEmbeddedFont, build_to_unicode
 
@@ -33,10 +34,16 @@ _STANDARD_FONTS = {
 
 
 def build_embedded_font(
-    font_name: str, used_codes: set[int], resolver: FontResolver
+    font_name: str,
+    used_codes: set[int],
+    resolver: FontResolver,
+    glyph_id_override: int | None = None,
 ) -> PdfEmbeddedFont | None:
     if not used_codes:
         return None
+    font_name, embedded_glyph_id, glyph_map_overrides = _split_font_ref_glyph_id(font_name)
+    if glyph_id_override is None:
+        glyph_id_override = embedded_glyph_id
     if font_name in _STANDARD_FONTS:
         return None
     candidate_names: list[str] = [font_name]
@@ -83,16 +90,30 @@ def build_embedded_font(
         except Exception:
             pass
 
-    unicode_codes = sorted(code for code in used_codes if 0 <= code <= 0x10FFFF)
+    unicode_codes = sorted(code for code in used_codes if 0 <= code <= 0xFFFF)
     if not unicode_codes:
         return None
 
-    pdf_to_unicode = _assign_pdf_codes(unicode_codes)
+    pdf_to_unicode = _assign_pdf_codes(unicode_codes, max_pdf_code=0xFF, preserve_direct=True)
+    code_byte_width = 1
+    if not pdf_to_unicode:
+        pdf_to_unicode = _assign_pdf_codes(unicode_codes, max_pdf_code=0xFFFF, preserve_direct=False)
+        code_byte_width = 2
     if not pdf_to_unicode:
         return None
 
+    explicit_pdf_code_to_gid = None
+    if glyph_id_override is not None:
+        explicit_pdf_code_to_gid = {pdf_code: int(glyph_id_override) for pdf_code in pdf_to_unicode.keys()}
+    else:
+        explicit_pdf_code_to_gid = _explicit_code_to_gid_from_font(data, pdf_to_unicode, glyph_map_overrides)
     try:
-        subset_data, _code_to_gid = subset_ttf(data, set(pdf_to_unicode.keys()) | {0}, code_remap=pdf_to_unicode)
+        subset_data, _code_to_gid = subset_ttf(
+            data,
+            set(pdf_to_unicode.keys()) | {0},
+            code_remap=pdf_to_unicode,
+            explicit_code_to_gid=explicit_pdf_code_to_gid,
+        )
     except Exception:
         if allow_full_embed_on_subset_failure:
             subset_data = data if has_ttf_table(data, b"cmap") else None
@@ -109,6 +130,7 @@ def build_embedded_font(
                         fallback_data,
                         set(pdf_to_unicode.keys()) | {0},
                         code_remap=pdf_to_unicode,
+                        explicit_code_to_gid=explicit_pdf_code_to_gid,
                     )
                 except Exception:
                     continue
@@ -121,17 +143,32 @@ def build_embedded_font(
 
     first_char = min(pdf_to_unicode.keys())
     last_char = max(pdf_to_unicode.keys())
-    widths = _build_widths_remapped(code_widths, units_per_em, first_char, last_char, pdf_to_unicode)
+    widths = _build_widths_remapped(
+        code_widths,
+        units_per_em,
+        first_char,
+        last_char,
+        pdf_to_unicode,
+        explicit_pdf_code_to_gid,
+        data,
+    )
     metrics = _read_metrics(subset_data)
     tag = _subset_tag(font_name, unicode_codes)
     subset_name = f"{tag}+{_sanitize_pdf_font_name(font_name)}"
     to_unicode = build_to_unicode(pdf_to_unicode)
     char_code_map = {unicode_code: pdf_code for pdf_code, unicode_code in pdf_to_unicode.items()}
+    cid_to_gid_map = None
+    subtype = "TrueType"
+    encoding = "WinAnsiEncoding"
+    if code_byte_width == 2:
+        cid_to_gid_map = _build_cid_to_gid_map(_code_to_gid, last_char)
+        subtype = "Type0"
+        encoding = "Identity-H"
     return PdfEmbeddedFont(
         base_name=font_name,
         subset_name=subset_name,
-        subtype="TrueType",
-        encoding="WinAnsiEncoding",
+        subtype=subtype,
+        encoding=encoding,
         symbolic=False,
         first_char=first_char,
         last_char=last_char,
@@ -145,7 +182,50 @@ def build_embedded_font(
         stem_v=metrics.stem_v,
         to_unicode=to_unicode,
         char_code_map=char_code_map,
+        code_byte_width=code_byte_width,
+        cid_to_gid_map=cid_to_gid_map,
     )
+
+
+def _split_font_ref_glyph_id(font_ref: str) -> tuple[str, int | None, dict[int, int]]:
+    glyph_map: dict[int, int] = {}
+    base = font_ref
+    if "#gmap=" in base:
+        base, _, suffix = base.partition("#gmap=")
+        for item in suffix.split(','):
+            if ':' not in item:
+                continue
+            code_text, gid_text = item.split(':', 1)
+            try:
+                glyph_map[int(code_text, 16)] = int(gid_text)
+            except ValueError:
+                continue
+    if "#gid=" not in base:
+        return base, None, glyph_map
+    base, _, suffix = base.partition("#gid=")
+    try:
+        return base, int(suffix), glyph_map
+    except ValueError:
+        return base, None, glyph_map
+
+
+def _explicit_code_to_gid_from_font(
+    data: bytes,
+    pdf_to_unicode: dict[int, int],
+    glyph_map_overrides: dict[int, int] | None = None,
+) -> dict[int, int] | None:
+    try:
+        font = TrueTypeFont(data)
+    except Exception:
+        return None
+    result: dict[int, int] = {}
+    overrides = glyph_map_overrides or {}
+    for pdf_code, unicode_code in pdf_to_unicode.items():
+        gid = int(overrides.get(int(unicode_code), font.glyph_id_for_code(int(unicode_code))))
+        if gid < 0:
+            gid = 0
+        result[int(pdf_code)] = gid
+    return result
 
 
 def _extract_type42_code_to_gid(
@@ -252,39 +332,61 @@ def _build_widths_remapped(
     first_char: int,
     last_char: int,
     pdf_to_unicode: dict[int, int],
+    explicit_pdf_code_to_gid: dict[int, int] | None = None,
+    font_data: bytes | None = None,
 ) -> list[int]:
     widths: list[int] = []
     scale = 1000.0 / max(1, units_per_em)
+    font = None
+    if explicit_pdf_code_to_gid and font_data is not None:
+        try:
+            font = TrueTypeFont(font_data)
+        except Exception:
+            font = None
     for pdf_code in range(first_char, last_char + 1):
         unicode_code = pdf_to_unicode.get(pdf_code)
         if unicode_code is None:
             widths.append(0)
             continue
         width_units = code_widths.get(unicode_code, 0.0)
+        if font is not None:
+            gid = explicit_pdf_code_to_gid.get(pdf_code)
+            if gid is not None:
+                width_units = float(font.glyph_advance(int(gid)))
         widths.append(int(round(width_units * scale)))
     return widths
 
 
-def _assign_pdf_codes(unicode_codes: list[int]) -> dict[int, int]:
+def _assign_pdf_codes(
+    unicode_codes: list[int],
+    max_pdf_code: int,
+    preserve_direct: bool,
+) -> dict[int, int]:
     assigned: dict[int, int] = {}
     used_pdf_codes: set[int] = set()
-    for code in unicode_codes:
-        if 0 <= code <= 0xFF and code not in used_pdf_codes:
-            assigned[code] = code
-            used_pdf_codes.add(code)
-    # Avoid control-character codes for remapped glyphs. Some PDF viewers
-    # (notably Acrobat) may treat 0x00-0x1F text bytes inconsistently.
-    next_pdf = 0x21
+    if preserve_direct:
+        for code in unicode_codes:
+            if 0 <= code <= max_pdf_code and code not in used_pdf_codes:
+                assigned[code] = code
+                used_pdf_codes.add(code)
+    next_pdf = 0x21 if max_pdf_code <= 0xFF else 1
     for code in unicode_codes:
         if code in assigned.values():
             continue
-        while next_pdf in used_pdf_codes and next_pdf <= 0xFF:
+        while next_pdf in used_pdf_codes and next_pdf <= max_pdf_code:
             next_pdf += 1
-        if next_pdf > 0xFF:
+        if next_pdf > max_pdf_code:
             return {}
         assigned[next_pdf] = code
         used_pdf_codes.add(next_pdf)
     return assigned
+
+
+def _build_cid_to_gid_map(code_to_gid: dict[int, int], last_char: int) -> bytes:
+    payload = bytearray()
+    for code in range(last_char + 1):
+        payload.extend(struct.pack(">H", int(code_to_gid.get(code, 0)) & 0xFFFF))
+    return bytes(payload)
 
 
 def _read_metrics(data: bytes) -> _FontMetrics:

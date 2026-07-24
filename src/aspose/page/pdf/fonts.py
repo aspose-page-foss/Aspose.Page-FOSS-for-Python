@@ -24,6 +24,8 @@ class PdfEmbeddedFont:
     stem_v: int
     to_unicode: str
     char_code_map: dict[int, int]
+    code_byte_width: int = 1
+    cid_to_gid_map: bytes | None = None
 
 
 def build_to_unicode(codes: list[int] | dict[int, int]) -> str:

@@ -32,6 +32,25 @@ from ..common.render_model import (
     TextCommand,
 )
 from ..ps.ttf_outline import TrueTypeFont
+
+
+def _deobfuscate_xps_odttf_bytes(part_name: str, data: bytes) -> bytes:
+    if not part_name.lower().endswith(".odttf") or len(data) < 32:
+        return data
+    name = part_name.rsplit("/", 1)[-1]
+    guid_text = name[:-6]
+    try:
+        guid_hex = guid_text.replace("-", "")
+        guid = bytes.fromhex(guid_hex)
+    except ValueError:
+        return data
+    if len(guid) != 16:
+        return data
+    key = guid[::-1]
+    decoded = bytearray(data)
+    for idx in range(min(32, len(decoded))):
+        decoded[idx] ^= key[idx % 16]
+    return bytes(decoded)
 from .images import (
     XpsImageResource,
     XpsImageStore,
@@ -45,6 +64,10 @@ from .package import XpsPackage
 
 XPS_UNIT_SCALE = 72.0 / 96.0
 
+_GRADIENT_RGB_STOPS_CACHE: dict[int, list[tuple[float, tuple[float, float, float]]]] = {}
+_GRADIENT_ALPHA_STOPS_CACHE: dict[int, list[tuple[float, float]]] = {}
+_GRADIENT_GEOMETRY_CACHE: dict[int, tuple[str, tuple[float, ...], str]] = {}
+
 
 class _IndexEntry:
     def __init__(
@@ -53,11 +76,15 @@ class _IndexEntry:
         advance: float | None = None,
         u_offset: float | None = None,
         v_offset: float | None = None,
+        code_unit_count: int = 1,
+        skip_render: bool = False,
     ) -> None:
         self.glyph_id = glyph_id
         self.advance = advance
         self.u_offset = u_offset
         self.v_offset = v_offset
+        self.code_unit_count = max(1, int(code_unit_count))
+        self.skip_render = skip_render
 
 
 class XpsRenderer:
@@ -70,7 +97,13 @@ class XpsRenderer:
         >>> isinstance(renderer, XpsRenderer)
         True
     """
-    def __init__(self, builder: RenderModelBuilder, image_store: XpsImageStore) -> None:
+    def __init__(
+        self,
+        builder: RenderModelBuilder,
+        image_store: XpsImageStore,
+        media_fit_size: tuple[float, float] | None = None,
+        rasterize_solid_strokes: bool = False,
+    ) -> None:
         self._builder = builder
         self._image_store = image_store
         self._package: XpsPackage | None = None
@@ -79,6 +112,8 @@ class XpsRenderer:
         self._font_cache: dict[str, TrueTypeFont] = {}
         self._opacity_image_cache: dict[tuple[str, int], str] = {}
         self._icc_profile_cache: dict[str, bytes] = {}
+        self._media_fit_size = media_fit_size
+        self._rasterize_solid_strokes = rasterize_solid_strokes
 
     def set_package(self, package: XpsPackage) -> None:
         self._package = package
@@ -88,13 +123,33 @@ class XpsRenderer:
 
     def render_fixed_page(self, xml: bytes, resources: XpsResourceDictionary | None = None) -> None:
         """Render a FixedPage XML payload into the render model."""
+        # These caches are keyed by transient Element ids. If they survive
+        # across documents in the same process, Python can reuse ids and bind
+        # gradient data from a previous XPS file to a later one.
+        _GRADIENT_RGB_STOPS_CACHE.clear()
+        _GRADIENT_ALPHA_STOPS_CACHE.clear()
+        _GRADIENT_GEOMETRY_CACHE.clear()
         root = ET.fromstring(xml)
-        width = (_parse_float(root.get("Width")) or 0.0) * XPS_UNIT_SCALE
-        height = (_parse_float(root.get("Height")) or 0.0) * XPS_UNIT_SCALE
+        raw_width = (_parse_float(root.get("Width")) or 0.0) * XPS_UNIT_SCALE
+        raw_height = (_parse_float(root.get("Height")) or 0.0) * XPS_UNIT_SCALE
+        fit_scale = 1.0
+        width = raw_width
+        height = raw_height
+        if self._media_fit_size is not None and raw_width > 0.0 and raw_height > 0.0:
+            fit_width, fit_height = self._media_fit_size
+            if fit_width > 0.0 and fit_height > 0.0:
+                fit_scale = min(fit_width / raw_width, fit_height / raw_height)
+                width = raw_width * fit_scale
+                height = raw_height * fit_scale
         self._builder.begin_page(width, height)
-        page_resources = _merge_resources(root, resources)
+        page_resources = _merge_resources(
+            root,
+            resources,
+            package=self._package,
+            current_part=self._current_part,
+        )
         # XPS coordinates are top-left with +Y down; render model uses +Y up.
-        transform = Matrix(XPS_UNIT_SCALE, 0.0, 0.0, -XPS_UNIT_SCALE, 0.0, height)
+        transform = Matrix(XPS_UNIT_SCALE * fit_scale, 0.0, 0.0, -(XPS_UNIT_SCALE * fit_scale), 0.0, height)
         for child in list(root):
             self._render_element(child, page_resources, transform)
         self._builder.end_page()
@@ -106,15 +161,20 @@ class XpsRenderer:
         transform: Matrix,
     ) -> None:
         tag = _local_name(element.tag)
-        local_transform = _element_transform(element)
+        local_transform = _element_transform(element, resources)
         combined = _multiply(transform, local_transform)
         if tag == "Canvas":
-            canvas_resources = _merge_resources(element, resources)
+            canvas_resources = _merge_resources(
+                element,
+                resources,
+                package=self._package,
+                current_part=self._current_part,
+            )
             clip_data = element.get("Clip")
             if clip_data:
                 clip_path = _parse_path_data(clip_data, combined)
                 self._builder.save_state()
-                self._builder.clip(clip_path)
+                self._builder.clip(clip_path, _extract_fill_rule(element, resources))
             for child in list(element):
                 self._render_element(child, canvas_resources, combined)
             if clip_data:
@@ -129,8 +189,13 @@ class XpsRenderer:
                 if geometry is None:
                     return
                 path = _parse_path_geometry_element(geometry, combined)
+            fill_rule = _extract_fill_rule(element, resources)
+            path_bbox = _path_bbox(path)
+            fill_value = _extract_paint_value(element, "Fill")
+            stroke_value = _extract_paint_value(element, "Stroke")
+            fill_brush = _resolve_brush_element(fill_value, resources)
             fill = _resolve_paint(
-                _extract_paint_value(element, "Fill"),
+                fill_value,
                 resources,
                 self._builder,
                 self,
@@ -138,16 +203,38 @@ class XpsRenderer:
                 combined,
             )
             stroke = _resolve_paint(
-                _extract_paint_value(element, "Stroke"),
+                stroke_value,
                 resources,
                 self._builder,
                 self,
                 combined,
                 combined,
             )
+            stroke_brush = _resolve_brush_element(stroke_value, resources)
+            opacity = _parse_float(element.get("Opacity"))
+            if opacity is not None:
+                opacity = _clamp(opacity, 0.0, 1.0)
+            if (
+                mask_brush := _extract_opacity_mask_brush(element)
+            ) is not None and stroke is None and _try_render_masked_solid_fill_as_image(
+                path=path,
+                path_bbox=path_bbox,
+                fill_brush=fill_brush,
+                mask_brush=mask_brush,
+                builder=self._builder,
+                renderer=self,
+                paint_transform=combined,
+                opacity=opacity if opacity is not None else 1.0,
+            ):
+                return
             fill_opacity = 1.0
             stroke_opacity = 1.0
-            mask_brush = _extract_opacity_mask_brush(element)
+            fill_alpha = _brush_alpha(fill_value, resources)
+            if fill_alpha is not None:
+                fill_opacity *= fill_alpha
+            stroke_alpha = _brush_alpha(stroke_value, resources)
+            if stroke_alpha is not None:
+                stroke_opacity *= stroke_alpha
             if mask_brush is not None:
                 fill_before_mask = fill
                 fill = _apply_opacity_mask_to_fill_paint(
@@ -158,32 +245,47 @@ class XpsRenderer:
                     renderer=self,
                     paint_transform=combined,
                     brush_origin_transform=combined,
+                    path=path,
+                    path_bbox=path_bbox,
+                    fill_brush=fill_brush,
                 )
                 mask_alpha = _opacity_from_brush_element(mask_brush, resources, self)
                 if mask_alpha is not None and fill == fill_before_mask:
                     alpha = _clamp(mask_alpha, 0.0, 1.0)
                     fill_opacity *= alpha
                     stroke_opacity *= alpha
-            opacity = _parse_float(element.get("Opacity"))
             if opacity is not None:
-                opacity = _clamp(opacity, 0.0, 1.0)
                 fill_opacity *= opacity
                 stroke_opacity *= opacity
             stroke_style = None
             if stroke is not None:
-                thickness = (_parse_float(element.get("StrokeThickness")) or 1.0) * XPS_UNIT_SCALE
+                base_thickness = (_parse_float(element.get("StrokeThickness")) or 1.0) * XPS_UNIT_SCALE
+                stroke_scale = _stroke_scale_from_matrix(combined) / XPS_UNIT_SCALE
+                thickness = base_thickness * stroke_scale
+                if fill is None and stroke_brush is not None and _try_render_stroked_brush_as_image(
+                    path=path,
+                    stroke_brush=stroke_brush,
+                    stroke_width=thickness,
+                    builder=self._builder,
+                    renderer=self,
+                    paint_transform=combined,
+                    opacity=(opacity if opacity is not None else 1.0),
+                ):
+                    return
+                dash = _parse_xps_dash_pattern(element, thickness)
                 stroke_style = StrokeStyle(
                     line_width=thickness,
-                    line_cap=0,
-                    line_join=0,
-                    miter_limit=10.0,
-                    dash=[],
-                    dash_phase=0.0,
+                    line_cap=_parse_xps_line_cap(element),
+                    line_join=_parse_xps_line_join(element),
+                    miter_limit=_parse_float(element.get("StrokeMiterLimit")) or 10.0,
+                    dash=dash,
+                    dash_phase=_parse_xps_dash_phase(element, thickness),
                 )
             self._builder.add_path(
                 path,
                 stroke_style,
                 fill,
+                fill_rule=fill_rule,
                 stroke_paint=stroke,
                 fill_opacity=fill_opacity,
                 stroke_opacity=stroke_opacity,
@@ -219,6 +321,10 @@ class XpsRenderer:
                 combined,
                 brush_transform,
             )
+            fill_opacity = 1.0
+            fill_alpha = _brush_alpha(_extract_paint_value(element, "Fill"), resources)
+            if fill_alpha is not None:
+                fill_opacity *= fill_alpha
             is_sideways = _is_true(element.get("IsSideways"))
             style = (element.get("StyleSimulations") or "").strip()
             if style == "ItalicSimulation" or style == "BoldItalicSimulation":
@@ -234,19 +340,37 @@ class XpsRenderer:
                 for char in text:
                     run_width += self._glyph_advance_points(font_ref, char, font_size)
                 rtl_matrix = _multiply(run_matrix, Matrix(1.0, 0.0, 0.0, 1.0, -run_width, 0.0))
-                self._builder.add_text(text_out, font_ref, font_size, rtl_matrix, fill)
+                self._builder.add_text(text_out, font_ref, font_size, rtl_matrix, fill, fill_opacity=fill_opacity)
                 if style == "BoldSimulation" or style == "BoldItalicSimulation":
                     bold_matrix = _multiply(
                         rtl_matrix, Matrix(1.0, 0.0, 0.0, 1.0, font_size * 0.04, 0.0)
                     )
-                    self._builder.add_text(text_out, font_ref, font_size, bold_matrix, fill)
-            elif is_sideways or _indices_have_metrics(parsed_indices) or rtl:
+                    self._builder.add_text(text_out, font_ref, font_size, bold_matrix, fill, fill_opacity=fill_opacity)
+            elif (
+                _indices_have_metrics(parsed_indices)
+                and not is_sideways
+                and not rtl
+                and not _indices_have_offsets(parsed_indices)
+                and _can_emit_adjusted_text_run(text, parsed_indices)
+            ):
+                self._emit_adjusted_text_run(
+                    text=text,
+                    font_ref=font_ref,
+                    font_size=font_size,
+                    matrix=run_matrix,
+                    fill=fill,
+                    fill_opacity=fill_opacity,
+                    style=style,
+                    indices=parsed_indices,
+                )
+            elif is_sideways or _indices_have_metrics(parsed_indices) or _indices_have_glyph_ids(parsed_indices) or rtl:
                 self._emit_glyph_run(
                     text=text,
                     font_ref=font_ref,
                     font_size=font_size,
                     base_matrix=run_matrix,
                     fill=fill,
+                    fill_opacity=fill_opacity,
                     bidi_level=bidi_level,
                     is_sideways=is_sideways,
                     style=style,
@@ -254,10 +378,10 @@ class XpsRenderer:
                 )
             else:
                 text_out = text[::-1] if bidi_level % 2 == 1 else text
-                self._builder.add_text(text_out, font_ref, font_size, run_matrix, fill)
+                self._builder.add_text(text_out, font_ref, font_size, run_matrix, fill, fill_opacity=fill_opacity)
                 if style == "BoldSimulation" or style == "BoldItalicSimulation":
                     bold_matrix = _multiply(run_matrix, Matrix(1.0, 0.0, 0.0, 1.0, font_size * 0.04, 0.0))
-                    self._builder.add_text(text_out, font_ref, font_size, bold_matrix, fill)
+                    self._builder.add_text(text_out, font_ref, font_size, bold_matrix, fill, fill_opacity=fill_opacity)
             return
         if tag == "Image":
             source = element.get("Source")
@@ -313,6 +437,50 @@ class XpsRenderer:
             return "".join(chars)
         return text
 
+    def _emit_adjusted_text_run(
+        self,
+        text: str,
+        font_ref: str,
+        font_size: float,
+        matrix: Matrix,
+        fill: Paint | None,
+        fill_opacity: float,
+        style: str,
+        indices: list["_IndexEntry"],
+    ) -> None:
+        adjustments: list[float] = []
+        entries = indices if indices else [_IndexEntry() for _ in text]
+        if len(entries) < len(text):
+            entries = entries + [_IndexEntry() for _ in range(len(text) - len(entries))]
+        for idx, char in enumerate(text[:-1]):
+            entry = entries[idx]
+            nominal = self._glyph_advance_points(font_ref, char, font_size, entry.glyph_id)
+            desired = nominal
+            if entry.advance is not None:
+                desired = (entry.advance * font_size) / 100.0
+            adjustments.append(((nominal - desired) / max(font_size, 1.0e-9)) * 1000.0)
+        run_font_ref = _font_ref_for_run(font_ref, text, entries)
+        self._builder.add_text(
+            text,
+            run_font_ref,
+            font_size,
+            matrix,
+            fill,
+            fill_opacity=fill_opacity,
+            pdf_text_adjustments=tuple(adjustments),
+        )
+        if style == "BoldSimulation" or style == "BoldItalicSimulation":
+            bold_matrix = _multiply(matrix, Matrix(1.0, 0.0, 0.0, 1.0, font_size * 0.04, 0.0))
+            self._builder.add_text(
+                text,
+                run_font_ref,
+                font_size,
+                bold_matrix,
+                fill,
+                fill_opacity=fill_opacity,
+                pdf_text_adjustments=tuple(adjustments),
+            )
+
     def _emit_glyph_run(
         self,
         text: str,
@@ -320,6 +488,7 @@ class XpsRenderer:
         font_size: float,
         base_matrix: Matrix,
         fill: Paint | None,
+        fill_opacity: float,
         bidi_level: int,
         is_sideways: bool,
         style: str,
@@ -343,6 +512,8 @@ class XpsRenderer:
             entries = entries + [_IndexEntry() for _ in range(len(chars) - len(entries))]
         for idx, char in enumerate(chars):
             entry = entries[idx] if idx < len(entries) else _IndexEntry()
+            if entry.skip_render:
+                continue
             if is_sideways:
                 # Match .NET arrange logic: when no explicit advance is present
                 # in Indices, use font em-size for sideways progression.
@@ -376,10 +547,27 @@ class XpsRenderer:
             if is_sideways:
                 # Per XPS, IsSideways rotates glyphs 90° counter-clockwise.
                 glyph_matrix = _multiply(glyph_matrix, Matrix(0.0, 1.0, -1.0, 0.0, 0.0, 0.0))
-            self._builder.add_text(char, font_ref, font_size, glyph_matrix, fill)
+            glyph_font_ref = _font_ref_for_glyph(font_ref, entry.glyph_id)
+            self._builder.add_text(
+                char,
+                glyph_font_ref,
+                font_size,
+                glyph_matrix,
+                fill,
+                fill_opacity=fill_opacity,
+                glyph_id=entry.glyph_id,
+            )
             if style == "BoldSimulation" or style == "BoldItalicSimulation":
                 bold_matrix = _multiply(glyph_matrix, Matrix(1.0, 0.0, 0.0, 1.0, font_size * 0.04, 0.0))
-                self._builder.add_text(char, font_ref, font_size, bold_matrix, fill)
+                self._builder.add_text(
+                    char,
+                    glyph_font_ref,
+                    font_size,
+                    bold_matrix,
+                    fill,
+                    fill_opacity=fill_opacity,
+                    glyph_id=entry.glyph_id,
+                )
             pen_x += -advance if rtl else advance
 
     def _glyph_advance_points(
@@ -458,7 +646,9 @@ class XpsRenderer:
         if not self._package.has_part(part):
             return None
         try:
-            font = TrueTypeFont(self._package.read(part))
+            data = self._package.read(part)
+            data = _deobfuscate_xps_odttf_bytes(part, data)
+            font = TrueTypeFont(data)
         except Exception:
             return None
         self._font_cache[font_ref] = font
@@ -519,14 +709,84 @@ def _local_name(tag: str) -> str:
     return tag.rsplit("}", 1)[-1]
 
 
-def _merge_resources(element: ET.Element, parent: XpsResourceDictionary | None) -> XpsResourceDictionary:
+def _merge_resources(
+    element: ET.Element,
+    parent: XpsResourceDictionary | None,
+    package: XpsPackage | None = None,
+    current_part: str | None = None,
+) -> XpsResourceDictionary:
     items: dict[str, object] = {}
+    visited_elements: set[int] = set()
+    visited_parts: set[str] = set()
     for res in element.findall(".//{*}ResourceDictionary"):
-        for child in list(res):
-            key = _resource_key(child)
-            if key:
-                items[key] = child
+        _collect_resource_dictionary(
+            res,
+            items,
+            package=package,
+            current_part=current_part,
+            visited_elements=visited_elements,
+            visited_parts=visited_parts,
+        )
     return XpsResourceDictionary(items=items, parent=parent)
+
+
+def _collect_resource_dictionary(
+    dictionary: ET.Element,
+    items: dict[str, object],
+    package: XpsPackage | None,
+    current_part: str | None,
+    visited_elements: set[int],
+    visited_parts: set[str],
+) -> None:
+    identifier = id(dictionary)
+    if identifier in visited_elements:
+        return
+    visited_elements.add(identifier)
+
+    source = dictionary.get("Source")
+    if source and package is not None:
+        part_name = _resolve_part(current_part or "/", source)
+        if part_name not in visited_parts and package.has_part(part_name):
+            visited_parts.add(part_name)
+            try:
+                source_root = ET.fromstring(package.read(part_name))
+            except ET.ParseError:
+                source_root = None
+            if source_root is not None:
+                if _local_name(source_root.tag) == "ResourceDictionary":
+                    _collect_resource_dictionary(
+                        source_root,
+                        items,
+                        package=package,
+                        current_part=part_name,
+                        visited_elements=visited_elements,
+                        visited_parts=visited_parts,
+                    )
+                else:
+                    for child in source_root.findall(".//{*}ResourceDictionary"):
+                        _collect_resource_dictionary(
+                            child,
+                            items,
+                            package=package,
+                            current_part=part_name,
+                            visited_elements=visited_elements,
+                            visited_parts=visited_parts,
+                        )
+
+    for child in list(dictionary):
+        if _local_name(child.tag) == "ResourceDictionary":
+            _collect_resource_dictionary(
+                child,
+                items,
+                package=package,
+                current_part=current_part,
+                visited_elements=visited_elements,
+                visited_parts=visited_parts,
+            )
+            continue
+        key = _resource_key(child)
+        if key:
+            items[key] = child
 
 
 def _resource_key(element: ET.Element) -> str | None:
@@ -579,6 +839,55 @@ def _extract_path_geometry_element(
     if data_node is None:
         return None
     return data_node.find(".//{*}PathGeometry")
+
+
+def _extract_fill_rule(
+    element: ET.Element,
+    resources: XpsResourceDictionary | None,
+) -> str:
+    """Resolve XPS fill rule with XPS geometry defaults.
+
+    XPS PathGeometry defaults to EvenOdd unless explicitly overridden.
+    """
+    rule = element.get("FillRule")
+    if rule:
+        rule = rule.strip().lower()
+        if rule in ("evenodd", "nonzero"):
+            return rule
+    data = element.get("Data")
+    if data:
+        compact = data.lstrip()
+        if compact.startswith("F1"):
+            return "nonzero"
+        if compact.startswith("F0"):
+            return "evenodd"
+    if data and data.strip().startswith("{StaticResource"):
+        key = data.replace("{StaticResource", "").replace("}", "").strip()
+        if resources is not None:
+            resource = resources.resolve(key)
+            if isinstance(resource, ET.Element):
+                rule = resource.get("FillRule")
+                if rule:
+                    rule = rule.strip().lower()
+                    if rule in ("evenodd", "nonzero"):
+                        return rule
+                geometry = resource.find(".//{*}PathGeometry")
+                if geometry is not None:
+                    rule = geometry.get("FillRule")
+                    if rule:
+                        rule = rule.strip().lower()
+                        if rule in ("evenodd", "nonzero"):
+                            return rule
+    data_node = element.find(".//{*}Path.Data")
+    if data_node is not None:
+        geometry = data_node.find(".//{*}PathGeometry")
+        if geometry is not None:
+            rule = geometry.get("FillRule")
+            if rule:
+                rule = rule.strip().lower()
+                if rule in ("evenodd", "nonzero"):
+                    return rule
+    return "evenodd"
 
 
 def _path_data_from_resource(resource: ET.Element) -> str | None:
@@ -691,6 +1000,30 @@ def _paint_from_element(
     return Paint("DeviceRGB", (0.0, 0.0, 0.0))
 
 
+def _resolve_brush_element(
+    value: str | None,
+    resources: XpsResourceDictionary | None,
+) -> ET.Element | None:
+    if value is None:
+        return None
+    text = value.strip()
+    if text.startswith("{StaticResource"):
+        key = text.replace("{StaticResource", "").replace("}", "").strip()
+        if resources is None:
+            return None
+        resource = resources.resolve(key)
+        if isinstance(resource, ET.Element):
+            return resource
+        return None
+    if text.startswith("<"):
+        return ET.fromstring(text)
+    if text:
+        solid = ET.Element("SolidColorBrush")
+        solid.set("Color", text)
+        return solid
+    return None
+
+
 def _gradient_to_pattern(
     element: ET.Element,
     builder: RenderModelBuilder,
@@ -774,24 +1107,30 @@ def _gradient_to_pattern(
         origin = _parse_point(element.get("GradientOrigin"))
         radius_x = _parse_float(element.get("RadiusX")) or 0.0
         radius_y = _parse_float(element.get("RadiusY")) or 0.0
-        radius = max(radius_x, radius_y)
+        sx = radius_x if abs(radius_x) > 1e-9 else 1.0
+        sy = radius_y if abs(radius_y) > 1e-9 else 1.0
         shading = RadialShading(
             color_space=DeviceColorSpace("DeviceRGB"),
-            coords=(origin[0], origin[1], 0.0, center[0], center[1], radius),
+            coords=(origin[0] / sx, origin[1] / sy, 0.0, center[0] / sx, center[1] / sy, 1.0),
             domain=gradient_domain,
             function=function,
             extend=(True, True),
         )
     matrix = (1.0, 0.0, 0.0, 1.0, 0.0, 0.0)
     if paint_transform is not None:
+        pm = paint_transform
+        if _local_name(element.tag) == "RadialGradientBrush":
+            pm = _multiply(pm, Matrix(sx, 0.0, 0.0, sy, 0.0, 0.0))
         matrix = (
-            paint_transform.a,
-            paint_transform.b,
-            paint_transform.c,
-            paint_transform.d,
-            paint_transform.e,
-            paint_transform.f,
+            pm.a,
+            pm.b,
+            pm.c,
+            pm.d,
+            pm.e,
+            pm.f,
         )
+    elif _local_name(element.tag) == "RadialGradientBrush":
+        matrix = (sx, 0.0, 0.0, sy, 0.0, 0.0)
     pattern = ShadingPattern(shading=shading, matrix=matrix)
     pattern_id = builder.register_pattern(pattern)
     return Paint("Pattern", PatternPaint(pattern_id=pattern_id, base_space_id=None, base_components=None))
@@ -871,24 +1210,34 @@ def _image_brush_to_pattern(
         viewport[1] * XPS_UNIT_SCALE,
     )
     if paint_transform is not None:
-        tx = (
-            paint_transform.a * viewport[0]
-            + paint_transform.c * viewport[1]
-            + paint_transform.e
-        )
-        ty = (
-            paint_transform.b * viewport[0]
-            + paint_transform.d * viewport[1]
-            + paint_transform.f
-        )
-        pm = (
-            paint_transform.a,
-            paint_transform.b,
-            paint_transform.c,
-            paint_transform.d,
-            tx,
-            ty,
-        )
+        if tile_mode == "tile":
+            pm = (
+                pm[0],
+                pm[1],
+                pm[2],
+                pm[3],
+                pm[4] + paint_transform.e,
+                pm[5] + paint_transform.f,
+            )
+        else:
+            tx = (
+                paint_transform.a * viewport[0]
+                + paint_transform.c * viewport[1]
+                + paint_transform.e
+            )
+            ty = (
+                paint_transform.b * viewport[0]
+                + paint_transform.d * viewport[1]
+                + paint_transform.f
+            )
+            pm = (
+                paint_transform.a,
+                paint_transform.b,
+                paint_transform.c,
+                paint_transform.d,
+                tx,
+                ty,
+            )
     pattern = TilingPattern(
         paint_type=1,
         tiling_type=1 if tile_mode == "tile" else 0,
@@ -942,6 +1291,15 @@ def _visual_brush_to_pattern(
         (viewport[0] - viewbox[0] * sx) * XPS_UNIT_SCALE,
         (viewport[1] - viewbox[1] * sy) * XPS_UNIT_SCALE,
     )
+    if paint_transform is not None:
+        matrix = (
+            matrix[0],
+            matrix[1],
+            matrix[2],
+            matrix[3],
+            matrix[4] + paint_transform.e,
+            matrix[5] + paint_transform.f,
+        )
     pattern = TilingPattern(
         paint_type=1,
         tiling_type=1,
@@ -1005,18 +1363,67 @@ def _parse_indices(value: str) -> list[_IndexEntry]:
         if segment == "":
             result.append(_IndexEntry())
             continue
+        code_unit_count = 1
         if segment.startswith("(") and ")" in segment:
-            segment = segment.split(")", 1)[1].strip()
+            prefix, _, remainder = segment.partition(")")
+            prefix = prefix[1:].strip()
+            if ":" in prefix:
+                prefix = prefix.split(":", 1)[0].strip()
+            parsed_count = _parse_int(prefix)
+            if parsed_count is not None and parsed_count > 0:
+                code_unit_count = parsed_count
+            segment = remainder.strip()
             if not segment:
-                result.append(_IndexEntry())
+                result.append(_IndexEntry(code_unit_count=code_unit_count))
+                for _ in range(code_unit_count - 1):
+                    result.append(_IndexEntry(skip_render=True))
                 continue
         parts = [item.strip() for item in segment.split(",")]
         glyph_id = _parse_int(parts[0]) if parts else None
         advance = _parse_float(parts[1]) if len(parts) > 1 and parts[1] else None
         u_offset = _parse_float(parts[2]) if len(parts) > 2 and parts[2] else None
         v_offset = _parse_float(parts[3]) if len(parts) > 3 and parts[3] else None
-        result.append(_IndexEntry(glyph_id=glyph_id, advance=advance, u_offset=u_offset, v_offset=v_offset))
+        result.append(_IndexEntry(glyph_id=glyph_id, advance=advance, u_offset=u_offset, v_offset=v_offset, code_unit_count=code_unit_count))
+        for _ in range(code_unit_count - 1):
+            result.append(_IndexEntry(skip_render=True))
     return result
+
+
+def _can_emit_adjusted_text_run(text: str, entries: list[_IndexEntry]) -> bool:
+    overrides: dict[int, int] = {}
+    for idx, char in enumerate(text):
+        if idx >= len(entries):
+            break
+        entry = entries[idx]
+        if entry.skip_render or entry.code_unit_count != 1:
+            return False
+        gid = entry.glyph_id
+        if gid is None:
+            continue
+        code = ord(char)
+        prev = overrides.get(code)
+        if prev is not None and prev != gid:
+            return False
+        overrides[code] = gid
+    return True
+
+
+def _font_ref_for_run(font_ref: str, text: str, entries: list[_IndexEntry]) -> str:
+    overrides: dict[int, int] = {}
+    for idx, char in enumerate(text):
+        if idx >= len(entries):
+            break
+        entry = entries[idx]
+        if entry.skip_render:
+            continue
+        gid = entry.glyph_id
+        if gid is None:
+            continue
+        overrides[ord(char)] = int(gid)
+    if not overrides:
+        return font_ref
+    parts = [f"{code:04X}:{gid}" for code, gid in sorted(overrides.items())]
+    return f"{font_ref}#gmap={','.join(parts)}"
 
 
 def _indices_have_metrics(entries: list[_IndexEntry]) -> bool:
@@ -1024,6 +1431,23 @@ def _indices_have_metrics(entries: list[_IndexEntry]) -> bool:
         if entry.advance is not None or entry.u_offset is not None or entry.v_offset is not None:
             return True
     return False
+
+
+def _indices_have_offsets(entries: list[_IndexEntry]) -> bool:
+    for entry in entries:
+        if entry.u_offset is not None or entry.v_offset is not None:
+            return True
+    return False
+
+
+def _indices_have_glyph_ids(entries: list[_IndexEntry]) -> bool:
+    return any(entry.glyph_id is not None for entry in entries)
+
+
+def _font_ref_for_glyph(font_ref: str, glyph_id: int | None) -> str:
+    if glyph_id is None:
+        return font_ref
+    return f"{font_ref}#gid={int(glyph_id)}"
 
 
 def _parse_color(value: str) -> tuple[float, float, float]:
@@ -1064,6 +1488,45 @@ def _parse_color(value: str) -> tuple[float, float, float]:
                 b = b * alpha + (1.0 - alpha)
             return (r, g, b)
     return (0.0, 0.0, 0.0)
+
+
+def _extract_color_alpha(value: str | None) -> float | None:
+    if not value:
+        return None
+    value = value.strip()
+    if value.startswith("sc#"):
+        parts = re.split(r"[ ,]+", value[3:])
+        if len(parts) >= 4:
+            alpha = _parse_float(parts[0])
+            if alpha is not None:
+                return _clamp(alpha, 0.0, 1.0)
+        return None
+    if value.startswith("#"):
+        raw = value[1:]
+        if len(raw) == 8:
+            try:
+                return int(raw[0:2], 16) / 255.0
+            except ValueError:
+                return None
+    return None
+
+
+def _brush_alpha(
+    value: str | None,
+    resources: XpsResourceDictionary | None,
+) -> float | None:
+    if not value:
+        return None
+    value = value.strip()
+    alpha = _extract_color_alpha(value)
+    if alpha is not None:
+        return alpha
+    brush = _resolve_brush_element(value, resources)
+    if brush is None:
+        return None
+    if _local_name(brush.tag) == "SolidColorBrush":
+        return _extract_color_alpha(brush.get("Color"))
+    return None
 
 
 def _parse_context_color(value: str, renderer: XpsRenderer | None = None) -> tuple[float, float, float] | None:
@@ -1184,9 +1647,62 @@ def _apply_opacity_mask_to_fill_paint(
     renderer: XpsRenderer | None,
     paint_transform: Matrix | None,
     brush_origin_transform: Matrix | None,
+    path: Path | None = None,
+    path_bbox: tuple[float, float, float, float] | None = None,
+    fill_brush: ET.Element | None = None,
 ) -> Paint | None:
     if fill is None:
         return fill
+    if (
+        path_bbox is not None
+        and fill_brush is not None
+        and _local_name(fill_brush.tag) == "SolidColorBrush"
+        and _local_name(mask_brush.tag) in ("SolidColorBrush", "LinearGradientBrush", "RadialGradientBrush")
+    ):
+        solid_mask = _rasterize_masked_solid_fill(
+            fill_brush=fill_brush,
+            mask_brush=mask_brush,
+            builder=builder,
+            renderer=renderer,
+            paint_transform=paint_transform,
+            path_bbox=path_bbox,
+        )
+        if solid_mask is not None:
+            return solid_mask
+    if (
+        path_bbox is not None
+        and fill_brush is not None
+        and _local_name(fill_brush.tag) in ("SolidColorBrush", "LinearGradientBrush", "RadialGradientBrush")
+        and _local_name(mask_brush.tag) in ("LinearGradientBrush", "RadialGradientBrush")
+    ):
+        gradient_mask = _rasterize_masked_gradient_fill(
+            fill_brush=fill_brush,
+            mask_brush=mask_brush,
+            builder=builder,
+            renderer=renderer,
+            paint_transform=paint_transform,
+            path=path,
+            path_bbox=path_bbox,
+        )
+        if gradient_mask is not None:
+            return gradient_mask
+    if (
+        path_bbox is not None
+        and fill.kind == "Pattern"
+        and isinstance(fill.value, PatternPaint)
+        and _local_name(mask_brush.tag) in ("LinearGradientBrush", "RadialGradientBrush")
+    ):
+        shaded_mask = _rasterize_masked_shading_fill(
+            fill=fill,
+            mask_brush=mask_brush,
+            builder=builder,
+            renderer=renderer,
+            paint_transform=paint_transform,
+            path=path,
+            path_bbox=path_bbox,
+        )
+        if shaded_mask is not None:
+            return shaded_mask
     if fill.kind == "DeviceRGB":
         try:
             base_r, base_g, base_b = fill.value  # type: ignore[misc]
@@ -1245,6 +1761,617 @@ def _apply_opacity_mask_to_fill_paint(
     return fill
 
 
+def _rasterize_masked_solid_fill(
+    fill_brush: ET.Element,
+    mask_brush: ET.Element,
+    builder: RenderModelBuilder,
+    renderer: XpsRenderer | None,
+    paint_transform: Matrix | None,
+    path_bbox: tuple[float, float, float, float],
+) -> Paint | None:
+    if renderer is None:
+        return None
+    bbox_x0, bbox_y0, bbox_x1, bbox_y1 = path_bbox
+    width = max(1e-6, bbox_x1 - bbox_x0)
+    height = max(1e-6, bbox_y1 - bbox_y0)
+    raster_scale = 2.0
+    width_px = max(1, int(math.ceil(width * raster_scale)))
+    height_px = max(1, int(math.ceil(height * raster_scale)))
+    inv_paint = None
+    if paint_transform is not None:
+        inv_paint = _invert_matrix(
+            (
+                paint_transform.a,
+                paint_transform.b,
+                paint_transform.c,
+                paint_transform.d,
+                paint_transform.e,
+                paint_transform.f,
+            )
+        )
+    rgb = _sample_brush_rgb(fill_brush, 0.0, 0.0, renderer)
+    pixels = bytearray(width_px * height_px * 3)
+    alpha_bytes = bytearray(width_px * height_px)
+    for py in range(height_px):
+        user_y = bbox_y0 + (py + 0.5) / raster_scale
+        for px in range(width_px):
+            user_x = bbox_x0 + (px + 0.5) / raster_scale
+            brush_x, brush_y = _sample_brush_coordinates(fill_brush, builder, user_x, user_y, inv_paint)
+            alpha = _mask_alpha_from_brush_at(mask_brush, brush_x, brush_y, renderer)
+            idx = (py * width_px + px) * 3
+            pixels[idx] = int(round(_clamp(rgb[0], 0.0, 1.0) * 255.0))
+            pixels[idx + 1] = int(round(_clamp(rgb[1], 0.0, 1.0) * 255.0))
+            pixels[idx + 2] = int(round(_clamp(rgb[2], 0.0, 1.0) * 255.0))
+            alpha_bytes[py * width_px + px] = int(round(_clamp(alpha, 0.0, 1.0) * 255.0))
+    resource = XpsImageResource(
+        image_id="",
+        data=bytes(pixels),
+        width=width_px,
+        height=height_px,
+        bits_per_component=8,
+        color_space="DeviceRGB",
+        filter=None,
+        x_dpi=96.0 * raster_scale,
+        y_dpi=96.0 * raster_scale,
+        soft_mask=bytes(alpha_bytes),
+    )
+    image_id = renderer._image_store.register(resource)
+    pattern_obj = TilingPattern(
+        paint_type=1,
+        tiling_type=0,
+        bbox=(0.0, 0.0, width, height),
+        x_step=width,
+        y_step=height,
+        matrix=(1.0, 0.0, 0.0, 1.0, bbox_x0, bbox_y0),
+        commands=[
+            ImageCommand(
+                image_id=image_id,
+                width=width_px,
+                height=height_px,
+                matrix=Matrix(width, 0.0, 0.0, -height, 0.0, height),
+            )
+        ],
+    )
+    pattern_id = builder.register_pattern(pattern_obj)
+    return Paint("Pattern", PatternPaint(pattern_id=pattern_id, base_space_id=None, base_components=None))
+
+
+def _try_render_masked_solid_fill_as_image(
+    path: Path,
+    path_bbox: tuple[float, float, float, float] | None,
+    fill_brush: ET.Element | None,
+    mask_brush: ET.Element,
+    builder: RenderModelBuilder,
+    renderer: XpsRenderer | None,
+    paint_transform: Matrix | None,
+    opacity: float,
+) -> bool:
+    if renderer is None or path_bbox is None or fill_brush is None:
+        return False
+    if _local_name(mask_brush.tag) not in ("SolidColorBrush", "LinearGradientBrush", "RadialGradientBrush"):
+        return False
+    if _local_name(fill_brush.tag) != "SolidColorBrush":
+        return False
+    bbox_x0, bbox_y0, bbox_x1, bbox_y1 = path_bbox
+    width = max(1e-6, bbox_x1 - bbox_x0)
+    height = max(1e-6, bbox_y1 - bbox_y0)
+    try:
+        from PIL import Image, ImageDraw  # type: ignore
+    except Exception:
+        return False
+    raster_scale = 1.5
+    width_px = max(1, int(math.ceil(width * raster_scale)))
+    height_px = max(1, int(math.ceil(height * raster_scale)))
+    coverage_px = None
+    if not _path_is_axis_aligned_rect(path, path_bbox):
+        subpaths = _flatten_render_path(path.segments, raster_scale)
+        if not subpaths:
+            return False
+        supersample = 4
+        mask_hi = Image.new("L", (width_px * supersample, height_px * supersample), 0)
+        draw = ImageDraw.Draw(mask_hi)
+        for subpath in subpaths:
+            if len(subpath) < 3:
+                continue
+            polygon = [
+                (
+                    (point.x - bbox_x0) * raster_scale * supersample,
+                    (bbox_y1 - point.y) * raster_scale * supersample,
+                )
+                for point in subpath
+            ]
+            draw.polygon(polygon, fill=255)
+        mask = mask_hi.resize((width_px, height_px), Image.Resampling.LANCZOS)
+        coverage_px = mask.load()
+    inv_paint = None
+    if paint_transform is not None:
+        inv_paint = _invert_matrix(
+            (
+                paint_transform.a,
+                paint_transform.b,
+                paint_transform.c,
+                paint_transform.d,
+                paint_transform.e,
+                paint_transform.f,
+            )
+        )
+    fill_rgb = _sample_brush_rgb(fill_brush, 0.0, 0.0, renderer)
+    mask_tag = _local_name(mask_brush.tag)
+    constant_mask_alpha = None
+    if mask_tag == "SolidColorBrush":
+        constant_mask_alpha = _mask_alpha_from_brush_at(mask_brush, 0.0, 0.0, renderer)
+    pixels = bytearray(width_px * height_px * 3)
+    alpha_bytes = bytearray(width_px * height_px)
+    for py in range(height_px):
+        user_y = bbox_y0 + (py + 0.5) / raster_scale
+        for px in range(width_px):
+            user_x = bbox_x0 + (px + 0.5) / raster_scale
+            coverage = 1.0 if coverage_px is None else (coverage_px[px, py] / 255.0)
+            brush_x = user_x
+            brush_y = user_y
+            if inv_paint is not None:
+                brush_x, brush_y = _apply_matrix_tuple(inv_paint, user_x, user_y)
+            alpha = 0.0
+            if coverage > 1e-6:
+                alpha = _clamp(
+                    (
+                        constant_mask_alpha
+                        if constant_mask_alpha is not None
+                        else _mask_alpha_from_brush_at(mask_brush, brush_x, brush_y, renderer)
+                    )
+                    * opacity
+                    * coverage,
+                    0.0,
+                    1.0,
+                )
+            idx = (py * width_px + px) * 3
+            pixels[idx] = int(round(_clamp(fill_rgb[0], 0.0, 1.0) * 255.0))
+            pixels[idx + 1] = int(round(_clamp(fill_rgb[1], 0.0, 1.0) * 255.0))
+            pixels[idx + 2] = int(round(_clamp(fill_rgb[2], 0.0, 1.0) * 255.0))
+            alpha_bytes[py * width_px + px] = int(round(alpha * 255.0))
+    image_id = renderer._image_store.register(
+        XpsImageResource(
+            image_id="",
+            data=bytes(pixels),
+            width=width_px,
+            height=height_px,
+            bits_per_component=8,
+            color_space="DeviceRGB",
+            filter=None,
+            x_dpi=96.0 * raster_scale,
+            y_dpi=96.0 * raster_scale,
+            soft_mask=bytes(alpha_bytes),
+        )
+    )
+    builder.add_image(
+        image_id,
+        width_px,
+        height_px,
+        Matrix(width, 0.0, 0.0, -height, bbox_x0, bbox_y0 + height),
+    )
+    return True
+
+
+def _try_render_stroked_brush_as_image(
+    path: Path,
+    stroke_brush: ET.Element,
+    stroke_width: float,
+    builder: RenderModelBuilder,
+    renderer: XpsRenderer | None,
+    paint_transform: Matrix | None,
+    opacity: float,
+) -> bool:
+    if renderer is None:
+        return False
+    brush_tag = _local_name(stroke_brush.tag)
+    allowed = {"LinearGradientBrush", "RadialGradientBrush"}
+    if renderer._rasterize_solid_strokes:
+        allowed.add("SolidColorBrush")
+    if brush_tag not in allowed:
+        return False
+    if brush_tag == "SolidColorBrush":
+        if stroke_width >= 0.4:
+            return False
+    bbox = _path_bbox(path)
+    if bbox is None:
+        return False
+    pad = max(stroke_width * 1.5, 1.0)
+    bbox_x0, bbox_y0, bbox_x1, bbox_y1 = (
+        bbox[0] - pad,
+        bbox[1] - pad,
+        bbox[2] + pad,
+        bbox[3] + pad,
+    )
+    width = max(1e-6, bbox_x1 - bbox_x0)
+    height = max(1e-6, bbox_y1 - bbox_y0)
+    try:
+        from PIL import Image, ImageDraw  # type: ignore
+    except Exception:
+        return False
+    raster_scale = 2.0
+    supersample = 4
+    width_px = max(1, int(math.ceil(width * raster_scale)))
+    height_px = max(1, int(math.ceil(height * raster_scale)))
+    mask_hi = Image.new("L", (width_px * supersample, height_px * supersample), 0)
+    draw = ImageDraw.Draw(mask_hi)
+    if brush_tag == "SolidColorBrush":
+        line_width_px = max(1, int(math.ceil(stroke_width * raster_scale * supersample)) + 1)
+    else:
+        line_width_px = max(1, int(round(stroke_width * raster_scale * supersample)))
+    subpaths = _flatten_render_path(path.segments, raster_scale)
+    for subpath in subpaths:
+        if len(subpath) < 2:
+            continue
+        points = [
+            (
+                (point.x - bbox_x0) * raster_scale * supersample,
+                (point.y - bbox_y0) * raster_scale * supersample,
+            )
+            for point in subpath
+        ]
+        draw.line(points, fill=255, width=line_width_px, joint="curve")
+    if brush_tag == "SolidColorBrush":
+        mask = mask_hi.resize((width_px, height_px), Image.Resampling.BOX)
+    else:
+        mask = mask_hi.resize((width_px, height_px), Image.Resampling.LANCZOS)
+    coverage_px = mask.load()
+    inv_paint = None
+    if paint_transform is not None:
+        inv_paint = _invert_matrix(
+            (
+                paint_transform.a,
+                paint_transform.b,
+                paint_transform.c,
+                paint_transform.d,
+                paint_transform.e,
+                paint_transform.f,
+            )
+        )
+    pixels = bytearray(width_px * height_px * 3)
+    alpha_bytes = bytearray(width_px * height_px)
+    for py in range(height_px):
+        user_y = bbox_y0 + (py + 0.5) / raster_scale
+        for px in range(width_px):
+            user_x = bbox_x0 + (px + 0.5) / raster_scale
+            brush_x, brush_y = _sample_brush_coordinates(stroke_brush, builder, user_x, user_y, inv_paint)
+            rgb = _sample_brush_rgb(stroke_brush, brush_x, brush_y, renderer)
+            coverage = coverage_px[px, py] / 255.0
+            idx = (py * width_px + px) * 3
+            pixels[idx] = int(round(_clamp(rgb[0], 0.0, 1.0) * 255.0))
+            pixels[idx + 1] = int(round(_clamp(rgb[1], 0.0, 1.0) * 255.0))
+            pixels[idx + 2] = int(round(_clamp(rgb[2], 0.0, 1.0) * 255.0))
+            alpha_bytes[py * width_px + px] = int(round(_clamp(coverage * opacity, 0.0, 1.0) * 255.0))
+    image_id = renderer._image_store.register(
+        XpsImageResource(
+            image_id="",
+            data=bytes(pixels),
+            width=width_px,
+            height=height_px,
+            bits_per_component=8,
+            color_space="DeviceRGB",
+            filter=None,
+            x_dpi=96.0 * raster_scale,
+            y_dpi=96.0 * raster_scale,
+            soft_mask=bytes(alpha_bytes),
+        )
+    )
+    builder.add_image(
+        image_id,
+        width_px,
+        height_px,
+        Matrix(width, 0.0, 0.0, -height, bbox_x0, bbox_y0 + height),
+    )
+    return True
+
+
+def _rasterize_masked_shading_fill(
+    fill: Paint,
+    mask_brush: ET.Element,
+    builder: RenderModelBuilder,
+    renderer: XpsRenderer | None,
+    paint_transform: Matrix | None,
+    path: Path,
+    path_bbox: tuple[float, float, float, float],
+) -> Paint | None:
+    if renderer is None:
+        return None
+    pattern = builder._document.resources.patterns.get(fill.value.pattern_id)  # type: ignore[attr-defined]
+    if not isinstance(pattern, ShadingPattern):
+        return None
+    bbox_x0, bbox_y0, bbox_x1, bbox_y1 = path_bbox
+    width = max(1e-6, bbox_x1 - bbox_x0)
+    height = max(1e-6, bbox_y1 - bbox_y0)
+    try:
+        from PIL import Image, ImageDraw  # type: ignore
+    except Exception:
+        return None
+    # Keep this localized and reasonably sharp for both PDF and Skia paths.
+    raster_scale = 1.5
+    width_px = max(1, int(math.ceil(width * raster_scale)))
+    height_px = max(1, int(math.ceil(height * raster_scale)))
+    coverage_px = None
+    if not _path_is_axis_aligned_rect(path, path_bbox):
+        subpaths = _flatten_render_path(path.segments, raster_scale)
+        if not subpaths:
+            return None
+        supersample = 4
+        mask_hi = Image.new("L", (width_px * supersample, height_px * supersample), 0)
+        draw = ImageDraw.Draw(mask_hi)
+        for subpath in subpaths:
+            if len(subpath) < 3:
+                continue
+            polygon = [
+                (
+                    (point.x - bbox_x0) * raster_scale * supersample,
+                    (bbox_y1 - point.y) * raster_scale * supersample,
+                )
+                for point in subpath
+            ]
+            draw.polygon(polygon, fill=255)
+        mask = mask_hi.resize((width_px, height_px), Image.Resampling.LANCZOS)
+        coverage_px = mask.load()
+    inv_paint = None
+    if paint_transform is not None:
+        inv_paint = _invert_matrix(
+            (
+                paint_transform.a,
+                paint_transform.b,
+                paint_transform.c,
+                paint_transform.d,
+                paint_transform.e,
+                paint_transform.f,
+            )
+    )
+    pixels = bytearray(width_px * height_px * 3)
+    alpha_bytes = bytearray(width_px * height_px)
+    for py in range(height_px):
+        user_y = bbox_y1 - (py + 0.5) / raster_scale
+        for px in range(width_px):
+            user_x = bbox_x0 + (px + 0.5) / raster_scale
+            coverage = 1.0 if coverage_px is None else (coverage_px[px, py] / 255.0)
+            if coverage > 1e-6:
+                rgb = _sample_shading_pattern_rgb(pattern, user_x, user_y)
+                if rgb is None:
+                    rgb = (0.0, 0.0, 0.0)
+                mask_x, mask_y = _sample_brush_coordinates(mask_brush, builder, user_x, user_y, inv_paint)
+                alpha = _opacity_from_gradient_brush_at(mask_brush, mask_x, mask_y) * coverage
+            else:
+                rgb = (0.0, 0.0, 0.0)
+                alpha = 0.0
+            idx = (py * width_px + px) * 3
+            pixels[idx] = int(round(_clamp(rgb[0], 0.0, 1.0) * 255.0))
+            pixels[idx + 1] = int(round(_clamp(rgb[1], 0.0, 1.0) * 255.0))
+            pixels[idx + 2] = int(round(_clamp(rgb[2], 0.0, 1.0) * 255.0))
+            alpha_bytes[py * width_px + px] = int(round(_clamp(alpha, 0.0, 1.0) * 255.0))
+    resource = XpsImageResource(
+        image_id="",
+        data=bytes(pixels),
+        width=width_px,
+        height=height_px,
+        bits_per_component=8,
+        color_space="DeviceRGB",
+        filter=None,
+        x_dpi=96.0 * raster_scale,
+        y_dpi=96.0 * raster_scale,
+        soft_mask=bytes(alpha_bytes),
+    )
+    image_id = renderer._image_store.register(resource)
+    pattern_obj = TilingPattern(
+        paint_type=1,
+        tiling_type=0,
+        bbox=(0.0, 0.0, width, height),
+        x_step=width,
+        y_step=height,
+        matrix=(1.0, 0.0, 0.0, 1.0, bbox_x0, bbox_y0),
+        commands=[
+            ImageCommand(
+                image_id=image_id,
+                width=width_px,
+                height=height_px,
+                matrix=Matrix(width, 0.0, 0.0, -height, 0.0, height),
+            )
+        ],
+    )
+    pattern_id = builder.register_pattern(pattern_obj)
+    return Paint("Pattern", PatternPaint(pattern_id=pattern_id, base_space_id=None, base_components=None))
+
+
+def _rasterize_masked_gradient_fill(
+    fill_brush: ET.Element,
+    mask_brush: ET.Element,
+    builder: RenderModelBuilder,
+    renderer: XpsRenderer | None,
+    paint_transform: Matrix | None,
+    path: Path,
+    path_bbox: tuple[float, float, float, float],
+) -> Paint | None:
+    if renderer is None:
+        return None
+    bbox_x0, bbox_y0, bbox_x1, bbox_y1 = path_bbox
+    width = max(1e-6, bbox_x1 - bbox_x0)
+    height = max(1e-6, bbox_y1 - bbox_y0)
+    try:
+        from PIL import Image, ImageDraw  # type: ignore
+    except Exception:
+        return None
+    raster_scale = 1.5
+    width_px = max(1, int(math.ceil(width * raster_scale)))
+    height_px = max(1, int(math.ceil(height * raster_scale)))
+    coverage_px = None
+    if not _path_is_axis_aligned_rect(path, path_bbox):
+        subpaths = _flatten_render_path(path.segments, raster_scale)
+        if not subpaths:
+            return None
+        supersample = 4
+        mask_hi = Image.new("L", (width_px * supersample, height_px * supersample), 0)
+        draw = ImageDraw.Draw(mask_hi)
+        for subpath in subpaths:
+            if len(subpath) < 3:
+                continue
+            polygon = [
+                (
+                    (point.x - bbox_x0) * raster_scale * supersample,
+                    (bbox_y1 - point.y) * raster_scale * supersample,
+                )
+                for point in subpath
+            ]
+            draw.polygon(polygon, fill=255)
+        mask = mask_hi.resize((width_px, height_px), Image.Resampling.LANCZOS)
+        coverage_px = mask.load()
+    inv_paint = None
+    if paint_transform is not None:
+        inv_paint = _invert_matrix(
+            (
+                paint_transform.a,
+                paint_transform.b,
+                paint_transform.c,
+                paint_transform.d,
+                paint_transform.e,
+                paint_transform.f,
+            )
+        )
+    pixels = bytearray(width_px * height_px * 3)
+    alpha_bytes = bytearray(width_px * height_px)
+    for py in range(height_px):
+        user_y = bbox_y1 - (py + 0.5) / raster_scale
+        for px in range(width_px):
+            user_x = bbox_x0 + (px + 0.5) / raster_scale
+            coverage = 1.0 if coverage_px is None else (coverage_px[px, py] / 255.0)
+            if coverage > 1e-6:
+                brush_x, brush_y = _sample_brush_coordinates(fill_brush, builder, user_x, user_y, inv_paint)
+                rgb = _sample_brush_rgb(fill_brush, brush_x, brush_y, renderer)
+                mask_x, mask_y = _sample_brush_coordinates(mask_brush, builder, user_x, user_y, inv_paint)
+                alpha = _opacity_from_gradient_brush_at(mask_brush, mask_x, mask_y) * coverage
+            else:
+                rgb = (0.0, 0.0, 0.0)
+                alpha = 0.0
+            idx = (py * width_px + px) * 3
+            pixels[idx] = int(round(_clamp(rgb[0], 0.0, 1.0) * 255.0))
+            pixels[idx + 1] = int(round(_clamp(rgb[1], 0.0, 1.0) * 255.0))
+            pixels[idx + 2] = int(round(_clamp(rgb[2], 0.0, 1.0) * 255.0))
+            alpha_bytes[py * width_px + px] = int(round(_clamp(alpha, 0.0, 1.0) * 255.0))
+    resource = XpsImageResource(
+        image_id="",
+        data=bytes(pixels),
+        width=width_px,
+        height=height_px,
+        bits_per_component=8,
+        color_space="DeviceRGB",
+        filter=None,
+        x_dpi=96.0 * raster_scale,
+        y_dpi=96.0 * raster_scale,
+        soft_mask=bytes(alpha_bytes),
+    )
+    image_id = renderer._image_store.register(resource)
+    pattern_obj = TilingPattern(
+        paint_type=1,
+        tiling_type=0,
+        bbox=(0.0, 0.0, width, height),
+        x_step=width,
+        y_step=height,
+        matrix=(1.0, 0.0, 0.0, 1.0, bbox_x0, bbox_y0),
+        commands=[
+            ImageCommand(
+                image_id=image_id,
+                width=width_px,
+                height=height_px,
+                matrix=Matrix(width, 0.0, 0.0, -height, 0.0, height),
+            )
+        ],
+    )
+    pattern_id = builder.register_pattern(pattern_obj)
+    return Paint("Pattern", PatternPaint(pattern_id=pattern_id, base_space_id=None, base_components=None))
+
+
+def _sample_shading_pattern_rgb(
+    pattern: ShadingPattern,
+    user_x: float,
+    user_y: float,
+) -> tuple[float, float, float] | None:
+    inv = _invert_matrix(pattern.matrix)
+    px = user_x
+    py = user_y
+    if inv is not None:
+        px, py = _apply_matrix_tuple(inv, px, py)
+    shading = pattern.shading
+    if isinstance(shading, AxialShading):
+        x0, y0, x1, y1 = shading.coords
+        dx = x1 - x0
+        dy = y1 - y0
+        denom = dx * dx + dy * dy
+        t = 0.0 if denom <= 1e-12 else ((px - x0) * dx + (py - y0) * dy) / denom
+        param = _map_shading_parameter(t, shading.domain)
+        return _evaluate_function_rgb(shading.function, param)
+    if isinstance(shading, RadialShading):
+        x0, y0, r0, x1, y1, r1 = shading.coords
+        if abs(x0 - x1) > 1e-9 or abs(y0 - y1) > 1e-9 or abs(r0) > 1e-9:
+            # Current XPS corpus uses concentric radial gradients; fall back
+            # conservatively if a more general case appears.
+            center_x = x1
+            center_y = y1
+            radius = max(abs(r1), 1e-9)
+        else:
+            center_x = x1
+            center_y = y1
+            radius = max(abs(r1), 1e-9)
+        t = math.hypot(px - center_x, py - center_y) / radius
+        param = _map_shading_parameter(t, shading.domain)
+        return _evaluate_function_rgb(shading.function, param)
+    return None
+
+
+def _map_shading_parameter(t: float, domain: tuple[float, float] | None) -> float:
+    if domain is None:
+        return _clamp(t, 0.0, 1.0)
+    d0, d1 = domain
+    if abs(d1 - d0) <= 1e-12:
+        return d0
+    t = _clamp(t, 0.0, 1.0)
+    return d0 + t * (d1 - d0)
+
+
+def _evaluate_function_rgb(function, value: float) -> tuple[float, float, float]:
+    if isinstance(function, ExponentialFunction):
+        d0, d1 = function.domain
+        if abs(d1 - d0) <= 1e-12:
+            u = 0.0
+        else:
+            u = (value - d0) / (d1 - d0)
+        u = _clamp(u, 0.0, 1.0)
+        factor = math.pow(u, function.n)
+        return (
+            _clamp(function.c0[0] + (function.c1[0] - function.c0[0]) * factor, 0.0, 1.0),
+            _clamp(function.c0[1] + (function.c1[1] - function.c0[1]) * factor, 0.0, 1.0),
+            _clamp(function.c0[2] + (function.c1[2] - function.c0[2]) * factor, 0.0, 1.0),
+        )
+    if isinstance(function, StitchingFunction):
+        if not function.functions:
+            return (0.0, 0.0, 0.0)
+        idx = 0
+        lower = function.domain[0]
+        upper = function.domain[1]
+        for bound_idx, bound in enumerate(function.bounds):
+            if value < bound:
+                upper = bound
+                idx = bound_idx
+                break
+            lower = bound
+            idx = bound_idx + 1
+        else:
+            idx = len(function.functions) - 1
+        lower = function.domain[0] if idx == 0 else function.bounds[idx - 1]
+        upper = function.domain[1] if idx >= len(function.bounds) else function.bounds[idx]
+        encode_index = idx * 2
+        e0 = function.encode[encode_index]
+        e1 = function.encode[encode_index + 1]
+        if abs(upper - lower) <= 1e-12:
+            mapped = e0
+        else:
+            mapped = e0 + ((value - lower) / (upper - lower)) * (e1 - e0)
+        return _evaluate_function_rgb(function.functions[idx], mapped)
+    return (0.0, 0.0, 0.0)
+
+
 def _paint_from_image_opacity_mask(
     mask_brush: ET.Element,
     base_color: tuple[float, float, float],
@@ -1266,23 +2393,14 @@ def _paint_from_image_opacity_mask(
         payload = renderer._package.read(part_name)
         with Image.open(io.BytesIO(payload)) as img:
             if "A" in img.getbands():
-                alpha_img = img.getchannel("A")
+                alpha_img = img.convert("RGBA").getchannel("A").convert("L")
             else:
                 alpha_img = img.convert("L")
-            alpha_img = alpha_img.convert("L")
-            rgb = Image.new("RGB", alpha_img.size, (255, 255, 255))
-            px_alpha = alpha_img.load()
-            px_rgb = rgb.load()
-            br = int(round(_clamp(base_color[0], 0.0, 1.0) * 255.0))
-            bg = int(round(_clamp(base_color[1], 0.0, 1.0) * 255.0))
-            bb = int(round(_clamp(base_color[2], 0.0, 1.0) * 255.0))
-            for yy in range(alpha_img.height):
-                for xx in range(alpha_img.width):
-                    a = px_alpha[xx, yy] / 255.0
-                    rr = int(round(br * a + 255.0 * (1.0 - a)))
-                    gg = int(round(bg * a + 255.0 * (1.0 - a)))
-                    bbb = int(round(bb * a + 255.0 * (1.0 - a)))
-                    px_rgb[xx, yy] = (rr, gg, bbb)
+            rgb = Image.new("RGB", alpha_img.size, (
+                int(round(_clamp(base_color[0], 0.0, 1.0) * 255.0)),
+                int(round(_clamp(base_color[1], 0.0, 1.0) * 255.0)),
+                int(round(_clamp(base_color[2], 0.0, 1.0) * 255.0)),
+            ))
             resource = XpsImageResource(
                 image_id="",
                 data=rgb.tobytes(),
@@ -1293,6 +2411,7 @@ def _paint_from_image_opacity_mask(
                 filter=None,
                 x_dpi=96.0,
                 y_dpi=96.0,
+                soft_mask=alpha_img.tobytes(),
             )
     except Exception:
         return None
@@ -1443,30 +2562,287 @@ def _apply_mask_to_image_pattern_fill(
     return Paint("Pattern", PatternPaint(pattern_id=pid, base_space_id=None, base_components=None))
 
 
+def _sample_brush_coordinates(
+    brush: ET.Element,
+    builder: RenderModelBuilder,
+    user_x: float,
+    user_y: float,
+    inv_paint: tuple[float, float, float, float, float, float] | None,
+) -> tuple[float, float]:
+    brush_x = user_x
+    brush_y = user_y
+    if inv_paint is not None:
+        brush_x, brush_y = _apply_matrix_tuple(inv_paint, user_x, user_y)
+    # XPS absolute coordinates are already expressed in page coordinate space.
+    # Keep gradient sampling in that space; image/visual brushes handle their
+    # own source-space mapping separately.
+    if (
+        (brush.get("MappingMode") or "").strip().lower() == "absolute"
+        and _local_name(brush.tag) not in ("LinearGradientBrush", "RadialGradientBrush")
+    ):
+        page_height = 0.0
+        try:
+            pages = builder._document.pages  # type: ignore[attr-defined]
+            if pages:
+                page_height = pages[-1].height
+        except Exception:
+            page_height = 0.0
+        if page_height:
+            brush_y = page_height - brush_y
+    return (brush_x, brush_y)
+
+
 def _opacity_from_gradient_brush_at(brush: ET.Element, x: float, y: float) -> float:
     stops = _collect_gradient_alpha_stops(brush)
-    if not stops:
-        return 1.0
+    t = _gradient_brush_parameter(brush, x, y)
+    return _interpolate_alpha(stops, t)
+
+
+def _mask_alpha_from_brush_at(
+    brush: ET.Element,
+    x: float,
+    y: float,
+    renderer: XpsRenderer | None,
+) -> float:
     tag = _local_name(brush.tag)
+    if tag == "SolidColorBrush":
+        alpha = _alpha_from_color_value(brush.get("Color"))
+        return 1.0 if alpha is None else _clamp(alpha, 0.0, 1.0)
+    if tag in ("LinearGradientBrush", "RadialGradientBrush"):
+        return _opacity_from_gradient_brush_at(brush, x, y)
+    if tag == "ImageBrush":
+        return _opacity_from_image_brush_at(brush, x, y, renderer)
+    return 1.0
+
+
+def _opacity_from_image_brush_at(
+    brush: ET.Element,
+    x: float,
+    y: float,
+    renderer: XpsRenderer | None,
+) -> float:
+    if renderer is None:
+        return 1.0
+    source = brush.get("ImageSource")
+    if not source or renderer._package is None:
+        return 1.0
+    cache = getattr(renderer, "_mask_brush_image_cache", None)
+    if cache is None:
+        cache = {}
+        setattr(renderer, "_mask_brush_image_cache", cache)
+    key = id(brush)
+    cached = cache.get(key)
+    if cached is None:
+        try:
+            from PIL import Image  # type: ignore
+        except Exception:
+            return 1.0
+        part_name = _resolve_part(renderer._current_part or "/", source)
+        payload = renderer._package.read(part_name)
+        with Image.open(io.BytesIO(payload)) as pil:
+            dpi = pil.info.get("dpi")
+            dpi_x = float(dpi[0]) if isinstance(dpi, tuple) and len(dpi) >= 1 else 96.0
+            dpi_y = float(dpi[1]) if isinstance(dpi, tuple) and len(dpi) >= 2 else dpi_x
+            viewbox = _parse_rect(
+                brush.get("Viewbox"),
+                default=(0.0, 0.0, float(pil.width), float(pil.height)),
+            )
+            source_left = (dpi_x * viewbox[0]) / 96.0
+            source_top = (dpi_y * viewbox[1]) / 96.0
+            source_width = (dpi_x * viewbox[2]) / 96.0
+            source_height = (dpi_y * viewbox[3]) / 96.0
+            left = int(round(source_left))
+            top = int(round(source_top))
+            right = int(round(source_left + source_width))
+            bottom = int(round(source_top + source_height))
+            if right <= left or bottom <= top:
+                return 1.0
+            crop = pil.crop((max(0, left), max(0, top), min(pil.width, right), min(pil.height, bottom)))
+            if crop.mode not in ("RGBA", "LA"):
+                crop = crop.convert("RGBA") if "A" in crop.getbands() else crop.convert("RGB")
+            cached = (
+                crop,
+                _parse_rect(
+                    brush.get("Viewport"),
+                    default=(0.0, 0.0, float(crop.width), float(crop.height)),
+                ),
+                (brush.get("TileMode") or "None").strip().lower(),
+            )
+        cache[key] = cached
+    image, viewport, tile_mode = cached
+    vw = max(viewport[2], 1e-9)
+    vh = max(viewport[3], 1e-9)
+    lx = x - viewport[0]
+    ly = y - viewport[1]
+    if tile_mode == "tile":
+        lx = lx % vw
+        ly = ly % vh
+    elif lx < 0.0 or ly < 0.0 or lx > vw or ly > vh:
+        return 0.0
+    sx = min(image.width - 1, max(0, int((lx / vw) * max(0, image.width - 1) + 0.5)))
+    sy = min(image.height - 1, max(0, int((ly / vh) * max(0, image.height - 1) + 0.5)))
+    try:
+        px = image.getpixel((sx, sy))
+    except Exception:
+        return 1.0
+    if isinstance(px, tuple):
+        if len(px) >= 4:
+            return _clamp(float(px[3]) / 255.0, 0.0, 1.0)
+        if len(px) >= 3:
+            return _clamp((float(px[0]) + float(px[1]) + float(px[2])) / (255.0 * 3.0), 0.0, 1.0)
+    if isinstance(px, int):
+        return _clamp(float(px) / 255.0, 0.0, 1.0)
+    return 1.0
+
+
+def _sample_gradient_brush_rgb(brush: ET.Element, x: float, y: float) -> tuple[float, float, float]:
+    stops = _collect_gradient_rgb_stops(brush)
+    if not stops:
+        return (0.0, 0.0, 0.0)
+    t = _gradient_brush_parameter(brush, x, y)
+    return _interpolate_rgb(stops, t)
+
+
+def _sample_brush_rgb(
+    brush: ET.Element,
+    x: float,
+    y: float,
+    renderer: XpsRenderer | None,
+) -> tuple[float, float, float]:
+    tag = _local_name(brush.tag)
+    if tag == "SolidColorBrush":
+        color_value = brush.get("Color") or "#000000"
+        if color_value.strip().startswith("ContextColor"):
+            context = _parse_context_color(color_value, renderer)
+            if context is not None:
+                return context
+        return _parse_color(color_value)
+    if tag in ("LinearGradientBrush", "RadialGradientBrush"):
+        return _sample_gradient_brush_rgb(brush, x, y)
+    return (0.0, 0.0, 0.0)
+
+
+def _sample_image_brush_rgb_at(
+    brush: ET.Element,
+    x: float,
+    y: float,
+    renderer: XpsRenderer | None,
+) -> tuple[float, float, float] | None:
+    if renderer is None:
+        return None
+    source = brush.get("ImageSource")
+    if not source:
+        return None
+    cache = getattr(renderer, "_fill_brush_image_cache", None)
+    if cache is None:
+        cache = {}
+        setattr(renderer, "_fill_brush_image_cache", cache)
+    key = id(brush)
+    cached = cache.get(key)
+    if cached is None:
+        image = renderer._load_image(source)
+        if image is None:
+            return None
+        viewbox = _parse_rect(
+            brush.get("Viewbox"),
+            default=(0.0, 0.0, float(image.width), float(image.height)),
+        )
+        cached = (
+            _crop_image_for_viewbox(image, viewbox),
+            _parse_rect(
+                brush.get("Viewport"),
+                default=(0.0, 0.0, float(image.width), float(image.height)),
+            ),
+            (brush.get("TileMode") or "None").strip().lower(),
+        )
+        cache[key] = cached
+    image, viewport, tile_mode = cached
+    vw = max(viewport[2], 1e-9)
+    vh = max(viewport[3], 1e-9)
+    lx = x - viewport[0]
+    ly = y - viewport[1]
+    if tile_mode == "tile":
+        lx = lx % vw
+        ly = ly % vh
+    elif lx < 0.0 or ly < 0.0 or lx > vw or ly > vh:
+        return (1.0, 1.0, 1.0)
+    sx = min(image.width - 1, max(0, int((lx / vw) * max(0, image.width - 1) + 0.5)))
+    sy = min(image.height - 1, max(0, int((ly / vh) * max(0, image.height - 1) + 0.5)))
+    idx = (sy * image.width + sx) * 3
+    if idx + 2 >= len(image.data):
+        return None
+    return (
+        image.data[idx] / 255.0,
+        image.data[idx + 1] / 255.0,
+        image.data[idx + 2] / 255.0,
+    )
+
+
+def _gradient_brush_parameter(brush: ET.Element, x: float, y: float) -> float:
+    stops = _collect_gradient_alpha_stops(brush)
+    if not stops:
+        return 0.0
+    key = id(brush)
+    geom = _GRADIENT_GEOMETRY_CACHE.get(key)
+    if geom is None:
+        tag = _local_name(brush.tag)
+        if tag == "LinearGradientBrush":
+            s = _parse_point(brush.get("StartPoint"))
+            e = _parse_point(brush.get("EndPoint"))
+            params = (s[0], s[1], e[0], e[1])
+        elif tag == "RadialGradientBrush":
+            c = _parse_point(brush.get("Center"))
+            g = _parse_point(brush.get("GradientOrigin"))
+            rx = abs(_parse_float(brush.get("RadiusX")) or 0.0)
+            ry = abs(_parse_float(brush.get("RadiusY")) or 0.0)
+            params = (c[0], c[1], g[0], g[1], rx, ry)
+        else:
+            params = ()
+        geom = (tag, params, (brush.get("SpreadMethod") or "Pad").strip().lower())
+        _GRADIENT_GEOMETRY_CACHE[key] = geom
+    tag, params, spread = geom
     t = 0.0
     if tag == "LinearGradientBrush":
-        s = _parse_point(brush.get("StartPoint"))
-        e = _parse_point(brush.get("EndPoint"))
-        dx = e[0] - s[0]
-        dy = e[1] - s[1]
+        x0, y0, x1, y1 = params
+        dx = x1 - x0
+        dy = y1 - y0
         denom = dx * dx + dy * dy
-        t = 0.0 if denom <= 1e-9 else ((x - s[0]) * dx + (y - s[1]) * dy) / denom
+        t = 0.0 if denom <= 1e-9 else ((x - x0) * dx + (y - y0) * dy) / denom
     elif tag == "RadialGradientBrush":
-        c = _parse_point(brush.get("Center"))
-        rx = abs(_parse_float(brush.get("RadiusX")) or 0.0)
-        ry = abs(_parse_float(brush.get("RadiusY")) or 0.0)
+        center_x, center_y, origin_x, origin_y, rx, ry = params
         if rx <= 1e-9 or ry <= 1e-9:
             t = 0.0
         else:
-            dx = (x - c[0]) / rx
-            dy = (y - c[1]) / ry
-            t = math.sqrt(dx * dx + dy * dy)
-    spread = (brush.get("SpreadMethod") or "Pad").strip().lower()
+            focus_x = (origin_x - center_x) / rx
+            focus_y = (origin_y - center_y) / ry
+            point_x = (x - center_x) / rx
+            point_y = (y - center_y) / ry
+            dir_x = point_x - focus_x
+            dir_y = point_y - focus_y
+            if abs(dir_x) <= 1e-12 and abs(dir_y) <= 1e-12:
+                t = 0.0
+            else:
+                a = dir_x * dir_x + dir_y * dir_y
+                b = 2.0 * (focus_x * dir_x + focus_y * dir_y)
+                c_term = focus_x * focus_x + focus_y * focus_y - 1.0
+                disc = b * b - 4.0 * a * c_term
+                if a <= 1e-12 or disc < 0.0:
+                    t = math.sqrt(point_x * point_x + point_y * point_y)
+                else:
+                    sqrt_disc = math.sqrt(max(disc, 0.0))
+                    roots = [
+                        root
+                        for root in (
+                            (-b - sqrt_disc) / (2.0 * a),
+                            (-b + sqrt_disc) / (2.0 * a),
+                        )
+                        if root > 1e-12
+                    ]
+                    if not roots:
+                        t = math.sqrt(point_x * point_x + point_y * point_y)
+                    else:
+                        lam = max(roots)
+                        t = 1.0 / lam
     if spread == "repeat":
         t = t % 1.0
     elif spread == "reflect":
@@ -1476,10 +2852,55 @@ def _opacity_from_gradient_brush_at(brush: ET.Element, x: float, y: float) -> fl
         t = frac if (n % 2 == 0) else (1.0 - frac)
     else:
         t = _clamp(t, 0.0, 1.0)
-    return _interpolate_alpha(stops, t)
+    return t
+
+
+def _collect_gradient_rgb_stops(brush: ET.Element) -> list[tuple[float, tuple[float, float, float]]]:
+    cached = _GRADIENT_RGB_STOPS_CACHE.get(id(brush))
+    if cached is not None:
+        return cached
+    values: list[tuple[float, tuple[float, float, float]]] = []
+    for stop in brush.findall(".//{*}GradientStop"):
+        off = _clamp(_parse_float(stop.get("Offset")) or 0.0, 0.0, 1.0)
+        values.append((off, _parse_color(stop.get("Color") or "#000000")))
+    if not values:
+        return []
+    values.sort(key=lambda item: item[0])
+    if values[0][0] > 0.0:
+        values.insert(0, (0.0, values[0][1]))
+    if values[-1][0] < 1.0:
+        values.append((1.0, values[-1][1]))
+    _GRADIENT_RGB_STOPS_CACHE[id(brush)] = values
+    return values
+
+
+def _interpolate_rgb(
+    stops: list[tuple[float, tuple[float, float, float]]],
+    t: float,
+) -> tuple[float, float, float]:
+    if t <= stops[0][0]:
+        return stops[0][1]
+    if t >= stops[-1][0]:
+        return stops[-1][1]
+    for i in range(len(stops) - 1):
+        o0, c0 = stops[i]
+        o1, c1 = stops[i + 1]
+        if o0 <= t <= o1:
+            if abs(o1 - o0) <= 1e-9:
+                return c1
+            u = (t - o0) / (o1 - o0)
+            return (
+                _clamp(c0[0] + (c1[0] - c0[0]) * u, 0.0, 1.0),
+                _clamp(c0[1] + (c1[1] - c0[1]) * u, 0.0, 1.0),
+                _clamp(c0[2] + (c1[2] - c0[2]) * u, 0.0, 1.0),
+            )
+    return stops[-1][1]
 
 
 def _collect_gradient_alpha_stops(brush: ET.Element) -> list[tuple[float, float]]:
+    cached = _GRADIENT_ALPHA_STOPS_CACHE.get(id(brush))
+    if cached is not None:
+        return cached
     values: list[tuple[float, float]] = []
     for stop in brush.findall(".//{*}GradientStop"):
         off = _clamp(_parse_float(stop.get("Offset")) or 0.0, 0.0, 1.0)
@@ -1494,6 +2915,7 @@ def _collect_gradient_alpha_stops(brush: ET.Element) -> list[tuple[float, float]
         values.insert(0, (0.0, values[0][1]))
     if values[-1][0] < 1.0:
         values.append((1.0, values[-1][1]))
+    _GRADIENT_ALPHA_STOPS_CACHE[id(brush)] = values
     return values
 
 
@@ -1898,7 +3320,7 @@ def _crop_image_for_viewbox(
         return image
 
 
-def _element_transform(element: ET.Element) -> Matrix:
+def _element_transform(element: ET.Element, resources: XpsResourceDictionary | None = None) -> Matrix:
     tx = ty = 0.0
     for key, value in element.attrib.items():
         if key.endswith("Canvas.Left"):
@@ -1908,10 +3330,109 @@ def _element_transform(element: ET.Element) -> Matrix:
     transform = Matrix(1.0, 0.0, 0.0, 1.0, tx, ty)
     raw = element.get("RenderTransform")
     if raw:
+        if raw.strip().startswith("{StaticResource") and resources is not None:
+            key = raw.replace("{StaticResource", "").replace("}", "").strip()
+            resource = resources.resolve(key)
+            if isinstance(resource, ET.Element):
+                return _multiply(transform, _matrix_from_transform_element(resource))
         numbers = _parse_numbers(raw)
         if len(numbers) == 6:
             return _multiply(transform, Matrix(*numbers))
     return transform
+
+
+def _stroke_scale_from_matrix(matrix: Matrix) -> float:
+    sx = math.hypot(matrix.a, matrix.b)
+    sy = math.hypot(matrix.c, matrix.d)
+    if sx <= 1e-12 and sy <= 1e-12:
+        return 1.0
+    if sx <= 1e-12:
+        return sy
+    if sy <= 1e-12:
+        return sx
+    return (sx + sy) * 0.5
+
+
+def _parse_xps_line_cap(element: ET.Element) -> int:
+    if element.get("StrokeDashArray"):
+        dash_cap = (element.get("StrokeDashCap") or "").strip().lower()
+        if dash_cap == "round":
+            return 1
+        if dash_cap == "square":
+            return 2
+        return 0
+    start = (element.get("StrokeStartLineCap") or "").strip().lower()
+    end = (element.get("StrokeEndLineCap") or "").strip().lower()
+    cap = start or end
+    if cap == "round":
+        return 1
+    if cap == "square":
+        return 2
+    return 0
+
+
+def _parse_xps_line_join(element: ET.Element) -> int:
+    join = (element.get("StrokeLineJoin") or "").strip().lower()
+    if join == "round":
+        return 1
+    if join == "bevel":
+        return 2
+    return 0
+
+
+def _parse_xps_dash_pattern(element: ET.Element, line_width: float) -> list[float]:
+    raw = element.get("StrokeDashArray")
+    if not raw:
+        return []
+    values = _parse_numbers(raw)
+    if not values:
+        return []
+    return [max(0.0, value) * line_width for value in values]
+
+
+def _parse_xps_dash_phase(element: ET.Element, line_width: float) -> float:
+    offset = _parse_float(element.get("StrokeDashOffset")) or 0.0
+    return max(0.0, offset) * line_width
+
+
+def _matrix_from_transform_element(element: ET.Element) -> Matrix:
+    tag = _local_name(element.tag)
+    if tag == "MatrixTransform":
+        numbers = _parse_numbers(element.get("Matrix") or "")
+        if len(numbers) == 6:
+            return Matrix(*numbers)
+    if tag == "TransformGroup":
+        matrix = Matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)
+        for child in list(element):
+            matrix = _multiply(matrix, _matrix_from_transform_element(child))
+        return matrix
+    if tag == "TranslateTransform":
+        x = _parse_float(element.get("X")) or 0.0
+        y = _parse_float(element.get("Y")) or 0.0
+        return Matrix(1.0, 0.0, 0.0, 1.0, x, y)
+    if tag == "ScaleTransform":
+        sx = _parse_float(element.get("ScaleX")) or 1.0
+        sy = _parse_float(element.get("ScaleY")) or 1.0
+        return Matrix(sx, 0.0, 0.0, sy, 0.0, 0.0)
+    if tag == "RotateTransform":
+        angle = math.radians(_parse_float(element.get("Angle")) or 0.0)
+        center_x = _parse_float(element.get("CenterX")) or 0.0
+        center_y = _parse_float(element.get("CenterY")) or 0.0
+        cos_a = math.cos(angle)
+        sin_a = math.sin(angle)
+        return Matrix(
+            cos_a,
+            sin_a,
+            -sin_a,
+            cos_a,
+            center_x - center_x * cos_a + center_y * sin_a,
+            center_y - center_x * sin_a - center_y * cos_a,
+        )
+    if tag == "SkewTransform":
+        ax = math.tan(math.radians(_parse_float(element.get("AngleX")) or 0.0))
+        ay = math.tan(math.radians(_parse_float(element.get("AngleY")) or 0.0))
+        return Matrix(1.0, ay, ax, 1.0, 0.0, 0.0)
+    return Matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)
 
 
 def _parse_numbers(value: str) -> list[float]:
@@ -1930,10 +3451,176 @@ def _multiply(m1: Matrix, m2: Matrix) -> Matrix:
     )
 
 
+def _invert_matrix(matrix: tuple[float, float, float, float, float, float]) -> tuple[float, float, float, float, float, float] | None:
+    a, b, c, d, e, f = matrix
+    det = a * d - b * c
+    if abs(det) < 1e-12:
+        return None
+    inv = 1.0 / det
+    return (
+        d * inv,
+        -b * inv,
+        -c * inv,
+        a * inv,
+        (c * f - d * e) * inv,
+        (b * e - a * f) * inv,
+    )
+
+
+def _apply_matrix_tuple(matrix: tuple[float, float, float, float, float, float], x: float, y: float) -> tuple[float, float]:
+    a, b, c, d, e, f = matrix
+    return (a * x + c * y + e, b * x + d * y + f)
+
+
 def _apply_transform(matrix: Matrix, point: Point) -> Point:
     x = matrix.a * point.x + matrix.c * point.y + matrix.e
     y = matrix.b * point.x + matrix.d * point.y + matrix.f
     return Point(x, y)
+
+
+def _path_bbox(path: Path) -> tuple[float, float, float, float] | None:
+    xs: list[float] = []
+    ys: list[float] = []
+    for segment in path.segments:
+        for point in segment.points:
+            xs.append(point.x)
+            ys.append(point.y)
+    if not xs or not ys:
+        return None
+    return (min(xs), min(ys), max(xs), max(ys))
+
+
+def _point_in_subpaths(subpaths: list[list[Point]], x: float, y: float) -> bool:
+    winding = 0
+    for subpath in subpaths:
+        if len(subpath) < 3:
+            continue
+        for i in range(len(subpath) - 1):
+            p1 = subpath[i]
+            p2 = subpath[i + 1]
+            if p1.y == p2.y:
+                continue
+            if p1.y <= y < p2.y:
+                if _is_left(p1, p2, x, y) > 0.0:
+                    winding += 1
+            elif p2.y <= y < p1.y:
+                if _is_left(p1, p2, x, y) < 0.0:
+                    winding -= 1
+    return winding != 0
+
+
+def _is_left(p1: Point, p2: Point, x: float, y: float) -> float:
+    return (p2.x - p1.x) * (y - p1.y) - (x - p1.x) * (p2.y - p1.y)
+
+
+def _path_is_axis_aligned_rect(
+    path: Path,
+    bbox: tuple[float, float, float, float],
+) -> bool:
+    subpaths = _flatten_render_path(path.segments, scale=1.0, curve_steps=4)
+    if len(subpaths) != 1:
+        return False
+    points: list[Point] = []
+    for point in subpaths[0]:
+        if not points or abs(point.x - points[-1].x) > 1e-6 or abs(point.y - points[-1].y) > 1e-6:
+            points.append(point)
+    if len(points) > 1 and abs(points[0].x - points[-1].x) <= 1e-6 and abs(points[0].y - points[-1].y) <= 1e-6:
+        points.pop()
+    if len(points) != 4:
+        return False
+    x0, y0, x1, y1 = bbox
+    xs = {round(point.x, 6) for point in points}
+    ys = {round(point.y, 6) for point in points}
+    if xs != {round(x0, 6), round(x1, 6)} or ys != {round(y0, 6), round(y1, 6)}:
+        return False
+    for idx in range(4):
+        p1 = points[idx]
+        p2 = points[(idx + 1) % 4]
+        if abs(p1.x - p2.x) > 1e-6 and abs(p1.y - p2.y) > 1e-6:
+            return False
+    return True
+
+
+def _flatten_render_path(
+    segments: list[PathSegment],
+    scale: float,
+    curve_steps: int = 36,
+) -> list[list[Point]]:
+    subpaths: list[list[Point]] = []
+    current: list[Point] = []
+    start: Point | None = None
+    current_point: Point | None = None
+    total = len(segments)
+    for idx, segment in enumerate(segments):
+        if segment.kind == "move":
+            if current:
+                subpaths.append(current)
+            current = [segment.points[0]]
+            start = segment.points[0]
+            current_point = segment.points[0]
+        elif segment.kind == "line":
+            if current_point is None:
+                current = [segment.points[0]]
+                start = segment.points[0]
+            else:
+                current.append(segment.points[0])
+            current_point = segment.points[0]
+        elif segment.kind == "curve":
+            if current_point is None:
+                continue
+            p0 = current_point
+            p1, p2, p3 = segment.points
+            steps = _curve_steps_for_flatten(p0, p1, p2, p3, scale, curve_steps)
+            for step in range(1, steps + 1):
+                t = step / steps
+                x = (
+                    (1 - t) ** 3 * p0.x
+                    + 3 * (1 - t) ** 2 * t * p1.x
+                    + 3 * (1 - t) * t**2 * p2.x
+                    + t**3 * p3.x
+                )
+                y = (
+                    (1 - t) ** 3 * p0.y
+                    + 3 * (1 - t) ** 2 * t * p1.y
+                    + 3 * (1 - t) * t**2 * p2.y
+                    + t**3 * p3.y
+                )
+                current.append(Point(x, y))
+            current_point = p3
+        elif segment.kind == "close":
+            if start is not None and current:
+                current.append(start)
+            if current:
+                subpaths.append(current)
+            if idx + 1 < total and start is not None:
+                current = [start]
+                current_point = start
+            else:
+                current = []
+                start = None
+                current_point = None
+    if current:
+        subpaths.append(current)
+    return subpaths
+
+
+def _curve_steps_for_flatten(
+    p0: Point,
+    p1: Point,
+    p2: Point,
+    p3: Point,
+    scale: float,
+    base_steps: int,
+) -> int:
+    length = (
+        math.hypot(p1.x - p0.x, p1.y - p0.y)
+        + math.hypot(p2.x - p1.x, p2.y - p1.y)
+        + math.hypot(p3.x - p2.x, p3.y - p2.y)
+    )
+    adaptive = int(length * scale / 6)
+    if adaptive < base_steps:
+        return base_steps
+    return min(200, adaptive)
 
 
 def _parse_path_data(data: str, transform: Matrix) -> Path:
@@ -1944,6 +3631,7 @@ def _parse_path_data(data: str, transform: Matrix) -> Path:
     current = Point(0.0, 0.0)
     start = None
     command = None
+    last_cubic_ctrl2: Point | None = None
 
     def next_number() -> float:
         nonlocal idx
@@ -1978,6 +3666,7 @@ def _parse_path_data(data: str, transform: Matrix) -> Path:
             segments.append(PathSegment("move", [point]))
             current = Point(x, y)
             start = current
+            last_cubic_ctrl2 = None
             command = "L" if cmd == "M" else "l"
         elif cmd in ("L", "l"):
             x = next_number()
@@ -1988,25 +3677,35 @@ def _parse_path_data(data: str, transform: Matrix) -> Path:
             point = _apply_transform(transform, Point(x, y))
             segments.append(PathSegment("line", [point]))
             current = Point(x, y)
+            last_cubic_ctrl2 = None
         elif cmd in ("C", "c"):
-            x1 = next_number()
-            y1 = next_number()
-            x2 = next_number()
-            y2 = next_number()
-            x3 = next_number()
-            y3 = next_number()
-            if cmd == "c":
-                x1 += current.x
-                y1 += current.y
-                x2 += current.x
-                y2 += current.y
-                x3 += current.x
-                y3 += current.y
-            p1 = _apply_transform(transform, Point(x1, y1))
-            p2 = _apply_transform(transform, Point(x2, y2))
-            p3 = _apply_transform(transform, Point(x3, y3))
-            segments.append(PathSegment("curve", [p1, p2, p3]))
-            current = Point(x3, y3)
+            while idx + 5 < len(tokens) and not re.match(r"[A-Za-z]", tokens[idx]):
+                x1 = next_number()
+                y1 = next_number()
+                x2 = next_number()
+                y2 = next_number()
+                x3 = next_number()
+                y3 = next_number()
+                if cmd == "c":
+                    x1 += current.x
+                    y1 += current.y
+                    x2 += current.x
+                    y2 += current.y
+                    x3 += current.x
+                    y3 += current.y
+                p1 = _apply_transform(transform, Point(x1, y1))
+                p2 = _apply_transform(transform, Point(x2, y2))
+                p3 = _apply_transform(transform, Point(x3, y3))
+                segments.append(PathSegment("curve", [p1, p2, p3]))
+                current = Point(x3, y3)
+                last_cubic_ctrl2 = Point(x2, y2)
+                if idx >= len(tokens) or re.match(r"[A-Za-z]", tokens[idx]):
+                    break
+                if idx + 5 >= len(tokens):
+                    break
+            if idx < len(tokens) and not re.match(r"[A-Za-z]", tokens[idx]):
+                # If the loop did not consume because of token structure, fall through.
+                pass
         elif cmd in ("Q", "q"):
             x1 = next_number()
             y1 = next_number()
@@ -2037,6 +3736,34 @@ def _parse_path_data(data: str, transform: Matrix) -> Path:
                 )
             )
             current = p3
+            last_cubic_ctrl2 = None
+        elif cmd in ("S", "s"):
+            while idx + 3 < len(tokens) and not re.match(r"[A-Za-z]", tokens[idx]):
+                x2 = next_number()
+                y2 = next_number()
+                x3 = next_number()
+                y3 = next_number()
+                if cmd == "s":
+                    x2 += current.x
+                    y2 += current.y
+                    x3 += current.x
+                    y3 += current.y
+                if last_cubic_ctrl2 is None:
+                    x1 = current.x
+                    y1 = current.y
+                else:
+                    x1 = 2.0 * current.x - last_cubic_ctrl2.x
+                    y1 = 2.0 * current.y - last_cubic_ctrl2.y
+                p1 = _apply_transform(transform, Point(x1, y1))
+                p2 = _apply_transform(transform, Point(x2, y2))
+                p3 = _apply_transform(transform, Point(x3, y3))
+                segments.append(PathSegment("curve", [p1, p2, p3]))
+                current = Point(x3, y3)
+                last_cubic_ctrl2 = Point(x2, y2)
+                if idx >= len(tokens) or re.match(r"[A-Za-z]", tokens[idx]):
+                    break
+                if idx + 3 >= len(tokens):
+                    break
         elif cmd in ("A", "a"):
             rx = next_number()
             ry = next_number()
@@ -2073,6 +3800,7 @@ def _parse_path_data(data: str, transform: Matrix) -> Path:
                         )
                     )
             current = end
+            last_cubic_ctrl2 = None
         else:
             idx += 1
     return Path(segments)
@@ -2189,8 +3917,34 @@ def _parse_path_geometry_element(geometry: ET.Element, transform: Matrix) -> Pat
                     curr = Point(x, y)
             elif tag == "ArcSegment":
                 end = _parse_point(seg.get("Point"))
-                # Keep minimal support by approximating arc as a line segment.
-                segments.append(PathSegment("line", [_apply_transform(transform, Point(end[0], end[1]))]))
+                size = _parse_point(seg.get("Size"))
+                rotation = _parse_float(seg.get("RotationAngle")) or 0.0
+                large_arc = _is_true(seg.get("IsLargeArc"))
+                sweep_text = (seg.get("SweepDirection") or "Counterclockwise").strip().lower()
+                sweep = sweep_text == "clockwise"
+                cubics = _arc_to_cubic_beziers(
+                    curr,
+                    Point(end[0], end[1]),
+                    size[0],
+                    size[1],
+                    rotation,
+                    large_arc,
+                    sweep,
+                )
+                if not cubics:
+                    segments.append(PathSegment("line", [_apply_transform(transform, Point(end[0], end[1]))]))
+                else:
+                    for c1, c2, p in cubics:
+                        segments.append(
+                            PathSegment(
+                                "curve",
+                                [
+                                    _apply_transform(transform, c1),
+                                    _apply_transform(transform, c2),
+                                    _apply_transform(transform, p),
+                                ],
+                            )
+                        )
                 curr = Point(end[0], end[1])
             elif tag == "BezierSegment":
                 points = _parse_points(seg.get("Points"))
@@ -2200,6 +3954,32 @@ def _parse_path_geometry_element(geometry: ET.Element, transform: Matrix) -> Pat
                     p3 = _apply_transform(transform, Point(points[2][0], points[2][1]))
                     segments.append(PathSegment("curve", [p1, p2, p3]))
                     curr = Point(points[2][0], points[2][1])
+            elif tag == "PolyQuadraticBezierSegment":
+                points = _parse_points(seg.get("Points"))
+                idx = 0
+                while idx + 1 < len(points):
+                    ctrl = Point(points[idx][0], points[idx][1])
+                    end = Point(points[idx + 1][0], points[idx + 1][1])
+                    c1 = Point(
+                        curr.x + (2.0 / 3.0) * (ctrl.x - curr.x),
+                        curr.y + (2.0 / 3.0) * (ctrl.y - curr.y),
+                    )
+                    c2 = Point(
+                        end.x + (2.0 / 3.0) * (ctrl.x - end.x),
+                        end.y + (2.0 / 3.0) * (ctrl.y - end.y),
+                    )
+                    segments.append(
+                        PathSegment(
+                            "curve",
+                            [
+                                _apply_transform(transform, c1),
+                                _apply_transform(transform, c2),
+                                _apply_transform(transform, end),
+                            ],
+                        )
+                    )
+                    curr = end
+                    idx += 2
             elif tag == "PolyBezierSegment":
                 points = _parse_points(seg.get("Points"))
                 idx = 0

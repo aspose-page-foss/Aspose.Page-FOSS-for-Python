@@ -51,6 +51,13 @@ def _baseline_pdf_available(baseline_pdf: Path) -> bool:
         return True
     if baseline_pdf.with_name(baseline_pdf.name + ".png").exists():
         return True
+    stem = baseline_pdf.stem
+    if baseline_pdf.with_name(f"{stem}_1.png").exists():
+        return True
+    if baseline_pdf.with_name(f"{stem}-1.png").exists():
+        return True
+    if baseline_pdf.with_name(f"{stem} (1).png").exists():
+        return True
     return baseline_pdf.with_name(f"{baseline_pdf.name}.page-1.png").exists()
 
 
@@ -113,30 +120,31 @@ def _run_xps_case(path: Path) -> None:
             errors.append(exc)
 
     image_start = time.perf_counter()
-    image_bytes = doc.to_image(ImageSaveOptions(format="png", dpi=XPS_IMAGE_DPI))
+    image_pages = doc.to_images(ImageSaveOptions(format="png", dpi=XPS_IMAGE_DPI))
     _log_timing(f"{path.name} xps->image", time.perf_counter() - image_start)
     image_key = Path("testdata/xps/xps2image/integration") / relative
-    image_output = write_output(image_key, ".png", image_bytes)
-    image_baseline = resolve_image_baseline(baseline_path_for(image_key, ".png"))
-    if image_baseline is not None:
-        try:
-            compare_start = time.perf_counter()
-            compare_images_on_fail(
-                image_baseline,
-                image_output,
-                artifact_dir=artifact_dir_for(image_output),
-            )
-            _log_timing(
-                f"{path.name} image compare", time.perf_counter() - compare_start
-            )
-        except unittest.SkipTest as exc:
-            print(f"SKIP image compare: {exc}")
-        except AssertionError as exc:
-            dump_render_model(
-                ensure_render_doc(),
-                artifact_dir_for(image_output) / "render_model.json",
-            )
-            errors.append(exc)
+    image_outputs = _write_xps_image_outputs(image_key, image_pages)
+    for page_key, image_output in image_outputs:
+        image_baseline = resolve_image_baseline(baseline_path_for(page_key, ""))
+        if image_baseline is not None:
+            try:
+                compare_start = time.perf_counter()
+                compare_images_on_fail(
+                    image_baseline,
+                    image_output,
+                    artifact_dir=artifact_dir_for(image_output),
+                )
+                _log_timing(
+                    f"{path.name} image compare", time.perf_counter() - compare_start
+                )
+            except unittest.SkipTest as exc:
+                print(f"SKIP image compare: {exc}")
+            except AssertionError as exc:
+                dump_render_model(
+                    ensure_render_doc(),
+                    artifact_dir_for(image_output) / "render_model.json",
+                )
+                errors.append(exc)
     if errors:
         if len(errors) == 1:
             raise errors[0]
@@ -144,6 +152,14 @@ def _run_xps_case(path: Path) -> None:
             f"{len(errors)} comparisons failed for {path.name}: "
             + "; ".join(str(err) for err in errors)
         )
+
+
+def _write_xps_image_outputs(image_key: Path, pages: list[bytes]) -> list[tuple[Path, Path]]:
+    outputs: list[tuple[Path, Path]] = []
+    for index, data in enumerate(pages, start=1):
+        page_key = image_key.with_name(f"{image_key.stem}_{index}{image_key.suffix}")
+        outputs.append((page_key, write_output(page_key, ".png", data)))
+    return outputs
     _log_timing(f"{path.name} total", time.perf_counter() - total_start)
 
 

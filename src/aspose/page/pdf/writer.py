@@ -117,6 +117,13 @@ _ZAPF_UNICODE_TO_CODE = _build_unicode_to_code_map(ZAPF_DINGBATS_ENCODING)
 
 
 @dataclass(frozen=True)
+class _ExtGStateSpec:
+    fill_opacity: float
+    stroke_opacity: float
+    stroke_adjust: bool = False
+
+
+@dataclass(frozen=True)
 class PdfMetadata:
     """PDF metadata fields for the document info dictionary.
 
@@ -152,6 +159,7 @@ class ImageResource:
     decode: tuple[float, ...] | None = None
     mask: bool = False
     mask_polarity: bool = True
+    soft_mask: bytes | None = None
 
 
 class PdfWriter:
@@ -193,6 +201,7 @@ class PdfWriter:
             image_map,
             image_resources,
             font_code_maps,
+            font_code_widths,
         ) = self._collect_resources(document)
         color_spaces = document.resources.color_spaces
         patterns = document.resources.patterns
@@ -209,12 +218,13 @@ class PdfWriter:
 
         ids = _ObjectIds(
             font_order,
+            image_resources,
             image_order,
             color_spaces,
             pdf_patterns,
             functions,
             len(document.pages),
-            list(embedded_fonts.keys()),
+            embedded_fonts,
         )
 
         objects: list[bytes] = []
@@ -228,6 +238,7 @@ class PdfWriter:
                             embedded,
                             ids.font_descriptors[font_key],
                             ids.to_unicode[font_key],
+                            ids.cid_fonts.get(font_key),
                         ),
                     )
                 )
@@ -262,12 +273,47 @@ class PdfWriter:
                     _to_unicode_object(embedded, self._no_compression),
                 )
             )
+        for font_key in ids.embedded_fonts:
+            embedded = embedded_fonts[font_key]
+            cid_font_id = ids.cid_fonts.get(font_key)
+            cid_map_id = ids.cid_to_gid_maps.get(font_key)
+            if cid_font_id is None or cid_map_id is None:
+                continue
+            objects.append(
+                _serialize_object(
+                    cid_map_id,
+                    _cid_to_gid_map_object(embedded, self._no_compression),
+                )
+            )
+            objects.append(
+                _serialize_object(
+                    cid_font_id,
+                    _cid_font_object(embedded, ids.font_descriptors[font_key], cid_map_id),
+                )
+            )
         for image_id in image_order:
             image_resource = image_resources[image_id]
+            soft_mask_id = ids.image_soft_masks.get(image_id)
+            if soft_mask_id is not None and image_resource.soft_mask is not None:
+                objects.append(
+                    _serialize_object(
+                        soft_mask_id,
+                        _soft_mask_image_object(
+                            image_resource.width,
+                            image_resource.height,
+                            image_resource.soft_mask,
+                            self._no_compression,
+                        ),
+                    )
+                )
             objects.append(
                 _serialize_object(
                     ids.images[image_id],
-                    _image_object(image_resource, self._no_compression),
+                    _image_object(
+                        image_resource,
+                        self._no_compression,
+                        soft_mask_ref=f"{soft_mask_id} 0 R" if soft_mask_id is not None else None,
+                    ),
                 )
             )
         for func_id in function_order:
@@ -311,6 +357,7 @@ class PdfWriter:
                 pattern_variants,
                 pattern_space_ids,
                 font_code_maps,
+                font_code_widths,
                 extgstates,
             )
             objects.append(
@@ -365,6 +412,7 @@ class PdfWriter:
         dict[str, str],
         dict[str, ImageResource],
         dict[str, dict[int, int]],
+        dict[str, int],
     ]:
         font_resources: dict[str, str] = {}
         font_map: dict[str, str] = {}
@@ -374,6 +422,7 @@ class PdfWriter:
         image_resources: dict[str, ImageResource] = {}
         used_codes: dict[str, set[int]] = {}
         font_code_maps: dict[str, dict[int, int]] = {}
+        font_code_widths: dict[str, int] = {}
 
         def _ensure_image(image_id: str) -> None:
             if self._image_provider is None:
@@ -412,12 +461,14 @@ class PdfWriter:
                 font_key = font_ref
                 embedded_fonts[font_key] = embedded
                 font_code_maps[font_ref] = dict(embedded.char_code_map)
+                font_code_widths[font_ref] = embedded.code_byte_width
             else:
                 font_key = _resolve_font(font_ref)
                 font_base[font_key] = font_key
             if font_key not in font_resources:
                 font_resources[font_key] = f"F{len(font_resources) + 1}"
             font_map[font_ref] = font_resources[font_key]
+            font_code_widths.setdefault(font_ref, 1)
 
         return (
             font_resources,
@@ -427,6 +478,7 @@ class PdfWriter:
             image_map,
             image_resources,
             font_code_maps,
+            font_code_widths,
         )
 
     def _render_page(
@@ -439,15 +491,17 @@ class PdfWriter:
         pattern_variants: dict[tuple[str, str, tuple[float, ...]], str],
         pattern_space_ids: dict[str, str],
         font_code_maps: dict[str, dict[int, int]],
-        extgstates: dict[str, tuple[float, float]],
+        font_code_widths: dict[str, int],
+        extgstates: dict[str, _ExtGStateSpec],
     ) -> bytes:
         lines: list[str] = []
         extgstate_by_values = {value: name for name, value in extgstates.items()}
         for command in page.commands:
             if isinstance(command, PathCommand):
-                values = (
+                values = _ExtGStateSpec(
                     _clamp_opacity(command.fill_opacity),
                     _clamp_opacity(command.stroke_opacity),
+                    _use_stroke_adjustment(command),
                 )
                 if values in extgstate_by_values:
                     lines.append("q")
@@ -473,7 +527,7 @@ class PdfWriter:
             elif isinstance(command, StateRestoreCommand):
                 lines.append("Q")
             elif isinstance(command, TextCommand):
-                values = (_clamp_opacity(command.fill_opacity), 1.0)
+                values = _ExtGStateSpec(_clamp_opacity(command.fill_opacity), 1.0)
                 if values in extgstate_by_values:
                     lines.append("q")
                     lines.append(f"/{extgstate_by_values[values]} gs")
@@ -485,6 +539,7 @@ class PdfWriter:
                             pattern_variants,
                             pattern_space_ids,
                             font_code_maps,
+                            font_code_widths,
                         )
                     )
                     lines.append("Q")
@@ -497,6 +552,7 @@ class PdfWriter:
                             pattern_variants,
                             pattern_space_ids,
                             font_code_maps,
+                            font_code_widths,
                         )
                     )
             elif isinstance(command, ImageCommand):
@@ -504,7 +560,10 @@ class PdfWriter:
                 is_ccitt_mask = bool(
                     resource is not None and resource.mask and resource.filter == "CCITTFaxDecode"
                 )
-                values = (_clamp_opacity(command.opacity), _clamp_opacity(command.opacity))
+                values = _ExtGStateSpec(
+                    _clamp_opacity(command.opacity),
+                    _clamp_opacity(command.opacity),
+                )
                 if values in extgstate_by_values:
                     lines.append("q")
                     lines.append(f"/{extgstate_by_values[values]} gs")
@@ -685,12 +744,13 @@ class _ObjectIds:
     def __init__(
         self,
         fonts: list[str],
+        image_resources: dict[str, ImageResource],
         images: list[str],
         color_spaces: dict[str, ColorSpace],
         patterns: dict[str, Pattern],
         functions: dict[str, Function],
         page_count: int,
-        embedded_fonts: list[str],
+        embedded_fonts: dict[str, PdfEmbeddedFont],
     ) -> None:
         current = 1
         self.fonts: dict[str, int] = {}
@@ -698,10 +758,12 @@ class _ObjectIds:
             self.fonts[font] = current
             current += 1
 
-        self.embedded_fonts: list[str] = list(embedded_fonts)
+        self.embedded_fonts: list[str] = list(embedded_fonts.keys())
         self.font_descriptors: dict[str, int] = {}
         self.font_files: dict[str, int] = {}
         self.to_unicode: dict[str, int] = {}
+        self.cid_fonts: dict[str, int] = {}
+        self.cid_to_gid_maps: dict[str, int] = {}
         for font_key in self.embedded_fonts:
             self.font_descriptors[font_key] = current
             current += 1
@@ -709,11 +771,22 @@ class _ObjectIds:
             current += 1
             self.to_unicode[font_key] = current
             current += 1
+            resource = embedded_fonts.get(font_key)
+            if resource is not None and resource.subtype == "Type0":
+                self.cid_fonts[font_key] = current
+                current += 1
+                self.cid_to_gid_maps[font_key] = current
+                current += 1
 
         self.images: dict[str, int] = {}
+        self.image_soft_masks: dict[str, int] = {}
         for image in images:
             self.images[image] = current
             current += 1
+            resource = image_resources.get(image)
+            if resource is not None and resource.soft_mask is not None:
+                self.image_soft_masks[image] = current
+                current += 1
 
         self.functions: dict[str, int] = {}
         for func_id in functions.keys():
@@ -821,7 +894,25 @@ def _font_object(base_font: str) -> bytes:
     return body.encode("ascii")
 
 
-def _font_object_embedded(embedded: PdfEmbeddedFont, desc_id: int, to_unicode_id: int) -> bytes:
+def _font_object_embedded(
+    embedded: PdfEmbeddedFont,
+    desc_id: int,
+    to_unicode_id: int,
+    cid_font_id: int | None = None,
+) -> bytes:
+    if embedded.subtype == "Type0":
+        if cid_font_id is None:
+            raise ValueError("Type0 embedded font requires CID descendant")
+        lines = [
+            "/Type /Font",
+            "/Subtype /Type0",
+            f"/BaseFont /{embedded.subset_name}",
+            f"/Encoding /{embedded.encoding or 'Identity-H'}",
+            f"/DescendantFonts [{cid_font_id} 0 R]",
+            f"/ToUnicode {to_unicode_id} 0 R",
+        ]
+        body = _pdf_dict(lines)
+        return body.encode("ascii")
     lines = [
         "/Type /Font",
         f"/Subtype /{embedded.subtype}",
@@ -860,6 +951,34 @@ def _font_descriptor_object(embedded: PdfEmbeddedFont, font_file_id: int) -> byt
     return body.encode("ascii")
 
 
+def _cid_font_object(embedded: PdfEmbeddedFont, desc_id: int, cid_map_id: int) -> bytes:
+    lines = [
+        "/Type /Font",
+        "/Subtype /CIDFontType2",
+        f"/BaseFont /{embedded.subset_name}",
+        "/CIDSystemInfo << /Registry (Adobe) /Ordering (Identity) /Supplement 0 >>",
+        f"/FontDescriptor {desc_id} 0 R",
+        "/DW 1000",
+        f"/W {_cid_widths_array(embedded)}",
+        f"/CIDToGIDMap {cid_map_id} 0 R",
+    ]
+    return _pdf_dict(lines).encode("ascii")
+
+
+def _cid_widths_array(embedded: PdfEmbeddedFont) -> str:
+    if not embedded.widths:
+        return "[]"
+    return f"[{embedded.first_char} {_pdf_array(embedded.widths)}]"
+
+
+def _cid_to_gid_map_object(embedded: PdfEmbeddedFont, no_compression: bool) -> bytes:
+    data = embedded.cid_to_gid_map or b""
+    if not no_compression:
+        data = zlib.compress(data)
+        return _stream_object(data, ["/Filter /FlateDecode"])
+    return _stream_object(data, [])
+
+
 def _font_file_object(embedded: PdfEmbeddedFont, no_compression: bool) -> bytes:
     data = embedded.font_file
     dict_lines = [f"/Length1 {len(data)}"]
@@ -877,7 +996,11 @@ def _to_unicode_object(embedded: PdfEmbeddedFont, no_compression: bool) -> bytes
     return _stream_object(data, [])
 
 
-def _image_object(resource: ImageResource, no_compression: bool) -> bytes:
+def _image_object(
+    resource: ImageResource,
+    no_compression: bool,
+    soft_mask_ref: str | None = None,
+) -> bytes:
     data = resource.data
     filter_name = resource.filter
     if filter_name is None and not no_compression:
@@ -908,6 +1031,8 @@ def _image_object(resource: ImageResource, no_compression: bool) -> bytes:
         decode_values = _normalize_decode_for_pdf(resource.decode, resource.bits_per_component)
         if decode_values is not None:
             dict_lines.append(f"/Decode {_pdf_array(list(decode_values))}")
+        if soft_mask_ref is not None:
+            dict_lines.append(f"/SMask {soft_mask_ref}")
     if filter_name is not None:
         dict_lines.append(f"/Filter /{filter_name}")
         decode_params = _pdf_decode_params(resource)
@@ -915,6 +1040,27 @@ def _image_object(resource: ImageResource, no_compression: bool) -> bytes:
             dict_lines.append(f"/DecodeParms {decode_params}")
 
     return _stream_object(data, dict_lines)
+
+
+def _soft_mask_image_object(
+    width: int,
+    height: int,
+    data: bytes,
+    no_compression: bool,
+) -> bytes:
+    payload = data
+    dict_lines = [
+        "/Type /XObject",
+        "/Subtype /Image",
+        f"/Width {width}",
+        f"/Height {height}",
+        "/ColorSpace /DeviceGray",
+        "/BitsPerComponent 8",
+    ]
+    if not no_compression:
+        payload = zlib.compress(payload)
+        dict_lines.append("/Filter /FlateDecode")
+    return _stream_object(payload, dict_lines)
 
 
 def _pdf_decode_params(resource: ImageResource) -> str | None:
@@ -996,7 +1142,7 @@ def _page_object(
     image_ids: dict[str, int],
     color_space_ids: dict[str, int],
     pattern_ids: dict[str, int],
-    extgstates: dict[str, tuple[float, float]] | None = None,
+    extgstates: dict[str, _ExtGStateSpec] | None = None,
 ) -> bytes:
     resources: list[str] = []
     if font_map:
@@ -1015,7 +1161,9 @@ def _page_object(
         resources.append("/Pattern << " + " ".join(pattern_entries) + " >>")
     if extgstates:
         gs_entries = [
-            f"/{name} << /Type /ExtGState /ca {_format_number(values[0])} /CA {_format_number(values[1])} >>"
+            f"/{name} << /Type /ExtGState /ca {_format_number(values.fill_opacity)} "
+            f"/CA {_format_number(values.stroke_opacity)}"
+            f"{' /SA true' if values.stroke_adjust else ''} >>"
             for name, values in extgstates.items()
         ]
         resources.append("/ExtGState << " + " ".join(gs_entries) + " >>")
@@ -1041,29 +1189,40 @@ def _clamp_opacity(value: float) -> float:
     return float(value)
 
 
-def _collect_page_extgstates(page: RenderPage) -> dict[str, tuple[float, float]]:
-    values: list[tuple[float, float]] = []
+def _collect_page_extgstates(page: RenderPage) -> dict[str, _ExtGStateSpec]:
+    values: list[_ExtGStateSpec] = []
     for command in page.commands:
         if isinstance(command, PathCommand):
-            pair = (_clamp_opacity(command.fill_opacity), _clamp_opacity(command.stroke_opacity))
-            if pair != (1.0, 1.0):
-                values.append(pair)
+            spec = _ExtGStateSpec(
+                _clamp_opacity(command.fill_opacity),
+                _clamp_opacity(command.stroke_opacity),
+                _use_stroke_adjustment(command),
+            )
+            if spec != _ExtGStateSpec(1.0, 1.0):
+                values.append(spec)
         elif isinstance(command, TextCommand):
-            pair = (_clamp_opacity(command.fill_opacity), 1.0)
-            if pair != (1.0, 1.0):
-                values.append(pair)
+            spec = _ExtGStateSpec(_clamp_opacity(command.fill_opacity), 1.0)
+            if spec != _ExtGStateSpec(1.0, 1.0):
+                values.append(spec)
         elif isinstance(command, ImageCommand):
-            pair = (_clamp_opacity(command.opacity), _clamp_opacity(command.opacity))
-            if pair != (1.0, 1.0):
-                values.append(pair)
-    unique: list[tuple[float, float]] = []
-    seen: set[tuple[float, float]] = set()
-    for pair in values:
-        if pair in seen:
+            spec = _ExtGStateSpec(
+                _clamp_opacity(command.opacity),
+                _clamp_opacity(command.opacity),
+            )
+            if spec != _ExtGStateSpec(1.0, 1.0):
+                values.append(spec)
+    unique: list[_ExtGStateSpec] = []
+    seen: set[_ExtGStateSpec] = set()
+    for spec in values:
+        if spec in seen:
             continue
-        seen.add(pair)
-        unique.append(pair)
-    return {f"GS{i+1}": pair for i, pair in enumerate(unique)}
+        seen.add(spec)
+        unique.append(spec)
+    return {f"GS{i+1}": spec for i, spec in enumerate(unique)}
+
+
+def _use_stroke_adjustment(command: PathCommand) -> bool:
+    return False
 
 
 def _pages_tree_object(page_ids: list[int]) -> bytes:
@@ -1235,13 +1394,14 @@ def _clip_pattern_content_to_bbox(pattern: TilingPattern, content: bytes) -> byt
 def _pdf_pattern_tiling_params(pattern: TilingPattern) -> tuple[int, float, float]:
     # Internal render model uses tiling_type==0 as "non-tiling" tile brush
     # (XPS TileMode=None). PDF has only tiling types 1..3. Encode this mode as
-    # type-1 with very large steps so only one cell appears on-page.
+    # type-1 with large page-exceeding steps so only one cell appears on-page.
+    # Extremely large steps trigger renderer artifacts in some PDF engines.
     if pattern.tiling_type <= 0:
         bbox_w = max(1.0, abs(pattern.bbox[2] - pattern.bbox[0]))
         bbox_h = max(1.0, abs(pattern.bbox[3] - pattern.bbox[1]))
         base = max(abs(pattern.x_step), abs(pattern.y_step), bbox_w, bbox_h, 1.0)
-        huge_step = base * 4096.0
-        return (1, huge_step, huge_step)
+        large_step = base * 64.0
+        return (1, large_step, large_step)
     return (pattern.tiling_type, pattern.x_step, pattern.y_step)
 
 
@@ -1449,6 +1609,7 @@ def _render_text_command(
     pattern_variants: dict[tuple[str, str, tuple[float, ...]], str] | None = None,
     pattern_space_ids: dict[str, str] | None = None,
     font_code_maps: dict[str, dict[int, int]] | None = None,
+    font_code_widths: dict[str, int] | None = None,
 ) -> list[str]:
     text = "".join(char for char in command.text if ord(char) not in (10, 13))
     if not text:
@@ -1468,10 +1629,33 @@ def _render_text_command(
     lines.append(f"/{font_name} {_format_number(command.font_size)} Tf")
     lines.append(f"{format_matrix(command.matrix)} Tm")
     code_map = (font_code_maps or {}).get(command.font_ref, {})
-    text_bytes = _encode_text_bytes(text, code_map, command.font_ref)
-    lines.append(f"<{text_bytes.hex().upper()}> Tj")
+    code_width = (font_code_widths or {}).get(command.font_ref, 1)
+    text_bytes = _encode_text_bytes(text, code_map, command.font_ref, code_width)
+    if command.pdf_text_adjustments:
+        lines.append(_format_text_array(text, text_bytes, command.pdf_text_adjustments, code_width) + " TJ")
+    else:
+        lines.append(f"<{text_bytes.hex().upper()}> Tj")
     lines.append("ET")
     return lines
+
+
+def _format_text_array(
+    text: str,
+    text_bytes: bytes,
+    adjustments: tuple[float, ...],
+    code_byte_width: int,
+) -> str:
+    if not adjustments:
+        return f"<{text_bytes.hex().upper()}>"
+    parts: list[str] = ["["]
+    for idx, char in enumerate(text):
+        start = idx * code_byte_width
+        end = start + code_byte_width
+        parts.append(f"<{text_bytes[start:end].hex().upper()}>")
+        if idx < len(adjustments):
+            parts.append(_format_number(adjustments[idx]))
+    parts.append("]")
+    return " ".join(parts)
 
 
 def _standard_unicode_to_code(font_ref: str) -> dict[str, int]:
@@ -1482,7 +1666,7 @@ def _standard_unicode_to_code(font_ref: str) -> dict[str, int]:
     return _STANDARD_UNICODE_TO_CODE
 
 
-def _encode_text_bytes(text: str, code_map: dict[int, int], font_ref: str) -> bytes:
+def _encode_text_bytes(text: str, code_map: dict[int, int], font_ref: str, code_byte_width: int = 1) -> bytes:
     payload = bytearray()
     standard_map = _standard_unicode_to_code(font_ref) if font_ref in _STANDARD_FONTS else {}
     for char in text:
@@ -1492,7 +1676,11 @@ def _encode_text_bytes(text: str, code_map: dict[int, int], font_ref: str) -> by
             mapped = standard_map.get(char)
         if mapped is None:
             mapped = code if 0 <= code <= 0xFF else ord("?")
-        payload.append(int(mapped) & 0xFF)
+        mapped = int(mapped)
+        if code_byte_width == 2:
+            payload.extend(mapped.to_bytes(2, "big", signed=False))
+        else:
+            payload.append(mapped & 0xFF)
     return bytes(payload)
 
 
@@ -1574,6 +1762,36 @@ def _render_segment(segment: PathSegment) -> list[str]:
         _validate_points(segment, 0)
         return ["h"]
     raise ValueError(f"unsupported path segment: {segment.kind}")
+
+
+def _use_stroke_adjustment(command: PathCommand) -> bool:
+    stroke = command.stroke
+    if stroke is None or not (0.0 < stroke.line_width < 0.25):
+        return False
+    if not _path_is_closed(command.path):
+        return False
+    bbox = _path_bbox(command.path)
+    if bbox is None:
+        return False
+    width = bbox[2] - bbox[0]
+    height = bbox[3] - bbox[1]
+    return width <= 8.0 and height <= 8.0
+
+
+def _path_is_closed(path: Path) -> bool:
+    return any(segment.kind == "close" for segment in path.segments)
+
+
+def _path_bbox(path: Path) -> tuple[float, float, float, float] | None:
+    xs: list[float] = []
+    ys: list[float] = []
+    for segment in path.segments:
+        for point in segment.points:
+            xs.append(point.x)
+            ys.append(point.y)
+    if not xs or not ys:
+        return None
+    return min(xs), min(ys), max(xs), max(ys)
 
 
 def _render_stroke_style(style: StrokeStyle) -> list[str]:

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from datetime import datetime
+from xml.etree import ElementTree as ET
 import uuid
 
 from ..common.render_model import RenderImageResource, RenderModelBuilder
@@ -16,6 +17,7 @@ from ..ps.pdf_font_embed import build_embedded_font
 from .document import XpsDocument
 from .images import XpsImageStore
 from .parser import XpsParser
+from .print_tickets import read_print_tickets, PrintTicketScope
 from .render import XpsRenderer
 
 
@@ -24,13 +26,19 @@ def to_pdf(document: XpsDocument, options: PdfSaveOptions | None = None) -> byte
     opts = options or PdfSaveOptions()
     builder = RenderModelBuilder()
     image_store = XpsImageStore()
-    renderer = XpsRenderer(builder, image_store)
+    renderer = XpsRenderer(
+        builder,
+        image_store,
+        media_fit_size=_job_media_size_points(document),
+        rasterize_solid_strokes=True,
+    )
     renderer.set_package(document.package)
     parser = XpsParser(document.package)
     for part in parser.fixed_page_parts():
         renderer.set_current_part(part)
         renderer.render_fixed_page(document.package.read(part))
     render_doc = builder.document()
+    _quantize_xps_pdf_page_sizes(render_doc)
     _attach_image_resources(render_doc, image_store)
     font_resolver = _build_xps_font_resolver(
         document.package,
@@ -48,6 +56,7 @@ def to_pdf(document: XpsDocument, options: PdfSaveOptions | None = None) -> byte
             color_space=image.color_space,
             bits_per_component=image.bits_per_component,
             filter=image.filter,
+            soft_mask=image.soft_mask,
         )
 
     def font_provider(font_ref: str, used_codes: set[int]):
@@ -63,29 +72,34 @@ def to_pdf(document: XpsDocument, options: PdfSaveOptions | None = None) -> byte
 
 
 def to_image(document: XpsDocument, options: ImageSaveOptions) -> bytes:
+    pages = to_images(document, options)
+    if not pages:
+        raise ValueError("document has no pages")
+    return pages[0]
+
+
+def to_images(document: XpsDocument, options: ImageSaveOptions) -> list[bytes]:
     """Convert an XPS document to raster image bytes."""
     if not skia_available():
         raise RuntimeError("Skia rasterizer is required for XPS image conversion")
     if options.raster_writer is not None and not isinstance(options.raster_writer, SkiaRasterWriter):
         raise ValueError("XPS image conversion requires SkiaRasterWriter")
 
-    builder = RenderModelBuilder()
-    image_store = XpsImageStore()
-    renderer = XpsRenderer(builder, image_store)
-    renderer.set_package(document.package)
-    parser = XpsParser(document.package)
-    for part in parser.fixed_page_parts():
-        renderer.set_current_part(part)
-        renderer.render_fixed_page(document.package.read(part))
-    render_doc = builder.document()
+    render_doc, image_store = _build_xps_render_document(document)
     _attach_image_resources(render_doc, image_store)
+    options.opaque_background = True
+    options.preserve_fractional_page_size = True
     options.font_resolver = _build_xps_font_resolver(
         document.package,
         render_doc,
         additional_fonts_folder=options.additional_fonts_folder,
     )
     writer: RasterWriter = options.raster_writer or SkiaRasterWriter()
-    return writer.write(render_doc, options)
+    outputs: list[bytes] = []
+    for page in render_doc.pages:
+        page_doc = RenderDocument(pages=[page], resources=render_doc.resources)
+        outputs.append(writer.write(page_doc, options))
+    return outputs
 
 
 def _build_pdf_metadata() -> PdfMetadata:
@@ -98,6 +112,54 @@ def _build_pdf_metadata() -> PdfMetadata:
         mod_date=timestamp,
         trapped=False,
     )
+
+
+def _build_xps_render_document(document: XpsDocument) -> tuple[RenderDocument, XpsImageStore]:
+    builder = RenderModelBuilder()
+    image_store = XpsImageStore()
+    renderer = XpsRenderer(builder, image_store, media_fit_size=_job_media_size_points(document))
+    renderer.set_package(document.package)
+    parser = XpsParser(document.package)
+    for part in parser.fixed_page_parts():
+        renderer.set_current_part(part)
+        renderer.render_fixed_page(document.package.read(part))
+    return builder.document(), image_store
+
+
+def _job_media_size_points(document: XpsDocument) -> tuple[float, float] | None:
+    tickets = read_print_tickets(document.package)
+    for ticket in tickets:
+        if ticket.scope != PrintTicketScope.JOB:
+            continue
+        try:
+            root = ET.fromstring(ticket.xml)
+        except ET.ParseError:
+            continue
+        for feature in root.findall('.//{*}Feature'):
+            name = feature.get('name') or ''
+            if not name.endswith('PageMediaSize'):
+                continue
+            option = feature.find('{*}Option')
+            if option is None:
+                continue
+            width_um = None
+            height_um = None
+            for scored in option.findall('{*}ScoredProperty'):
+                scored_name = scored.get('name') or ''
+                value = scored.find('{*}Value')
+                if value is None or value.text is None:
+                    continue
+                try:
+                    parsed = float(value.text)
+                except ValueError:
+                    continue
+                if scored_name.endswith('MediaSizeWidth'):
+                    width_um = parsed
+                elif scored_name.endswith('MediaSizeHeight'):
+                    height_um = parsed
+            if width_um and height_um:
+                return ((width_um / 25400.0) * 72.0, (height_um / 25400.0) * 72.0)
+    return None
 
 
 def _build_xps_font_resolver(
@@ -132,7 +194,18 @@ def _attach_image_resources(render_doc: RenderDocument, image_store: XpsImageSto
             color_space=resource.color_space,
             bits_per_component=resource.bits_per_component,
             filter=resource.filter,
+            soft_mask=resource.soft_mask,
         )
+
+
+def _quantize_xps_pdf_page_sizes(render_doc: RenderDocument) -> None:
+    for page in render_doc.pages:
+        page.width = _nearest_half_point(page.width)
+        page.height = _nearest_half_point(page.height)
+
+
+def _nearest_half_point(value: float) -> float:
+    return round(value * 2.0) / 2.0
 
 
 def _used_font_refs(render_doc: RenderDocument) -> set[str]:

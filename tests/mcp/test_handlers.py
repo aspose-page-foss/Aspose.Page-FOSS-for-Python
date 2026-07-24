@@ -1,12 +1,19 @@
 import base64
+import importlib.util
 import sys
 from pathlib import Path
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
 
-from aspose.page.mcp.handlers import eps_metadata, ps_to_image, ps_to_pdf, xps_to_pdf
+from aspose.page.mcp.handlers import eps_metadata, ps_to_image, ps_to_pdf, xps_to_image, xps_to_pdf
 from aspose.page.mcp.types import McpConversionOptions, McpInput, McpOutput
+
+PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
+
+
+def _skia_available() -> bool:
+    return importlib.util.find_spec("skia") is not None
 
 
 class TestMcpHandlers(unittest.TestCase):
@@ -25,6 +32,14 @@ class TestMcpHandlers(unittest.TestCase):
         with self.assertRaises(ValueError):
             ps_to_image(input_payload, output, McpConversionOptions(format=None, dpi=72))
 
+    def test_ps_to_image_png_from_bytes(self) -> None:
+        ps_bytes = b"%!PS-Adobe-3.0\nnewpath 10 10 moveto 100 10 lineto stroke\nshowpage\n"
+        input_payload = McpInput(input_path=None, input_bytes_b64=base64.b64encode(ps_bytes).decode("ascii"))
+        output = McpOutput(output_path=None, return_bytes=True)
+        result = ps_to_image(input_payload, output, McpConversionOptions(format="png", dpi=72))
+        self.assertIsNotNone(result.output_bytes_b64)
+        self.assertTrue(base64.b64decode(result.output_bytes_b64).startswith(PNG_SIGNATURE))
+
     def test_eps_metadata_extracts_fields(self) -> None:
         eps_bytes = b"%!PS-Adobe-3.0 EPSF-3.0\n%%BoundingBox: 0 0 10 20\n%%Title: Sample\n"
         input_payload = McpInput(input_path=None, input_bytes_b64=base64.b64encode(eps_bytes).decode("ascii"))
@@ -38,6 +53,14 @@ class TestMcpHandlers(unittest.TestCase):
         output = McpOutput(output_path=None, return_bytes=True)
         result = xps_to_pdf(input_payload, output)
         self.assertTrue(base64.b64decode(result.output_bytes_b64).startswith(b"%PDF"))
+
+    @unittest.skipUnless(_skia_available(), "skia-python is required for xps_to_image")
+    def test_xps_to_image_png_from_file(self) -> None:
+        path = Path("testdata/xps/integration/Simple.xps")
+        input_payload = McpInput(input_path=str(path), input_bytes_b64=None)
+        output = McpOutput(output_path=None, return_bytes=True)
+        result = xps_to_image(input_payload, output, McpConversionOptions(format="png", dpi=72))
+        self.assertTrue(base64.b64decode(result.output_bytes_b64).startswith(PNG_SIGNATURE))
 
 
 if __name__ == "__main__":
