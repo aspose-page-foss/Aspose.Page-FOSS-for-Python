@@ -47,9 +47,17 @@ def wheel() -> Path:
     return path
 
 
+def venv_python(venv: Path) -> Path:
+    for candidate in (venv / "Scripts" / "python.exe", venv / "bin" / "python"):
+        if candidate.is_file():
+            return candidate
+    raise FileNotFoundError(f"No Python executable found in {venv}")
+
+
 def build() -> None:
     DIST.mkdir(exist_ok=True)
-    run("uv", "build", "--wheel", "--no-build-isolation", "--out-dir", str(DIST))
+    run("uv", "build", "--wheel", "--no-build-isolation", "--python", sys.executable,
+        "--out-dir", str(DIST))
     print(f"Built {wheel()}")
 
 
@@ -95,7 +103,7 @@ for name, data, signature in (
 def verify() -> None:
     artifact = wheel()
     run("uv", "venv", "--clear", "--python", sys.executable, str(VENV))
-    python = VENV / "bin" / "python"
+    python = venv_python(VENV)
     run("uv", "pip", "install", "--python", str(python), str(artifact))
     output = ROOT / "test-out" / "package-smoke"
     subprocess.run(

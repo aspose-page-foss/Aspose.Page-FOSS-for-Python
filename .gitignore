@@ -18,3 +18,5 @@ build.sh
 verify.sh
 publish-test.sh
 publish.sh
+.windows-venv/
+windows/
