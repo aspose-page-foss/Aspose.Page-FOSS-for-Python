@@ -76,9 +76,19 @@ class XpsPackage:
 
 
 def _normalize_part(name: str) -> str:
-    if not name.startswith("/"):
-        return "/" + name
-    return name
+    value = name.replace("\\", "/")
+    if not value.startswith("/"):
+        value = "/" + value
+    parts: list[str] = []
+    for segment in value.split("/"):
+        if segment in ("", "."):
+            continue
+        if segment == "..":
+            if parts:
+                parts.pop()
+            continue
+        parts.append(segment)
+    return "/" + "/".join(parts)
 
 
 def _parse_piece_name(name: str) -> tuple[str, int, bool] | None:

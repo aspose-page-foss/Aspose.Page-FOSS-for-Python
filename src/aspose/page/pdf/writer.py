@@ -337,7 +337,17 @@ class PdfWriter:
             objects.append(
                 _serialize_object(
                     ids.patterns[pattern_id],
-                    _pattern_object(pattern, ids, functions, color_spaces, image_map, image_resources),
+                    _pattern_object(
+                        pattern,
+                        ids,
+                        functions,
+                        color_spaces,
+                        image_map,
+                        image_resources,
+                        font_map,
+                        font_code_maps,
+                        font_code_widths,
+                    ),
                 )
             )
         color_space_defs = {
@@ -450,6 +460,13 @@ class PdfWriter:
             if not isinstance(pattern, TilingPattern):
                 continue
             for command in pattern.commands:
+                if isinstance(command, TextCommand):
+                    codes = used_codes.setdefault(command.font_ref, set())
+                    for char in command.text:
+                        code = ord(char)
+                        if code in (10, 13):
+                            continue
+                        codes.add(code)
                 if isinstance(command, ImageCommand):
                     _ensure_image(command.image_id)
 
@@ -1190,8 +1207,12 @@ def _clamp_opacity(value: float) -> float:
 
 
 def _collect_page_extgstates(page: RenderPage) -> dict[str, _ExtGStateSpec]:
+    return _collect_command_extgstates(page.commands)
+
+
+def _collect_command_extgstates(commands: list[object]) -> dict[str, _ExtGStateSpec]:
     values: list[_ExtGStateSpec] = []
-    for command in page.commands:
+    for command in commands:
         if isinstance(command, PathCommand):
             spec = _ExtGStateSpec(
                 _clamp_opacity(command.fill_opacity),
@@ -1222,7 +1243,7 @@ def _collect_page_extgstates(page: RenderPage) -> dict[str, _ExtGStateSpec]:
 
 
 def _use_stroke_adjustment(command: PathCommand) -> bool:
-    return False
+    return _should_stroke_adjust(command)
 
 
 def _pages_tree_object(page_ids: list[int]) -> bytes:
@@ -1326,15 +1347,28 @@ def _pattern_object(
     color_spaces: dict[str, ColorSpace],
     image_map: dict[str, str],
     image_resources: dict[str, ImageResource],
+    font_map: dict[str, str],
+    font_code_maps: dict[str, dict[int, int]],
+    font_code_widths: dict[str, int],
 ) -> bytes:
     if isinstance(pattern, TilingPattern):
-        content = _render_pattern_commands(pattern.commands, image_map, image_resources)
+        extgstates = _collect_command_extgstates(pattern.commands)
+        content = _render_pattern_commands(
+            pattern.commands,
+            image_map,
+            image_resources,
+            font_map,
+            font_code_maps,
+            font_code_widths,
+            extgstates,
+        )
         # Some PDF renderers do not strictly confine image sampling to the
         # declared pattern BBox. Apply an explicit clip to avoid pattern paint
         # bleeding beyond the cell domain (notably for non-tiling ImageBrush).
         content = _clip_pattern_content_to_bbox(pattern, content)
         tiling_type, x_step, y_step = _pdf_pattern_tiling_params(pattern)
         pattern_image_ids = _pattern_image_ids(pattern.commands)
+        pattern_font_refs = _pattern_font_refs(pattern.commands)
         xobject = ""
         if pattern_image_ids:
             refs = []
@@ -1346,6 +1380,26 @@ def _pattern_object(
                 refs.append(f"/{name} {obj_id} 0 R")
             if refs:
                 xobject = "/XObject << " + " ".join(refs) + " >> "
+        font_resources = ""
+        if pattern_font_refs:
+            refs = []
+            for font_ref in pattern_font_refs:
+                resource_name = font_map.get(font_ref)
+                obj_id = ids.fonts.get(font_ref)
+                if resource_name is None or obj_id is None:
+                    continue
+                refs.append(f"/{resource_name} {obj_id} 0 R")
+            if refs:
+                font_resources = "/Font << " + " ".join(refs) + " >> "
+        extgstate_resources = ""
+        if extgstates:
+            refs = [
+                f"/{name} << /Type /ExtGState /ca {_format_number(values.fill_opacity)} "
+                f"/CA {_format_number(values.stroke_opacity)}"
+                f"{' /SA true' if values.stroke_adjust else ''} >>"
+                for name, values in extgstates.items()
+            ]
+            extgstate_resources = "/ExtGState << " + " ".join(refs) + " >> "
         dict_lines = [
             "/Type /Pattern",
             "/PatternType 1",
@@ -1355,7 +1409,7 @@ def _pattern_object(
             f"/XStep {_format_number(x_step)}",
             f"/YStep {_format_number(y_step)}",
             f"/Matrix {_pdf_array(pattern.matrix)}",
-            f"/Resources << {xobject}>>",
+            f"/Resources << {font_resources}{xobject}{extgstate_resources}>>",
         ]
         return _stream_object(content, dict_lines)
     if isinstance(pattern, ShadingPattern):
@@ -1482,11 +1536,27 @@ def _render_pattern_commands(
     commands: list[object],
     image_map: dict[str, str],
     image_resources: dict[str, ImageResource],
+    font_map: dict[str, str],
+    font_code_maps: dict[str, dict[int, int]],
+    font_code_widths: dict[str, int],
+    extgstates: dict[str, _ExtGStateSpec],
 ) -> bytes:
     lines: list[str] = []
+    extgstate_by_values = {value: name for name, value in extgstates.items()}
     for command in commands:
         if isinstance(command, PathCommand):
-            lines.extend(_render_path_command(command))
+            values = _ExtGStateSpec(
+                _clamp_opacity(command.fill_opacity),
+                _clamp_opacity(command.stroke_opacity),
+                _use_stroke_adjustment(command),
+            )
+            if values in extgstate_by_values:
+                lines.append("q")
+                lines.append(f"/{extgstate_by_values[values]} gs")
+                lines.extend(_render_path_command(command))
+                lines.append("Q")
+            else:
+                lines.extend(_render_path_command(command))
         elif isinstance(command, ClipCommand):
             lines.extend(_render_path(command.path))
             lines.append("W*" if command.fill_rule == "evenodd" else "W")
@@ -1496,13 +1566,44 @@ def _render_pattern_commands(
         elif isinstance(command, StateRestoreCommand):
             lines.append("Q")
         elif isinstance(command, TextCommand):
-            lines.extend(_render_text_command(command, {}))
+            values = _ExtGStateSpec(_clamp_opacity(command.fill_opacity), 1.0)
+            if values in extgstate_by_values:
+                lines.append("q")
+                lines.append(f"/{extgstate_by_values[values]} gs")
+                lines.extend(
+                    _render_text_command(
+                        command,
+                        font_map,
+                        font_code_maps=font_code_maps,
+                        font_code_widths=font_code_widths,
+                    )
+                )
+                lines.append("Q")
+            else:
+                lines.extend(
+                    _render_text_command(
+                        command,
+                        font_map,
+                        font_code_maps=font_code_maps,
+                        font_code_widths=font_code_widths,
+                    )
+                )
         elif isinstance(command, ImageCommand):
             resource = image_resources.get(command.image_id)
             is_ccitt_mask = bool(
                 resource is not None and resource.mask and resource.filter == "CCITTFaxDecode"
             )
-            lines.extend(_render_image_command(command, image_map, is_ccitt_mask))
+            values = _ExtGStateSpec(
+                _clamp_opacity(command.opacity),
+                _clamp_opacity(command.opacity),
+            )
+            if values in extgstate_by_values:
+                lines.append("q")
+                lines.append(f"/{extgstate_by_values[values]} gs")
+                lines.extend(_render_image_command(command, image_map, is_ccitt_mask))
+                lines.append("Q")
+            else:
+                lines.extend(_render_image_command(command, image_map, is_ccitt_mask))
     return ("\n".join(lines) + "\n").encode("ascii")
 
 
@@ -1513,6 +1614,16 @@ def _pattern_image_ids(commands: list[object]) -> list[str]:
         if isinstance(command, ImageCommand) and command.image_id not in seen:
             ordered.append(command.image_id)
             seen.add(command.image_id)
+    return ordered
+
+
+def _pattern_font_refs(commands: list[object]) -> list[str]:
+    seen: set[str] = set()
+    ordered: list[str] = []
+    for command in commands:
+        if isinstance(command, TextCommand) and command.font_ref and command.font_ref not in seen:
+            ordered.append(command.font_ref)
+            seen.add(command.font_ref)
     return ordered
 
 
@@ -1553,11 +1664,19 @@ def _render_path_command(
     pattern_variants: dict[tuple[str, str, tuple[float, ...]], str] | None = None,
     pattern_space_ids: dict[str, str] | None = None,
 ) -> list[str]:
-    lines = _render_path(command.path)
     needs_stroke = command.stroke is not None
     needs_fill = command.fill is not None
-
     stroke_paint = command.stroke_paint or command.fill
+    stroke_fill_lines = _render_thin_axis_aligned_stroke_as_fill(
+        command,
+        color_space_defs=color_space_defs,
+        pattern_variants=pattern_variants,
+        pattern_space_ids=pattern_space_ids,
+    )
+    if stroke_fill_lines is not None:
+        return stroke_fill_lines
+
+    lines = _render_path(command.path)
     if needs_stroke:
         lines.extend(_render_stroke_style(command.stroke))
     if command.overprint:
@@ -1600,6 +1719,68 @@ def _render_path_command(
         if needs_stroke:
             lines.append("false OP")
     return lines
+
+
+def _render_thin_axis_aligned_stroke_as_fill(
+    command: PathCommand,
+    color_space_defs: dict[str, str] | None = None,
+    pattern_variants: dict[tuple[str, str, tuple[float, ...]], str] | None = None,
+    pattern_space_ids: dict[str, str] | None = None,
+) -> list[str] | None:
+    stroke = command.stroke
+    if stroke is None or command.fill is not None or command.overprint:
+        return None
+    if stroke.line_join != 0 or stroke.dash or not (0.0 < stroke.line_width <= 1.0):
+        return None
+    if command.stroke_opacity != 1.0 or command.fill_opacity != 1.0:
+        return None
+    stroke_paint = command.stroke_paint or command.fill
+    if stroke_paint is None:
+        return None
+    rect = _thin_axis_aligned_stroke_rect(command.path, stroke)
+    if rect is None:
+        return None
+    x0, y0, width, height = rect
+    lines = [
+        f"{_format_number(x0)} {_format_number(y0)} {_format_number(width)} {_format_number(height)} re",
+    ]
+    lines.extend(
+        _render_paint(
+            stroke_paint,
+            is_stroke=False,
+            color_space_defs=color_space_defs,
+            pattern_variants=pattern_variants,
+            pattern_space_ids=pattern_space_ids,
+        )
+    )
+    lines.append("f")
+    return lines
+
+
+def _thin_axis_aligned_stroke_rect(
+    path: Path,
+    stroke: StrokeStyle,
+) -> tuple[float, float, float, float] | None:
+    if len(path.segments) != 2:
+        return None
+    move, line = path.segments
+    if move.kind != "move" or line.kind != "line":
+        return None
+    _validate_points(move, 1)
+    _validate_points(line, 1)
+    start = move.points[0]
+    end = line.points[0]
+    if start.x != end.x and start.y != end.y:
+        return None
+    half = stroke.line_width / 2.0
+    extend = half if stroke.line_cap == 2 else 0.0
+    if start.y == end.y:
+        x_min = min(start.x, end.x) - extend
+        x_max = max(start.x, end.x) + extend
+        return (x_min, start.y - half, x_max - x_min, stroke.line_width)
+    y_min = min(start.y, end.y) - extend
+    y_max = max(start.y, end.y) + extend
+    return (start.x - half, y_min, stroke.line_width, y_max - y_min)
 
 
 def _render_text_command(
@@ -1765,9 +1946,15 @@ def _render_segment(segment: PathSegment) -> list[str]:
 
 
 def _use_stroke_adjustment(command: PathCommand) -> bool:
+    return _should_stroke_adjust(command)
+
+
+def _should_stroke_adjust(command: PathCommand) -> bool:
     stroke = command.stroke
-    if stroke is None or not (0.0 < stroke.line_width < 0.25):
+    if stroke is None or not (0.0 < stroke.line_width <= 1.0):
         return False
+    if _path_is_axis_aligned_lines(command.path):
+        return True
     if not _path_is_closed(command.path):
         return False
     bbox = _path_bbox(command.path)
@@ -1780,6 +1967,27 @@ def _use_stroke_adjustment(command: PathCommand) -> bool:
 
 def _path_is_closed(path: Path) -> bool:
     return any(segment.kind == "close" for segment in path.segments)
+
+
+def _path_is_axis_aligned_lines(path: Path) -> bool:
+    current: Point | None = None
+    saw_line = False
+    for segment in path.segments:
+        if segment.kind == "move":
+            _validate_points(segment, 1)
+            current = segment.points[0]
+            continue
+        if segment.kind != "line":
+            return False
+        if current is None:
+            return False
+        _validate_points(segment, 1)
+        target = segment.points[0]
+        if current.x != target.x and current.y != target.y:
+            return False
+        current = target
+        saw_line = True
+    return saw_line
 
 
 def _path_bbox(path: Path) -> tuple[float, float, float, float] | None:

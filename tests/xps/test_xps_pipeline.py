@@ -1,14 +1,26 @@
 import sys
 from io import BytesIO
 from pathlib import Path
+import re
 import unittest
 from zipfile import ZipFile
 from xml.etree import ElementTree as ET
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
 
-from aspose.page.common.render_model import ImageCommand, Matrix, RenderModelBuilder, PathCommand
-from aspose.page.xps.images import decode_png
+from aspose.page.common.render_model import (
+    ClipCommand,
+    ImageCommand,
+    Matrix,
+    PathCommand,
+    RenderModelBuilder,
+    StateRestoreCommand,
+    StateSaveCommand,
+    TextCommand,
+)
+from aspose.page.xps.document import XpsDocument
+from aspose.page.xps.images import decode_jpeg, decode_png
+from aspose.page.xps.output import _build_xps_render_document, _job_media_size_points
 from aspose.page.xps.package import XpsPackage
 from aspose.page.xps.parser import XpsParser
 from aspose.page.xps.render import (
@@ -21,6 +33,7 @@ from aspose.page.xps.render import (
 )
 from aspose.page.xps.images import XpsImageStore
 from aspose.page.image.skia_raster_writer import _apply_soft_mask_to_rgba
+from aspose.page.ps.output import ImageSaveOptions
 
 
 def _build_xps_package() -> bytes:
@@ -64,6 +77,40 @@ def _palette_png_4bit() -> bytes:
     idat = chunk(b"IDAT", zlib.compress(bytes([0x00, 0x01])))
     iend = chunk(b"IEND", b"")
     return signature + ihdr + plte + trns + idat + iend
+
+
+def _grayscale_png_1bit() -> bytes:
+    def chunk(chunk_type: bytes, payload: bytes) -> bytes:
+        import struct
+        import zlib
+
+        return (
+            struct.pack(">I", len(payload))
+            + chunk_type
+            + payload
+            + struct.pack(">I", zlib.crc32(chunk_type + payload) & 0xFFFFFFFF)
+        )
+
+    import struct
+    import zlib
+
+    signature = b"\x89PNG\r\n\x1a\n"
+    ihdr = chunk(b"IHDR", struct.pack(">IIBBBBB", 2, 1, 1, 0, 0, 0, 0))
+    # Filter byte 0, then packed 1-bit pixels: 0 (black), 1 (white).
+    idat = chunk(b"IDAT", zlib.compress(bytes([0x00, 0x40])))
+    iend = chunk(b"IEND", b"")
+    return signature + ihdr + idat + iend
+
+
+def _grayscale_jpeg() -> bytes:
+    try:
+        from PIL import Image  # type: ignore
+    except Exception as exc:  # pragma: no cover - depends on environment
+        raise unittest.SkipTest("Pillow not installed") from exc
+    image = Image.new("L", (3, 2), color=180)
+    buffer = BytesIO()
+    image.save(buffer, format="JPEG", dpi=(96, 96))
+    return buffer.getvalue()
 
 
 def _build_pieced_package() -> bytes:
@@ -147,6 +194,29 @@ def _build_xps_package_with_transform_resource() -> bytes:
     return buffer.getvalue()
 
 
+def _build_xps_package_with_child_render_transform() -> bytes:
+    fdseq = """<FixedDocumentSequence xmlns=\"http://schemas.microsoft.com/xps/2005/06\">
+<DocumentReference Source=\"Documents/1/FixedDoc.fdoc\" />
+</FixedDocumentSequence>"""
+    fdoc = """<FixedDocument xmlns=\"http://schemas.microsoft.com/xps/2005/06\">
+<PageContent Source=\"Pages/1.fpage\" />
+</FixedDocument>"""
+    fpage = """<FixedPage xmlns=\"http://schemas.microsoft.com/xps/2005/06\" Width=\"20\" Height=\"20\">
+<Canvas>
+  <Canvas.RenderTransform>
+    <MatrixTransform Matrix=\"2,0,0,2,0,0\" />
+  </Canvas.RenderTransform>
+  <Path Data=\"M 1,1 L 3,1\" Stroke=\"#000000\" StrokeThickness=\"1\" />
+</Canvas>
+</FixedPage>"""
+    buffer = BytesIO()
+    with ZipFile(buffer, "w") as zip_file:
+        zip_file.writestr("FixedDocSeq.fdseq", fdseq)
+        zip_file.writestr("Documents/1/FixedDoc.fdoc", fdoc)
+        zip_file.writestr("Documents/1/Pages/1.fpage", fpage)
+    return buffer.getvalue()
+
+
 def _build_xps_package_with_arc_geometry() -> bytes:
     fdseq = """<FixedDocumentSequence xmlns=\"http://schemas.microsoft.com/xps/2005/06\">
 <DocumentReference Source=\"Documents/1/FixedDoc.fdoc\" />
@@ -188,6 +258,63 @@ def _build_xps_package_with_scaled_dashed_path() -> bytes:
         zip_file.writestr("FixedDocSeq.fdseq", fdseq)
         zip_file.writestr("Documents/1/FixedDoc.fdoc", fdoc)
         zip_file.writestr("Documents/1/Pages/1.fpage", fpage)
+    return buffer.getvalue()
+
+
+def _build_xps_package_with_parent_relative_image() -> bytes:
+    fdseq = """<FixedDocumentSequence xmlns=\"http://schemas.microsoft.com/xps/2005/06\">
+<DocumentReference Source=\"Documents/1/FixedDoc.fdoc\" />
+</FixedDocumentSequence>"""
+    fdoc = """<FixedDocument xmlns=\"http://schemas.microsoft.com/xps/2005/06\">
+<PageContent Source=\"Pages/1.fpage\" />
+</FixedDocument>"""
+    fpage = """<FixedPage xmlns=\"http://schemas.microsoft.com/xps/2005/06\" Width=\"100\" Height=\"100\">
+<Path Data=\"M 0,0 L 10,0 L 10,10 L 0,10 Z\">
+  <Path.Fill>
+    <ImageBrush ImageSource=\"../Resources/Images/1.JPG\" Viewbox=\"0,0,1,1\" Viewport=\"0,0,1,1\" />
+  </Path.Fill>
+</Path>
+</FixedPage>"""
+    buffer = BytesIO()
+    with ZipFile(buffer, "w") as zip_file:
+        zip_file.writestr("FixedDocSeq.fdseq", fdseq)
+        zip_file.writestr("Documents/1/FixedDoc.fdoc", fdoc)
+        zip_file.writestr("Documents/1/Pages/1.fpage", fpage)
+        zip_file.writestr("Documents/1/Resources/Images/1.JPG", _grayscale_jpeg())
+    return buffer.getvalue()
+
+
+def _build_xps_package_with_landscape_job_print_ticket() -> bytes:
+    fdseq = """<FixedDocumentSequence xmlns="http://schemas.microsoft.com/xps/2005/06">
+<DocumentReference Source="Documents/1/FixedDoc.fdoc" />
+</FixedDocumentSequence>"""
+    fdoc = """<FixedDocument xmlns="http://schemas.microsoft.com/xps/2005/06">
+<PageContent Source="Pages/1.fpage" />
+</FixedDocument>"""
+    fpage = """<FixedPage xmlns="http://schemas.microsoft.com/xps/2005/06" Width="1122.5196850393702" Height="793.70078740157476">
+<Path Data="M 0,0 L 10,0 L 10,10 L 0,10 Z" Fill="#FF0000" />
+</FixedPage>"""
+    rels = """<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+<Relationship Id="rIdPT1" Type="http://schemas.microsoft.com/xps/2005/06/printticket" Target="MetaData/Job_PT.xml" />
+</Relationships>"""
+    ticket = """<psf:PrintTicket xmlns:psf="http://schemas.microsoft.com/windows/2003/08/printing/printschemaframework" xmlns:psk="http://schemas.microsoft.com/windows/2003/08/printing/printschemakeywords">
+<psf:Feature name="psk:PageMediaSize">
+  <psf:Option name="psk:ISOA4">
+    <psf:ScoredProperty name="psk:MediaSizeWidth"><psf:Value>210000</psf:Value></psf:ScoredProperty>
+    <psf:ScoredProperty name="psk:MediaSizeHeight"><psf:Value>297000</psf:Value></psf:ScoredProperty>
+  </psf:Option>
+</psf:Feature>
+<psf:Feature name="psk:PageOrientation">
+  <psf:Option name="psk:Landscape" />
+</psf:Feature>
+</psf:PrintTicket>"""
+    buffer = BytesIO()
+    with ZipFile(buffer, "w") as zip_file:
+        zip_file.writestr("FixedDocSeq.fdseq", fdseq)
+        zip_file.writestr("Documents/1/FixedDoc.fdoc", fdoc)
+        zip_file.writestr("Documents/1/Pages/1.fpage", fpage)
+        zip_file.writestr("_rels/FixedDocSeq.fdseq.rels", rels)
+        zip_file.writestr("MetaData/Job_PT.xml", ticket)
     return buffer.getvalue()
 
 
@@ -291,6 +418,24 @@ class TestXpsPipeline(unittest.TestCase):
             self.assertGreater(command.matrix.e, 0.0)
             self.assertGreater(command.matrix.f, 0.0)
 
+    def test_child_render_transform_element(self) -> None:
+        data = _build_xps_package_with_child_render_transform()
+        package = XpsPackage.from_bytes(data)
+        builder = RenderModelBuilder()
+        store = XpsImageStore()
+        renderer = XpsRenderer(builder, store)
+        renderer.set_package(package)
+        renderer.set_current_part("/Documents/1/Pages/1.fpage")
+        renderer.render_fixed_page(package.read("/Documents/1/Pages/1.fpage"))
+        command = builder.document().pages[0].commands[0]
+        if isinstance(command, PathCommand):
+            first_point = command.path.segments[0].points[0]
+            self.assertAlmostEqual(first_point.x, 1.5, places=6)
+            self.assertAlmostEqual(first_point.y, 13.5, places=6)
+        else:
+            self.assertIsInstance(command, ImageCommand)
+            self.assertGreater(command.matrix.a, 0.0)
+
     def test_image_brush_pattern_uses_viewport_geometry(self) -> None:
         package = XpsPackage.from_bytes(_build_minimal_image_package())
         builder = RenderModelBuilder()
@@ -318,6 +463,33 @@ class TestXpsPipeline(unittest.TestCase):
         self.assertAlmostEqual(image_command.matrix.a, 128.0, places=6)
         self.assertAlmostEqual(image_command.matrix.d, -96.0, places=6)
         self.assertAlmostEqual(image_command.matrix.f, 96.0, places=6)
+
+    def test_image_brush_pattern_applies_paint_transform_once(self) -> None:
+        package = XpsPackage.from_bytes(_build_minimal_image_package())
+        builder = RenderModelBuilder()
+        store = XpsImageStore()
+        renderer = XpsRenderer(builder, store)
+        renderer.set_package(package)
+        brush = ET.fromstring(
+            """<ImageBrush xmlns="http://schemas.microsoft.com/xps/2005/06"
+                ImageSource="/Images/test.png"
+                Viewbox="0,0,258.24,56.64"
+                Viewport="50,20,193.68,42.48" />"""
+        )
+
+        paint = _image_brush_to_pattern(
+            brush,
+            builder,
+            renderer,
+            paint_transform=Matrix(0.525, 0.0, 0.0, -0.525, 0.0, 792.0),
+        )
+        self.assertIsNotNone(paint)
+        pattern = builder.document().resources.patterns[paint.value.pattern_id]
+        self.assertEqual(pattern.bbox, (0.0, 0.0, 193.68, 42.48))
+        self.assertAlmostEqual(pattern.matrix[0], 0.525, places=6)
+        self.assertAlmostEqual(pattern.matrix[3], -0.525, places=6)
+        self.assertAlmostEqual(pattern.matrix[4], 26.25, places=6)
+        self.assertAlmostEqual(pattern.matrix[5], 781.5, places=6)
 
     def test_apply_soft_mask_to_rgba(self) -> None:
         rgba = bytearray([10, 20, 30, 255, 40, 50, 60, 255])
@@ -420,6 +592,177 @@ class TestXpsPipeline(unittest.TestCase):
         self.assertEqual(resource.height, 1)
         self.assertEqual(resource.data, bytes([255, 0, 0, 0, 255, 0]))
         self.assertEqual(resource.soft_mask, bytes([255, 64]))
+
+    def test_decode_png_grayscale_1bit(self) -> None:
+        resource = decode_png(_grayscale_png_1bit())
+        self.assertEqual(resource.width, 2)
+        self.assertEqual(resource.height, 1)
+        self.assertEqual(resource.data, bytes([0, 0, 0, 255, 255, 255]))
+        self.assertIsNone(resource.soft_mask)
+
+    def test_decode_jpeg_grayscale_preserves_devicegray(self) -> None:
+        resource = decode_jpeg(_grayscale_jpeg())
+        self.assertEqual(resource.width, 3)
+        self.assertEqual(resource.height, 2)
+        self.assertEqual(resource.color_space, "DeviceGray")
+        self.assertEqual(resource.filter, "DCTDecode")
+
+    def test_parent_relative_image_brush_part_is_resolved(self) -> None:
+        package = XpsPackage.from_bytes(_build_xps_package_with_parent_relative_image())
+        builder = RenderModelBuilder()
+        store = XpsImageStore()
+        renderer = XpsRenderer(builder, store)
+        renderer.set_package(package)
+        renderer.set_current_part("/Documents/1/Pages/1.fpage")
+        renderer.render_fixed_page(package.read("/Documents/1/Pages/1.fpage"))
+        doc = builder.document()
+        self.assertEqual(len(doc.pages), 1)
+        self.assertEqual(len(store._images), 1)
+
+    def test_job_media_size_points_honors_landscape_orientation(self) -> None:
+        document = XpsDocument.from_bytes(_build_xps_package_with_landscape_job_print_ticket())
+
+        media_size = _job_media_size_points(document)
+
+        self.assertIsNotNone(media_size)
+        assert media_size is not None
+        self.assertAlmostEqual(media_size[0], 841.8897637795, places=6)
+        self.assertAlmostEqual(media_size[1], 595.2755905512, places=6)
+
+    def test_38976_job_landscape_ticket_keeps_landscape_page_size(self) -> None:
+        document = XpsDocument.from_file("testdata/xps/integration/38976.xps")
+
+        media_size = _job_media_size_points(document)
+        render_doc, _ = _build_xps_render_document(document)
+
+        self.assertEqual(len(render_doc.pages), 1)
+        self.assertIsNotNone(media_size)
+        assert media_size is not None
+        self.assertAlmostEqual(media_size[0], 841.8897637795, places=6)
+        self.assertAlmostEqual(media_size[1], 595.2755905512, places=6)
+        self.assertAlmostEqual(render_doc.pages[0].width, 841.8897637795, places=6)
+        self.assertAlmostEqual(render_doc.pages[0].height, 595.2755905512, places=6)
+
+    def test_38976_public_outputs_keep_landscape_page_size(self) -> None:
+        document = XpsDocument.from_file("testdata/xps/integration/38976.xps")
+
+        pdf_bytes = document.to_pdf()
+        page_images = document.to_images(ImageSaveOptions(format="png", dpi=300))
+
+        match = re.search(rb"/MediaBox \[0 0 ([0-9.]+) ([0-9.]+)\]", pdf_bytes)
+        self.assertIsNotNone(match)
+        assert match is not None
+        self.assertEqual(match.group(1), b"842")
+        self.assertEqual(match.group(2), b"595.5")
+        self.assertEqual(len(page_images), 1)
+        try:
+            from PIL import Image  # type: ignore
+        except Exception as exc:  # pragma: no cover - depends on environment
+            raise unittest.SkipTest("Pillow not installed") from exc
+        with Image.open(BytesIO(page_images[0])) as image:
+            self.assertEqual(image.size, (3507, 2480))
+
+    def test_canvas_opacity_mask_is_rasterized_as_masked_image(self) -> None:
+        package = XpsPackage.from_bytes(Path("testdata/xps/integration/canvas-opacity-mask.xps").read_bytes())
+        builder = RenderModelBuilder()
+        store = XpsImageStore()
+        renderer = XpsRenderer(builder, store)
+        renderer.set_package(package)
+        renderer.set_current_part("/Documents/1/Pages/1.fpage")
+        renderer.render_fixed_page(package.read("/Documents/1/Pages/1.fpage"))
+
+        page = builder.document().pages[0]
+        images = [command for command in page.commands if isinstance(command, ImageCommand)]
+
+        self.assertTrue(images)
+        masked = store.get(images[-1].image_id)
+        self.assertIsNotNone(masked.soft_mask)
+
+    def test_glyphs_opacity_mask_is_rasterized_as_masked_image(self) -> None:
+        package = XpsPackage.from_bytes(Path("testdata/xps/integration/glyphs-opacity-mask.xps").read_bytes())
+        builder = RenderModelBuilder()
+        store = XpsImageStore()
+        renderer = XpsRenderer(builder, store)
+        renderer.set_package(package)
+        renderer.set_current_part("/Documents/1/Pages/1.fpage")
+        renderer.render_fixed_page(package.read("/Documents/1/Pages/1.fpage"))
+
+        page = builder.document().pages[0]
+        images = [command for command in page.commands if isinstance(command, ImageCommand)]
+
+        self.assertTrue(images)
+        masked = store.get(images[-1].image_id)
+        self.assertIsNotNone(masked.soft_mask)
+
+    def test_example_page1_clipped_glyphs_emit_clip_commands(self) -> None:
+        package = XpsPackage.from_bytes(Path("testdata/xps/integration/example.xps").read_bytes())
+        builder = RenderModelBuilder()
+        store = XpsImageStore()
+        renderer = XpsRenderer(builder, store)
+        renderer.set_package(package)
+        renderer.set_current_part("/Documents/1/Pages/1.fpage")
+        renderer.render_fixed_page(package.read("/Documents/1/Pages/1.fpage"))
+
+        page = builder.document().pages[0]
+        commands = page.commands
+        target_index = next(
+            index
+            for index, command in enumerate(commands)
+            if isinstance(command, TextCommand) and command.text == "Fibers for Food Service Uniforms"
+        )
+        self.assertIsInstance(commands[target_index - 2], StateSaveCommand)
+        self.assertIsInstance(commands[target_index - 1], ClipCommand)
+        self.assertIsInstance(commands[target_index + 1], StateRestoreCommand)
+
+    def test_language_logo_path_clip_wraps_image_brush_fill(self) -> None:
+        package = XpsPackage.from_bytes(Path("testdata/xps/integration/language.xps").read_bytes())
+        builder = RenderModelBuilder()
+        store = XpsImageStore()
+        renderer = XpsRenderer(builder, store)
+        renderer.set_package(package)
+        renderer.set_current_part("/Documents/1/Pages/1.fpage")
+        renderer.render_fixed_page(package.read("/Documents/1/Pages/1.fpage"))
+
+        commands = builder.document().pages[0].commands
+        target_index = next(
+            index
+            for index, command in enumerate(commands)
+            if isinstance(command, ImageCommand) and command.width == 27 and command.height == 55
+        )
+        self.assertIsInstance(commands[target_index - 2], StateSaveCommand)
+        self.assertIsInstance(commands[target_index - 1], ClipCommand)
+        self.assertIsInstance(commands[target_index + 1], StateRestoreCommand)
+
+    def test_lineargradientbrush3_reflect_fill_is_rasterized_as_image(self) -> None:
+        package = XpsPackage.from_bytes(Path("testdata/xps/integration/LinearGradientBrush_3.xps").read_bytes())
+        builder = RenderModelBuilder()
+        store = XpsImageStore()
+        renderer = XpsRenderer(builder, store)
+        renderer.set_package(package)
+        renderer.set_current_part("/Documents/1/Pages/1.fpage")
+        renderer.render_fixed_page(package.read("/Documents/1/Pages/1.fpage"))
+
+        commands = builder.document().pages[0].commands
+        self.assertTrue(any(isinstance(command, ImageCommand) for command in commands))
+
+    def test_example_page1_indices_text_uses_exact_glyph_placement(self) -> None:
+        package = XpsPackage.from_bytes(Path("testdata/xps/integration/example.xps").read_bytes())
+        builder = RenderModelBuilder()
+        store = XpsImageStore()
+        renderer = XpsRenderer(builder, store)
+        renderer.set_package(package)
+        renderer.set_current_part("/Documents/1/Pages/1.fpage")
+        renderer.render_fixed_page(package.read("/Documents/1/Pages/1.fpage"))
+
+        page = builder.document().pages[0]
+        run = [
+            command
+            for command in page.commands
+            if isinstance(command, TextCommand) and command.text in set("Executive Summary")
+        ]
+        joined = "".join(command.text for command in run)
+        self.assertIn("Executive Summary", joined)
+        self.assertTrue(all(command.pdf_text_adjustments is None for command in run))
 
     def test_scaled_xps_path_scales_stroke_width_and_dash(self) -> None:
         data = _build_xps_package_with_scaled_dashed_path()

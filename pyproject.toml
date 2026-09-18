@@ -4,11 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "aspose-page-foss"
-version = "0.1.0"
+dynamic = ["version"]
 description = "Aspose.Page FOSS for Python"
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = []
+dependencies = ["skia-python"]
 
 [project.optional-dependencies]
 test = ["pypdf", "pypdfium2", "Pillow"]

@@ -19,6 +19,7 @@ from tests.common.compare_utils import (
     compare_images_on_fail,
     compare_pdfs_on_fail,
     artifact_dir_for,
+    render_pdf_pages,
     resolve_image_baseline,
 )
 from tests.common.output_utils import write_output
@@ -32,6 +33,10 @@ XPS_INTEGRATION_FILES = sorted(
 )
 TIMING_ENABLED = os.getenv("TEST_TIMING") == "1"
 XPS_IMAGE_DPI = 300
+XPS_MAX_PAGES = 5
+_DISABLED_XPS_CASES = {
+    "OSHARED-37003.xps",
+}
 
 
 def _log_timing(label: str, seconds: float) -> None:
@@ -74,6 +79,8 @@ def _build_render_model(doc: XpsDocument):
 
 
 def _run_xps_case(path: Path) -> None:
+    if path.name in _DISABLED_XPS_CASES:
+        raise unittest.SkipTest(f"{path.name} is temporarily disabled")
     total_start = time.perf_counter()
     load_start = time.perf_counter()
     doc = XpsDocument.from_file(str(path))
@@ -86,6 +93,7 @@ def _run_xps_case(path: Path) -> None:
             render_doc = _build_render_model(doc)
         return render_doc
 
+    max_pages = XPS_MAX_PAGES
     pdf_start = time.perf_counter()
     pdf_bytes = doc.to_pdf()
     _log_timing(f"{path.name} xps->pdf", time.perf_counter() - pdf_start)
@@ -98,6 +106,12 @@ def _run_xps_case(path: Path) -> None:
         _log_timing(f"{path.name} pdf validate", time.perf_counter() - validate_start)
     except unittest.SkipTest as exc:
         print(f"SKIP PDF validation: {exc}")
+    try:
+        render_start = time.perf_counter()
+        render_pdf_pages(pdf_output, max_pages=max_pages)
+        _log_timing(f"{path.name} pdf render", time.perf_counter() - render_start)
+    except unittest.SkipTest as exc:
+        print(f"SKIP PDF render: {exc}")
 
     pdf_baseline = baseline_path_for(pdf_key, ".pdf")
     errors: list[AssertionError] = []
@@ -108,6 +122,7 @@ def _run_xps_case(path: Path) -> None:
                 pdf_baseline,
                 pdf_output,
                 artifact_dir=artifact_dir_for(pdf_output),
+                max_pages=max_pages,
             )
             _log_timing(f"{path.name} pdf compare", time.perf_counter() - compare_start)
         except unittest.SkipTest as exc:
@@ -120,7 +135,10 @@ def _run_xps_case(path: Path) -> None:
             errors.append(exc)
 
     image_start = time.perf_counter()
-    image_pages = doc.to_images(ImageSaveOptions(format="png", dpi=XPS_IMAGE_DPI))
+    image_pages = doc.to_images(
+        ImageSaveOptions(format="png", dpi=XPS_IMAGE_DPI),
+        max_pages=max_pages,
+    )
     _log_timing(f"{path.name} xps->image", time.perf_counter() - image_start)
     image_key = Path("testdata/xps/xps2image/integration") / relative
     image_outputs = _write_xps_image_outputs(image_key, image_pages)

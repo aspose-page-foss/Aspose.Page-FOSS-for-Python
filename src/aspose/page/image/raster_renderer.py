@@ -93,12 +93,14 @@ class RasterRenderer:
         dpi: int = 72,
         font_resolver: FontResolver | None = None,
         background: tuple[int, int, int, int] = (255, 255, 255, 255),
+        preserve_fractional_page_size: bool = False,
     ) -> None:
         if dpi <= 0:
             raise ValueError("dpi must be positive")
         self._dpi = dpi
         self._font_resolver = font_resolver
         self._background = background
+        self._preserve_fractional_page_size = preserve_fractional_page_size
         self._font_cache: dict[str, TrueTypeFont] = {}
         self._trace_enabled = False
         self._trace_stats: dict[str, float] | None = None
@@ -146,7 +148,12 @@ class RasterRenderer:
         scale = self._dpi / 72.0
         has_curve, min_stroke_px = _analyze_page_for_supersample(page, scale)
         supersample = _choose_supersample(has_curve, min_stroke_px)
-        width_px, height_px = _page_pixel_size(page.width, page.height, scale)
+        width_px, height_px = _page_pixel_size(
+            page.width,
+            page.height,
+            scale,
+            preserve_fractional=self._preserve_fractional_page_size,
+        )
         surface = RasterSurface.create(
             width_px * supersample,
             height_px * supersample,
@@ -998,7 +1005,21 @@ def _palatino_baseline_shift(font_ref: str, font_size: float) -> float:
     return font_size * factor
 
 
-def _page_pixel_size(width_pt: float, height_pt: float, scale: float) -> tuple[int, int]:
+def _page_pixel_size(
+    width_pt: float,
+    height_pt: float,
+    scale: float,
+    preserve_fractional: bool = False,
+) -> tuple[int, int]:
+    if preserve_fractional:
+        snapped = _snap_a4_approx_page_pixel_size(width_pt, height_pt, scale)
+        if snapped is not None:
+            return snapped
+        width_value = width_pt * scale
+        height_value = height_pt * scale
+        width_px = max(1, int(width_value - 1e-6))
+        height_px = max(1, int(height_value - 1e-6))
+        return (width_px, height_px)
     width_px = max(1, int(round(_normalize_page_points(width_pt) * scale)))
     height_px = max(1, int(round(_normalize_page_points(height_pt) * scale)))
     return width_px, height_px
@@ -1009,6 +1030,30 @@ def _normalize_page_points(value: float) -> float:
     if abs(value - rounded) < 1e-6:
         return float(rounded)
     return float(int(value))
+
+
+def _snap_a4_approx_page_pixel_size(
+    page_width: float,
+    page_height: float,
+    scale: float,
+) -> tuple[int, int] | None:
+    a4_portrait_approx = (595.5, 842.25)
+    a4_landscape_approx = (842.25, 595.5)
+    tolerance = 0.3
+    dpi = scale * 72.0
+    a4_width_px = max(1, int((210.0 / 25.4) * dpi))
+    a4_height_px = max(1, int((297.0 / 25.4) * dpi))
+    if (
+        abs(page_width - a4_portrait_approx[0]) <= tolerance
+        and abs(page_height - a4_portrait_approx[1]) <= tolerance
+    ):
+        return (a4_width_px, a4_height_px)
+    if (
+        abs(page_width - a4_landscape_approx[0]) <= tolerance
+        and abs(page_height - a4_landscape_approx[1]) <= tolerance
+    ):
+        return (a4_height_px, a4_width_px)
+    return None
 
 
 def _paint_to_rgba(paint: Paint) -> tuple[int, int, int, int] | None:

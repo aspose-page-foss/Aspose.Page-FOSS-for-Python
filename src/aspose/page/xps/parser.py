@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from xml.etree import ElementTree as ET
 
-from .package import XpsPackage
+from .package import XpsPackage, _normalize_part
 
 
 class XpsParser:
@@ -59,8 +59,8 @@ class XpsParser:
 
 def _resolve_part(base_part: str, target: str) -> str:
     if target.startswith("/"):
-        return target
+        return _normalize_part(target)
     base = base_part.rsplit("/", 1)[0]
     if base == "":
-        return "/" + target
-    return f"{base}/{target}"
+        return _normalize_part(target)
+    return _normalize_part(f"{base}/{target}")

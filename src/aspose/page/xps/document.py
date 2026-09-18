@@ -9,7 +9,7 @@ from xml.etree import ElementTree as ET
 from zipfile import ZipFile
 
 from .editing import XpsDocumentBuilder, XpsFixedPage, XpsImage
-from .package import XpsPackage
+from .package import XpsPackage, _normalize_part
 from .parser import XpsParser
 from .serializer import serialize_document_sequence, serialize_fixed_page
 
@@ -122,23 +122,23 @@ class XpsDocument:
         scope_enum = PrintTicketScope(scope)
         remove_print_ticket(self.package, scope_enum, page_index)
 
-    def to_pdf(self, options: "PdfSaveOptions | None" = None) -> bytes:
+    def to_pdf(self, options: "PdfSaveOptions | None" = None, max_pages: int | None = None) -> bytes:
         """Convert the document to PDF bytes."""
         from .output import to_pdf
 
-        return to_pdf(self, options)
+        return to_pdf(self, options, max_pages=max_pages)
 
-    def to_image(self, options: "ImageSaveOptions") -> bytes:
+    def to_image(self, options: "ImageSaveOptions", max_pages: int | None = None) -> bytes:
         """Convert the document to raster image bytes."""
         from .output import to_image
 
-        return to_image(self, options)
+        return to_image(self, options, max_pages=max_pages)
 
-    def to_images(self, options: "ImageSaveOptions") -> list[bytes]:
+    def to_images(self, options: "ImageSaveOptions", max_pages: int | None = None) -> list[bytes]:
         """Convert the document to one raster image per fixed page."""
         from .output import to_images
 
-        return to_images(self, options)
+        return to_images(self, options, max_pages=max_pages)
 
 
 def _parse_fixed_page(xml: bytes) -> XpsFixedPage:
@@ -212,11 +212,11 @@ def _walk_elements(elements: list[object]) -> list[object]:
 
 def _resolve_part(base_part: str, target: str) -> str:
     if target.startswith("/"):
-        return target
+        return _normalize_part(target)
     base = base_part.rsplit("/", 1)[0]
     if base == "":
-        return "/" + target
-    return f"{base}/{target}"
+        return _normalize_part(target)
+    return _normalize_part(f"{base}/{target}")
 
 
 def _write_package(parts: dict[str, bytes]) -> bytes:

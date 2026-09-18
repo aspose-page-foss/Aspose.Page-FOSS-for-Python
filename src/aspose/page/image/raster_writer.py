@@ -40,6 +40,7 @@ class RenderModelRasterWriter:
             dpi=options.dpi,
             font_resolver=font_resolver,
             background=background,
+            preserve_fractional_page_size=bool(getattr(options, "preserve_fractional_page_size", False)),
         )
         surface = renderer.render(document, page_index=0)
         if fmt == "png":

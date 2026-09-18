@@ -7,15 +7,18 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
 from aspose.page.common.render_model import (
     Matrix,
     Paint,
+    Path,
     Rect,
     PathCommand,
+    PathSegment,
+    Point,
     RenderDocument,
     RenderPage,
     StrokeStyle,
     TextCommand,
     rect_path,
 )
-from aspose.page.pdf.writer import PdfMetadata, PdfWriter
+from aspose.page.pdf.writer import PdfMetadata, PdfWriter, _use_stroke_adjustment
 
 
 class TestPdfWriter(unittest.TestCase):
@@ -114,6 +117,45 @@ class TestPdfWriter(unittest.TestCase):
         content = _first_stream(pdf)
         self.assertIn(b"0 1 0 rg", content)
         self.assertNotIn(b" k", content)
+
+    def test_stroke_adjustment_is_enabled_for_thin_axis_aligned_lines(self):
+        path = Path(
+            [
+                PathSegment("move", [Point(4.5, 650.625)]),
+                PathSegment("line", [Point(207.0, 650.625)]),
+            ]
+        )
+        stroke = StrokeStyle(0.75, 0, 0, 10.0, [], 0.0)
+        self.assertTrue(_use_stroke_adjustment(PathCommand(path=path, stroke=stroke, fill=None)))
+
+    def test_stroke_adjustment_stays_off_for_diagonal_lines(self):
+        path = Path(
+            [
+                PathSegment("move", [Point(4.5, 650.625)]),
+                PathSegment("line", [Point(207.0, 651.0)]),
+            ]
+        )
+        stroke = StrokeStyle(0.75, 0, 0, 10.0, [], 0.0)
+        self.assertFalse(_use_stroke_adjustment(PathCommand(path=path, stroke=stroke, fill=None)))
+
+    def test_thin_axis_aligned_stroke_serializes_as_filled_rect(self):
+        path = Path(
+            [
+                PathSegment("move", [Point(4.5, 650.625)]),
+                PathSegment("line", [Point(207.0, 650.625)]),
+            ]
+        )
+        stroke = StrokeStyle(0.75, 0, 0, 10.0, [], 0.0)
+        page = RenderPage(
+            300,
+            700,
+            [PathCommand(path=path, stroke=stroke, fill=None, stroke_paint=Paint("DeviceRGB", (0, 0, 0)))],
+        )
+        pdf = PdfWriter(self.metadata, no_compression=True).write(RenderDocument([page]))
+        content = _first_stream(pdf)
+        self.assertIn(b"4.5 650.25 202.5 0.75 re", content)
+        self.assertIn(b"\nf\n", content)
+        self.assertNotIn(b"\nS\n", content)
 
 
 def _first_stream(pdf_bytes: bytes) -> bytes:

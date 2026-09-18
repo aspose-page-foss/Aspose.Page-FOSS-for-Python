@@ -41,15 +41,25 @@ def build_embedded_font(
 ) -> PdfEmbeddedFont | None:
     if not used_codes:
         return None
+    original_font_name = font_name
     font_name, embedded_glyph_id, glyph_map_overrides = _split_font_ref_glyph_id(font_name)
     if glyph_id_override is None:
         glyph_id_override = embedded_glyph_id
     if font_name in _STANDARD_FONTS:
         return None
-    candidate_names: list[str] = [font_name]
+    candidate_names: list[str] = [original_font_name]
+    if font_name != original_font_name:
+        candidate_names.append(font_name)
     allow_full_embed_on_subset_failure = False
-    embedded = resolver.get_embedded_type42(font_name)
-    type42_code_map = _extract_type42_code_to_gid(resolver, font_name)
+    embedded = None
+    type42_code_map: dict[int, int] = {}
+    for candidate in candidate_names:
+        embedded = resolver.get_embedded_type42(candidate)
+        if embedded is not None:
+            type42_code_map = _extract_type42_code_to_gid(resolver, candidate)
+            break
+    if not type42_code_map:
+        type42_code_map = _extract_type42_code_to_gid(resolver, font_name)
     if embedded is not None:
         data = embedded.data
         units_per_em = embedded.units_per_em
@@ -57,10 +67,13 @@ def build_embedded_font(
         allow_full_embed_on_subset_failure = True
     else:
         resolved = None
-        try:
-            resolved = resolver.resolve(font_name)
-        except Exception:
-            resolved = None
+        for candidate in candidate_names:
+            try:
+                resolved = resolver.resolve(candidate)
+            except Exception:
+                resolved = None
+            if resolved is not None:
+                break
 
         source = resolved
         if source is not None and source.descendant is not None and source.font_program is None:

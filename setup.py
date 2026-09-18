@@ -32,7 +32,7 @@ def build_setup_kwargs() -> dict[str, Any]:
     project = data["project"]
     return {
         "name": project["name"],
-        "version": project["version"],
+        "version": (ROOT / "local" / "Version.txt").read_text(encoding="utf-8").strip(),
         "description": project.get("description", ""),
         "long_description": (ROOT / "README.md").read_text(encoding="utf-8"),
         "long_description_content_type": "text/markdown",

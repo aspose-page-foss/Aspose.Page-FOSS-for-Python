@@ -11,12 +11,15 @@ from aspose.page.ps.output import ImageSaveOptions
 from aspose.page.ps.pdf_font_embed import build_embedded_font
 from aspose.page.xps.document import XpsDocument
 from aspose.page.xps.output import _build_xps_font_resolver
+from aspose.page.xps.output import _build_xps_render_document
 from aspose.page.xps.output import to_image, to_images
 from aspose.page.xps.output import to_pdf
 from aspose.page.image.skia_raster_writer import SkiaRasterWriter
 
 
 MB03_PATH = Path("testdata/xps/integration/mb03.xps")
+PAGEJAVA_87_PATH = Path("testdata/xps/integration/PAGEJAVA-87.xps")
+PATH_VARIANTS_PATH = Path("testdata/xps/integration/path-variants.xps")
 
 
 class _FakeSkiaWriter(SkiaRasterWriter):
@@ -143,6 +146,19 @@ class TestXpsOutputRules(unittest.TestCase):
         self.assertTrue(glyph_commands)
         self.assertTrue(any(command.glyph_id == 281 for command in glyph_commands))
         self.assertTrue(any(command.text == "T" for command in glyph_commands))
+
+    def test_page_scope_print_ticket_media_size_is_applied(self) -> None:
+        doc = XpsDocument.from_file(str(PAGEJAVA_87_PATH))
+        render_doc, _ = _build_xps_render_document(doc)
+        self.assertEqual(len(render_doc.pages), 1)
+        self.assertAlmostEqual(render_doc.pages[0].width, 793.76, places=2)
+
+    def test_page_scope_print_ticket_parameter_refs_are_applied(self) -> None:
+        doc = XpsDocument.from_file(str(PATH_VARIANTS_PATH))
+        render_doc, _ = _build_xps_render_document(doc)
+        self.assertEqual(len(render_doc.pages), 1)
+        self.assertAlmostEqual(render_doc.pages[0].width, 419.40, places=2)
+        self.assertAlmostEqual(render_doc.pages[0].height, 593.15, places=2)
 
 
 if __name__ == "__main__":

@@ -156,6 +156,7 @@ def compare_pdfs(
     actual: Path,
     artifact_dir: Path | None = None,
     image_compare_kwargs: dict | None = None,
+    max_pages: int | None = None,
 ) -> None:
     """Compare PDF by rendering pages to images and matching baseline PNGs.
 
@@ -173,10 +174,12 @@ def compare_pdfs(
         baseline_images = _baseline_pdf_images(_lowercase_parent(baseline))
     if not baseline_images:
         raise unittest.SkipTest("Baseline PDF images not found")
+    if max_pages is not None:
+        baseline_images = baseline_images[:max_pages]
 
     with tempfile.TemporaryDirectory(prefix="pdf-render-") as tmpdir:
         render_dir = Path(tmpdir)
-        _run_render(render_cmd, actual, render_dir)
+        _run_render(render_cmd, actual, render_dir, max_pages=max_pages)
         rendered = list(render_dir.glob("*.png"))
         if rendered:
             _cleanup_rendered_images(actual)
@@ -197,11 +200,33 @@ def compare_pdfs(
         )
 
 
+def render_pdf_pages(
+    actual: Path,
+    max_pages: int | None = None,
+) -> list[Path]:
+    """Render PDF pages to the standard output PNG names without comparing."""
+    raw_render = os.getenv("PDF_RENDER_CMD")
+    render_cmd = _normalize_command(raw_render)
+    if render_cmd is None and raw_render is None:
+        render_cmd = _default_pdf_render_cmd()
+    if not render_cmd:
+        raise unittest.SkipTest("PDF_RENDER_CMD not set")
+    with tempfile.TemporaryDirectory(prefix="pdf-render-") as tmpdir:
+        render_dir = Path(tmpdir)
+        _run_render(render_cmd, actual, render_dir, max_pages=max_pages)
+        rendered = list(render_dir.glob("*.png"))
+        if rendered:
+            _cleanup_rendered_images(actual)
+            rendered = _rename_rendered_images(sorted(rendered), actual)
+    return rendered
+
+
 def compare_pdfs_on_fail(
     baseline: Path,
     actual: Path,
     artifact_dir: Path | None = None,
     image_compare_kwargs: dict | None = None,
+    max_pages: int | None = None,
 ) -> None:
     """Compare PDFs and only write artifacts when a mismatch occurs."""
     try:
@@ -210,6 +235,7 @@ def compare_pdfs_on_fail(
             actual,
             artifact_dir=None,
             image_compare_kwargs=image_compare_kwargs,
+            max_pages=max_pages,
         )
     except AssertionError:
         if artifact_dir is not None:
@@ -218,6 +244,7 @@ def compare_pdfs_on_fail(
                 actual,
                 artifact_dir=artifact_dir,
                 image_compare_kwargs=image_compare_kwargs,
+                max_pages=max_pages,
             )
         raise
 
@@ -231,10 +258,9 @@ def _rename_rendered_images(rendered: list[Path], pdf_path: Path) -> list[Path]:
         if rendered[0] != target:
             shutil.move(str(rendered[0]), str(target))
         return [target]
-    pad = max(1, len(str(len(rendered))))
     results: list[Path] = []
     for index, path in enumerate(rendered, start=1):
-        target = pdf_path.with_name(f"{pdf_path.stem}.page-{index:0{pad}d}.png")
+        target = pdf_path.with_name(f"{pdf_path.stem}_{index}.png")
         if path != target:
             shutil.move(str(path), str(target))
         results.append(target)
@@ -246,6 +272,11 @@ def _cleanup_rendered_images(pdf_path: Path) -> None:
     if single.exists():
         try:
             single.unlink()
+        except OSError:
+            pass
+    for path in pdf_path.parent.glob(f"{pdf_path.stem}_*.png"):
+        try:
+            path.unlink()
         except OSError:
             pass
     for path in pdf_path.parent.glob(f"{pdf_path.stem}.page-*.png"):
@@ -728,7 +759,14 @@ def _top_tiles(tiles: dict[tuple[int, int], int], tile_size: int) -> list[dict[s
     return results
 
 
-def _run_render(command: str, input_path: Path, output_dir: Path) -> None:
+def _run_render(
+    command: str,
+    input_path: Path,
+    output_dir: Path,
+    max_pages: int | None = None,
+) -> None:
+    if max_pages is not None and "pdftoppm" in command:
+        command = command.replace("pdftoppm ", f"pdftoppm -f 1 -l {max_pages} ", 1)
     if "{input}" in command or "{output}" in command:
         formatted = command.format(input=str(input_path), output=str(output_dir))
         _run_command(formatted, [], "PDF render failed")

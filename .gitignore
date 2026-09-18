@@ -6,3 +6,15 @@ __pycache__/
 *.so
 test-out/
 .venv/
+local/
+dist/
+build/
+*.egg-info/
+.package-venv/
+.package-cache/
+.package-tools/
+.package-bin/
+build.sh
+verify.sh
+publish-test.sh
+publish.sh

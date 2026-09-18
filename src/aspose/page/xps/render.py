@@ -32,6 +32,7 @@ from ..common.render_model import (
     TextCommand,
 )
 from ..ps.ttf_outline import TrueTypeFont
+from ..ps.fonts import parse_ttf_metrics
 
 
 def _deobfuscate_xps_odttf_bytes(part_name: str, data: bytes) -> bytes:
@@ -54,6 +55,7 @@ def _deobfuscate_xps_odttf_bytes(part_name: str, data: bytes) -> bytes:
 from .images import (
     XpsImageResource,
     XpsImageStore,
+    decode_jpegxr,
     decode_jpeg,
     decode_png,
     decode_tiff,
@@ -103,6 +105,7 @@ class XpsRenderer:
         image_store: XpsImageStore,
         media_fit_size: tuple[float, float] | None = None,
         rasterize_solid_strokes: bool = False,
+        spread_gradient_mode: str = "default",
     ) -> None:
         self._builder = builder
         self._image_store = image_store
@@ -110,16 +113,21 @@ class XpsRenderer:
         self._current_part: str | None = None
         self._font_gid_to_code: dict[str, dict[int, int]] = {}
         self._font_cache: dict[str, TrueTypeFont] = {}
+        self._font_metric_cache: dict[str, tuple[float, dict[int, float]]] = {}
         self._opacity_image_cache: dict[tuple[str, int], str] = {}
         self._icc_profile_cache: dict[str, bytes] = {}
         self._media_fit_size = media_fit_size
         self._rasterize_solid_strokes = rasterize_solid_strokes
+        self._spread_gradient_mode = spread_gradient_mode
 
     def set_package(self, package: XpsPackage) -> None:
         self._package = package
 
     def set_current_part(self, part_name: str) -> None:
         self._current_part = part_name
+
+    def set_media_fit_size(self, media_fit_size: tuple[float, float] | None) -> None:
+        self._media_fit_size = media_fit_size
 
     def render_fixed_page(self, xml: bytes, resources: XpsResourceDictionary | None = None) -> None:
         """Render a FixedPage XML payload into the render model."""
@@ -170,6 +178,15 @@ class XpsRenderer:
                 package=self._package,
                 current_part=self._current_part,
             )
+            if (mask_brush := _extract_canvas_opacity_mask_brush(element)) is not None:
+                if _try_render_canvas_opacity_mask_as_image(
+                    element=element,
+                    resources=canvas_resources,
+                    builder=self._builder,
+                    renderer=self,
+                    paint_transform=combined,
+                ):
+                    return
             clip_data = element.get("Clip")
             if clip_data:
                 clip_path = _parse_path_data(clip_data, combined)
@@ -182,13 +199,23 @@ class XpsRenderer:
             return
         if tag == "Path":
             data = _extract_path_data(element, resources)
+            fill_path = None
+            stroke_path = None
             if data:
                 path = _parse_path_data(data, combined)
+                fill_path = path
+                stroke_path = path
             else:
                 geometry = _extract_path_geometry_element(element, resources)
                 if geometry is None:
                     return
-                path = _parse_path_geometry_element(geometry, combined)
+                fill_path, stroke_path = _parse_path_geometry_element_variants(geometry, combined)
+                path = fill_path or stroke_path or Path([])
+            clip_data = element.get("Clip")
+            if clip_data:
+                clip_path = _parse_path_data(clip_data, combined)
+                self._builder.save_state()
+                self._builder.clip(clip_path, _extract_fill_rule(element, resources))
             fill_rule = _extract_fill_rule(element, resources)
             path_bbox = _path_bbox(path)
             fill_value = _extract_paint_value(element, "Fill")
@@ -214,10 +241,13 @@ class XpsRenderer:
             opacity = _parse_float(element.get("Opacity"))
             if opacity is not None:
                 opacity = _clamp(opacity, 0.0, 1.0)
+            mask_brush = _extract_opacity_mask_brush(element) if fill_path is not None else None
             if (
-                mask_brush := _extract_opacity_mask_brush(element)
-            ) is not None and stroke is None and _try_render_masked_solid_fill_as_image(
-                path=path,
+                fill_path is not None
+                and mask_brush is not None
+                and stroke is None
+                and _try_render_masked_solid_fill_as_image(
+                path=fill_path,
                 path_bbox=path_bbox,
                 fill_brush=fill_brush,
                 mask_brush=mask_brush,
@@ -225,7 +255,10 @@ class XpsRenderer:
                 renderer=self,
                 paint_transform=combined,
                 opacity=opacity if opacity is not None else 1.0,
+                )
             ):
+                if clip_data:
+                    self._builder.restore_state()
                 return
             fill_opacity = 1.0
             stroke_opacity = 1.0
@@ -257,13 +290,53 @@ class XpsRenderer:
             if opacity is not None:
                 fill_opacity *= opacity
                 stroke_opacity *= opacity
+            if (
+                mask_brush is None
+                and fill_path is not None
+                and fill_brush is not None
+                and _try_render_spread_gradient_fill_as_image(
+                    path=fill_path,
+                    path_bbox=path_bbox,
+                    fill_brush=fill_brush,
+                    builder=self._builder,
+                    renderer=self,
+                    paint_transform=combined,
+                    opacity=fill_opacity,
+                )
+            ):
+                fill = None
+                fill_opacity = 1.0
+                if stroke is None:
+                    if clip_data:
+                        self._builder.restore_state()
+                    return
+            if (
+                fill_path is not None
+                and
+                fill_brush is not None
+                and _try_render_image_brush_fill_as_image(
+                    path=fill_path,
+                    path_bbox=path_bbox,
+                    fill_brush=fill_brush,
+                    builder=self._builder,
+                    renderer=self,
+                    paint_transform=combined,
+                    opacity=fill_opacity,
+                )
+            ):
+                fill = None
+                fill_opacity = 1.0
+                if stroke is None:
+                    if clip_data:
+                        self._builder.restore_state()
+                    return
             stroke_style = None
             if stroke is not None:
                 base_thickness = (_parse_float(element.get("StrokeThickness")) or 1.0) * XPS_UNIT_SCALE
                 stroke_scale = _stroke_scale_from_matrix(combined) / XPS_UNIT_SCALE
                 thickness = base_thickness * stroke_scale
-                if fill is None and stroke_brush is not None and _try_render_stroked_brush_as_image(
-                    path=path,
+                if stroke_path is not None and fill is None and stroke_brush is not None and _try_render_stroked_brush_as_image(
+                    path=stroke_path,
                     stroke_brush=stroke_brush,
                     stroke_width=thickness,
                     builder=self._builder,
@@ -271,6 +344,8 @@ class XpsRenderer:
                     paint_transform=combined,
                     opacity=(opacity if opacity is not None else 1.0),
                 ):
+                    if clip_data:
+                        self._builder.restore_state()
                     return
                 dash = _parse_xps_dash_pattern(element, thickness)
                 stroke_style = StrokeStyle(
@@ -281,15 +356,38 @@ class XpsRenderer:
                     dash=dash,
                     dash_phase=_parse_xps_dash_phase(element, thickness),
                 )
-            self._builder.add_path(
-                path,
-                stroke_style,
-                fill,
-                fill_rule=fill_rule,
-                stroke_paint=stroke,
-                fill_opacity=fill_opacity,
-                stroke_opacity=stroke_opacity,
-            )
+            if fill_path is not None and fill is not None:
+                self._builder.add_path(
+                    fill_path,
+                    None,
+                    fill,
+                    fill_rule=fill_rule,
+                    stroke_paint=None,
+                    fill_opacity=fill_opacity,
+                    stroke_opacity=1.0,
+                )
+            if stroke_path is not None and stroke is not None:
+                self._builder.add_path(
+                    stroke_path,
+                    stroke_style,
+                    None,
+                    fill_rule=fill_rule,
+                    stroke_paint=stroke,
+                    fill_opacity=1.0,
+                    stroke_opacity=stroke_opacity,
+                )
+            if fill_path is None and stroke_path is None:
+                self._builder.add_path(
+                    path,
+                    stroke_style,
+                    fill,
+                    fill_rule=fill_rule,
+                    stroke_paint=stroke,
+                    fill_opacity=fill_opacity,
+                    stroke_opacity=stroke_opacity,
+                )
+            if clip_data:
+                self._builder.restore_state()
             return
         if tag == "Glyphs":
             text = html.unescape(element.get("UnicodeString") or "")
@@ -325,6 +423,12 @@ class XpsRenderer:
             fill_alpha = _brush_alpha(_extract_paint_value(element, "Fill"), resources)
             if fill_alpha is not None:
                 fill_opacity *= fill_alpha
+            mask_brush = _extract_glyphs_opacity_mask_brush(element)
+            clip_data = element.get("Clip")
+            if clip_data:
+                clip_path = _parse_path_data(clip_data, combined)
+                self._builder.save_state()
+                self._builder.clip(clip_path, _extract_fill_rule(element, resources))
             is_sideways = _is_true(element.get("IsSideways"))
             style = (element.get("StyleSimulations") or "").strip()
             if style == "ItalicSimulation" or style == "BoldItalicSimulation":
@@ -332,6 +436,28 @@ class XpsRenderer:
 
             # Handle per-glyph placement for sideways and Indices-based metrics.
             rtl = (bidi_level % 2) == 1
+            if (
+                mask_brush is not None
+                and not is_sideways
+                and not rtl
+                and not parsed_indices
+                and style == ""
+                and _try_render_glyphs_opacity_mask_as_image(
+                    text=text,
+                    font_ref=font_ref,
+                    font_size=font_size,
+                    matrix=run_matrix,
+                    fill=fill,
+                    fill_opacity=fill_opacity,
+                    mask_brush=mask_brush,
+                    builder=self._builder,
+                    renderer=self,
+                    paint_transform=brush_transform,
+                )
+            ):
+                if clip_data:
+                    self._builder.restore_state()
+                return
             if rtl and (not is_sideways) and (not _indices_have_metrics(parsed_indices)):
                 # Keep RTL runs as one text command to preserve engine-native
                 # spacing while anchoring the run at the right-side origin.
@@ -346,23 +472,6 @@ class XpsRenderer:
                         rtl_matrix, Matrix(1.0, 0.0, 0.0, 1.0, font_size * 0.04, 0.0)
                     )
                     self._builder.add_text(text_out, font_ref, font_size, bold_matrix, fill, fill_opacity=fill_opacity)
-            elif (
-                _indices_have_metrics(parsed_indices)
-                and not is_sideways
-                and not rtl
-                and not _indices_have_offsets(parsed_indices)
-                and _can_emit_adjusted_text_run(text, parsed_indices)
-            ):
-                self._emit_adjusted_text_run(
-                    text=text,
-                    font_ref=font_ref,
-                    font_size=font_size,
-                    matrix=run_matrix,
-                    fill=fill,
-                    fill_opacity=fill_opacity,
-                    style=style,
-                    indices=parsed_indices,
-                )
             elif is_sideways or _indices_have_metrics(parsed_indices) or _indices_have_glyph_ids(parsed_indices) or rtl:
                 self._emit_glyph_run(
                     text=text,
@@ -382,6 +491,8 @@ class XpsRenderer:
                 if style == "BoldSimulation" or style == "BoldItalicSimulation":
                     bold_matrix = _multiply(run_matrix, Matrix(1.0, 0.0, 0.0, 1.0, font_size * 0.04, 0.0))
                     self._builder.add_text(text_out, font_ref, font_size, bold_matrix, fill, fill_opacity=fill_opacity)
+            if clip_data:
+                self._builder.restore_state()
             return
         if tag == "Image":
             source = element.get("Source")
@@ -406,6 +517,8 @@ class XpsRenderer:
             return decode_png(data)
         if data.startswith(b"\xFF\xD8"):
             return decode_jpeg(data)
+        if part_name.lower().endswith((".wdp", ".jxr")):
+            return decode_jpegxr(data)
         if part_name.lower().endswith((".tif", ".tiff")):
             return decode_tiff(data)
         raise ValueError("unsupported image format")
@@ -579,6 +692,11 @@ class XpsRenderer:
     ) -> float:
         font = self._load_font(font_ref)
         if font is None:
+            units_per_em, code_widths = self._load_font_metrics(font_ref)
+            if code_widths:
+                width_units = code_widths.get(ord(char))
+                if width_units is not None:
+                    return (float(width_units) / max(1.0, units_per_em)) * font_size
             return font_size * 0.5
         glyph_id = glyph_id_override
         if glyph_id is None:
@@ -596,6 +714,11 @@ class XpsRenderer:
     ) -> float:
         font = self._load_font(font_ref)
         if font is None:
+            units_per_em, code_widths = self._load_font_metrics(font_ref)
+            if code_widths:
+                width_units = code_widths.get(ord(char))
+                if width_units is not None:
+                    return (float(width_units) / max(1.0, units_per_em)) * font_size
             return font_size * 0.5
         glyph_id = glyph_id_override
         if glyph_id is None:
@@ -654,20 +777,31 @@ class XpsRenderer:
         self._font_cache[font_ref] = font
         return font
 
+    def _load_font_metrics(self, font_ref: str) -> tuple[float, dict[int, float]]:
+        cached = self._font_metric_cache.get(font_ref)
+        if cached is not None:
+            return cached
+        if self._package is None:
+            return (1000.0, {})
+        part = _normalize_part_ref(font_ref)
+        if not self._package.has_part(part):
+            return (1000.0, {})
+        try:
+            data = self._package.read(part)
+            data = _deobfuscate_xps_odttf_bytes(part, data)
+            units_per_em, code_widths = parse_ttf_metrics(data)
+        except Exception:
+            units_per_em, code_widths = 1000.0, {}
+        metrics = (float(units_per_em), code_widths)
+        self._font_metric_cache[font_ref] = metrics
+        return metrics
+
     def _gid_to_unicode(self, font_ref: str) -> dict[int, int]:
         cached = self._font_gid_to_code.get(font_ref)
         if cached is not None:
             return cached
-        if self._package is None:
-            self._font_gid_to_code[font_ref] = {}
-            return {}
-        part = _normalize_part_ref(font_ref)
-        if not self._package.has_part(part):
-            self._font_gid_to_code[font_ref] = {}
-            return {}
-        try:
-            font = TrueTypeFont(self._package.read(part))
-        except Exception:
+        font = self._load_font(font_ref)
+        if font is None:
             self._font_gid_to_code[font_ref] = {}
             return {}
         reverse: dict[int, int] = {}
@@ -703,6 +837,12 @@ def _is_true(value: str | None) -> bool:
     if value is None:
         return False
     return value.strip().lower() in ("1", "true", "yes")
+
+
+def _is_false(value: str | None) -> bool:
+    if value is None:
+        return False
+    return value.strip().lower() in ("0", "false", "no")
 
 
 def _local_name(tag: str) -> str:
@@ -1144,7 +1284,9 @@ def _expand_gradient_stops_for_spread(
     if cycles < 1:
         cycles = 1
     expanded: list[tuple[float, tuple[float, float, float]]] = []
-    for cycle in range(cycles):
+    start_cycle = -cycles
+    end_cycle = cycles
+    for cycle in range(start_cycle, end_cycle + 1):
         if spread_method == "reflect" and (cycle % 2 == 1):
             seq = [(1.0 - off, color) for off, color in reversed(stops)]
         else:
@@ -1158,7 +1300,7 @@ def _expand_gradient_stops_for_spread(
             deduped[-1] = (off, color)
         else:
             deduped.append((off, color))
-    return deduped, (0.0, float(cycles))
+    return deduped, (float(start_cycle), float(end_cycle + 1))
 
 
 def _image_brush_to_pattern(
@@ -1202,13 +1344,24 @@ def _image_brush_to_pattern(
     )
     commands = [ImageCommand(image_id=image_id, width=image.width, height=image.height, matrix=matrix)]
     pm = (
-        XPS_UNIT_SCALE,
+        1.0,
         0.0,
         0.0,
-        XPS_UNIT_SCALE,
-        viewport[0] * XPS_UNIT_SCALE,
-        viewport[1] * XPS_UNIT_SCALE,
+        1.0,
+        viewport[0],
+        viewport[1],
     )
+    brush_transform = _brush_transform(element)
+    if brush_transform != Matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0):
+        brush_pm = (
+            brush_transform.a,
+            brush_transform.b,
+            brush_transform.c,
+            brush_transform.d,
+            brush_transform.e,
+            brush_transform.f,
+        )
+        pm = _concat_pattern_matrix(brush_pm, pm)
     if paint_transform is not None:
         if tile_mode == "tile":
             pm = (
@@ -1220,24 +1373,15 @@ def _image_brush_to_pattern(
                 pm[5] + paint_transform.f,
             )
         else:
-            tx = (
-                paint_transform.a * viewport[0]
-                + paint_transform.c * viewport[1]
-                + paint_transform.e
-            )
-            ty = (
-                paint_transform.b * viewport[0]
-                + paint_transform.d * viewport[1]
-                + paint_transform.f
-            )
-            pm = (
+            paint_pm = (
                 paint_transform.a,
                 paint_transform.b,
                 paint_transform.c,
                 paint_transform.d,
-                tx,
-                ty,
+                paint_transform.e,
+                paint_transform.f,
             )
+            pm = _concat_pattern_matrix(paint_pm, pm)
     pattern = TilingPattern(
         paint_type=1,
         tiling_type=1 if tile_mode == "tile" else 0,
@@ -1249,6 +1393,16 @@ def _image_brush_to_pattern(
     )
     pattern_id = builder.register_pattern(pattern)
     return Paint("Pattern", PatternPaint(pattern_id=pattern_id, base_space_id=None, base_components=None))
+
+
+def _concat_pattern_matrix(
+    left: tuple[float, float, float, float, float, float],
+    right: tuple[float, float, float, float, float, float],
+) -> tuple[float, float, float, float, float, float]:
+    m1 = Matrix(*left)
+    m2 = Matrix(*right)
+    result = _multiply(m1, m2)
+    return (result.a, result.b, result.c, result.d, result.e, result.f)
 
 
 def _visual_brush_to_pattern(
@@ -1263,22 +1417,29 @@ def _visual_brush_to_pattern(
     visual = element.find(".//{*}VisualBrush.Visual")
     if visual is None:
         return None
+    viewbox = _parse_rect(element.get("Viewbox"), default=(0.0, 0.0, 1.0, 1.0))
+    viewport = _parse_rect(element.get("Viewport"), default=viewbox)
     nested_builder = RenderModelBuilder()
-    nested_builder.begin_page(1.0, 1.0)
+    nested_builder.begin_page(viewbox[2] * XPS_UNIT_SCALE, viewbox[3] * XPS_UNIT_SCALE)
     nested = XpsRenderer(nested_builder, renderer._image_store)
     if renderer._package is not None:
         nested.set_package(renderer._package)
     if renderer._current_part is not None:
         nested.set_current_part(renderer._current_part)
-    transform = Matrix(XPS_UNIT_SCALE, 0.0, 0.0, XPS_UNIT_SCALE, 0.0, 0.0)
+    transform = Matrix(
+        XPS_UNIT_SCALE,
+        0.0,
+        0.0,
+        -XPS_UNIT_SCALE,
+        -viewbox[0] * XPS_UNIT_SCALE,
+        (viewbox[1] + viewbox[3]) * XPS_UNIT_SCALE,
+    )
     for child in list(visual):
         nested._render_element(child, resources, transform)
     nested_builder.end_page()
     page = nested_builder.document().pages[0]
     if not page.commands:
         return None
-    viewbox = _parse_rect(element.get("Viewbox"), default=(0.0, 0.0, 1.0, 1.0))
-    viewport = _parse_rect(element.get("Viewport"), default=viewbox)
     x_step = max(viewport[2], 1.0)
     y_step = max(viewport[3], 1.0)
     sx = viewport[2] / max(viewbox[2], 1e-9)
@@ -1639,6 +1800,262 @@ def _extract_opacity_mask_brush(element: ET.Element) -> ET.Element | None:
     return list(wrapper)[0] if list(wrapper) else None
 
 
+def _extract_canvas_opacity_mask_brush(element: ET.Element) -> ET.Element | None:
+    wrapper = element.find("./{*}Canvas.OpacityMask")
+    if wrapper is None:
+        return None
+    return list(wrapper)[0] if list(wrapper) else None
+
+
+def _extract_glyphs_opacity_mask_brush(element: ET.Element) -> ET.Element | None:
+    wrapper = element.find("./{*}Glyphs.OpacityMask")
+    if wrapper is None:
+        return None
+    return list(wrapper)[0] if list(wrapper) else None
+
+
+def _try_render_canvas_opacity_mask_as_image(
+    element: ET.Element,
+    resources: XpsResourceDictionary | None,
+    builder: RenderModelBuilder,
+    renderer: XpsRenderer | None,
+    paint_transform: Matrix,
+) -> bool:
+    if renderer is None or renderer._package is None:
+        return False
+    mask_brush = _extract_canvas_opacity_mask_brush(element)
+    if mask_brush is None:
+        return False
+    page = getattr(builder, "_active_page", None)
+    if page is None or page.width <= 0.0 or page.height <= 0.0:
+        return False
+    try:
+        from .output import _build_xps_font_resolver
+    except Exception:
+        return False
+    temp_builder = RenderModelBuilder()
+    temp_store = XpsImageStore()
+    temp_builder.begin_page(page.width, page.height)
+    temp_renderer = XpsRenderer(
+        temp_builder,
+        temp_store,
+        rasterize_solid_strokes=renderer._rasterize_solid_strokes,
+    )
+    temp_renderer.set_package(renderer._package)
+    if renderer._current_part is not None:
+        temp_renderer.set_current_part(renderer._current_part)
+    clip_data = element.get("Clip")
+    if clip_data:
+        clip_path = _parse_path_data(clip_data, paint_transform)
+        temp_builder.save_state()
+        temp_builder.clip(clip_path, _extract_fill_rule(element, resources))
+    for child in list(element):
+        temp_renderer._render_element(child, resources, paint_transform)
+    if clip_data:
+        temp_builder.restore_state()
+    temp_builder.end_page()
+    render_doc = temp_builder.document()
+    if not render_doc.pages:
+        return False
+    for image_id, resource in temp_store._images.items():
+        render_doc.resources.images[image_id] = RenderImageResource(
+            data=resource.data,
+            width=resource.width,
+            height=resource.height,
+            color_space=resource.color_space,
+            bits_per_component=resource.bits_per_component,
+            filter=resource.filter,
+            soft_mask=resource.soft_mask,
+        )
+    font_resolver = _build_xps_font_resolver(renderer._package, render_doc)
+    from ..image.skia_raster_writer import SkiaRasterWriter
+    from ..ps.output import ImageSaveOptions
+
+    options = ImageSaveOptions(format="png", dpi=96)
+    options.font_resolver = font_resolver
+    options.opaque_background = False
+    options.preserve_fractional_page_size = True
+    resource = decode_png(SkiaRasterWriter().write(render_doc, options))
+    scale_x = resource.width / max(page.width, 1e-6)
+    scale_y = resource.height / max(page.height, 1e-6)
+    inv_paint = _invert_matrix(
+        (
+            paint_transform.a,
+            paint_transform.b,
+            paint_transform.c,
+            paint_transform.d,
+            paint_transform.e,
+            paint_transform.f,
+        )
+    )
+    alpha = bytearray(resource.width * resource.height)
+    rgb = bytearray(resource.data)
+    existing_alpha = resource.soft_mask or bytes([255]) * (resource.width * resource.height)
+    page_height = page.height
+    for py in range(resource.height):
+        user_y = page_height - (py + 0.5) / scale_y
+        row = py * resource.width
+        for px in range(resource.width):
+            user_x = (px + 0.5) / scale_x
+            brush_x = user_x
+            brush_y = user_y
+            if inv_paint is not None:
+                brush_x, brush_y = _apply_matrix_tuple(inv_paint, user_x, user_y)
+            mask_alpha = _clamp(_mask_alpha_from_brush_at(mask_brush, brush_x, brush_y, renderer), 0.0, 1.0)
+            pixel_alpha = existing_alpha[row + px] / 255.0
+            alpha[row + px] = int(round(_clamp(pixel_alpha * mask_alpha, 0.0, 1.0) * 255.0))
+    image_id = renderer._image_store.register(
+        XpsImageResource(
+            image_id="",
+            data=bytes(rgb),
+            width=resource.width,
+            height=resource.height,
+            bits_per_component=8,
+            color_space="DeviceRGB",
+            filter=None,
+            x_dpi=96.0,
+            y_dpi=96.0,
+            soft_mask=bytes(alpha),
+        )
+    )
+    builder.add_image(
+        image_id,
+        resource.width,
+        resource.height,
+        Matrix(page.width, 0.0, 0.0, page.height, 0.0, 0.0),
+    )
+    return True
+
+
+def _try_render_glyphs_opacity_mask_as_image(
+    text: str,
+    font_ref: str,
+    font_size: float,
+    matrix: Matrix,
+    fill: Paint | None,
+    fill_opacity: float,
+    mask_brush: ET.Element,
+    builder: RenderModelBuilder,
+    renderer: XpsRenderer | None,
+    paint_transform: Matrix,
+) -> bool:
+    if renderer is None or renderer._package is None or fill is None:
+        return False
+    page = getattr(builder, "_active_page", None)
+    if page is None or page.width <= 0.0 or page.height <= 0.0:
+        return False
+    try:
+        from .output import _build_xps_font_resolver
+    except Exception:
+        return False
+    temp_builder = RenderModelBuilder()
+    temp_builder.begin_page(page.width, page.height)
+    temp_matrix = Matrix(
+        matrix.a,
+        matrix.b,
+        matrix.c,
+        -matrix.d,
+        matrix.e,
+        page.height - matrix.f,
+    )
+    temp_builder.add_text(
+        text,
+        font_ref,
+        font_size,
+        temp_matrix,
+        fill,
+        fill_opacity=fill_opacity,
+    )
+    temp_builder.end_page()
+    render_doc = temp_builder.document()
+    font_resolver = _build_xps_font_resolver(renderer._package, render_doc)
+    from ..image.skia_raster_writer import SkiaRasterWriter
+    from ..ps.output import ImageSaveOptions
+
+    options = ImageSaveOptions(format="png", dpi=300)
+    options.font_resolver = font_resolver
+    options.opaque_background = False
+    options.preserve_fractional_page_size = True
+    resource = decode_png(SkiaRasterWriter().write(render_doc, options))
+    existing_alpha = resource.soft_mask
+    if existing_alpha is None:
+        return False
+    crop = _nonzero_alpha_bounds(existing_alpha, resource.width, resource.height)
+    if crop is None:
+        return False
+    x0, y0, x1, y1 = crop
+    pad = 2
+    x0 = max(0, x0 - pad)
+    y0 = max(0, y0 - pad)
+    x1 = min(resource.width, x1 + pad)
+    y1 = min(resource.height, y1 + pad)
+    crop_width = x1 - x0
+    crop_height = y1 - y0
+    if crop_width <= 0 or crop_height <= 0:
+        return False
+    scale_x = resource.width / max(page.width, 1e-6)
+    scale_y = resource.height / max(page.height, 1e-6)
+    inv_paint = _invert_matrix(
+        (
+            paint_transform.a,
+            paint_transform.b,
+            paint_transform.c,
+            paint_transform.d,
+            paint_transform.e,
+            paint_transform.f,
+        )
+    )
+    rgb = bytearray(crop_width * crop_height * 3)
+    alpha = bytearray(crop_width * crop_height)
+    page_height = page.height
+    for py in range(crop_height):
+        src_y = y1 - 1 - py
+        user_y = page_height - (src_y + 0.5) / scale_y
+        for px in range(crop_width):
+            src_x = x0 + px
+            user_x = (src_x + 0.5) / scale_x
+            brush_x, brush_y = _sample_brush_coordinates(
+                mask_brush,
+                builder,
+                user_x,
+                user_y,
+                inv_paint,
+            )
+            src_index = src_y * resource.width + src_x
+            dst_index = py * crop_width + px
+            base_index = src_index * 3
+            rgb_index = dst_index * 3
+            rgb[rgb_index:rgb_index + 3] = resource.data[base_index:base_index + 3]
+            mask_alpha = _clamp(_mask_alpha_from_brush_at(mask_brush, brush_x, brush_y, renderer), 0.0, 1.0)
+            pixel_alpha = existing_alpha[src_index] / 255.0
+            alpha[dst_index] = int(round(_clamp(pixel_alpha * mask_alpha, 0.0, 1.0) * 255.0))
+    image_id = renderer._image_store.register(
+        XpsImageResource(
+            image_id="",
+            data=bytes(rgb),
+            width=crop_width,
+            height=crop_height,
+            bits_per_component=8,
+            color_space="DeviceRGB",
+            filter=None,
+            x_dpi=300.0,
+            y_dpi=300.0,
+            soft_mask=bytes(alpha),
+        )
+    )
+    image_x = x0 / scale_x
+    image_y = (y0 / scale_y) - (7.0 / scale_y)
+    image_width = crop_width / scale_x
+    image_height = crop_height / scale_y
+    builder.add_image(
+        image_id,
+        crop_width,
+        crop_height,
+        Matrix(image_width, 0.0, 0.0, image_height, image_x, image_y),
+    )
+    return True
+
+
 def _apply_opacity_mask_to_fill_paint(
     fill: Paint | None,
     mask_brush: ET.Element,
@@ -1759,6 +2176,29 @@ def _apply_opacity_mask_to_fill_paint(
     if mask_alpha is not None:
         return _apply_opacity_to_paint(fill, mask_alpha, builder, renderer)
     return fill
+
+
+def _nonzero_alpha_bounds(alpha: bytes, width: int, height: int) -> tuple[int, int, int, int] | None:
+    min_x = width
+    min_y = height
+    max_x = -1
+    max_y = -1
+    for y in range(height):
+        row = y * width
+        for x in range(width):
+            if alpha[row + x] <= 0:
+                continue
+            if x < min_x:
+                min_x = x
+            if y < min_y:
+                min_y = y
+            if x > max_x:
+                max_x = x
+            if y > max_y:
+                max_y = y
+    if max_x < min_x or max_y < min_y:
+        return None
+    return (min_x, min_y, max_x + 1, max_y + 1)
 
 
 def _rasterize_masked_solid_fill(
@@ -2041,6 +2481,183 @@ def _try_render_stroked_brush_as_image(
             pixels[idx + 1] = int(round(_clamp(rgb[1], 0.0, 1.0) * 255.0))
             pixels[idx + 2] = int(round(_clamp(rgb[2], 0.0, 1.0) * 255.0))
             alpha_bytes[py * width_px + px] = int(round(_clamp(coverage * opacity, 0.0, 1.0) * 255.0))
+    image_id = renderer._image_store.register(
+        XpsImageResource(
+            image_id="",
+            data=bytes(pixels),
+            width=width_px,
+            height=height_px,
+            bits_per_component=8,
+            color_space="DeviceRGB",
+            filter=None,
+            x_dpi=96.0 * raster_scale,
+            y_dpi=96.0 * raster_scale,
+            soft_mask=bytes(alpha_bytes),
+        )
+    )
+    builder.add_image(
+        image_id,
+        width_px,
+        height_px,
+        Matrix(width, 0.0, 0.0, -height, bbox_x0, bbox_y0 + height),
+    )
+    return True
+
+
+def _try_render_image_brush_fill_as_image(
+    path: Path,
+    path_bbox: tuple[float, float, float, float] | None,
+    fill_brush: ET.Element,
+    builder: RenderModelBuilder,
+    renderer: XpsRenderer | None,
+    paint_transform: Matrix | None,
+    opacity: float,
+) -> bool:
+    if renderer is None or paint_transform is None or path_bbox is None:
+        return False
+    if _local_name(fill_brush.tag) != "ImageBrush":
+        return False
+    if opacity < 0.9999:
+        return False
+    if (fill_brush.get("TileMode") or "None").strip().lower() != "none":
+        return False
+    viewport = _parse_rect(fill_brush.get("Viewport"), default=(0.0, 0.0, 0.0, 0.0))
+    if not _path_is_axis_aligned_rect(path, path_bbox):
+        return False
+
+    source = fill_brush.get("ImageSource")
+    if not source:
+        return False
+    image = renderer._load_image(source)
+    if image is None:
+        return False
+    viewbox = _parse_rect(
+        fill_brush.get("Viewbox"),
+        default=(0.0, 0.0, float(image.width), float(image.height)),
+    )
+    image = _crop_image_for_viewbox(image, viewbox)
+    brush_transform = _brush_transform(fill_brush)
+    normalized_viewport = (
+        abs(viewport[0]) <= 1e-6
+        and abs(viewport[1]) <= 1e-6
+        and abs(viewport[2] - 1.0) <= 1e-6
+        and abs(viewport[3] - 1.0) <= 1e-6
+    )
+    if normalized_viewport:
+        viewport_matrix = Matrix(
+            max(viewport[2], 1e-9),
+            0.0,
+            0.0,
+            max(viewport[3], 1e-9),
+            viewport[0],
+            viewport[1],
+        )
+        image_matrix = _multiply(brush_transform, viewport_matrix)
+        image_matrix = _multiply(image_matrix, Matrix(1.0, 0.0, 0.0, -1.0, 0.0, 1.0))
+        final_matrix = _multiply(paint_transform, image_matrix)
+    else:
+        viewport_matrix = Matrix(
+            max(viewport[2], 1e-9),
+            0.0,
+            0.0,
+            -max(viewport[3], 1e-9),
+            viewport[0],
+            viewport[1] + max(viewport[3], 1e-9),
+        )
+        image_matrix = _multiply(brush_transform, viewport_matrix)
+        final_matrix = _multiply(paint_transform, image_matrix)
+
+    image_bbox = _matrix_bbox(final_matrix)
+    if image_bbox is None or not _rect_close(path_bbox, image_bbox):
+        return False
+
+    image_id = renderer._image_store.register(image)
+    builder.add_image(image_id, image.width, image.height, final_matrix)
+    return True
+
+
+def _try_render_spread_gradient_fill_as_image(
+    path: Path,
+    path_bbox: tuple[float, float, float, float] | None,
+    fill_brush: ET.Element,
+    builder: RenderModelBuilder,
+    renderer: XpsRenderer | None,
+    paint_transform: Matrix | None,
+    opacity: float,
+) -> bool:
+    if renderer is None or path_bbox is None or paint_transform is None:
+        return False
+    brush_tag = _local_name(fill_brush.tag)
+    if brush_tag not in ("LinearGradientBrush", "RadialGradientBrush"):
+        return False
+    spread = (fill_brush.get("SpreadMethod") or "Pad").strip().lower()
+    if spread not in ("repeat", "reflect"):
+        return False
+    bbox_x0, bbox_y0, bbox_x1, bbox_y1 = path_bbox
+    width = max(1e-6, bbox_x1 - bbox_x0)
+    height = max(1e-6, bbox_y1 - bbox_y0)
+    try:
+        from PIL import Image, ImageDraw  # type: ignore
+    except Exception:
+        return False
+    raster_scale = 2.0
+    width_px = max(1, int(math.ceil(width * raster_scale)))
+    height_px = max(1, int(math.ceil(height * raster_scale)))
+    coverage_px = None
+    if not _path_is_axis_aligned_rect(path, path_bbox):
+        subpaths = _flatten_render_path(path.segments, raster_scale)
+        if not subpaths:
+            return False
+        supersample = 4
+        mask_hi = Image.new("L", (width_px * supersample, height_px * supersample), 0)
+        draw = ImageDraw.Draw(mask_hi)
+        for subpath in subpaths:
+            if len(subpath) < 3:
+                continue
+            polygon = [
+                (
+                    (point.x - bbox_x0) * raster_scale * supersample,
+                    (bbox_y1 - point.y) * raster_scale * supersample,
+                )
+                for point in subpath
+            ]
+            draw.polygon(polygon, fill=255)
+        mask = mask_hi.resize((width_px, height_px), Image.Resampling.LANCZOS)
+        coverage_px = mask.load()
+    inv_paint = _invert_matrix(
+        (
+            paint_transform.a,
+            paint_transform.b,
+            paint_transform.c,
+            paint_transform.d,
+            paint_transform.e,
+            paint_transform.f,
+        )
+    )
+    pixels = bytearray(width_px * height_px * 3)
+    alpha_bytes = bytearray(width_px * height_px)
+    for py in range(height_px):
+        user_y = bbox_y1 - py / raster_scale
+        for px in range(width_px):
+            user_x = bbox_x0 + px / raster_scale
+            coverage = 1.0 if coverage_px is None else (coverage_px[px, py] / 255.0)
+            if coverage > 1e-6:
+                brush_x, brush_y = _sample_brush_coordinates(fill_brush, builder, user_x, user_y, inv_paint)
+                rgb = _sample_gradient_brush_rgb(
+                    fill_brush,
+                    brush_x,
+                    brush_y,
+                    mode=renderer._spread_gradient_mode,
+                )
+                alpha = _clamp(coverage * opacity, 0.0, 1.0)
+            else:
+                rgb = (0.0, 0.0, 0.0)
+                alpha = 0.0
+            idx = (py * width_px + px) * 3
+            pixels[idx] = int(round(_clamp(rgb[0], 0.0, 1.0) * 255.0))
+            pixels[idx + 1] = int(round(_clamp(rgb[1], 0.0, 1.0) * 255.0))
+            pixels[idx + 2] = int(round(_clamp(rgb[2], 0.0, 1.0) * 255.0))
+            alpha_bytes[py * width_px + px] = int(round(alpha * 255.0))
     image_id = renderer._image_store.register(
         XpsImageResource(
             image_id="",
@@ -2612,6 +3229,8 @@ def _mask_alpha_from_brush_at(
         return _opacity_from_gradient_brush_at(brush, x, y)
     if tag == "ImageBrush":
         return _opacity_from_image_brush_at(brush, x, y, renderer)
+    if tag == "VisualBrush":
+        return _opacity_from_visual_brush_at(brush, x, y, renderer)
     return 1.0
 
 
@@ -2695,11 +3314,118 @@ def _opacity_from_image_brush_at(
     return 1.0
 
 
-def _sample_gradient_brush_rgb(brush: ET.Element, x: float, y: float) -> tuple[float, float, float]:
+def _opacity_from_visual_brush_at(
+    brush: ET.Element,
+    x: float,
+    y: float,
+    renderer: XpsRenderer | None,
+) -> float:
+    if renderer is None or renderer._package is None:
+        return 1.0
+    cache = getattr(renderer, "_mask_brush_visual_cache", None)
+    if cache is None:
+        cache = {}
+        setattr(renderer, "_mask_brush_visual_cache", cache)
+    key = id(brush)
+    cached = cache.get(key)
+    if cached is None:
+        visual = brush.find(".//{*}VisualBrush.Visual")
+        if visual is None:
+            return 1.0
+        viewbox = _parse_rect(brush.get("Viewbox"), default=(0.0, 0.0, 1.0, 1.0))
+        viewport = _parse_rect(brush.get("Viewport"), default=viewbox)
+        tile_mode = (brush.get("TileMode") or "None").strip().lower()
+        try:
+            from .output import _build_xps_font_resolver
+            from ..image.skia_raster_writer import SkiaRasterWriter
+            from ..ps.output import ImageSaveOptions
+        except Exception:
+            return 1.0
+        temp_builder = RenderModelBuilder()
+        temp_store = XpsImageStore()
+        temp_builder.begin_page(max(viewbox[2], 1e-6), max(viewbox[3], 1e-6))
+        temp_renderer = XpsRenderer(temp_builder, temp_store, rasterize_solid_strokes=renderer._rasterize_solid_strokes)
+        temp_renderer.set_package(renderer._package)
+        if renderer._current_part is not None:
+            temp_renderer.set_current_part(renderer._current_part)
+        local_transform = Matrix(1.0, 0.0, 0.0, 1.0, -viewbox[0], -viewbox[1])
+        for child in list(visual):
+            temp_renderer._render_element(child, None, local_transform)
+        temp_builder.end_page()
+        render_doc = temp_builder.document()
+        for image_id, resource in temp_store._images.items():
+            render_doc.resources.images[image_id] = RenderImageResource(
+                data=resource.data,
+                width=resource.width,
+                height=resource.height,
+                color_space=resource.color_space,
+                bits_per_component=resource.bits_per_component,
+                filter=resource.filter,
+                soft_mask=resource.soft_mask,
+            )
+        font_resolver = _build_xps_font_resolver(renderer._package, render_doc)
+        options = ImageSaveOptions(format="png", dpi=300)
+        options.font_resolver = font_resolver
+        options.opaque_background = False
+        options.preserve_fractional_page_size = True
+        image = decode_png(SkiaRasterWriter().write(render_doc, options))
+        cached = (image, viewbox, viewport, tile_mode)
+        cache[key] = cached
+    image, viewbox, viewport, tile_mode = cached
+    vw = max(viewport[2], 1e-9)
+    vh = max(viewport[3], 1e-9)
+    lx = x - viewport[0]
+    ly = y - viewport[1]
+    if tile_mode == "tile":
+        lx = lx % vw
+        ly = ly % vh
+    elif lx < 0.0 or ly < 0.0 or lx > vw or ly > vh:
+        return 0.0
+    bx = viewbox[0] + (lx / vw) * viewbox[2]
+    by = viewbox[1] + (ly / vh) * viewbox[3]
+    fx = ((bx - viewbox[0]) / max(viewbox[2], 1e-9)) * max(image.width - 1, 0)
+    fy = ((by - viewbox[1]) / max(viewbox[3], 1e-9)) * max(image.height - 1, 0)
+    fy = max(image.height - 1, 0) - fy
+    x0 = min(image.width - 1, max(0, int(math.floor(fx))))
+    y0 = min(image.height - 1, max(0, int(math.floor(fy))))
+    x1 = min(image.width - 1, x0 + 1)
+    y1 = min(image.height - 1, y0 + 1)
+    tx = _clamp(fx - x0, 0.0, 1.0)
+    ty = _clamp(fy - y0, 0.0, 1.0)
+    if image.soft_mask is not None and len(image.soft_mask) >= image.width * image.height:
+        a00 = image.soft_mask[y0 * image.width + x0] / 255.0
+        a10 = image.soft_mask[y0 * image.width + x1] / 255.0
+        a01 = image.soft_mask[y1 * image.width + x0] / 255.0
+        a11 = image.soft_mask[y1 * image.width + x1] / 255.0
+        top = a00 * (1.0 - tx) + a10 * tx
+        bottom = a01 * (1.0 - tx) + a11 * tx
+        return _clamp(top * (1.0 - ty) + bottom * ty, 0.0, 1.0)
+    def gray(ix: int, iy: int) -> float:
+        idx = (iy * image.width + ix) * 3
+        if idx + 2 >= len(image.data):
+            return 0.0
+        return (
+            float(image.data[idx]) + float(image.data[idx + 1]) + float(image.data[idx + 2])
+        ) / (255.0 * 3.0)
+    g00 = gray(x0, y0)
+    g10 = gray(x1, y0)
+    g01 = gray(x0, y1)
+    g11 = gray(x1, y1)
+    top = g00 * (1.0 - tx) + g10 * tx
+    bottom = g01 * (1.0 - tx) + g11 * tx
+    return _clamp(top * (1.0 - ty) + bottom * ty, 0.0, 1.0)
+
+
+def _sample_gradient_brush_rgb(
+    brush: ET.Element,
+    x: float,
+    y: float,
+    mode: str = "default",
+) -> tuple[float, float, float]:
     stops = _collect_gradient_rgb_stops(brush)
     if not stops:
         return (0.0, 0.0, 0.0)
-    t = _gradient_brush_parameter(brush, x, y)
+    t = _gradient_brush_parameter(brush, x, y, mode=mode)
     return _interpolate_rgb(stops, t)
 
 
@@ -2778,7 +3504,12 @@ def _sample_image_brush_rgb_at(
     )
 
 
-def _gradient_brush_parameter(brush: ET.Element, x: float, y: float) -> float:
+def _gradient_brush_parameter(
+    brush: ET.Element,
+    x: float,
+    y: float,
+    mode: str = "default",
+) -> float:
     stops = _collect_gradient_alpha_stops(brush)
     if not stops:
         return 0.0
@@ -2846,10 +3577,17 @@ def _gradient_brush_parameter(brush: ET.Element, x: float, y: float) -> float:
     if spread == "repeat":
         t = t % 1.0
     elif spread == "reflect":
-        v = abs(t)
-        n = int(math.floor(v))
-        frac = v - n
-        t = frac if (n % 2 == 0) else (1.0 - frac)
+        if mode == "pdf":
+            frac = t % 1.0
+            if t > 0.0 and abs(frac) <= 1e-9:
+                t = 1.0
+            else:
+                t = frac
+        else:
+            v = abs(t)
+            n = int(math.floor(v))
+            frac = v - n
+            t = frac if (n % 2 == 0) else (1.0 - frac)
     else:
         t = _clamp(t, 0.0, 1.0)
     return t
@@ -2942,6 +3680,8 @@ def _rgb_to_hex(rgb: tuple[float, float, float]) -> str:
     return f"#{r:02X}{g:02X}{b:02X}"
 
 
+
+
 def _opacity_from_brush_element(
     element: ET.Element,
     resources: XpsResourceDictionary | None,
@@ -2997,14 +3737,6 @@ def _opacity_from_image_brush(element: ET.Element, renderer: XpsRenderer | None)
                 alpha = img.getchannel("A")
                 hist = alpha.histogram()
                 total_px = max(1, alpha.width * alpha.height)
-                acc = 0
-                for idx, count in enumerate(hist):
-                    acc += idx * count
-                return _clamp(acc / (255.0 * total_px), 0.0, 1.0)
-            if img.mode in ("L", "LA"):
-                gray = img.convert("L")
-                hist = gray.histogram()
-                total_px = max(1, gray.width * gray.height)
                 acc = 0
                 for idx, count in enumerate(hist):
                     acc += idx * count
@@ -3338,6 +4070,14 @@ def _element_transform(element: ET.Element, resources: XpsResourceDictionary | N
         numbers = _parse_numbers(raw)
         if len(numbers) == 6:
             return _multiply(transform, Matrix(*numbers))
+    for child in list(element):
+        tag = _local_name(child.tag)
+        if not tag.endswith(".RenderTransform"):
+            continue
+        transform_child = next((grandchild for grandchild in list(child) if isinstance(grandchild.tag, str)), None)
+        if transform_child is None:
+            continue
+        return _multiply(transform, _matrix_from_transform_element(transform_child))
     return transform
 
 
@@ -3351,6 +4091,28 @@ def _stroke_scale_from_matrix(matrix: Matrix) -> float:
     if sy <= 1e-12:
         return sx
     return (sx + sy) * 0.5
+
+
+def _matrix_bbox(matrix: Matrix) -> tuple[float, float, float, float] | None:
+    points = [
+        _apply_transform(matrix, Point(0.0, 0.0)),
+        _apply_transform(matrix, Point(1.0, 0.0)),
+        _apply_transform(matrix, Point(1.0, 1.0)),
+        _apply_transform(matrix, Point(0.0, 1.0)),
+    ]
+    xs = [point.x for point in points]
+    ys = [point.y for point in points]
+    if not xs or not ys:
+        return None
+    return (min(xs), min(ys), max(xs), max(ys))
+
+
+def _rect_close(
+    left: tuple[float, float, float, float],
+    right: tuple[float, float, float, float],
+    tolerance: float = 1.0,
+) -> bool:
+    return all(abs(a - b) <= tolerance for a, b in zip(left, right))
 
 
 def _parse_xps_line_cap(element: ET.Element) -> int:
@@ -3432,6 +4194,20 @@ def _matrix_from_transform_element(element: ET.Element) -> Matrix:
         ax = math.tan(math.radians(_parse_float(element.get("AngleX")) or 0.0))
         ay = math.tan(math.radians(_parse_float(element.get("AngleY")) or 0.0))
         return Matrix(1.0, ay, ax, 1.0, 0.0, 0.0)
+    return Matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)
+
+
+def _brush_transform(element: ET.Element) -> Matrix:
+    raw = element.get("Transform")
+    if raw:
+        numbers = _parse_numbers(raw)
+        if len(numbers) == 6:
+            return Matrix(*numbers)
+    wrapper = element.find(f".//{{*}}{_local_name(element.tag)}.Transform")
+    if wrapper is None:
+        return Matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)
+    for child in list(wrapper):
+        return _matrix_from_transform_element(child)
     return Matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)
 
 
@@ -3902,18 +4678,42 @@ def _arc_to_cubic_beziers(
 
 
 def _parse_path_geometry_element(geometry: ET.Element, transform: Matrix) -> Path:
-    segments: list[PathSegment] = []
+    fill_path, stroke_path = _parse_path_geometry_element_variants(geometry, transform)
+    return fill_path or stroke_path or Path([])
+
+
+def _parse_path_geometry_element_variants(
+    geometry: ET.Element,
+    transform: Matrix,
+) -> tuple[Path | None, Path | None]:
+    fill_segments: list[PathSegment] = []
+    stroke_segments: list[PathSegment] = []
+    for figure in _parse_path_geometry_figures(geometry):
+        if figure["is_filled"]:
+            fill_segments.extend(_figure_to_fill_segments(figure, transform))
+        stroke_segments.extend(_figure_to_stroke_segments(figure, transform))
+    fill_path = Path(fill_segments) if fill_segments else None
+    stroke_path = Path(stroke_segments) if stroke_segments else None
+    return fill_path, stroke_path
+
+
+def _parse_path_geometry_figures(geometry: ET.Element) -> list[dict[str, object]]:
+    figures: list[dict[str, object]] = []
     for figure in geometry.findall(".//{*}PathFigure"):
         start = _parse_point(figure.get("StartPoint"))
-        start_pt = _apply_transform(transform, Point(start[0], start[1]))
-        segments.append(PathSegment("move", [start_pt]))
         curr = Point(start[0], start[1])
+        figure_segments: list[dict[str, object]] = []
         for seg in list(figure):
             tag = _local_name(seg.tag)
+            is_stroked = not _is_false(seg.get("IsStroked"))
             if tag == "PolyLineSegment":
                 points = _parse_points(seg.get("Points"))
                 for x, y in points:
-                    segments.append(PathSegment("line", [_apply_transform(transform, Point(x, y))]))
+                    figure_segments.append({
+                        "kind": "line",
+                        "points": [Point(x, y)],
+                        "is_stroked": is_stroked,
+                    })
                     curr = Point(x, y)
             elif tag == "ArcSegment":
                 end = _parse_point(seg.get("Point"))
@@ -3932,27 +4732,31 @@ def _parse_path_geometry_element(geometry: ET.Element, transform: Matrix) -> Pat
                     sweep,
                 )
                 if not cubics:
-                    segments.append(PathSegment("line", [_apply_transform(transform, Point(end[0], end[1]))]))
+                    figure_segments.append({
+                        "kind": "line",
+                        "points": [Point(end[0], end[1])],
+                        "is_stroked": is_stroked,
+                    })
                 else:
                     for c1, c2, p in cubics:
-                        segments.append(
-                            PathSegment(
-                                "curve",
-                                [
-                                    _apply_transform(transform, c1),
-                                    _apply_transform(transform, c2),
-                                    _apply_transform(transform, p),
-                                ],
-                            )
-                        )
+                        figure_segments.append({
+                            "kind": "curve",
+                            "points": [c1, c2, p],
+                            "is_stroked": is_stroked,
+                        })
                 curr = Point(end[0], end[1])
             elif tag == "BezierSegment":
                 points = _parse_points(seg.get("Points"))
                 if len(points) >= 3:
-                    p1 = _apply_transform(transform, Point(points[0][0], points[0][1]))
-                    p2 = _apply_transform(transform, Point(points[1][0], points[1][1]))
-                    p3 = _apply_transform(transform, Point(points[2][0], points[2][1]))
-                    segments.append(PathSegment("curve", [p1, p2, p3]))
+                    figure_segments.append({
+                        "kind": "curve",
+                        "points": [
+                            Point(points[0][0], points[0][1]),
+                            Point(points[1][0], points[1][1]),
+                            Point(points[2][0], points[2][1]),
+                        ],
+                        "is_stroked": is_stroked,
+                    })
                     curr = Point(points[2][0], points[2][1])
             elif tag == "PolyQuadraticBezierSegment":
                 points = _parse_points(seg.get("Points"))
@@ -3968,31 +4772,83 @@ def _parse_path_geometry_element(geometry: ET.Element, transform: Matrix) -> Pat
                         end.x + (2.0 / 3.0) * (ctrl.x - end.x),
                         end.y + (2.0 / 3.0) * (ctrl.y - end.y),
                     )
-                    segments.append(
-                        PathSegment(
-                            "curve",
-                            [
-                                _apply_transform(transform, c1),
-                                _apply_transform(transform, c2),
-                                _apply_transform(transform, end),
-                            ],
-                        )
-                    )
+                    figure_segments.append({
+                        "kind": "curve",
+                        "points": [c1, c2, end],
+                        "is_stroked": is_stroked,
+                    })
                     curr = end
                     idx += 2
             elif tag == "PolyBezierSegment":
                 points = _parse_points(seg.get("Points"))
                 idx = 0
                 while idx + 2 < len(points):
-                    p1 = _apply_transform(transform, Point(points[idx][0], points[idx][1]))
-                    p2 = _apply_transform(transform, Point(points[idx + 1][0], points[idx + 1][1]))
-                    p3 = _apply_transform(transform, Point(points[idx + 2][0], points[idx + 2][1]))
-                    segments.append(PathSegment("curve", [p1, p2, p3]))
+                    figure_segments.append({
+                        "kind": "curve",
+                        "points": [
+                            Point(points[idx][0], points[idx][1]),
+                            Point(points[idx + 1][0], points[idx + 1][1]),
+                            Point(points[idx + 2][0], points[idx + 2][1]),
+                        ],
+                        "is_stroked": is_stroked,
+                    })
                     curr = Point(points[idx + 2][0], points[idx + 2][1])
                     idx += 3
-        if _is_true(figure.get("IsClosed")):
-            segments.append(PathSegment("close", []))
-    return Path(segments)
+        figures.append({
+            "start": Point(start[0], start[1]),
+            "segments": figure_segments,
+            "is_closed": _is_true(figure.get("IsClosed")),
+            "is_filled": not _is_false(figure.get("IsFilled")),
+        })
+    return figures
+
+
+def _figure_to_fill_segments(figure: dict[str, object], transform: Matrix) -> list[PathSegment]:
+    start = figure["start"]
+    assert isinstance(start, Point)
+    raw_segments = figure["segments"]
+    assert isinstance(raw_segments, list)
+    segments = [PathSegment("move", [_apply_transform(transform, start)])]
+    for segment in raw_segments:
+        kind = segment["kind"]
+        points = segment["points"]
+        assert isinstance(points, list)
+        transformed = [_apply_transform(transform, point) for point in points]
+        segments.append(PathSegment(kind, transformed))
+    if figure["is_closed"]:
+        segments.append(PathSegment("close", []))
+    return segments
+
+
+def _figure_to_stroke_segments(figure: dict[str, object], transform: Matrix) -> list[PathSegment]:
+    start = figure["start"]
+    assert isinstance(start, Point)
+    raw_segments = figure["segments"]
+    assert isinstance(raw_segments, list)
+    stroke_segments: list[PathSegment] = []
+    current_point = start
+    subpath_open = False
+    for segment in raw_segments:
+        kind = segment["kind"]
+        points = segment["points"]
+        assert isinstance(points, list)
+        is_stroked = bool(segment.get("is_stroked", True))
+        end_point = points[-1] if points else current_point
+        assert isinstance(end_point, Point)
+        if is_stroked:
+            if not subpath_open:
+                stroke_segments.append(PathSegment("move", [_apply_transform(transform, current_point)]))
+                subpath_open = True
+            transformed = [_apply_transform(transform, point) for point in points]
+            stroke_segments.append(PathSegment(kind, transformed))
+        else:
+            subpath_open = False
+        current_point = end_point
+    if figure["is_closed"] and current_point != start:
+        if not subpath_open:
+            stroke_segments.append(PathSegment("move", [_apply_transform(transform, current_point)]))
+        stroke_segments.append(PathSegment("line", [_apply_transform(transform, start)]))
+    return stroke_segments
 
 
 def _merge_exponent_tokens(tokens: list[str]) -> list[str]:
@@ -4019,11 +4875,11 @@ def _merge_exponent_tokens(tokens: list[str]) -> list[str]:
 
 def _resolve_part(base_part: str, target: str) -> str:
     if target.startswith("/"):
-        return target
+        return _normalize_part_ref(target)
     base = base_part.rsplit("/", 1)[0]
     if base == "":
-        return "/" + target
-    return f"{base}/{target}"
+        return _normalize_part_ref(target)
+    return _normalize_part_ref(f"{base}/{target}")
 
 
 def _normalize_part_ref(value: str) -> str:
@@ -4031,9 +4887,19 @@ def _normalize_part_ref(value: str) -> str:
         value = value.split("#", 1)[0]
     if "?" in value:
         value = value.split("?", 1)[0]
-    if value.startswith("/"):
-        return value
-    return "/" + value
+    value = value.replace("\\", "/")
+    if not value.startswith("/"):
+        value = "/" + value
+    parts: list[str] = []
+    for segment in value.split("/"):
+        if segment in ("", "."):
+            continue
+        if segment == "..":
+            if parts:
+                parts.pop()
+            continue
+        parts.append(segment)
+    return "/" + "/".join(parts)
 
 
 def _clamp(value: float, minimum: float, maximum: float) -> float:

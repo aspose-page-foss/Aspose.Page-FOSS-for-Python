@@ -7,8 +7,9 @@
 Aspose.Page FOSS for Python is a free, open-source, MIT-licensed, pure-Python library for
 working with PostScript, Encapsulated PostScript (EPS), and XPS documents. It reads and authors
 PS/EPS and XPS content directly, builds page content programmatically through its own render
-model, and writes PDF or raster (PNG, JPEG, BMP, TIFF) output — all without Ghostscript, Adobe
-tooling, or any native runtime dependency. The same conversions are also exposed as MCP tools
+model, and writes PDF or raster (PNG, JPEG, BMP, TIFF) output without Ghostscript or Adobe
+tooling. Raster output uses the free `skia-python` package, which has native components.
+The same conversions are also exposed as MCP tools
 for LLM-agent and automation workflows.
 
 ## Navigation
@@ -82,14 +83,20 @@ flowchart TD
 
 ## Installation
 
-A PyPI package for this library is not yet published — install directly from a clone of the
-repository:
+To build and verify a wheel from a clone of the repository, install `uv`, `setuptools`, and
+`wheel`, then run:
 
 ```bash
 git clone https://github.com/aspose-page-foss/Aspose.Page-FOSS-for-Python.git
 cd Aspose.Page-FOSS-for-Python
-pip install -e .
+python package.py build
+python package.py verify
 ```
+
+The wheel version comes from `local/Version.txt`. `verify` installs it with all dependencies
+in `.package-venv` and tests PS/XPS to PDF/PNG conversion. To upload the built wheel, use
+`python package.py publish-test` for TestPyPI or `python package.py publish` for PyPI; these
+commands read credentials from the matching files in `local/`.
 
 The library targets Python 3.10+ (`pyproject.toml`'s `requires-python = ">=3.10"`). See
 [Dependencies](#dependencies) below for the full required/optional/native breakdown.
@@ -98,15 +105,12 @@ The library targets Python 3.10+ (`pyproject.toml`'s `requires-python = ">=3.10"
 
 ### Required Package Dependencies
 
-No required third-party package dependencies.
+`skia-python` is required and installed automatically with the wheel.
 
 ### Optional Dependencies
 
 - `fastmcp` — required to host the MCP server (`create_server()` / `run()`); imported lazily,
   only when the server is started.
-- `skia-python` — required for XPS-to-image conversion (no fallback); used automatically for
-  PS/EPS-to-image rendering when installed, for speed, but not required there since PS/EPS
-  rendering falls back to a pure-Python renderer (`DefaultRasterWriter`).
 
 ### Native and System Requirements
 

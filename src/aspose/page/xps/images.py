@@ -7,6 +7,8 @@ import io
 import struct
 import zlib
 
+import numpy
+
 
 @dataclass
 class XpsImageResource:
@@ -27,6 +29,7 @@ class XpsImageResource:
     x_dpi: float = 96.0
     y_dpi: float = 96.0
     soft_mask: bytes | None = None
+    source_format: str | None = None
 
 
 class XpsImageStore:
@@ -50,6 +53,7 @@ class XpsImageStore:
                 x_dpi=resource.x_dpi,
                 y_dpi=resource.y_dpi,
                 soft_mask=resource.soft_mask,
+                source_format=resource.source_format,
             )
         self._images[image_id] = resource
         return image_id
@@ -86,7 +90,9 @@ def decode_png(data: bytes) -> XpsImageResource:
             transparency = bytes(chunk_data)
         elif chunk_type == b"IEND":
             break
-    if color_type not in (2, 3, 6):
+    if color_type not in (0, 2, 3, 6):
+        raise ValueError("unsupported PNG format")
+    if color_type == 0 and bit_depth not in (1, 2, 4, 8):
         raise ValueError("unsupported PNG format")
     if color_type in (2, 6) and bit_depth != 8:
         raise ValueError("unsupported PNG format")
@@ -96,7 +102,7 @@ def decode_png(data: bytes) -> XpsImageResource:
     bytes_per_pixel = 3 if color_type == 2 else 4 if color_type == 6 else 1
     stride = _png_row_bytes(width, bit_depth, color_type)
     raw = bytearray()
-    alpha = bytearray() if color_type in (3, 6) else None
+    alpha = bytearray() if color_type in (0, 3, 6) and transparency is not None or color_type == 6 else None
     idx = 0
     prev = bytearray(stride)
     for _ in range(height):
@@ -108,9 +114,21 @@ def decode_png(data: bytes) -> XpsImageResource:
         if color_type == 6:
             for i in range(0, len(line), 4):
                 raw.extend(line[i:i + 3])
-                alpha.extend(line[i + 3:i + 4])
+                if alpha is not None:
+                    alpha.extend(line[i + 3:i + 4])
         elif color_type == 2:
             raw.extend(line)
+        elif color_type == 0:
+            for sample in _unpack_png_samples(line, width, bit_depth):
+                gray = _scale_png_sample(sample, bit_depth)
+                raw.extend((gray, gray, gray))
+                if alpha is not None:
+                    alpha_value = 255
+                    if transparency is not None:
+                        transparent_sample = _png_grayscale_trns_sample(transparency)
+                        if transparent_sample is not None and sample == transparent_sample:
+                            alpha_value = 0
+                    alpha.extend((alpha_value,))
         else:
             if palette is None:
                 raise ValueError("palette PNG missing PLTE chunk")
@@ -122,7 +140,8 @@ def decode_png(data: bytes) -> XpsImageResource:
                 alpha_value = 255
                 if transparency is not None and sample < len(transparency):
                     alpha_value = transparency[sample]
-                alpha.extend((alpha_value,))
+                if alpha is not None:
+                    alpha.extend((alpha_value,))
         prev = line
     return XpsImageResource(
         image_id="",
@@ -139,7 +158,14 @@ def decode_png(data: bytes) -> XpsImageResource:
 
 
 def _png_row_bytes(width: int, bit_depth: int, color_type: int) -> int:
-    channels = 1 if color_type == 3 else 3 if color_type == 2 else 4
+    if color_type in (0, 3):
+        channels = 1
+    elif color_type == 2:
+        channels = 3
+    elif color_type == 4:
+        channels = 2
+    else:
+        channels = 4
     return (width * channels * bit_depth + 7) // 8
 
 
@@ -158,12 +184,27 @@ def _unpack_png_samples(line: bytes, width: int, bit_depth: int) -> list[int]:
     return samples
 
 
+def _scale_png_sample(sample: int, bit_depth: int) -> int:
+    if bit_depth >= 8:
+        return max(0, min(255, sample))
+    max_sample = (1 << bit_depth) - 1
+    if max_sample <= 0:
+        return 0
+    return max(0, min(255, int(round(sample * 255.0 / max_sample))))
+
+
+def _png_grayscale_trns_sample(data: bytes) -> int | None:
+    if len(data) < 2:
+        return None
+    return struct.unpack(">H", data[:2])[0]
+
+
 def decode_jpeg(data: bytes) -> XpsImageResource:
     """Decode a JPEG image into a DCTDecode image resource."""
     if not data.startswith(b"\xff\xd8"):
         raise ValueError("invalid JPEG")
     offset = 2
-    width = height = None
+    width = height = components = None
     while offset + 4 <= len(data):
         if data[offset] != 0xFF:
             break
@@ -175,18 +216,20 @@ def decode_jpeg(data: bytes) -> XpsImageResource:
         if marker in (0xC0, 0xC2):
             height = struct.unpack(">H", data[offset + 3:offset + 5])[0]
             width = struct.unpack(">H", data[offset + 5:offset + 7])[0]
+            components = data[offset + 7]
             break
         offset += length
     if width is None or height is None:
         raise ValueError("JPEG size not found")
     x_dpi, y_dpi = _jpeg_dpi(data)
+    color_space = "DeviceGray" if components == 1 else "DeviceRGB"
     return XpsImageResource(
         image_id="",
         data=data,
         width=width,
         height=height,
         bits_per_component=8,
-        color_space="DeviceRGB",
+        color_space=color_space,
         filter="DCTDecode",
         x_dpi=x_dpi,
         y_dpi=y_dpi,
@@ -225,6 +268,61 @@ def decode_tiff(data: bytes) -> XpsImageResource:
             )
     except Exception as exc:  # pragma: no cover - invalid data path
         raise ValueError("invalid TIFF") from exc
+
+
+def decode_jpegxr(data: bytes) -> XpsImageResource:
+    """Decode a JPEG-XR/WDP image into an RGB(A) image resource."""
+    try:
+        import imagecodecs  # type: ignore
+    except Exception as exc:  # pragma: no cover - depends on environment
+        raise ValueError("JPEG-XR decoding requires imagecodecs") from exc
+    try:
+        array = imagecodecs.jpegxr_decode(data)
+    except Exception as exc:  # pragma: no cover - invalid data path
+        raise ValueError("invalid JPEG-XR") from exc
+    if not isinstance(array, numpy.ndarray) or array.ndim not in (2, 3):
+        raise ValueError("unsupported JPEG-XR format")
+    if array.dtype != numpy.uint8:
+        array = array.astype(numpy.uint8, copy=False)
+    if array.ndim == 2:
+        height, width = array.shape
+        return XpsImageResource(
+            image_id="",
+            data=array.tobytes(),
+            width=width,
+            height=height,
+            bits_per_component=8,
+            color_space="DeviceGray",
+            filter=None,
+            source_format="JPEGXR",
+        )
+    height, width, channels = array.shape
+    if channels == 3:
+        return XpsImageResource(
+            image_id="",
+            data=array.tobytes(),
+            width=width,
+            height=height,
+            bits_per_component=8,
+            color_space="DeviceRGB",
+            filter=None,
+            source_format="JPEGXR",
+        )
+    if channels == 4:
+        rgb = numpy.ascontiguousarray(array[:, :, :3])
+        alpha = numpy.ascontiguousarray(array[:, :, 3])
+        return XpsImageResource(
+            image_id="",
+            data=rgb.tobytes(),
+            width=width,
+            height=height,
+            bits_per_component=8,
+            color_space="DeviceRGB",
+            filter=None,
+            soft_mask=alpha.tobytes(),
+            source_format="JPEGXR",
+        )
+    raise ValueError("unsupported JPEG-XR format")
 
 
 def _apply_png_filter(filter_type: int, line: bytearray, prev: bytearray, bpp: int) -> None:

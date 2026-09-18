@@ -69,7 +69,12 @@ class SkiaRasterWriter:
         page = _get_page(document)
         scale = options.dpi / 72.0
         preserve_fractional_page_size = bool(getattr(options, "preserve_fractional_page_size", False))
-        width_px, height_px = _page_pixel_size(page.width, page.height, scale, preserve_fractional=preserve_fractional_page_size)
+        width_px, height_px = _page_pixel_size(
+            page.width,
+            page.height,
+            scale,
+            preserve_fractional=preserve_fractional_page_size,
+        )
 
         if fmt == "png":
             use_opaque_background = bool(getattr(options, "opaque_background", False))
@@ -201,7 +206,30 @@ def _has_fragile_skia_images(document: "RenderDocument") -> bool:
         if bpc != 8:
             # Current Skia path supports only 8-bit images plus 1-bit gray masks.
             return True
+    for page in document.pages:
+        for command in page.commands:
+            if not isinstance(command, ImageCommand):
+                continue
+            image = document.resources.images.get(command.image_id)
+            if image is None or getattr(image, "soft_mask", None) is None:
+                continue
+            if _is_full_page_soft_mask_image(command, page):
+                return True
     return False
+
+
+def _is_full_page_soft_mask_image(command: ImageCommand, page: "RenderPage") -> bool:
+    if abs(command.matrix.b) > 1e-6 or abs(command.matrix.c) > 1e-6:
+        return False
+    if abs(command.matrix.e) > 1e-6:
+        return False
+    if abs(command.matrix.a - page.width) > 0.5:
+        return False
+    if abs(abs(command.matrix.d) - page.height) > 0.5:
+        return False
+    if abs(command.matrix.f - page.height) > 0.5:
+        return False
+    return True
 
 
 def _document_has_shading_patterns(document: "RenderDocument") -> bool:
@@ -243,12 +271,17 @@ def _draw_path(
                         font_resolver,
                         font_cache,
                     )
-                    if tile is not None and _fill_path_pattern_with_shader(
-                        canvas,
-                        path,
-                        tile,
-                        pattern,
-                        opacity=command.fill_opacity,
+                    use_shader = getattr(pattern, "tiling_type", 1) != 0
+                    if (
+                        use_shader
+                        and tile is not None
+                        and _fill_path_pattern_with_shader(
+                            canvas,
+                            path,
+                            tile,
+                            pattern,
+                            opacity=command.fill_opacity,
+                        )
                     ):
                         pass
                     else:
@@ -491,6 +524,7 @@ def _draw_text_fallback(
         font_ref=command.font_ref,
         font_size=command.font_size or 1.0,
         font_resolver=font_resolver,
+        pdf_text_adjustments=command.pdf_text_adjustments,
     )
     canvas.restore()
     return True
@@ -518,6 +552,8 @@ def _draw_text_with_font(
     effective_font_size, matrix = _normalize_text_matrix_for_font_size(command, effective_font_size)
     font = skia.Font(typeface, effective_font_size)
     _configure_skia_text_font(font)
+    if _draw_explicit_gid_text_as_path(canvas, command, font, rgba, matrix):
+        return True
     canvas.save()
     canvas.concat(_skia_matrix_from_affine(matrix))
     # Canvas is already flipped for PS (y-up). Flip text space back so glyphs are upright.
@@ -533,7 +569,51 @@ def _draw_text_with_font(
         font_ref=command.font_ref,
         font_size=effective_font_size,
         font_resolver=font_resolver,
+        pdf_text_adjustments=command.pdf_text_adjustments,
     )
+    canvas.restore()
+    return True
+
+
+def _draw_explicit_gid_text_as_path(canvas, command: TextCommand, font, rgba, matrix) -> bool:
+    import skia  # type: ignore
+
+    base_font_ref, glyph_id_override, glyph_overrides = _split_font_ref(command.font_ref or "")
+    if not base_font_ref.lower().endswith(".odttf"):
+        return False
+    if not command.text:
+        return False
+    glyphs: list[int] = []
+    for index, char in enumerate(command.text):
+        gid = None
+        if index == 0 and glyph_id_override is not None:
+            gid = int(glyph_id_override)
+        elif glyph_overrides:
+            mapped = glyph_overrides.get(ord(char))
+            if mapped is not None:
+                gid = int(mapped)
+        if gid is None:
+            return False
+        glyphs.append(max(0, gid))
+    path = skia.Path()
+    x = 0.0
+    for glyph, char in zip(glyphs, command.text):
+        glyph_path = font.getPath(glyph)
+        if glyph_path is not None:
+            path.addPath(glyph_path, x, 0.0)
+        x += float(font.measureText(char))
+    if path.isEmpty():
+        return False
+    path.setFillType(skia.PathFillType.kEvenOdd)
+    paint = skia.Paint(
+        AntiAlias=True,
+        Style=skia.Paint.kFill_Style,
+        Color=skia.Color4f(rgba[0] / 255.0, rgba[1] / 255.0, rgba[2] / 255.0, rgba[3] / 255.0),
+    )
+    canvas.save()
+    canvas.concat(_skia_matrix_from_affine(matrix))
+    canvas.scale(1.0, -1.0)
+    canvas.drawPath(path, paint)
     canvas.restore()
     return True
 
@@ -636,6 +716,9 @@ def _page_pixel_size(
     page_width = width_pt if preserve_fractional else _normalize_page_points(width_pt)
     page_height = height_pt if preserve_fractional else _normalize_page_points(height_pt)
     if preserve_fractional:
+        snapped = _snap_a4_approx_page_pixel_size(page_width, page_height, scale)
+        if snapped is not None:
+            return snapped
         # For fractional-point page sizes, legacy XPS baselines were generated
         # by truncating the scaled pixel size. For integer-point page sizes,
         # preserve exact integer pixel counts and only suppress floating-point
@@ -667,6 +750,30 @@ def _normalize_page_points(value: float) -> float:
     return float(int(value))
 
 
+def _snap_a4_approx_page_pixel_size(
+    page_width: float,
+    page_height: float,
+    scale: float,
+) -> tuple[int, int] | None:
+    a4_portrait_approx = (595.5, 842.25)
+    a4_landscape_approx = (842.25, 595.5)
+    tolerance = 0.3
+    dpi = scale * 72.0
+    a4_width_px = max(1, int((210.0 / 25.4) * dpi))
+    a4_height_px = max(1, int((297.0 / 25.4) * dpi))
+    if (
+        abs(page_width - a4_portrait_approx[0]) <= tolerance
+        and abs(page_height - a4_portrait_approx[1]) <= tolerance
+    ):
+        return (a4_width_px, a4_height_px)
+    if (
+        abs(page_width - a4_landscape_approx[0]) <= tolerance
+        and abs(page_height - a4_landscape_approx[1]) <= tolerance
+    ):
+        return (a4_height_px, a4_width_px)
+    return None
+
+
 def _draw_text_without_kerning(
     canvas,
     text: str,
@@ -676,6 +783,7 @@ def _draw_text_without_kerning(
     font_size: float | None = None,
     font_resolver: FontResolver | None = None,
     glyph_id_override: int | None = None,
+    pdf_text_adjustments: tuple[float, ...] | None = None,
 ) -> None:
     """Draw text using explicit advances to avoid implicit engine kerning for PS `show`."""
     if not text:
@@ -820,6 +928,14 @@ def _draw_text_without_kerning(
             advances = None
     if advances is None:
         advances = [float(font.measureText(char)) for char in text]
+    if pdf_text_adjustments:
+        adjusted_advances = list(advances)
+        resolved_size = float(font_size or 1.0)
+        for index, adjustment in enumerate(pdf_text_adjustments):
+            if index >= len(adjusted_advances):
+                break
+            adjusted_advances[index] -= (float(adjustment) / 1000.0) * resolved_size
+        advances = adjusted_advances
 
     # Keep single draw call for performance while preserving PostScript spacing.
     try:
@@ -939,7 +1055,22 @@ def _draw_image(
         # Flip unit-space Y to match the Python raster renderer and baselines.
         canvas.translate(0.0, 1.0)
         canvas.scale(1.0, -1.0)
-    canvas.drawImageRect(image, src, dst, sampling, paint)
+    use_scaled_draw_image = (
+        (not is_mask_image)
+        and (
+            getattr(resource, "soft_mask", None) is not None
+            or (image_width * image_height) >= 3_000_000
+        )
+    )
+    if use_scaled_draw_image:
+        # Skia drawImageRect over transformed offscreen pattern tiles is
+        # crash-prone for some soft-masked or very large XPS image resources.
+        # Draw the image in pixel space and normalize it into the command's
+        # unit square.
+        canvas.scale(1.0 / max(float(image_width), 1.0), 1.0 / max(float(image_height), 1.0))
+        canvas.drawImage(image, 0.0, 0.0, sampling, paint)
+    else:
+        canvas.drawImageRect(image, src, dst, sampling, paint)
     canvas.restore()
 
 
@@ -1508,6 +1639,8 @@ def _fill_path_pattern(
             getattr(pattern, "tiling_type", 1) == 0
             and _tiling_pattern_uses_soft_mask_image(pattern, document)
         )
+        if getattr(pattern, "tiling_type", 1) == 0:
+            use_shader = False
         if use_shader and _fill_path_pattern_with_shader(canvas, path, tile, pattern, opacity=1.0):
             return
     non_tiling = getattr(pattern, "tiling_type", 1) == 0
@@ -1564,10 +1697,18 @@ def _fill_path_pattern(
             x0 = tile.x_min + ix * step_x
             y0 = tile.y_min + iy * step_y
             canvas.save()
-            canvas.translate(x0, y0 + tile_h)
-            canvas.scale(1.0, -1.0)
             rect = skia.Rect.MakeXYWH(0, 0, tile_w, tile_h)
-            canvas.drawImageRect(tile.image, rect, sampling)
+            if non_tiling:
+                canvas.translate(x0, y0)
+                canvas.scale(
+                    tile_w / max(float(tile.width_px), 1.0),
+                    tile_h / max(float(tile.height_px), 1.0),
+                )
+                canvas.drawImage(tile.image, 0.0, 0.0, sampling)
+            else:
+                canvas.translate(x0, y0 + tile_h)
+                canvas.scale(1.0, -1.0)
+                canvas.drawImageRect(tile.image, rect, sampling)
             canvas.restore()
     canvas.restore()
     canvas.restore()
@@ -1897,6 +2038,18 @@ def _build_shading_shader(
             rr1 = math.hypot(p1_edge_local[0] - c1_local[0], p1_edge_local[1] - c1_local[1])
             c0 = c0_local
             c1 = c1_local
+        if (
+            abs(c0[0] - c1[0]) <= 1e-6
+            and abs(c0[1] - c1[1]) <= 1e-6
+            and rr0 <= 1e-6
+        ):
+            return skia.GradientShader.MakeRadial(
+                skia.Point(*c1),
+                max(rr1, 1e-6),
+                colors,
+                positions,
+                skia.TileMode.kClamp,
+            )
         return skia.GradientShader.MakeTwoPointConical(
             skia.Point(*c0),
             rr0,
