@@ -10,10 +10,14 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import hashlib
+import json
 import os
 from pathlib import Path
 import subprocess
 import sys
+from urllib.error import HTTPError, URLError
+from urllib.request import Request, urlopen
 
 
 ROOT = Path(__file__).resolve().parent
@@ -22,6 +26,10 @@ VENV = ROOT / ".package-venv"
 REPOSITORIES = {
     "publish-test": ("https://test.pypi.org/legacy/", ROOT / "local" / "test.pypi.org.txt"),
     "publish": ("https://upload.pypi.org/legacy/", ROOT / "local" / "pypi.org.txt"),
+}
+INDEXES = {
+    "publish-test": "https://test.pypi.org",
+    "publish": "https://pypi.org",
 }
 
 
@@ -127,8 +135,42 @@ def credentials(path: Path) -> tuple[str, str]:
     return username, password
 
 
+def check_upload_available(command: str, artifact: Path) -> None:
+    release_url = f"{INDEXES[command]}/pypi/aspose-page-foss/{version()}/json"
+    request = Request(release_url, headers={"Accept": "application/json"})
+    try:
+        with urlopen(request, timeout=20) as response:
+            release = json.load(response)
+    except HTTPError as exc:
+        if exc.code == 404:
+            return
+        print(f"Warning: release lookup returned HTTP {exc.code}; trying upload.", file=sys.stderr)
+        return
+    except (URLError, TimeoutError) as exc:
+        print(f"Warning: release lookup failed ({exc}); trying upload.", file=sys.stderr)
+        return
+
+    for uploaded in release.get("urls", []):
+        if uploaded.get("filename") != artifact.name:
+            continue
+        local_hash = hashlib.sha256(artifact.read_bytes()).hexdigest()
+        same_file = local_hash == uploaded.get("digests", {}).get("sha256")
+        detail = "already uploaded" if same_file else "already used for different content"
+        raise SystemExit(
+            "UPLOAD STOPPED: wheel filename already exists.\n"
+            f"  File: {artifact.name}\n"
+            f"  Index: {INDEXES[command]}\n"
+            f"  Release: {INDEXES[command]}/project/aspose-page-foss/{version()}/\n"
+            f"  Status: {detail}\n"
+            "TestPyPI and PyPI do not allow replacing an uploaded filename.\n"
+            "Choose a new version in local/Version.txt, then run build, verify, "
+            "and publish again."
+        )
+
+
 def publish(command: str) -> None:
     artifact = wheel()
+    check_upload_available(command, artifact)
     url, credentials_path = REPOSITORIES[command]
     username, password = credentials(credentials_path)
     environment = os.environ.copy()
